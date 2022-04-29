@@ -1,5 +1,5 @@
 import streamlit as st
-import transformers
+import sentencepiece
 import re
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
