@@ -1,12 +1,48 @@
 import streamlit as st
-# import torch
-# from transformers import BartTokenizer, BartForConditionalGeneration
-# from transformers import T5Tokenizer, T5ForConditionalGeneration
+import re
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+WHITESPACE_HANDLER = lambda k: re.sub('\s+', ' ', re.sub('\n+', ' ', k.strip()))
 
 st.title('Text Summarization Demo')
-st.markdown('Using BART and T5 transformer model')
+st.markdown('Using mT5 transformer model')
+model = st.selectbox('Select the model', ('mT5'))
 
-model = st.selectbox('Select the model', ('BART', 'T5'))
+article_text = """Videos that say approved vaccines are dangerous and cause autism, cancer or infertility are among those that will be taken down, the company said.  The policy includes the termination of accounts of anti-vaccine influencers.  Tech giants have been criticised for not doing more to counter false health information on their sites.  In July, US President Joe Biden said social media platforms were largely responsible for people's scepticism in getting vaccinated by spreading misinformation, and appealed for them to address the issue.  YouTube, which is owned by Google, said 130,000 videos were removed from its platform since last year, when it implemented a ban on content spreading misinformation about Covid vaccines.  In a blog post, the company said it had seen false claims about Covid jabs "spill over into misinformation about vaccines in general". The new policy covers long-approved vaccines, such as those against measles or hepatitis B.  "We're expanding our medical misinformation policies on YouTube with new guidelines on currently administered vaccines that are approved and confirmed to be safe and effective by local health authorities and the WHO," the post said, referring to the World Health Organization."""
+
+input_text = st.text_area('Text Input', article_text)
+
+def run_model(input_text):
+    model_name = "csebuetnlp/mT5_multilingual_XLSum"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+
+    input_ids = tokenizer( [WHITESPACE_HANDLER(article_text)],
+        return_tensors="pt",
+        padding="max_length",
+        truncation=True,
+        max_length=512
+    )["input_ids"]
+
+    output_ids = model.generate(
+        input_ids=input_ids,
+        max_length=84,
+        no_repeat_ngram_size=2,
+        num_beams=4
+    )[0]
+
+    summary = tokenizer.decode(
+        output_ids,
+        skip_special_tokens=True,
+        clean_up_tokenization_spaces=False
+    )
+
+if st.button('Submit'):
+    st.write(run_model(text))
+
+#=======================================================================
+# import torch
+# from transformers import T5Tokenizer, T5ForConditionalGeneration
 
 # if model == 'BART':
     # _num_beams = 4
@@ -33,7 +69,8 @@ model = st.selectbox('Select the model', ('BART', 'T5'))
 # _max_length = col2.number_input("max_length", value=_max_length)
 # _early_stopping = col3.number_input("early_stopping", value=_early_stopping)
 
-text = st.text_area('Text Input')
+
+
 
 
 # def run_model(input_text):
@@ -76,8 +113,3 @@ text = st.text_area('Text Input')
         # output = [t5_tokenizer.decode(g, skip_special_tokens=True, clean_up_tokenization_spaces=False) for g in summary_ids]
         # st.write('Summary')
         # st.success(output[0])
-
-
-if st.button('Submit'):
-    st.write('Summary')
-    # run_model(text)
