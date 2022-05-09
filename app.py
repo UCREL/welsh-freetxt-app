@@ -10,13 +10,24 @@ st.set_page_config(
          'About': '''## Welsh Text Summariser.\n This is a demo of the Welsh Summarisation tool!'''
      }
  )
+<<<<<<< HEAD
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+=======
+
+# language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+
+task = st.sidebar.radio("Select a task", ('Text Visualisation', 'N-Gram Frequency Counting', 'Keyword in Context',
+>>>>>>> parent of c8a9936 (Update app.py)
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
                                           'Machine Translation', 'Sentiment Analysis'))
 if task == 'Text Summarization':
      language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      if language=='Cymraeg':
+<<<<<<< HEAD
 #           st.header('🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
+=======
+          st.header('🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
+>>>>>>> parent of c8a9936 (Update app.py)
           st.subheader("Rhowch eich testun isod:")
 
           option = st.radio(
@@ -41,7 +52,11 @@ if task == 'Text Summarization':
             else:
               st.write("Rhowch eich testun...(Please enter your text...)")
      else:
+<<<<<<< HEAD
 #           st.header('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
+=======
+          st.header('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
+>>>>>>> parent of c8a9936 (Update app.py)
           st.subheader('Enter your text below:')
 
           option = st.radio(
