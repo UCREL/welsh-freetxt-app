@@ -1,8 +1,13 @@
 from setup import *
 
 st.set_page_config(
+<<<<<<< HEAD
      page_title='Adnodd Creu Crynodebau (ACC)',
      page_icon='🌷',
+=======
+     page_title='The Welsh Free Text Tool',
+     page_icon='🌼',
+>>>>>>> parent of c8ea3c7 (Update app.py)
      layout="wide",
      initial_sidebar_state="expanded",
      menu_items={
@@ -12,9 +17,48 @@ st.set_page_config(
      }
  )
 
+<<<<<<< HEAD
 # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
 
 task = st.sidebar.radio("Select a task", ('Text Visualisation', 'N-Gram Frequency Counting', 'Keyword in Context',
+=======
+# def _max_width_():
+#     max_width_str = f"max-width: 1400px;"
+#     st.markdown(
+#         f"""
+#     <style>
+#     .reportview-container .main .block-container{{
+#         {max_width_str}
+#     }}
+#     </style>    
+#     """,
+#         unsafe_allow_html=True,
+#     )
+# # -------------------------------------------------
+# _max_width_()
+
+c30, c31, c32 = st.columns([5, 1, 3])
+
+with c30:
+    st.header('🌼 The Welsh FreeTxt Tool')
+
+# st.sidebar.header('🌼 The Welsh FreeTxt Tool')
+
+with st.expander("ℹ️ - About this app", expanded=True):
+    st.write(
+        """     
+-   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
+-   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
+	"""
+    )
+    st.markdown("")
+
+st.markdown("")
+st.markdown("#### **📌 Paste document **")
+
+
+task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+>>>>>>> parent of c8ea3c7 (Update app.py)
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
                                           'Machine Translation', 'Sentiment Analysis'))
 if task == 'Text Summarization':
