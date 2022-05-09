@@ -29,9 +29,12 @@ st.set_page_config(
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
-# st.sidebar.header('🌼 The Welsh FreeTxt Tool')
-
-with st.expander("ℹ️ - About this app", expanded=True):
+task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+                                          'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
+                                          'Machine Translation', 'Sentiment Analysis'))
+if task == 'Text Summarization':
+     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+     with st.expander("ℹ️ - About this app", expanded=False):
     st.write(
         """     
         -   This tool adapts the app from the [Welsh Summarization] (https://github.com/UCREL/welsh-summarization-dataset) project!
@@ -39,11 +42,6 @@ with st.expander("ℹ️ - About this app", expanded=True):
         """
     )
 
-task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
-                                          'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
-                                          'Machine Translation', 'Sentiment Analysis'))
-if task == 'Text Summarization':
-     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      if language=='Cymraeg':
           st.markdown('## 🌷 Adnodd Creu Crynodebau')
           st.markdown("### Rhowch eich testun isod:")
