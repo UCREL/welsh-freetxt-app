@@ -11,7 +11,49 @@ st.set_page_config(
      }
  )
 
-st.sidebar.header('🌼 The Welsh FreeTxt Tool')
+
+st.set_page_config(
+    page_title="BERT Keyword Extractor",
+    page_icon="🎈",
+)
+
+
+def _max_width_():
+    max_width_str = f"max-width: 1400px;"
+    st.markdown(
+        f"""
+    <style>
+    .reportview-container .main .block-container{{
+        {max_width_str}
+    }}
+    </style>    
+    """,
+        unsafe_allow_html=True,
+    )
+# -------------------------------------------------
+_max_width_()
+
+c30, c31, c32 = st.columns([2.5, 1, 3])
+
+with c30:
+    # st.image("logo.png", width=400)
+    st.title("🔑 BERT Keyword Extractor")
+    st.header("")
+
+# st.sidebar.header('🌼 The Welsh FreeTxt Tool')
+
+with st.expander("ℹ️ - About this app", expanded=True):
+    st.write(
+        """     
+-   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
+-   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
+	    """
+    )
+    st.markdown("")
+
+st.markdown("")
+st.markdown("## **📌 Paste document **")
+
 
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
