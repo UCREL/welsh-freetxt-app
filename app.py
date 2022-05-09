@@ -52,7 +52,12 @@ if task == 'Text Summarization':
                      min_value=10, max_value=50, step=10)/100
 
           if option == 'Defnyddiwch destun enghreifftiol':
-               input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text)
+               input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text, height=300)
+                       # doc = st.text_area(
+            # "Paste your text below (max 500 words)",
+            # ,
+        # )
+               
           else:
                input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
 
