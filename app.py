@@ -27,7 +27,7 @@ st.set_page_config(
 # # -------------------------------------------------
 # _max_width_()
 
-st.sidebar.header('🌼 Welsh FreeTxt Tool')
+st.sidebar.title('🌼 Welsh FreeTxt Tool')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
