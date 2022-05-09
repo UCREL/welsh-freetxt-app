@@ -40,11 +40,11 @@ st.header('🌼 The Welsh FreeTxt Tool')
 with st.expander("ℹ️ - About this app", expanded=True):
     st.write(
         """     
--   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
--   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
-	"""
+        -   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
+        -   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
+        """
     )
-    st.markdown("")
+st.markdown("")
 
 st.markdown("")
 st.markdown("#### **📌 Paste document**")
