@@ -1,19 +1,40 @@
-import streamlit as st
-from txtai.pipeline import Summary
+st.set_page_config(
+     page_title='Adnodd Creu Crynodebau (ACC)',
+     page_icon='🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+     layout="wide",
+     initial_sidebar_state="expanded",
+     menu_items={
+         'Get Help': "https://wp.lancs.ac.uk/acc/",
+         'Report a bug': "https://wp.lancs.ac.uk/acc/",
+         'About': '''## The Welsh FreeTxt tool!'''
+     }
+ )
 
-st.title('Text Summarization Demo')
-st.markdown('Using mT5 transformer model')
-# model = st.selectbox('Select the model', ('', 'mT5'))
+language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+st.header('🏴󠁧󠁢󠁷󠁬󠁳󠁿 The Welsh FreeTxt tool!')
+st.subheader('Enter your text below:')
 
+option = st.radio(
+  'How do you want to input your text?',
+  ('Use example text', 'Enter your own text'))
 
-article_text = """Videos that say approved vaccines are dangerous and cause autism, cancer or infertility are among those that will be taken down, the company said.  The policy includes the termination of accounts of anti-vaccine influencers.  Tech giants have been criticised for not doing more to counter false health information on their sites.  In July, US President Joe Biden said social media platforms were largely responsible for people's scepticism in getting vaccinated by spreading misinformation, and appealed for them to address the issue.  YouTube, which is owned by Google, said 130,000 videos were removed from its platform since last year, when it implemented a ban on content spreading misinformation about Covid vaccines.  In a blog post, the company said it had seen false claims about Covid jabs "spill over into misinformation about vaccines in general". The new policy covers long-approved vaccines, such as those against measles or hepatitis B.  "We're expanding our medical misinformation policies on YouTube with new guidelines on currently administered vaccines that are approved and confirmed to be safe and effective by local health authorities and the WHO," the post said, referring to the World Health Organization."""
+chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',
+        min_value=10, max_value=50, step=10)/100
 
-input_text = st.text_area('Text Input', article_text)
+if option == 'Use example text':
+  input_text = st.text_area('Summarise the example text in the box:', example_text)
+else:
+  input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
 
-# Create summary model
-summary = Summary('csebuetnlp/mT5_multilingual_XLSum')
-
-if st.button('Submit'):
-    st.write(summary(article_text, 200))
-
-# st.write(run_model(input_text))
+if st.button("Annotate 👈"):
+    st.write('Feature under contruction...')
+    
+#     if input_text and input_text!='<Please enter your text...>':
+#      summary = text_rank_summarize(input_text, ratio=chosen_ratio)
+#      if summary:
+#         st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
+#      else:
+#         st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+#      # process what needs to be displayed with regards to ratio
+#     else:
+#      st.write('Please enter your text')
