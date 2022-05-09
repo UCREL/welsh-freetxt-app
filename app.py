@@ -12,8 +12,6 @@ st.set_page_config(
      }
  )
 
-# language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-
 # def _max_width_():
 #     max_width_str = f"max-width: 1400px;"
 #     st.markdown(
@@ -29,10 +27,7 @@ st.set_page_config(
 # # -------------------------------------------------
 # _max_width_()
 
-# c30, c31, c32 = st.columns([5, 1, 3])
-
-# with c30:
-st.header('🌼 The Welsh FreeTxt Tool')
+st.sidebar.header('🌼 Welsh FreeTxt Tool')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
