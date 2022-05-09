@@ -36,8 +36,7 @@ _max_width_()
 c30, c31, c32 = st.columns([2.5, 1, 3])
 
 with c30:
-    # st.image("logo.png", width=400)
-    st.title("🔑 BERT Keyword Extractor")
+    st.title('🌼 The Welsh FreeTxt Tool')
     st.header("")
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
@@ -47,7 +46,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
         """     
 -   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
 -   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
-	    """
+	"""
     )
     st.markdown("")
 
