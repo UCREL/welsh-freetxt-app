@@ -1,6 +1,6 @@
 from setup import *
 st.set_page_config(
-     page_title='The Welsh Free Text Tool',
+     page_title='Welsh Free Text Tool',
      page_icon='🌼',
      layout="wide",
      initial_sidebar_state="expanded",
@@ -11,25 +11,11 @@ st.set_page_config(
      }
  )
 
-# def _max_width_():
-#     max_width_str = f"max-width: 1400px;"
-#     st.markdown(
-#         f"""
-#     <style>
-#     .reportview-container .main .block-container{{
-#         {max_width_str}
-#     }}
-#     </style>    
-#     """,
-#         unsafe_allow_html=True,
-#     )
-# # -------------------------------------------------
-# _max_width_()
 
-c30, c31, c32 = st.columns([5, 1, 3])
+# c30, c31, c32 = st.columns([5, 1, 3])
 
-with c30:
-    st.header('🌼 The Welsh FreeTxt Tool')
+# with c30:
+st.header('🌼 Welsh FreeTxt Tool')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
