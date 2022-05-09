@@ -27,7 +27,7 @@ st.set_page_config(
 # # -------------------------------------------------
 # _max_width_()
 
-st.sidebar.title('🌼 Welsh FreeTxt')
+st.sidebar.markdown('#🌼 Welsh FreeTxt')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
@@ -45,7 +45,7 @@ task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequenc
 if task == 'Text Summarization':
      language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      if language=='Cymraeg':
-          st.markdown('## 🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
+          st.markdown('## 🌷 Adnodd Creu Crynodebau')
           st.markdown("### Rhowch eich testun isod:")
           option = st.radio(
                'Sut ydych chi am fewnbynnu eich testun?',
