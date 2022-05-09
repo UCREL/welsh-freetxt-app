@@ -12,10 +12,10 @@ st.set_page_config(
  )
 
 
-st.set_page_config(
-    page_title="BERT Keyword Extractor",
-    page_icon="🎈",
-)
+# st.set_page_config(
+#     page_title="BERT Keyword Extractor",
+#     page_icon="🎈",
+# )
 
 
 def _max_width_():
