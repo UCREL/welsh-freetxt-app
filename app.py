@@ -11,33 +11,26 @@ st.set_page_config(
      }
  )
 
-
-# st.set_page_config(
-#     page_title="BERT Keyword Extractor",
-#     page_icon="🎈",
-# )
-
-
-def _max_width_():
-    max_width_str = f"max-width: 1400px;"
-    st.markdown(
-        f"""
-    <style>
-    .reportview-container .main .block-container{{
-        {max_width_str}
-    }}
-    </style>    
-    """,
-        unsafe_allow_html=True,
-    )
-# -------------------------------------------------
-_max_width_()
+# def _max_width_():
+#     max_width_str = f"max-width: 1400px;"
+#     st.markdown(
+#         f"""
+#     <style>
+#     .reportview-container .main .block-container{{
+#         {max_width_str}
+#     }}
+#     </style>    
+#     """,
+#         unsafe_allow_html=True,
+#     )
+# # -------------------------------------------------
+# _max_width_()
 
 c30, c31, c32 = st.columns([2.5, 1, 3])
 
 with c30:
-    st.title('🌼 The Welsh FreeTxt Tool')
-    st.header("")
+#     st.title('🌼 The Welsh FreeTxt Tool')
+    st.header('🌼 The Welsh FreeTxt Tool')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
