@@ -26,7 +26,7 @@ st.set_page_config(
 # # -------------------------------------------------
 # _max_width_()
 
-c30, c31, c32 = st.columns([2.5, 1, 3])
+c30, c31, c32 = st.columns([5, 1, 3])
 
 with c30:
 #     st.title('🌼 The Welsh FreeTxt Tool')
