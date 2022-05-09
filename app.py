@@ -1,4 +1,5 @@
 from setup import *
+
 st.set_page_config(
      page_title='Adnodd Creu Crynodebau (ACC)',
      page_icon='🌷',
@@ -10,7 +11,6 @@ st.set_page_config(
          'About': '''## Welsh Text Summariser.\n This is a demo of the Welsh Summarisation tool!'''
      }
  )
-task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
 
 # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
 
