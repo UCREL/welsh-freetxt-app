@@ -29,7 +29,6 @@ st.set_page_config(
 c30, c31, c32 = st.columns([5, 1, 3])
 
 with c30:
-#     st.title('🌼 The Welsh FreeTxt Tool')
     st.header('🌼 The Welsh FreeTxt Tool')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
@@ -44,7 +43,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
     st.markdown("")
 
 st.markdown("")
-st.markdown("## **📌 Paste document **")
+st.markdown("#### **📌 Paste document **")
 
 
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
