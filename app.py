@@ -11,7 +11,7 @@ st.set_page_config(
      }
  )
 
-st.header('🌼 The Welsh FreeTxt Tool')
+st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
