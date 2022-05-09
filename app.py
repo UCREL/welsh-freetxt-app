@@ -27,7 +27,7 @@ st.set_page_config(
 # # -------------------------------------------------
 # _max_width_()
 
-st.sidebar.title('🌼 Welsh FreeTxt Tool')
+st.sidebar.title('🌼 Welsh FreeTxt')
 
 # st.sidebar.header('🌼 The Welsh FreeTxt Tool')
 
@@ -38,11 +38,6 @@ with st.expander("ℹ️ - About this app", expanded=True):
         -   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
         """
     )
-st.markdown("")
-
-st.markdown("")
-st.markdown("#### **📌 Paste document**")
-
 
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
@@ -50,15 +45,11 @@ task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequenc
 if task == 'Text Summarization':
      language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      if language=='Cymraeg':
-#           st.header('🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
-          st.header('🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
-
-          st.subheader("Rhowch eich testun isod:")
-
+          st.markdown('## 🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
+          st.markdown("### Rhowch eich testun isod:")
           option = st.radio(
                'Sut ydych chi am fewnbynnu eich testun?',
                ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun'))
-
           chosen_ratio = st.sidebar.slider('Dewiswch gymhareb y crynodeb [10% i 50%]:',
                      min_value=10, max_value=50, step=10)/100
 
