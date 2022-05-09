@@ -1,23 +1,25 @@
 from setup import *
 st.set_page_config(
-     page_title='Adnodd Creu Crynodebau (ACC)',
-     page_icon='🌷',
+     page_title='The Welsh Free Text Tool',
+     page_icon='🌼',
      layout="wide",
      initial_sidebar_state="expanded",
      menu_items={
          'Get Help': "https://wp.lancs.ac.uk/acc/",
          'Report a bug': "https://wp.lancs.ac.uk/acc/",
-         'About': '''## Welsh Text Summariser.\n This is a demo of the Welsh Summarisation tool!'''
+         'About': '''## Welsh FreeTxt Tool!'''
      }
  )
+
+st.header('🌼 The Welsh FreeTxt Tool')
+
 task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
                                           'Machine Translation', 'Sentiment Analysis'))
 if task == 'Text Summarization':
      language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      if language=='Cymraeg':
-#           st.header('🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0')
-          st.subheader("Rhowch eich testun isod:")
+          st.subheader("🌷 Croeso i’r Adnodd Creu Crynodebau (ACC) f.1.0")
 
           option = st.radio(
                'Sut ydych chi am fewnbynnu eich testun?',
@@ -41,9 +43,7 @@ if task == 'Text Summarization':
             else:
               st.write("Rhowch eich testun...(Please enter your text...)")
      else:
-#           st.header('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
-          st.subheader('Enter your text below:')
-
+          st.subheader('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
           option = st.radio(
                'How do you want to input your text?',
                ('Use example text', 'Enter your own text'))
