@@ -1,7 +1,7 @@
 from setup import *
 
 st.set_page_config(
-     page_title='The Welsh Free Text Tool',
+     page_title='Welsh Free Text Tool',
      page_icon='🌼',
      layout="wide",
      initial_sidebar_state="expanded",
@@ -14,7 +14,6 @@ st.set_page_config(
 
 # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
 
-task = st.sidebar.radio("Select a task", ('Text Visualisation', 'N-Gram Frequency Counting', 'Keyword in Context',
 # def _max_width_():
 #     max_width_str = f"max-width: 1400px;"
 #     st.markdown(
