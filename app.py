@@ -44,10 +44,10 @@ else:
 
           # if option == 'Defnyddiwch destun enghreifftiol':
                # input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text, height=300)
-                       doc = st.text_area(
-            "Paste your text below (max 500 words)",
-            ,
-        )
+                       # doc = st.text_area(
+            # "Paste your text below (max 500 words)",
+            # ,
+        # )
                
           # else:
                # input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
@@ -62,7 +62,7 @@ else:
             # else:
               # st.write("Rhowch eich testun...(Please enter your text...)")
      # else:
-          st.header('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
+          # st.header('🌷 Welsh Text Summary Creator v.1.0')
           # st.header('🌷 Welcome to Welsh Text Summary Creator (ACC) v.1.0')
           # st.subheader('Enter your text below:')
 
@@ -85,7 +85,7 @@ else:
                  # st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
               # else:
                  # st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
-              process what needs to be displayed with regards to ratio
+              # process what needs to be displayed with regards to ratio
             # else:
               # st.write('Please enter your text')
 # else:
