@@ -79,34 +79,33 @@ def run_text_summarizer():
                
         else:
             input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
-            if st.button("Crynhoi👈"):
-                if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
-                    summary = text_rank_summarize(input_text, ratio=chosen_ratio)
-                    if summary:
-                        st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
-                    else:
-                        st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+        if st.button("Crynhoi👈"):
+            if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
+                summary = text_rank_summarize(input_text, ratio=chosen_ratio)
+                if summary:
+                    st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
                 else:
-                    st.write("Rhowch eich testun...(Please enter your text...)")
+                    st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+            else:
+                st.write("Rhowch eich testun...(Please enter your text...)")
 
     else: #English
-        st.header('🌷 Welsh Text Summary Creator v.1.0')
-        st.subheader('Enter your text below:')
+        st.markdown('## 🌷 Welsh Summary Creator')
+        st.markdown("### Enter your text below:")
 
         option = st.radio('How do you want to input your text?', ('Use example text', 'Enter your own text'))
         chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
 
         if option == 'Use example text':
-           input_text = st.text_area('Summarise the example text in the box:', example_text)
+            input_text = st.text_area('Summarise the example text in the box:', example_text)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
-            if st.button("Summarise👈"):
-                if input_text and input_text!='<Please enter your text...>':
-                    summary = text_rank_summarize(input_text, ratio=chosen_ratio)
-                    if summary:
-                        st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
-                    else:
-                        st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
-
+        if st.button("Summarise👈"):
+            if input_text and input_text!='<Please enter your text...>':
+                summary = text_rank_summarize(input_text, ratio=chosen_ratio)
+                if summary:
+                    st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
                 else:
-                  st.write('Please enter your text')
+                    st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+            else:
+              st.write('Please enter your text')
