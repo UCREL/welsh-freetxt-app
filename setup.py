@@ -76,7 +76,6 @@ def run_text_summarizer():
 
         if option == 'Defnyddiwch destun enghreifftiol':
            input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text, height=300)
-           )
                
         else:
             input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
