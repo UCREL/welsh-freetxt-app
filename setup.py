@@ -97,7 +97,7 @@ def run_text_summarizer():
         chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
 
         if option == 'Use example text':
-            input_text = st.text_area('Summarise the example text in the box:', example_text)
+            input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
         if st.button("Summarise👈"):
