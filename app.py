@@ -12,26 +12,10 @@ st.set_page_config(
      }
  )
 
-# def _max_width_():
-#     max_width_str = f"max-width: 1400px;"
-#     st.markdown(
-#         f"""
-#     <style>
-#     .reportview-container .main .block-container{{
-#         {max_width_str}
-#     }}
-#     </style>    
-#     """,
-#         unsafe_allow_html=True,
-#     )
-# # -------------------------------------------------
-# _max_width_()
-
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
-task = st.sidebar.radio("Select a task", ('Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
-                                          'Part of Speech Tagging', 'Semantic Tagging', 'Text Summarization',
-                                          'Machine Translation', 'Sentiment Analysis'))
+task = st.sidebar.radio("Select a task", ('Text Summarization','Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+                                          'Part of Speech Tagging', 'Semantic Tagging', 'Machine Translation', 'Sentiment Analysis'))
 if task == 'Text Summarization':
      language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
      with st.expander("ℹ️ - About this app", expanded=False):
