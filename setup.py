@@ -102,9 +102,9 @@ def run_text_summarizer():
     else: #English
         st.markdown('## 🌷 Welsh Summary Creator')
         st.markdown("### Enter your text below:")
-        option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Upload a text file', 'Paste a copied'))
+        option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
 
-        if option == 'Use example text':        
+        if option == 'Use an example text':        
            example_fname = st.sidebar.selectbox('Select example text:',
                             ['example0_Dulyn', 'example1_Menter Iaith Môn',
                              'example2_Pencampwriaeth', 'example3_Paris',
