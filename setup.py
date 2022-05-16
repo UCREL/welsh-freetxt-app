@@ -56,7 +56,7 @@ def gen_similarity_matrix(sents):
         sim_mat[i][j] = float(cosine_similarity(sents[i], sents[j]))
   return sim_mat
 
-#apps-----------------------------------------------------------------------
+#apps------------------------------------------------------------------
 
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -73,7 +73,7 @@ def run_text_summarizer():
         st.markdown('## 🌷 Adnodd Creu Crynodebau')
         st.markdown("### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun'))
-        chosen_ratio = st.sidebar.slider('Dewiswch gymhareb y crynodeb [10% i 50%]:', min_value=10, max_value=50, step=10)/100
+
 
         if option == 'Defnyddiwch destun enghreifftiol':
            example_fname = st.sidebar.selectbox('Select example text:',
@@ -87,6 +87,8 @@ def run_text_summarizer():
                
         else:
             input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
+
+        chosen_ratio = st.sidebar.slider('Dewiswch gymhareb y crynodeb [10% i 50%]:', min_value=10, max_value=50, step=10)/100
         if st.button("Crynhoi👈"):
             if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
                 summary = text_rank_summarize(input_text, ratio=chosen_ratio)
@@ -100,9 +102,7 @@ def run_text_summarizer():
     else: #English
         st.markdown('## 🌷 Welsh Summary Creator')
         st.markdown("### Enter your text below:")
-
-        option = st.sidebar.radio('How do you want to input your text?', ('Use example text', 'Enter your own text'))
-        chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
+        option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Upload a text file', 'Paste a copied'))
 
         if option == 'Use example text':        
            example_fname = st.sidebar.selectbox('Select example text:',
@@ -115,6 +115,8 @@ def run_text_summarizer():
            input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
+
+        chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
         if st.button("Summarise👈"):
             if input_text and input_text!='<Please enter your text...>':
                 summary = text_rank_summarize(input_text, ratio=chosen_ratio)
