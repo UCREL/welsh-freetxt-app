@@ -60,7 +60,7 @@ def gen_similarity_matrix(sents):
 
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    example_fname = 'example_texts'st.sidebar.selectbox('Select example text:',
+    example_fname = st.sidebar.selectbox('Select example text:',
                                 ['example0_Dulyn', 'example1_Menter Iaith Môn',
                                  'example2_Pencampwriaeth', 'example3_Paris',
                                  'example4_Neuadd y Ddinas', 'example5_Y_Gofid_Mawr_Covid19'])
