@@ -53,8 +53,9 @@ def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-        text = stringio.read()
-    return text
+        return stringio.read()
+    else:
+        return 'Error reading file!'
 #apps------------------------------------------------------------------
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
