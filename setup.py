@@ -53,9 +53,9 @@ def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-        return st.text_area('Summarise uploaded text:', stringio.read(), height=300)
+        return stringio.read()
     else:
-        st.write('Error reading file!')
+        return '<Please upload your file ...>'
 #apps------------------------------------------------------------------
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -108,17 +108,18 @@ def run_text_summarizer():
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
-            input_text = uploadfile()
+            text = uploadfile()
+            input_text = st.text_area('Summarise uploaded text:', text, height=300)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
         chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
         if st.button("Summarise👈"):
-            if input_text and input_text!='<Please enter your text...>':
+            if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
                 summary = text_rank_summarize(input_text, ratio=chosen_ratio)
                 if summary:
                     st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
                 else:
                     st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
             else:
-              st.write('Please enter your text')
+              st.write('Please select an example, or paste/upload your text')
