@@ -107,7 +107,7 @@ def run_text_summarizer():
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
-            example_text = uploaded_file()
+            example_text = uploadfile()
             input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
