@@ -1,4 +1,5 @@
 import os
+from io import StringIO
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -117,10 +118,11 @@ def run_text_summarizer():
         elif option == 'Upload a text file':
             uploaded_file = st.file_uploader("Choose a text file")
             if uploaded_file is not None:
-                dataframe = pd.read_csv(uploaded_file)
-                st.write(dataframe)
-                # string_data = stringio.read()
-                # st.write(string_data)
+                # dataframe = pd.read_csv(uploaded_file)
+                # st.write(dataframe)
+                stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+                string_data = stringio.read()
+                st.write(string_data)
 
             
         else:
