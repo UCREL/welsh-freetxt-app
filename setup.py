@@ -59,7 +59,7 @@ def gen_similarity_matrix(sents):
   return sim_mat
 
 #helper functions------------------------------------------------------------------
-def uploadfile()
+def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
