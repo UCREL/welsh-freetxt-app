@@ -58,8 +58,14 @@ def gen_similarity_matrix(sents):
         sim_mat[i][j] = float(cosine_similarity(sents[i], sents[j]))
   return sim_mat
 
+#helper functions------------------------------------------------------------------
+def uploadfile()
+    uploaded_file = st.file_uploader("Choose a text file")
+    if uploaded_file is not None:
+        stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+        example_text = stringio.read()
+    return example_text
 #apps------------------------------------------------------------------
-
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
 
@@ -100,30 +106,23 @@ def run_text_summarizer():
                     st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
             else:
                 st.write("Rhowch eich testun...(Please enter your text...)")
-
     else: #English
         st.markdown('## 🌷 Welsh Summary Creator')
         st.markdown("### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
-
-        if option == 'Use an example text':        
-           example_fname = st.sidebar.selectbox('Select example text:',
-                            ['example0_Dulyn', 'example1_Menter Iaith Môn',
-                             'example2_Pencampwriaeth', 'example3_Paris',
-                             'example4_Neuadd y Ddinas', 'example5_Y_Gofid_Mawr_Covid19'])
+        if option == 'Use an example text':
+           example_fname = st.sidebar.selectbox('Select example text:', ['example0_Dulyn', 'example1_Menter Iaith Môn', 'example2_Pencampwriaeth', 'example3_Paris',
+           'example4_Neuadd y Ddinas', 'example5_Y_Gofid_Mawr_Covid19'])
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
-
-           input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
+               input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
-            uploaded_file = st.file_uploader("Choose a text file")
-            if uploaded_file is not None:
-                # dataframe = pd.read_csv(uploaded_file)
-                # st.write(dataframe)
-                stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-                example_text = stringio.read()
-                input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
-                # st.write(string_data)
+            input_text = st.text_area('Summarise uploaded text:', uploadfile(), height=300)
+            # uploaded_file = st.file_uploader("Choose a text file")
+            # if uploaded_file is not None:
+                # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+                # example_text = stringio.read()
+                # input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
 
