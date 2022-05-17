@@ -59,6 +59,7 @@ def gen_similarity_matrix(sents):
 #apps------------------------------------------------------------------
 
 def run_text_summarizer():
+    uploaded_file = st.file_uploader("Choose a file")
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
 
     with st.expander("ℹ️ - About this app", expanded=False):
@@ -116,7 +117,7 @@ def run_text_summarizer():
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
 
-    uploaded_file = st.file_uploader("Choose a file")
+
     
     # if uploaded_file is not None:
          # # To read file as bytes:
