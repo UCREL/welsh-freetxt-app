@@ -53,10 +53,9 @@ def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-        text = st.text_area('Summarise uploaded text:', stringio.read(), height=300)()
-        return text
+        return st.text_area('Summarise uploaded text:', stringio.read(), height=300)
     else:
-        return 'No file read yet!'
+        st.write('Error reading file!')
 #apps------------------------------------------------------------------
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -109,8 +108,7 @@ def run_text_summarizer():
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
-            example_text = uploadfile()
-            input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
+            input_text = uploadfile()
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
