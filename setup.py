@@ -102,8 +102,8 @@ def run_text_summarizer():
         st.markdown("### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
         if option == 'Use an example text':
-           example_fname = st.sidebar.selectbox('Select example text:', ['example0_Dulyn', 'example1_Menter Iaith Môn', 'example2_Pencampwriaeth', 'example3_Paris',
-           'example4_Neuadd y Ddinas', 'example5_Y_Gofid_Mawr_Covid19'])
+           example_fname = st.sidebar.selectbox('Select example text:', ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn', 'ex_2_Pencampwriaeth', 'ex_3_Paris',
+           'ex_4_Neuadd y Ddinas', 'ex_5_Y_Gofid_Mawr_Covid19'])
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
