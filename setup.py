@@ -53,7 +53,8 @@ def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-        return stringio.read()
+        text = st.text_area('Summarise uploaded text:', stringio.read(), height=300)()
+        return text
     else:
         return 'No file read yet!'
 #apps------------------------------------------------------------------
