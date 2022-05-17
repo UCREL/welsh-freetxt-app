@@ -116,9 +116,8 @@ def run_text_summarizer():
         else:
             input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
 
-
-
-    # uploaded_file = st.file_uploader("Choose a file")
+    uploaded_file = st.file_uploader("Choose a file")
+    
     # if uploaded_file is not None:
          # # To read file as bytes:
          # bytes_data = uploaded_file.getvalue()
