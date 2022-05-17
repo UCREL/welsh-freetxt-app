@@ -107,14 +107,10 @@ def run_text_summarizer():
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
-            input_text = st.text_area('Summarise uploaded text:', uploadfile(), height=300)
-            # uploaded_file = st.file_uploader("Choose a text file")
-            # if uploaded_file is not None:
-                # stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-                # example_text = stringio.read()
-                # input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
+            example_text = uploaded_file()
+            input_text = st.text_area('Summarise uploaded text:', example_text, height=300)
         else:
-            input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>')
+            input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
         chosen_ratio = st.sidebar.slider('Select summary ratio [10% to 50%]',  min_value=10, max_value=50, step=10)/100
         if st.button("Summarise👈"):
