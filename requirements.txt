@@ -1,13 +1,9 @@
-streamlit == 0.87
-numpy==1.20.2
-pandas==1.2.4
+numpy
+pandas
 nltk
-sklearn
-lexrank
 summa
-networkx
 keybert
 seaborn
 matplotlib
-click<8
+click
 pattern
