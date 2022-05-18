@@ -142,6 +142,17 @@ def run_visualizer():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
  
+    with st.form("my_form"):
+        st.write("Inside the form")
+        slider_val = st.slider("Form slider")
+        checkbox_val = st.checkbox("Form checkbox")
+
+        # Every form must have a submit button.
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            st.write("slider", slider_val, "checkbox", checkbox_val)
+
+ 
     keyword = st.text_input('Enter a keyword')
     if st.button("Visualize 👈"):
         if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
