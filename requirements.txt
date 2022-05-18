@@ -2,8 +2,3 @@ numpy
 pandas
 nltk
 summa
-keybert
-seaborn
-matplotlib
-click
-pattern
