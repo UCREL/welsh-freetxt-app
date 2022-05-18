@@ -14,10 +14,12 @@ st.set_page_config(
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
-task = st.sidebar.radio("Select a task", ('Text Summarization','Text Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+task = st.sidebar.radio("Select a task", ('Summarization','Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Machine Translation', 'Sentiment Analysis'))
 
-if task == 'Text Summarization':
+if task == 'Summarization':
     run_text_summarizer()
+elif task == 'Visualization':
+    run_visualizer()
 else:
     st.write(task, "is under construction...")
