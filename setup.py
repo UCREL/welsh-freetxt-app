@@ -27,7 +27,7 @@ def uploadfile():
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About this app", expanded=False):
-        st.write(
+        st.markdown(
             """     
             -   This tool adapts the app from the [Welsh Summarization] (https://github.com/UCREL/welsh-summarization-dataset) project!
             -   It performs simple extractive summarisation with the [TextRank]() alrogithm.
@@ -96,9 +96,9 @@ def run_text_summarizer():
 def run_visualizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About this app", expanded=False):
-        st.write(
+        st.markdown(
             """     
-            -   This tool adapts the app from the [Welsh Summarization] (https://github.com/UCREL/welsh-summarization-dataset) project!
+            -   This tool adapts the app from the [Welsh Summarization](https://github.com/UCREL/welsh-summarization-dataset) project!
             -   It performs simple extractive summarisation with the [TextRank]() alrogithm.
             """
         )
