@@ -1,4 +1,5 @@
-# FreeTxT - A Bilingual Free Text Analysis Tool for Welsh and English
+# FreeTxT:
+### A Bilingual Free Text Analysis Tool for Welsh and English
 A simple text tool for extracting and analyzing free Welsh and English texts from documents and spreadsheets and other formats with the following key features:
 
 ## Text Summarization
