@@ -76,9 +76,9 @@ def run_text_summarizer():
 
         if option == 'Defnyddiwch destun enghreifftiol':
            example_fname = st.sidebar.selectbox('Select example text:',
-                            ['example0_Dulyn', 'example1_Menter Iaith Môn',
-                             'example2_Pencampwriaeth', 'example3_Paris',
-                             'example4_Neuadd y Ddinas', 'example5_Y_Gofid_Mawr_Covid19'])
+                            ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn',
+                             'ex_2_Pencampwriaeth', 'ex_3_Paris',
+                             'ex_4_Neuadd y Ddinas', 'ex_5_Y_Gofid_Mawr_Covid19'])
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
 
