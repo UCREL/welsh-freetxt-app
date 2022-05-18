@@ -151,7 +151,7 @@ def run_visualizer():
         # Every form must have a submit button.
         submitted = st.form_submit_button("Visualize 👈")
         if submitted:
-            kwic_instances = get_kwic(input_text, keyword, )
+            kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
