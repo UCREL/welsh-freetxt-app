@@ -143,22 +143,25 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
  
     with st.form("my_form"):
-        st.write("Inside the form")
-        slider_val = st.slider("Form slider")
-        checkbox_val = st.checkbox("Form checkbox")
+        keyword = st.text_input('Enter a keyword:')
+        window_size = st.slider('Select the window size:', 1, 5, 2)
+        maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+        lcase = st.checkbox("Lowercase?")
 
         # Every form must have a submit button.
-        submitted = st.form_submit_button("Submit")
+        submitted = st.form_submit_button("Visualize 👈")
         if submitted:
-            st.write("slider", slider_val, "checkbox", checkbox_val)
-
- 
-    keyword = st.text_input('Enter a keyword')
-    if st.button("Visualize 👈"):
-        if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
-            kwic_instances = get_kwic(input_text, keyword)
+            kwic_instances = get_kwic(input_text, keyword, )
             kwic_instances_df = pd.DataFrame(kwic_instances,
-                columns =['Left context', 'keyword', 'Right Context'])
+                columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-        else:
-          st.write('Please select an example, or paste/upload your text')
+ 
+    # keyword = st.text_input('Enter a keyword')
+    # if st.button("Visualize 👈"):
+        # if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
+            # kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
+            # kwic_instances_df = pd.DataFrame(kwic_instances,
+                # columns =['left context', 'keyword', 'right context'])
+            # st.dataframe(kwic_instances_df)
+        # else:
+          # st.write('Please select an example, or paste/upload your text')
