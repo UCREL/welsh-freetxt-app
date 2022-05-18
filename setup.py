@@ -144,7 +144,7 @@ def run_visualizer():
  
     with st.form("my_form"):
         keyword = st.text_input('Enter a keyword:')
-        window_size = st.slider('Select the window size:', 1, 5, 2)
+        window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         lcase = st.checkbox("Lowercase?")
 
