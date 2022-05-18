@@ -5,3 +5,8 @@ sklearn
 lexrank
 summa
 networkx
+keybert
+seaborn
+pickle
+matplotlib
+click<8

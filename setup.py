@@ -59,7 +59,6 @@ def uploadfile():
 #apps------------------------------------------------------------------
 def run_text_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-
     with st.expander("ℹ️ - About this app", expanded=False):
         st.write(
             """     
@@ -72,8 +71,6 @@ def run_text_summarizer():
         st.markdown('## 🌷 Adnodd Creu Crynodebau')
         st.markdown("### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
-
-
         if option == 'Defnyddiwch destun enghreifftiol':
            example_fname = st.sidebar.selectbox('Select example text:',
                             ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn',
@@ -83,7 +80,11 @@ def run_text_summarizer():
                example_text = example_file.read()
 
            input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text, height=300)
-               
+        
+        elif option == 'Llwythwch ffeil testun i fyny':
+            text = uploadfile()
+            input_text = st.text_area("Crynhoi testun wedi'i uwchlwytho:", text, height=300)
+
         else:
             input_text = st.text_area('Teipiwch neu gludwch eich testun yn y blwch testun', '<Rhowch eich testun...>')
 
