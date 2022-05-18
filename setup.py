@@ -141,8 +141,11 @@ def run_visualizer():
         input_text = st.text_area('Visualize uploaded text:', text, height=300)
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
+ 
+    keyword = st.text_input('Enter a keyword')
     if st.button("Visualize 👈"):
         if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
+            keyword = st.text_input('Enter a keyword')
             kwic_instances = get_kwic(input_text, keyword)
             kwic_instances_df = pd.DataFrame(data,
                 columns =['Left context', 'keyword', 'Right Context'])
