@@ -117,7 +117,7 @@ def run_text_summarizer():
               st.write('Please select an example, or paste/upload your text')
 
 def run_visualizer():
-    language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
             """
@@ -143,7 +143,7 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
     if st.button("Visualize 👈"):
         if input_text and input_text not in ['<Please enter your text...>','<Please upload your file ...>']:
-            kwic_instances = get_kwic(text, keyword)
+            kwic_instances = get_kwic(input_text, keyword)
             kwic_instances_df = pd.DataFrame(data,
                 columns =['Left context', 'keyword', 'Right Context'])
             st.dataframe(kwic_instances_df)
