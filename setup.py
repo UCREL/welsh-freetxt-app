@@ -35,8 +35,8 @@ def run_text_summarizer():
         )
 
     if language=='Cymraeg':
-        st.markdown('## 🌷 Adnodd Creu Crynodebau')
-        st.markdown("### Rhowch eich testun isod:")
+        st.markdown('### 🌷 Adnodd Creu Crynodebau')
+        st.markdown("#### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
            example_fname = st.sidebar.selectbox('Select example text:',
@@ -103,8 +103,8 @@ def run_visualizer():
             """
         )
 
-    st.markdown('## 🌷 Welsh Summary Creator')
-    st.markdown("### Enter your text below:")
+    st.markdown('### 🌷 Welsh Summary Creator')
+    st.markdown("#### Enter your text below:")
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
     if option == 'Use an example text':
        example_fname = st.sidebar.selectbox('Select example text:', ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn', 'ex_2_Pencampwriaeth', 'ex_3_Paris',

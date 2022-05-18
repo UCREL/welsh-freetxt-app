@@ -14,7 +14,7 @@ st.set_page_config(
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
-task = st.sidebar.radio("Select a task", ('Summarization','Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
+task = st.sidebar.radio("Select a task", ('🌷 Summarization','Visualization', 'N-Gram Frequency Counting', 'Keyword in Context',
                                           'Part of Speech Tagging', 'Semantic Tagging', 'Machine Translation', 'Sentiment Analysis'))
 
 if task == 'Summarization':
