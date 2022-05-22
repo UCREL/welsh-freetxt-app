@@ -144,7 +144,7 @@ def run_visualizer():
 
     col1, col2 = st.columns(2)
     col1.subheader("Keyword in Context") 
-    with st.form("my_form"):
+    with st.form("form1"):
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
@@ -159,7 +159,7 @@ def run_visualizer():
             st.dataframe(kwic_instances_df)
             
     col2.subheader("Keyword in Context")
-    with st.form("my_form"):
+    with st.form("form2"):
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
