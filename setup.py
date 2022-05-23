@@ -210,7 +210,8 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-
+    
+    col1.subheader("Keyword in Context")
     with col2:
         mask = np.array(Image.open('img/holmes_silhouette.png'))
         plt.imshow(mask)
@@ -224,7 +225,7 @@ def run_visualizer():
             max_words=10,
             stopwords=STOPWORDS,
             width=2000, height=1000,
-            contour_color="black", 
+            # contour_color="black", 
             relative_scaling = 0,
             mask=mask,
             background_color="white",
