@@ -5,7 +5,6 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 import nltk
-import wordcloud
 import networkx as nx
 from io import StringIO
 from nltk.tokenize import sent_tokenize
