@@ -6,11 +6,12 @@ import pandas as pd
 import streamlit as st
 import nltk
 import networkx as nx
-nltk.download('punkt') # one time execution
+from io import StringIO
 from nltk.tokenize import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, STOPWORD
-from io import StringIO
+nltk.download('punkt') # one time execution
+
 
 #📃📌📈📈📉⛱🏓🏆🎲
 
