@@ -186,7 +186,8 @@ def run_visualizer():
         dict(text="Twitch", value=4500, color="#b5de2b", country="US", industry="Social Media"),
         dict(text="Plaid", value=5600, color="#b5de2b", country="US", industry="FinTech"),
     ]
-    return_obj = wordcloud.visualize(words, tooltip_data_fields={
+    
+    wordcloud.visualize(words, tooltip_data_fields={
         'text':'Company', 'value':'Mentions', 'country':'Country of Origin', 'industry':'Industry'
     }, per_word_coloring=False)
     
