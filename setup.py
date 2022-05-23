@@ -211,15 +211,15 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
     
-    col1.subheader("Keyword in Context")
+    col2.subheader("Word Cloud")
     with col2:
-        mask = np.array(Image.open('img/holmes_silhouette.png'))
+        mask = np.array(Image.open('img/welsh_flag.png'))
         plt.imshow(mask)
         plt.axis("off")
 
         # lower max_font_size, change the maximum number of word and lighten the background:
         from wordcloud import ImageColorGenerator
-        #----------------------------------------------------------------------------------
+        maxWords = st.slider('Maximum number of words:', 10, 50, 10, 10)
         #creating wordcloud
         wordcloud = WordCloud(
             max_words=10,
@@ -232,10 +232,10 @@ def run_visualizer():
             font_path='font/Ubuntu-B.ttf'
         ).generate(input_text)
 
-        image_colors = ImageColorGenerator(mask)
+        # image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
-        plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+        # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+        plt.imshow(wordcloud.recolor(color_func), interpolation="bilinear")
         plt.axis("off")
-        # _=plt.show()
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
