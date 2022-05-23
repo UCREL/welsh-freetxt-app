@@ -221,8 +221,8 @@ def run_visualizer():
         #----------------------------------------------------------------------------------
         #creating wordcloud
         wordcloud = WordCloud(
-            max_words=limit,
-            stopwords=both_stop_words,
+            max_words=10,
+            stopwords=STOPWORDS,
             width=2000, height=1000,
             contour_color="black", 
             relative_scaling = 0,
