@@ -62,10 +62,9 @@ def run_text_summarizer():
         st.markdown("#### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
-           example_fname = st.sidebar.selectbox('Select example text:',
-                            ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn',
-                             'ex_2_Pencampwriaeth', 'ex_3_Paris',
-                             'ex_4_Neuadd y Ddinas', 'ex_5_Y_Gofid_Mawr_Covid19'])
+           example_fname = st.sidebar.selectbox('Select example text:', ['cy_ex_0_Dulyn', 'cy_ex_1_Menter Iaith Môn', 'cy_ex_2_Pencampwriaeth', 'cy_ex_3_Paris',
+           'cy_ex_4_Neuadd y Ddinas', 'cy_ex_5_Y_Gofid_Mawr_Covid19'])
+
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
 
@@ -93,9 +92,9 @@ def run_text_summarizer():
         st.markdown('## 🌷 Welsh Summary Creator')
         st.markdown("### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
-        if option == 'Use an example text':
-           example_fname = st.sidebar.selectbox('Select example text:', ['ex_0_Dulyn', 'ex_1_Menter Iaith Môn', 'ex_2_Pencampwriaeth', 'ex_3_Paris',
-           'ex_4_Neuadd y Ddinas', 'ex_5_Y_Gofid_Mawr_Covid19'])
+        if option == 'Use an example text':           
+           example_fname = st.sidebar.selectbox('Select example text:', ['en_ex_0_Castell Coch', 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
+           'en_ex_4_Caernarfon Castle', 'en_ex_5_Caerphilly Castle'])
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
