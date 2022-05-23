@@ -178,4 +178,4 @@ def run_visualizer():
     plt.imshow(w_cloud) 
     # No axis 
     plt.axis("off")
-    col2.plt.show()
+    col2.plt.show(w_cloud)
