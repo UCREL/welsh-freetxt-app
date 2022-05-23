@@ -10,7 +10,7 @@ import networkx as nx
 from io import StringIO
 from nltk.tokenize import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
-from wordcloud import WordCloud, STOPWORD
+from wordcloud import WordCloud, STOPWORDS
 nltk.download('punkt') # one time execution
 
 
