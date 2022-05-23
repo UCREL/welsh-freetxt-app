@@ -211,17 +211,42 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
 
-    with col1:
-        st.header("A cat")
-        st.image("https://static.streamlit.io/examples/cat.jpg", use_column_width=True)
     with col2:
-        st.header("A dog")
-        st.image("https://static.streamlit.io/examples/dog.jpg", use_column_width=True)
-    with col3:
-        st.header("An owl")
-        st.image("https://static.streamlit.io/examples/owl.jpg", use_column_width=True)
-        
-        
+        mask = np.array(Image.open(r'img\4.jpg'))
+        plt.imshow(mask)
+        plt.axis("off")
+
+        # lower max_font_size, change the maximum number of word and lighten the background:
+        from wordcloud import ImageColorGenerator
+        #----------------------------------------------------------------------------------
+        #creating wordcloud
+        wordcloud = WordCloud(
+            max_words=limit,
+            stopwords=both_stop_words,
+            width=2000, height=1000,
+            contour_color="black", 
+            relative_scaling = 0,
+            mask=mask,
+            background_color="white",
+            font_path=font
+        ).generate(abstract_text)
+
+        image_colors = ImageColorGenerator(mask)
+        plt.figure(figsize=[20,15])
+        plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+        plt.axis("off")
+        _=plt.show()
+
+    # with col1:
+        # st.header("A cat")
+        # st.image("https://static.streamlit.io/examples/cat.jpg", use_column_width=True)
+    # with col2:
+        # st.header("A dog")
+        # st.image("https://static.streamlit.io/examples/dog.jpg", use_column_width=True)
+    # with col3:
+        # st.header("An owl")
+        # st.image("https://static.streamlit.io/examples/owl.jpg", use_column_width=True)
+
     # w_cloud = WordCloud(width = 300, height = 200, random_state=1, 
         # collocations=False, stopwords = STOPWORDS).generate(input_text)
 
