@@ -235,31 +235,5 @@ def run_visualizer():
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
         plt.axis("off")
-        _=plt.show()
-
-    # with col1:
-        # st.header("A cat")
-        # st.image("https://static.streamlit.io/examples/cat.jpg", use_column_width=True)
-    # with col2:
-        # st.header("A dog")
-        # st.image("https://static.streamlit.io/examples/dog.jpg", use_column_width=True)
-    # with col3:
-        # st.header("An owl")
-        # st.image("https://static.streamlit.io/examples/owl.jpg", use_column_width=True)
-
-    # w_cloud = WordCloud(width = 300, height = 200, random_state=1, 
-        # collocations=False, stopwords = STOPWORDS).generate(input_text)
-
-    # col2.subheader("Word Cloud")
-    # arr = np.random.normal(1, 1, size=100)
-    # fig, ax = plt.subplots()
-    # ax.hist(arr, bins=20)
-    # col2.pyplot(fig)
-    
-    # #Set figure size
-    # plt.figure(figsize=(40, 30))
-    # # Display image
-    # plt.imshow(w_cloud) 
-    # # No axis 
-    # plt.axis("off")
-    # col2.plt.show(w_cloud)
+        _=st.show()
+        st.pyplot()
