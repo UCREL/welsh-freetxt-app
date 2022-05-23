@@ -195,9 +195,9 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
     col1, col2 = st.columns(2)
-    # col1, col2, col3 = st.beta_columns(3)
-    col1.subheader("Keyword in Context") 
-    with col1.form("form1"):
+ 
+    with col2.form("form1"):
+        subheader("Keyword in Context")
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
@@ -211,8 +211,9 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
     
-    col2.subheader("Word Cloud")
-    with col2:
+    
+    with col1:
+        subheader("Word Cloud")
         mask = np.array(Image.open('img/welsh_flag.png'))
         plt.imshow(mask)
         plt.axis("off")
