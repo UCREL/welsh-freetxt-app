@@ -6,3 +6,4 @@ summa
 networkx
 scattertext
 matplotlib
+wordcloud
