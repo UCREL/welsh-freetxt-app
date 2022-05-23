@@ -1,6 +1,6 @@
 import os
 import string
-from io import StringIO
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -9,6 +9,8 @@ import networkx as nx
 nltk.download('punkt') # one time execution
 from nltk.tokenize import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
+from wordcloud import WordCloud, STOPWORD
+from io import StringIO
 
 #📃📌📈📈📉⛱🏓🏆🎲
 
@@ -162,7 +164,7 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
             
-    col2.subheader("Keyword in Context")
+    col2.subheader("Word Cloud")
     with col2.form("form2"):
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
@@ -176,5 +178,3 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-            
-            

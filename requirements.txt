@@ -5,3 +5,5 @@ lexrank
 summa
 networkx
 scattertext
+matplotlib
+wordcloud 
