@@ -172,7 +172,11 @@ def run_visualizer():
     col2.pyplot(fig)
 
 
-    # col2.subheader("Word Cloud")
-    # wordcloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
-    # plt.figure(figsize=(40, 30))
-    # plt.imshow(wordcloud)
+    w_cloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
+    #Set figure size
+    plt.figure(figsize=(40, 30))
+    # Display image
+    plt.imshow(w_cloud) 
+    # No axis 
+    plt.axis("off")
+    plt.show()
