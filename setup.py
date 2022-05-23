@@ -194,8 +194,8 @@ def run_visualizer():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
-    # col1, col2 = st.columns(2)
-    col1, col2, col3 = st.beta_columns(3)
+    col1, col2 = st.columns(2)
+    # col1, col2, col3 = st.beta_columns(3)
     col1.subheader("Keyword in Context") 
     with col1.form("form1"):
         keyword = st.text_input('Enter a keyword:')
