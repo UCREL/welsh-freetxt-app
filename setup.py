@@ -212,7 +212,7 @@ def run_visualizer():
             st.dataframe(kwic_instances_df)
 
     with col2:
-        mask = np.array(Image.open(r'img\4.jpg'))
+        mask = np.array(Image.open('img\holmes_silhouette.png'))
         plt.imshow(mask)
         plt.axis("off")
 
