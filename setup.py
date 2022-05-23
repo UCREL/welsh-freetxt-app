@@ -166,6 +166,13 @@ def run_visualizer():
             st.dataframe(kwic_instances_df)
             
     col2.subheader("Word Cloud")
-    wordcloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
-    plt.figure(figsize=(40, 30))
-    plt.imshow(wordcloud)
+    arr = np.random.normal(1, 1, size=100)
+    fig, ax = plt.subplots()
+    ax.hist(arr, bins=20)
+    col2.pyplot(fig)
+
+
+    # col2.subheader("Word Cloud")
+    # wordcloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
+    # plt.figure(figsize=(40, 30))
+    # plt.imshow(wordcloud)
