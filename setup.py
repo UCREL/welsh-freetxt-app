@@ -187,7 +187,7 @@ def run_visualizer():
         dict(text="Plaid", value=5600, color="#b5de2b", country="US", industry="FinTech"),
     ]
     
-    wordcloud.visualize(words, tooltip_data_fields={
+    col2.wordcloud.visualize(words, tooltip_data_fields={
         'text':'Company', 'value':'Mentions', 'country':'Country of Origin', 'industry':'Industry'
     }, per_word_coloring=False)
     
