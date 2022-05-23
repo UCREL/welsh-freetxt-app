@@ -14,7 +14,7 @@ from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 nltk.download('punkt') # one time execution
 
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
-                                            encoding='utf8').read().split('\n')
+                                            encoding='utf8').read().split('\n'))
 
 #📃📌📈📈📉⛱🏓🏆🎲
 
