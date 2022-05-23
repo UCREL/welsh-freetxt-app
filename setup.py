@@ -228,7 +228,7 @@ def run_visualizer():
             relative_scaling = 0,
             mask=mask,
             background_color="white",
-            font_path=font
+            font_path='font/Ubuntu-B.ttf'
         ).generate(input_text)
 
         image_colors = ImageColorGenerator(mask)
