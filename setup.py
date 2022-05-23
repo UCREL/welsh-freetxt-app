@@ -1,17 +1,19 @@
 import os
 import string
-import streamlit_wordcloud as wordcloud
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
 import nltk
 import networkx as nx
+from PIL import Image
 from io import StringIO
 from nltk.tokenize import sent_tokenize
 from summa.summarizer import summarize as summa_summarizer
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 nltk.download('punkt') # one time execution
+
+
 
 
 #📃📌📈📈📉⛱🏓🏆🎲
@@ -49,6 +51,49 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         right_context = ' '.join(tokens[index+1:index+window_size+1])
         kwic_insts.append((left_context, target_word, right_context))
     return kwic_insts
+
+def cloud(image, text, max_word, max_font, random):
+    stopwords = set(STOPWORDS)
+    stopwords.update(['us', 'one', 'will', 'said', 'now', 'well', 'man', 'may', 'little', 'say', 'must', 'way', 'long', 'yet', 'mean', 'put', 'seem', 'asked', 'made', 'half', 'much',
+    'certainly', 'might', 'came'])
+    
+    wc = WordCloud(background_color="white", colormap="hot", max_words=max_word, mask=image,
+    stopwords=stopwords, max_font_size=max_font, random_state=random)
+
+    # generate word cloud
+    wc.generate(text)
+
+    # create coloring from image
+    image_colors = ImageColorGenerator(image)
+
+    # show the figure
+    plt.figure(figsize=(100,100))
+    fig, axes = plt.subplots(1,2, gridspec_kw={'width_ratios': [3, 2]})
+    axes[0].imshow(wc, interpolation="bilinear")
+    # recolor wordcloud and show
+    # we could also give color_func=image_colors directly in the constructor
+    axes[1].imshow(image, cmap=plt.cm.gray, interpolation="bilinear")
+
+    for ax in axes:
+        ax.set_axis_off()
+    st.pyplot()
+
+def main():
+    st.write("# Text Summarization with a WordCloud")
+    st.write("[By Boadzie Daniel](https://boadzie.surge.sh)")
+    max_word = st.sidebar.slider("Max words", 200, 3000, 200)
+    max_font = st.sidebar.slider("Max Font Size", 50, 350, 60)
+    random = st.sidebar.slider("Random State", 30, 100, 42 )
+    image = st.file_uploader("Choose a file(preferably a silhouette)")
+    text = st.text_area("Add text ..")
+    if image and text is not None:
+        if st.button("Plot"):
+            st.write("### Original image")
+            image = np.array(Image.open(image))
+            # st.image(image, width=100, use_column_width=True)
+            st.write("### Word cloud")
+            st.write(cloud(image, text, max_word, max_font, random), use_column_width=True)
+
     
 #apps------------------------------------------------------------------
 def run_text_summarizer():
@@ -140,7 +185,6 @@ def run_visualizer():
        example_fname = st.sidebar.selectbox('Select example text:', ['en_ex_0_Castell Coch', 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
        'en_ex_4_Caernarfon Castle', 'en_ex_5_Caerphilly Castle'])
        
-       
        with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
            input_text = st.text_area('Visualize example text in the box:', example_text, height=300)
@@ -150,7 +194,8 @@ def run_visualizer():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
-    col1, col2 = st.columns(2)
+    # col1, col2 = st.columns(2)
+    col1, col2, col3 = st.beta_columns(3)
     col1.subheader("Keyword in Context") 
     with col1.form("form1"):
         keyword = st.text_input('Enter a keyword:')
@@ -165,30 +210,27 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-            
-    w_cloud = WordCloud(width = 300, height = 200, random_state=1, 
-        collocations=False, stopwords = STOPWORDS).generate(input_text)
 
-    col2.subheader("Word Cloud")
-    arr = np.random.normal(1, 1, size=100)
-    fig, ax = plt.subplots()
-    ax.hist(arr, bins=20)
-    col2.pyplot(fig)
-    
-    # words = [
-        # dict(text="Robinhood", value=16000), dict(text="Personio", value=8500),
-        # dict(text="Boohoo", value=6700), dict(text="Deliveroo", value=13400),
-        # dict(text="SumUp", value=8300), dict(text="CureVac", value=12400),
-        # dict(text="Deezer", value=10300), dict(text="Eurazeo", value=31),
-        # dict(text="Drift", value=6000), dict(text="Twitch", value=4500), dict(text="Plaid", value=5600)
-    # ]
-    
-    # wordcloud.visualize(words, tooltip_data_fields={ 'text':'Company', 'value':'Mentions'
-    # }, per_word_coloring=False)
-    
- 
+    with col1:
+        st.header("A cat")
+        st.image("https://static.streamlit.io/examples/cat.jpg", use_column_width=True)
+    with col2:
+        st.header("A dog")
+        st.image("https://static.streamlit.io/examples/dog.jpg", use_column_width=True)
+    with col3:
+        st.header("An owl")
+        st.image("https://static.streamlit.io/examples/owl.jpg", use_column_width=True)
+        
+        
+    # w_cloud = WordCloud(width = 300, height = 200, random_state=1, 
+        # collocations=False, stopwords = STOPWORDS).generate(input_text)
 
-
+    # col2.subheader("Word Cloud")
+    # arr = np.random.normal(1, 1, size=100)
+    # fig, ax = plt.subplots()
+    # ax.hist(arr, bins=20)
+    # col2.pyplot(fig)
+    
     # #Set figure size
     # plt.figure(figsize=(40, 30))
     # # Display image
