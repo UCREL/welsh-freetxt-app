@@ -197,7 +197,7 @@ def run_visualizer():
     col1, col2 = st.columns(2)
  
     with col2.form("form1"):
-        subheader("Keyword in Context")
+        st.subheader("Keyword in Context")
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
@@ -213,7 +213,7 @@ def run_visualizer():
     
     
     with col1:
-        subheader("Word Cloud")
+        st.subheader("Word Cloud")
         mask = np.array(Image.open('img/welsh_flag.png'))
         plt.imshow(mask)
         plt.axis("off")
