@@ -153,22 +153,6 @@ def run_visualizer():
     col1.subheader("Keyword in Context") 
     with col1.form("form1"):
         keyword = st.text_input('Enter a keyword:')
-        if keyword and len(keyword)>2:
-            window_size = st.slider('Select the window size:', 1, 10, 2)
-            maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-            lcase = st.checkbox("Lowercase?")
-
-            # Every form must have a submit button.
-            submitted = st.form_submit_button("Visualize 👈")
-            if submitted:
-                kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
-                kwic_instances_df = pd.DataFrame(kwic_instances,
-                    columns =['left context', 'keyword', 'right context'])
-                st.dataframe(kwic_instances_df)
-            
-    col2.subheader("Word Cloud")
-    with col2.form("form2"):
-        keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         lcase = st.checkbox("Lowercase?")
@@ -180,3 +164,11 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
+            
+    col2.subheader("Word Cloud")
+    with col2.form("form2"):
+        arr = np.random.normal(1, 1, size=100)
+        fig, ax = plt.subplots()
+        ax.hist(arr, bins=20)
+
+        st.pyplot(fig)
