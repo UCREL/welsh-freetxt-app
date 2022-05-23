@@ -171,7 +171,6 @@ def run_visualizer():
     ax.hist(arr, bins=20)
     col2.pyplot(fig)
 
-
     w_cloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
     #Set figure size
     plt.figure(figsize=(40, 30))
@@ -179,4 +178,4 @@ def run_visualizer():
     plt.imshow(w_cloud) 
     # No axis 
     plt.axis("off")
-    plt.show()
+    col2.plt.show()
