@@ -235,5 +235,5 @@ def run_visualizer():
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
         plt.axis("off")
-        _=st.show()
+        _=plt.show()
         st.pyplot()
