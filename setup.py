@@ -212,7 +212,7 @@ def run_visualizer():
             st.dataframe(kwic_instances_df)
 
     with col2:
-        mask = np.array(Image.open('img\holmes_silhouette.png'))
+        mask = np.array(Image.open('img/holmes_silhouette.png'))
         plt.imshow(mask)
         plt.axis("off")
 
@@ -229,7 +229,7 @@ def run_visualizer():
             mask=mask,
             background_color="white",
             font_path=font
-        ).generate(abstract_text)
+        ).generate(input_text)
 
         image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
