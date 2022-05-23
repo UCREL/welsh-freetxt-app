@@ -13,8 +13,8 @@ from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 nltk.download('punkt') # one time execution
 
-STOPWORDS = STOPWORDS + open('welsh_stopwords.txt', 'r',
-                                            encoding='utf8').read()
+STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
+                                            encoding='utf8').read().split('\n')
 
 #📃📌📈📈📉⛱🏓🏆🎲
 
