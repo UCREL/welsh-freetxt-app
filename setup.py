@@ -167,5 +167,5 @@ def run_visualizer():
             
     col2.subheader("Word Cloud")
     wordcloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
-    col2.plt.figure(figsize=(40, 30))
-    col2.plt.imshow(wordcloud)
+    plt.figure(figsize=(40, 30))
+    plt.imshow(wordcloud)
