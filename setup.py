@@ -165,13 +165,15 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
             
+    w_cloud = WordCloud(width = 300, height = 200, random_state=1, 
+        collocations=False, stopwords = STOPWORDS).generate(input_text)
+
     col2.subheader("Word Cloud")
     arr = np.random.normal(1, 1, size=100)
     fig, ax = plt.subplots()
     ax.hist(arr, bins=20)
-    col2.pyplot(fig)
+    col2.pyplot(w_cloud)
 
-    w_cloud = WordCloud(width = 300, height = 200, random_state=1, collocations=False, stopwords = STOPWORDS).generate(input_text)
     #Set figure size
     plt.figure(figsize=(40, 30))
     # Display image
