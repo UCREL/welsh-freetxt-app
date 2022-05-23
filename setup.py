@@ -220,7 +220,7 @@ def run_visualizer():
 
         # lower max_font_size, change the maximum number of word and lighten the background:
         from wordcloud import ImageColorGenerator
-        maxWords = st.slider('Maximum number of words:', 20, 200, 10, 20)
+        maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
         #creating wordcloud
         wordcloud = WordCloud(
             max_words=maxWords,
