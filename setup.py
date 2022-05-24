@@ -13,10 +13,11 @@ from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 nltk.download('punkt') # one time execution
 
+# Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
 
-#📃📌📈📈📉⛱🏓🏆🎲
+#📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
 
 ## Define summarizer models
 # text_rank
