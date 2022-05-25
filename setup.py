@@ -54,7 +54,7 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     return kwic_insts
     
 #apps------------------------------------------------------------------
-def run_text_summarizer():
+def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About this app", expanded=False):
         st.markdown(
