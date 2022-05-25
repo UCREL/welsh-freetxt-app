@@ -16,7 +16,7 @@ nltk.download('punkt') # one time execution
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
-
+img_cols = None
 #📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
 
 ## Define summarizer models
@@ -153,7 +153,7 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
     col0, col1, col2 = st.columns(3)
- 
+    
     with col0.form("form0"):
         st.markdown("**NGram Frequency**")
         submitted = st.form_submit_button("Apply 👈") #N-grams
@@ -186,18 +186,16 @@ def run_visualizer():
 
         # image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
-
-        img_cols = None
-        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        if submitted: 
-            img_cols = ImageColorGenerator(mask) if img_cols == None else None
-
+        
         # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
-        
+        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
+        if submitted: 
+            img_cols = ImageColorGenerator(mask) if img_cols == None else None
+
     with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
         keyword = st.text_input('Enter a keyword:')
