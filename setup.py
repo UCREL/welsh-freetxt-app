@@ -152,8 +152,11 @@ def run_visualizer():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
-    col1, col2 = st.columns(2)
+    col0, col1, col2 = st.columns(3)
  
+    with col2:
+        st.subheader("NGram Frequency")
+   
     with col2.form("form1"):
         st.subheader("Keyword in Context")
         keyword = st.text_input('Enter a keyword:')
@@ -168,7 +171,6 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-    
     
     with col1:
         st.subheader("Word Cloud")
