@@ -167,10 +167,6 @@ def run_visualizer():
         from wordcloud import ImageColorGenerator
         maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
         #creating wordcloud
-        cont_color = None
-        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        if submitted: 
-            cont_color = 'black' if cont_color==None else None
             
         wordcloud = WordCloud(
             max_words=maxWords,
@@ -185,8 +181,14 @@ def run_visualizer():
 
         # image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
+
+        img_cols = None
+        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
+        if submitted: 
+            img_cols = ImageColorGenerator(mask) if img_cols == None else None
+
         # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
-        plt.imshow(wordcloud.recolor(), interpolation="bilinear")
+        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
