@@ -199,9 +199,8 @@ def run_visualizer():
         # submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
         # if submitted: 
             # img_cols = ImageColorGenerator(mask) if img_cols == None else None
-
-    with col2.form("form2"): #Could you replace with NLTK concordance later?
-        st.markdown("**Keyword in Context**")
+    col2.markdown("**Keyword in Context**")
+    with col2.form("form2"): #Could you replace with NLTK concordance later? 
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
