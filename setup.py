@@ -16,7 +16,7 @@ nltk.download('punkt') # one time execution
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
-img_cols = None
+
 #📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
 
 ## Define summarizer models
@@ -152,6 +152,7 @@ def run_visualizer():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
 
+    img_cols = None
     col0, col1, col2 = st.columns(3)
     
     with col0.form("form0"):
