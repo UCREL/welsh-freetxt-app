@@ -193,10 +193,6 @@ def run_visualizer():
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
         
-        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        if submitted: 
-            img_cols = ImageColorGenerator(mask) if img_cols == None else None
-
     with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
         keyword = st.text_input('Enter a keyword:')
