@@ -170,7 +170,7 @@ def run_visualizer():
         ngrms = st.slider('Select ngrams:', 1, 5, 1)
         topn = st.slider('Top ngrams:', 10, 50, 10)
         lcase = col0.checkbox("Lowercase?")
-        if lcase: input_text = input_text.lower()
+        # if lcase: input_text = input_text.lower()
 
         top_ngrams = gen_ngram(input_text, ngrms, topn)
         top_ngrams_df = pd.DataFrame(top_ngrams,
@@ -211,7 +211,7 @@ def run_visualizer():
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-        lcase = checkbox("Lowercase?")
+        lcase = st.checkbox("Lowercase?")
 
         kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
         kwic_instances_df = pd.DataFrame(kwic_instances,
