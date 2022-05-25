@@ -163,12 +163,14 @@ def run_visualizer():
             image = Image.open('img/under_construction.png')
             st.image(image, caption='Feature still under construction...")')
    
-    with col1.form("form1"):
+    with col1:
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))
         plt.imshow(mask)
         plt.axis("off")
-
+        color = st.radio('Switch image colour:', ('Color', 'Black'))
+        img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+        
         # lower max_font_size, change the maximum number of word and lighten the background:
         from wordcloud import ImageColorGenerator
         maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
@@ -178,7 +180,7 @@ def run_visualizer():
             max_words=maxWords,
             stopwords=STOPWORDS,
             width=2000, height=1000,
-            contour_color= "black", 
+            # contour_color= "black", 
             relative_scaling = 0,
             mask=mask,
             background_color="white",
@@ -193,9 +195,10 @@ def run_visualizer():
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
-        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        if submitted: 
-            img_cols = ImageColorGenerator(mask) if img_cols == None else None
+        
+        # submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
+        # if submitted: 
+            # img_cols = ImageColorGenerator(mask) if img_cols == None else None
 
     with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
