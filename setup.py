@@ -17,7 +17,6 @@ nltk.download('punkt') # one time execution
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
-
 #📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
 
 ## Define summarizer models
@@ -25,10 +24,9 @@ STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
 def text_rank_summarize(article, ratio):
   return summa_summarizer(article, ratio=ratio)
 
-
 #helper functions---------------------------------------------------
 
-#--------uploading file ---------------
+#------------------------- uploading file ---------------------------
 def uploadfile():
     uploaded_file = st.file_uploader("Choose a text file")
     if uploaded_file is not None:
@@ -37,8 +35,7 @@ def uploadfile():
     else:
         return '<Please upload your file ...>'
 
-
-#----------keyword in context--------------
+#------------------------ keyword in context ------------------------
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
     if lower_case:
@@ -211,7 +208,7 @@ def run_visualizer():
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-        col2_lcase = st.checkbox("Lowercase?")
+        col2_lcase = col2.checkbox("Lowercase?")
 
         kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
         kwic_instances_df = pd.DataFrame(kwic_instances,
