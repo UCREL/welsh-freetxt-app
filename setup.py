@@ -154,8 +154,13 @@ def run_visualizer():
 
     col0, col1, col2 = st.columns(3)
  
-    with col0:
+    with col.form("form0"):
         st.markdown("**NGram Frequency**")
+        submitted = st.form_submit_button("Apply 👈") #N-grams
+        if submitted: 
+            st.markdown("Under construction")
+            image = Image.open('img/under_construction.png')
+            st.image(image, caption='Feature still under construction...")')
    
     with col1.form("form1"):
         st.markdown("**Word Cloud**")
@@ -201,7 +206,7 @@ def run_visualizer():
         lcase = st.checkbox("Lowercase?")
 
         # Every form must have a submit button.
-        submitted = st.form_submit_button("Visualize 👈")
+        submitted = st.form_submit_button("Apply 👈")
         if submitted:
             kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
             kwic_instances_df = pd.DataFrame(kwic_instances,
