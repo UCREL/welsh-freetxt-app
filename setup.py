@@ -210,5 +210,5 @@ def run_visualizer():
             kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
-            # st.dataframe(kwic_instances_df)
-            kwic_instances_df
+            st.dataframe(kwic_instances_df)
+            # kwic_instances_df
