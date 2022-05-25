@@ -211,7 +211,7 @@ def run_visualizer():
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-        lcase = col2.checkbox("Lowercase?")
+        lcase = checkbox("Lowercase?")
 
         kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
         kwic_instances_df = pd.DataFrame(kwic_instances,
