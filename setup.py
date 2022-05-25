@@ -157,6 +157,7 @@ def run_visualizer():
     with col0:
         st.markdown("**NGram Frequency**")
    
+    img_cols = None
     with col1.form("form1"):
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))
@@ -166,7 +167,6 @@ def run_visualizer():
         # lower max_font_size, change the maximum number of word and lighten the background:
         from wordcloud import ImageColorGenerator
         maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
-        img_cols = None
         #creating wordcloud
             
         wordcloud = WordCloud(
