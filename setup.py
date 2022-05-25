@@ -165,14 +165,7 @@ def run_visualizer():
    
     with col1:
         st.markdown("**Word Cloud**")
-        mask = np.array(Image.open('img/welsh_flag.png'))
-        plt.imshow(mask)
-        plt.axis("off")
-        color = st.radio('Switch image colour:', ('Color', 'Black'))
-        img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-        
-        # lower max_font_size, change the maximum number of word and lighten the background:
-        from wordcloud import ImageColorGenerator
+        mask = np.array(Image.open('img/welsh_flag.png'))      
         maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
         #creating wordcloud
             
@@ -187,6 +180,11 @@ def run_visualizer():
             font_path='font/Ubuntu-B.ttf'
         ).generate(input_text)
 
+        st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: center;} </style>', unsafe_allow_html=True)
+        st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
+        color = st.radio('Switch image colour:', ('Color', 'Black'))
+        img_cols = 'black' if color == 'Black' else None
+        
         # image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
         
@@ -195,6 +193,8 @@ def run_visualizer():
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
+        
+        
         
         # submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
         # if submitted: 
