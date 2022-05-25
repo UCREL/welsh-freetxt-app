@@ -165,7 +165,7 @@ def run_visualizer():
     col0, col1, col2 = st.columns(3)
     
     col0.markdown("**NGram Frequency**")
-    with col0.form("form0"):
+    with col0:
         # keyword = st.text_input('Enter a keyword:')
         ngrms = st.slider('Select ngrams:', 1, 5, 1)
         topn = st.slider('Top ngrams:', 10, 50, 10)
@@ -173,12 +173,12 @@ def run_visualizer():
         if lcase: input_text = input_text.lower()
 
         # Every form must have a submit button.
-        submitted = st.form_submit_button("Apply 👈")
-        if submitted:
-            top_ngrams = gen_ngram(input_text, ngrms, topn)
-            top_ngrams_df = pd.DataFrame(top_ngrams,
-                columns =['NGrams', 'Counts'])
-            st.dataframe(top_ngrams_df)
+        # submitted = st.form_submit_button("Apply 👈")
+        # if submitted:
+        top_ngrams = gen_ngram(input_text, ngrms, topn)
+        top_ngrams_df = pd.DataFrame(top_ngrams,
+            columns =['NGrams', 'Counts'])
+        st.dataframe(top_ngrams_df)
 
     with col1:
         st.markdown("**Word Cloud**")
