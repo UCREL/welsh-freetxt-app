@@ -186,7 +186,7 @@ def run_visualizer():
             max_words=maxWords,
             stopwords=STOPWORDS,
             width=2000, height=1000,
-            contour_color= None #"black", 
+            contour_color= None, #"black", 
             relative_scaling = 0,
             mask=mask,
             background_color="white",
