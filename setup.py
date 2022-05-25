@@ -8,7 +8,8 @@ import nltk
 import networkx as nx
 from PIL import Image
 from io import StringIO
-from nltk.tokenize import sent_tokenize
+from nltk import word_tokenize, sent_tokenize, ngrams
+from collections import Counter
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 nltk.download('punkt') # one time execution
@@ -52,6 +53,14 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         right_context = ' '.join(tokens[index+1:index+window_size+1])
         kwic_insts.append((left_context, target_word, right_context))
     return kwic_insts
+
+#---------- N-gram Generator
+def gen_ngram(text, n=2, top=10):
+    _ngrams=[]
+    for sent in sent_tokenize(text):
+        _ngrams += ngrams(word_tokenize(sent),n)
+    return [(f"{' '.join(ng):>27s}", c) 
+            for ng, c in Counter(_ngrams).most_common(top)]
     
 #apps------------------------------------------------------------------
 def run_summarizer():
@@ -155,14 +164,22 @@ def run_visualizer():
     img_cols = None
     col0, col1, col2 = st.columns(3)
     
+    col0.markdown("**NGram Frequency**")
     with col0.form("form0"):
-        st.markdown("**NGram Frequency**")
-        submitted = st.form_submit_button("Apply 👈") #N-grams
-        if submitted: 
-            st.markdown("Under construction")
-            image = Image.open('img/under_construction.png')
-            st.image(image, caption='Feature still under construction...")')
-   
+        # keyword = st.text_input('Enter a keyword:')
+        ngrms = st.slider('Select ngrams:', 1, 5, 1)
+        topn = st.slider('Top ngrams:', 10, 50, 10)
+        lcase = st.checkbox("Lowercase?")
+        if lcase: input_text = input_text.lower()
+
+        # Every form must have a submit button.
+        submitted = st.form_submit_button("Apply 👈")
+        if submitted:
+            top_ngrams = gen_ngram(input_text, ngrms, topn)
+            top_ngrams_df = pd.DataFrame(top_ngrams,
+                columns =['NGrams', 'Counts'])
+            st.dataframe(top_ngrams_df)
+
     with col1:
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
