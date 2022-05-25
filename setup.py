@@ -155,10 +155,10 @@ def run_visualizer():
     col0, col1, col2 = st.columns(3)
  
     with col0:
-        st.markdown("NGram Frequency")
+        st.markdown("**NGram Frequency**")
    
-    with col2.form("form1"):
-        st.markdown("Keyword in Context")
+    with col2.form("form1"): #Could you replace with NLTK concordance later?
+        st.markdown("**Keyword in Context**")
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
@@ -170,10 +170,11 @@ def run_visualizer():
             kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
-            st.dataframe(kwic_instances_df)
+            # st.dataframe(kwic_instances_df)
+            kwic_instances_df
     
     with col1:
-        st.markdown("Word Cloud")
+        st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))
         plt.imshow(mask)
         plt.axis("off")
