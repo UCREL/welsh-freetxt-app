@@ -154,7 +154,7 @@ def run_visualizer():
 
     col0, col1, col2 = st.columns(3)
  
-    with col2:
+    with col0:
         st.subheader("NGram Frequency")
    
     with col2.form("form1"):
