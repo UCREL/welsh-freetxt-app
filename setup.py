@@ -154,7 +154,7 @@ def run_visualizer():
 
     col0, col1, col2 = st.columns(3)
  
-    with col.form("form0"):
+    with col0.form("form0"):
         st.markdown("**NGram Frequency**")
         submitted = st.form_submit_button("Apply 👈") #N-grams
         if submitted: 
