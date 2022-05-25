@@ -157,7 +157,41 @@ def run_visualizer():
     with col0:
         st.markdown("**NGram Frequency**")
    
-    with col2.form("form1"): #Could you replace with NLTK concordance later?
+    with col1.form("form1"):
+        st.markdown("**Word Cloud**")
+        mask = np.array(Image.open('img/welsh_flag.png'))
+        plt.imshow(mask)
+        plt.axis("off")
+
+        # lower max_font_size, change the maximum number of word and lighten the background:
+        from wordcloud import ImageColorGenerator
+        maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
+        #creating wordcloud
+        cont_color = None
+        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
+        if submitted: 
+            cont_color = 'black' if cont_color==None else None
+            
+        wordcloud = WordCloud(
+            max_words=maxWords,
+            stopwords=STOPWORDS,
+            width=2000, height=1000,
+            contour_color= cont_color, #"black", 
+            relative_scaling = 0,
+            mask=mask,
+            background_color="white",
+            font_path='font/Ubuntu-B.ttf'
+        ).generate(input_text)
+
+        # image_colors = ImageColorGenerator(mask)
+        plt.figure(figsize=[20,15])
+        # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+        plt.imshow(wordcloud.recolor(), interpolation="bilinear")
+        plt.axis("off")
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        st.pyplot()
+
+    with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
@@ -172,32 +206,3 @@ def run_visualizer():
                 columns =['left context', 'keyword', 'right context'])
             # st.dataframe(kwic_instances_df)
             kwic_instances_df
-    
-    with col1:
-        st.markdown("**Word Cloud**")
-        mask = np.array(Image.open('img/welsh_flag.png'))
-        plt.imshow(mask)
-        plt.axis("off")
-
-        # lower max_font_size, change the maximum number of word and lighten the background:
-        from wordcloud import ImageColorGenerator
-        maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
-        #creating wordcloud
-        wordcloud = WordCloud(
-            max_words=maxWords,
-            stopwords=STOPWORDS,
-            width=2000, height=1000,
-            contour_color= None, #"black", 
-            relative_scaling = 0,
-            mask=mask,
-            background_color="white",
-            font_path='font/Ubuntu-B.ttf'
-        ).generate(input_text)
-
-        # image_colors = ImageColorGenerator(mask)
-        plt.figure(figsize=[20,15])
-        # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
-        plt.imshow(wordcloud.recolor(), interpolation="bilinear")
-        plt.axis("off")
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
