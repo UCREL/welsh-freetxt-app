@@ -172,9 +172,6 @@ def run_visualizer():
         lcase = st.checkbox("Lowercase?")
         if lcase: input_text = input_text.lower()
 
-        # Every form must have a submit button.
-        # submitted = st.form_submit_button("Apply 👈")
-        # if submitted:
         top_ngrams = gen_ngram(input_text, ngrms, topn)
         top_ngrams_df = pd.DataFrame(top_ngrams,
             columns =['NGrams', 'Counts'])
@@ -210,16 +207,13 @@ def run_visualizer():
         st.pyplot()
         
     col2.markdown("**Keyword in Context**")
-    with col2.form("form2"): #Could you replace with NLTK concordance later? 
+    with col2: #Could you replace with NLTK concordance later? 
         keyword = st.text_input('Enter a keyword:')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         lcase = st.checkbox("Lowercase?")
 
-        # Every form must have a submit button.
-        submitted = st.form_submit_button("Apply 👈")
-        if submitted:
-            kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
-            kwic_instances_df = pd.DataFrame(kwic_instances,
-                columns =['left context', 'keyword', 'right context'])
-            st.dataframe(kwic_instances_df)
+        kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, lcase)
+        kwic_instances_df = pd.DataFrame(kwic_instances,
+            columns =['left context', 'keyword', 'right context'])
+        st.dataframe(kwic_instances_df)
