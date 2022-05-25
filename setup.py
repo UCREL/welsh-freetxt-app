@@ -192,11 +192,6 @@ def run_visualizer():
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
         
-        
-        
-        # submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        # if submitted: 
-            # img_cols = ImageColorGenerator(mask) if img_cols == None else None
     col2.markdown("**Keyword in Context**")
     with col2.form("form2"): #Could you replace with NLTK concordance later? 
         keyword = st.text_input('Enter a keyword:')
@@ -211,4 +206,3 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-            # kwic_instances_df
