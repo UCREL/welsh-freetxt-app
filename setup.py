@@ -187,10 +187,11 @@ def run_visualizer():
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         submitted = st.form_submit_button("Switch image color 👈") #switch contour colour when button is clicked
+        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+        st.pyplot()
         if submitted: 
             img_cols = ImageColorGenerator(mask) if img_cols == None else None
-            plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-            st.pyplot()
+            
 
     with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
