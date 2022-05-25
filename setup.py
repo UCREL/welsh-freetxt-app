@@ -166,6 +166,7 @@ def run_visualizer():
         # lower max_font_size, change the maximum number of word and lighten the background:
         from wordcloud import ImageColorGenerator
         maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
+        img_cols = None
         #creating wordcloud
             
         wordcloud = WordCloud(
@@ -182,16 +183,16 @@ def run_visualizer():
         # image_colors = ImageColorGenerator(mask)
         plt.figure(figsize=[20,15])
 
-        img_cols = None
-        submitted = st.form_submit_button("Switch color 👈") #switch contour colour when button is clicked
-        if submitted: 
-            img_cols = ImageColorGenerator(mask) if img_cols == None else None
-
+        
         # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
+        
+        submitted = st.form_submit_button("Switch image color 👈") #switch contour colour when button is clicked
+        if submitted: 
+            img_cols = ImageColorGenerator(mask) if img_cols == None else None
 
     with col2.form("form2"): #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
