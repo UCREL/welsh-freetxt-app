@@ -19,8 +19,8 @@ st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', '📉 Analyzer', '📌 Annotator'))
 
 if task == '🔍 Visualizer':
-    run_summarizer()
-elif task == '📃 Summarizer':
     run_visualizer()
+elif task == '📃 Summarizer':
+    run_summarizer()
 else:
     st.write(task, 'is under construction...')
