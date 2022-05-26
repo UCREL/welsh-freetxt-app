@@ -190,7 +190,8 @@ def run_visualizer():
         top_ngrams_df = pd.DataFrame(top_ngrams,
             columns =['NGrams', 'Counts'])
         st.dataframe(top_ngrams_df)
-
+    
+    @st.cache
     with col1:
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
@@ -219,7 +220,8 @@ def run_visualizer():
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
-        
+    
+    @st.cache
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
