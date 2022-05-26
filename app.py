@@ -14,11 +14,11 @@ st.set_page_config(
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
-#📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
+#📃📌📈📈📉⛱🏓🏆🎲 
 
 task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', '📉 Analyzer', '📌 Annotator'))
 
-if task == '🔍 Visualizer':
+if task == '🔍 Visualizer :nigerian_hype:':
     run_visualizer()
 elif task == '📃 Summarizer':
     run_summarizer()
