@@ -223,8 +223,7 @@ def run_visualizer():
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
-        keyword = st.selectbox('Select a keyword:', getTopNWords(input_text))
-        keyword = keyword.split('(',1).strip()
+        keyword = st.selectbox('Select a keyword:', getTopNWords(input_text)).split('(',1)[0].strip()
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
