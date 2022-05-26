@@ -63,11 +63,6 @@ def gen_ngram(text, n=2, top=10):
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(_ngrams).most_common(top)]
 
- 
-
-
-
-
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -214,7 +209,7 @@ def run_visualizer():
         
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
-        keyword = st.text_input('Enter a keyword:')
+        keyword = st.text_input('Enter a keyword:','staff')
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
