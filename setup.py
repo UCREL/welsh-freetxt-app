@@ -9,11 +9,12 @@ import networkx as nx
 from PIL import Image
 from io import StringIO
 from nltk import word_tokenize, sent_tokenize, ngrams
-from nltk.corpus import stopwords 
 from collections import Counter
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, ImageColorGenerator
 nltk.download('punkt') # one time execution
+nltk.download('stopwords')
+from nltk.corpus import stopwords 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 
