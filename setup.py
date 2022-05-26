@@ -17,6 +17,8 @@ nltk.download('punkt') # one time execution
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
+PUNCS = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
+
 #📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
 
 ## Define summarizer models
@@ -55,10 +57,17 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
 def gen_ngram(text, n=2, top=10):
     _ngrams=[]
     for sent in sent_tokenize(text):
+        for char in test_str:
+            if char in PUNCS: test_str = test_str.replace(char, "")
         _ngrams += ngrams(word_tokenize(sent),n)
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(_ngrams).most_common(top)]
-    
+
+ 
+
+
+
+
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
