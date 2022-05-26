@@ -144,7 +144,7 @@ def run_summarizer():
             else:
               st.write('Please select an example, or paste/upload your text')
 
-@st.cache
+@st.cache(suppress_st_warning=True)
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
