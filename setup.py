@@ -19,7 +19,7 @@ STOPWORDS = STOPWORDS.update(open('welsh_stopwords.txt', 'r',
                                             encoding='utf8').read().split('\n'))
 PUNCS = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
 
-#📃📌📈📈📉⛱🏓🏆🎲 :nigerian_hype:
+
 
 ## Define summarizer models
 # text_rank
@@ -138,10 +138,10 @@ def run_visualizer():
     with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
             """
-            The `Visualizer` tool provides the following features: 
-            * Keyword in Context (KWIC):
-              - **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`
-              - **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
+            The `Visualizer` tool provides: 
+            * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
+            * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
+            * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
             """
         )
 
