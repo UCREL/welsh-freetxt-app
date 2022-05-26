@@ -57,8 +57,8 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
 def gen_ngram(text, n=2, top=10):
     _ngrams=[]
     for sent in sent_tokenize(text):
-        for char in test_str:
-            if char in PUNCS: test_str = test_str.replace(char, "")
+        for char in sent:
+            if char in PUNCS: sent = sent.replace(char, "")
         _ngrams += ngrams(word_tokenize(sent),n)
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(_ngrams).most_common(top)]
