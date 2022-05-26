@@ -144,6 +144,7 @@ def run_summarizer():
             else:
               st.write('Please select an example, or paste/upload your text')
 
+@st.cache
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
@@ -191,7 +192,7 @@ def run_visualizer():
             columns =['NGrams', 'Counts'])
         st.dataframe(top_ngrams_df)
     
-    @st.cache
+    
     with col1:
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
@@ -221,7 +222,7 @@ def run_visualizer():
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
     
-    @st.cache
+    
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
