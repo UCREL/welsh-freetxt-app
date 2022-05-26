@@ -181,7 +181,7 @@ def run_visualizer():
     with col1:
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
-        maxWords = st.slider('Maximum number of words:', 10, 300, 50, 10)
+        maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
         #creating wordcloud
             
         wordcloud = WordCloud(
