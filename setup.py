@@ -102,8 +102,8 @@ def run_summarizer():
                 st.write("Rhowch eich testun...(Please enter your text...)")
 
     else: #English
-        st.markdown('## 🌷 Welsh Summary Creator')
-        st.markdown("### Enter your text below:")
+        st.markdown('### 🌷 Welsh Summary Creator')
+        st.markdown("#### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
         if option == 'Use an example text':           
            example_fname = st.sidebar.selectbox('Select example text:', ['en_ex_0_Castell Coch', 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
