@@ -17,7 +17,6 @@ nltk.download('stopwords')
 from nltk.corpus import stopwords 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
-
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='utf8').read().split('\n')
 STOPWORDS = set(en_stopwords + cy_stopwords)
@@ -224,7 +223,7 @@ def run_visualizer():
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
-        keyword = st.sidebar.selectbox('Select a keyword:', getTopNWords(input_text))
+        keyword = st.selectbox('Select a keyword:', getTopNWords(input_text)).split('(',1).strip()
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
