@@ -37,6 +37,12 @@ def uploadfile():
     else:
         return '<Please upload your file ...>'
 
+#-----------Get Top n most_common words plus counts--------
+def getTopNWords(t, n=5):
+    t = [w for w in t.lower().split() if (w not in STOPWORDS and w not in PUNCS)]
+    return [f"{w} ({c})" for w, c in Counter(t).most_common(n)]
+
+
 #------------------------ keyword in context ------------------------
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
@@ -62,6 +68,8 @@ def gen_ngram(text, n=2, top=10):
         _ngrams += ngrams(word_tokenize(sent),n)
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(_ngrams).most_common(top)]
+
+
 
 #apps------------------------------------------------------------------
 def run_summarizer():
@@ -145,7 +153,7 @@ def run_visualizer():
             """
         )
 
-    st.markdown('### 🔍 Visualization')
+    # st.markdown('### 🔍 Visualization')
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
     if option == 'Use an example text':
        # example_fname = st.sidebar.selectbox('Select example text:', ['cy_ex_0_Dulyn', 'cy_ex_1_Menter Iaith Môn', 'cy_ex_2_Pencampwriaeth', 'cy_ex_3_Paris',
@@ -157,12 +165,12 @@ def run_visualizer():
        
        with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
-           input_text = st.text_area('Visualize example text in the box:', example_text, height=300)
+           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
     elif option == 'Upload a text file':
         text = uploadfile()
-        input_text = st.text_area('Visualize uploaded text:', text, height=300)
+        input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
-        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=300)
+        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
     img_cols = None
     col0, col1, col2 = st.columns(3)
@@ -211,7 +219,8 @@ def run_visualizer():
         
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
-        keyword = st.text_input('Enter a keyword:','staff')
+        # keyword = st.text_input('Enter a keyword:','staff')
+        keyword = st.sidebar.selectbox('Select a keyword:', getTopNWords(input_text))
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
