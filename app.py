@@ -16,7 +16,7 @@ st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
 #📃📌📈📈📉⛱🏓🏆🎲 
 
-task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', '📉 Analyzer', '📌 Annotator'))
+task = st.sidebar.radio("Select a task", ('🔍 Visualizer :nigerian_hype:', '📃 Summarizer', '📉 Analyzer', '📌 Annotator'))
 
 if task == '🔍 Visualizer :nigerian_hype:':
     run_visualizer()
