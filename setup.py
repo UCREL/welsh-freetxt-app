@@ -166,8 +166,8 @@ def run_visualizer():
         # keyword = st.text_input('Enter a keyword:')
         ngrms = st.slider('Select ngrams:', 1, 5, 1)
         topn = st.slider('Top ngrams:', 10, 50, 10)
-        col0_lcase = st.checkbox("Lowercase?")
-        if col0_lcase: input_text = input_text.lower()
+        # col0_lcase = st.checkbox("Lowercase?")
+        # if col0_lcase: input_text = input_text.lower()
 
         top_ngrams = gen_ngram(input_text, ngrms, topn)
         top_ngrams_df = pd.DataFrame(top_ngrams,
