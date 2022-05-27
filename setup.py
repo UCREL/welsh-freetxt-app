@@ -269,7 +269,8 @@ def run_analyze():
         doc = nlp(sentence)
         ents = [(e.text, e.label_) for e in doc.ents]
         return ents
-    def run():
+
+    Text.on_change():
         if side == "Sentiment":
             st.write(sentiment(Text))
         if side == "Subjectivity":
