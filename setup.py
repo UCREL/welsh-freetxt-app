@@ -93,7 +93,7 @@ def run_summarizer():
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
            example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLE_DIR)
-                                                  if f.startswith(('cy','ex')]))
+                                                  if f.startswith(('cy','ex'))]))
 
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
@@ -124,7 +124,7 @@ def run_summarizer():
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
         if option == 'Use an example text':           
            example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLE_DIR)
-                                                  if f.startswith(('en','ex')]))
+                                                  if f.startswith(('en','ex'))]))
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
