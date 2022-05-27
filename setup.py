@@ -1,10 +1,11 @@
 import os
 import string
+import spacy
+import nltk
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import streamlit as st
-import nltk
 import networkx as nx
 from PIL import Image
 from io import StringIO
@@ -15,6 +16,7 @@ from wordcloud import WordCloud, ImageColorGenerator
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 from nltk.corpus import stopwords 
+from spacytextblob.spacytextblob import SpacyTextBlob
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -233,3 +235,47 @@ def run_visualizer():
         kwic_instances_df = pd.DataFrame(kwic_instances,
             columns =['left context', 'keyword', 'right context'])
         st.dataframe(kwic_instances_df)
+
+def run_analyze():
+    st.set_page_config(layout='wide', initial_sidebar_state='expanded')
+    st.title('Text Analysis using Spacy Textblob')
+    st.markdown('Type a sentence in the below text box and choose the desired option in the adjacent menu.')
+    side = st.sidebar.selectbox("Select an option below", ("Sentiment", "Subjectivity", "NER"))
+    Text = st.text_input("Enter the sentence")
+    @st.cache
+    def sentiment(text):
+        nlp = spacy.load('en_core_web_sm')
+        nlp.add_pipe('spacytextblob')
+        doc = nlp(text)
+        if doc._.polarity<0:
+            return "Negative"
+        elif doc._.polarity==0:
+            return "Neutral"
+        else:
+            return "Positive"
+    @st.cache
+    def subjectivity(text):
+        nlp = spacy.load('en_core_web_sm')
+        nlp.add_pipe('spacytextblob')
+        doc = nlp(text)
+        if doc._.subjectivity > 0.5:
+            return "Highly Opinionated sentence"
+        elif doc._.subjectivity < 0.5:
+            return "Less Opinionated sentence"
+        else:
+            return "Neutral sentence"
+    @st.cache
+    def ner(sentence):
+        nlp = spacy.load("en_core_web_sm")
+        doc = nlp(sentence)
+        ents = [(e.text, e.label_) for e in doc.ents]
+        return ents
+    def run():
+        if side == "Sentiment":
+            st.write(sentiment(Text))
+        if side == "Subjectivity":
+            st.write(subjectivity(Text))
+        if side == "NER":
+            st.write(ner(Text))
+    if __name__ == '__main__':
+        run()
