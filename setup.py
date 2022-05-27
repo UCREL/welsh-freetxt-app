@@ -246,7 +246,7 @@ def run_analyze():
             """
         )
 
-    side = st.sidebar.selectbox("Select an option below", ("NER")) # ("Sentiment", "Subjectivity", "NER")
+    side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
     # Process whole documents
     input_text = ("When Sebastian Thrun started working on self-driving cars at "
         "Google in 2007, few people outside of the company took him "
