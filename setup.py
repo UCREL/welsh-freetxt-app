@@ -238,7 +238,6 @@ def run_visualizer():
         st.dataframe(kwic_instances_df)
 
 def run_analyze():
-    st.title('Text Analysis using Spacy')
     with st.expander("ℹ️ - About Analyzer", expanded=False):
         st.markdown(
             """
@@ -254,8 +253,7 @@ def run_analyze():
         "car companies would shake my hand and turn away because I wasn’t "
         "worth talking to,” said Thrun, in an interview with Recode earlier "
         "this week.")
-    Text = st.text_input("Enter the sentence", input_text)
-
+    Text = st.text_area("Enter the sentence", input_text)
 
     # @st.cache
     # def sentiment(text):
