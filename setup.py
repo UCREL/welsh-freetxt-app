@@ -270,12 +270,12 @@ def run_analyze():
         ents = [(e.text, e.label_) for e in doc.ents]
         return ents
 
-    Text.on_change():
-        if side == "Sentiment":
-            st.write(sentiment(Text))
-        if side == "Subjectivity":
-            st.write(subjectivity(Text))
-        if side == "NER":
-            st.write(ner(Text))
-    if __name__ == '__main__':
-        run()
+    
+    if side == "Sentiment":
+        st.write(sentiment(Text))
+    elif side == "Subjectivity":
+        st.write(subjectivity(Text))
+    else side == "NER":
+        st.write(ner(Text))
+    # if __name__ == '__main__':
+        # run()
