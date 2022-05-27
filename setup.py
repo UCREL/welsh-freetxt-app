@@ -238,9 +238,15 @@ def run_visualizer():
         st.dataframe(kwic_instances_df)
 
 def run_analyze():
-    st.title('Text Analysis using Spacy Textblob')
-    st.markdown('Type a sentence in the below text box and choose the desired option in the adjacent menu.')
-    side = st.sidebar.selectbox("Select an option below", ("Sentiment", "Subjectivity", "NER"))
+    st.title('Text Analysis using Spacy')
+    with st.expander("ℹ️ - About Analyzer", expanded=False):
+        st.markdown(
+            """
+            This tool is still at the developmental stage. Updates soon...
+            """
+        )
+
+    side = st.sidebar.selectbox("Select an option below", ("NER")) # ("Sentiment", "Subjectivity", "NER")
     # Process whole documents
     input_text = ("When Sebastian Thrun started working on self-driving cars at "
         "Google in 2007, few people outside of the company took him "
