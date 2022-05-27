@@ -241,41 +241,62 @@ def run_analyze():
     st.title('Text Analysis using Spacy Textblob')
     st.markdown('Type a sentence in the below text box and choose the desired option in the adjacent menu.')
     side = st.sidebar.selectbox("Select an option below", ("Sentiment", "Subjectivity", "NER"))
-    Text = st.text_input("Enter the sentence")
-    @st.cache
-    def sentiment(text):
-        nlp = spacy.load('en_core_web_sm')
-        nlp.add_pipe(SpacyTextBlob)
-        doc = nlp(text)
-        if doc._.polarity<0:
-            return "Negative"
-        elif doc._.polarity==0:
-            return "Neutral"
-        else:
-            return "Positive"
-    
-    @st.cache
-    def subjectivity(text):
-        nlp = spacy.load('en_core_web_sm')
-        # nlp.add_pipe('spacytextblob')
-        doc = nlp(text)
-        if doc._.subjectivity > 0.5:
-            return "Highly Opinionated sentence"
-        elif doc._.subjectivity < 0.5:
-            return "Less Opinionated sentence"
-        else:
-            return "Neutral sentence"
+    # Process whole documents
+    input_text = ("When Sebastian Thrun started working on self-driving cars at "
+        "Google in 2007, few people outside of the company took him "
+        "seriously. “I can tell you very senior CEOs of major American "
+        "car companies would shake my hand and turn away because I wasn’t "
+        "worth talking to,” said Thrun, in an interview with Recode earlier "
+        "this week.")
+    Text = st.text_input("Enter the sentence", input_text)
 
-    @st.cache
+
+    # @st.cache
+    # def sentiment(text):
+        # nlp = spacy.load('en_core_web_sm')
+        nlp.add_pipe(SpacyTextBlob)
+        # doc = nlp(text)
+        # if doc._.polarity<0:
+            # return "Negative"
+        # elif doc._.polarity==0:
+            # return "Neutral"
+        # else:
+            # return "Positive"
+    
+    # @st.cache
+    # def subjectivity(text):
+        # nlp = spacy.load('en_core_web_sm')
+        nlp.add_pipe('spacytextblob')
+        # doc = nlp(text)
+        # if doc._.subjectivity > 0.5:
+            # return "Highly Opinionated sentence"
+        # elif doc._.subjectivity < 0.5:
+            # return "Less Opinionated sentence"
+        # else:
+            # return "Neutral sentence"
+
+    # @st.cache
+    # def ner(sentence):
+        # nlp = spacy.load('en_core_web_sm')
+        # doc = nlp(sentence)
+        # ents = [(e.text, e.label_) for e in doc.ents]
+        # return ents
+
     def ner(sentence):
         nlp = spacy.load('en_core_web_sm')
         doc = nlp(sentence)
-        ents = [(e.text, e.label_) for e in doc.ents]
-        return ents
+        # Analyze syntax
+        return f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}"
+        # st.write("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
 
-    if side == "Sentiment":
-        st.write(sentiment(Text))
-    elif side == "Subjectivity":
-        st.write(subjectivity(Text))
-    else:
-        st.write(ner(Text))
+        # Find named entities, phrases and concepts
+        # for entity in doc.ents:
+            # st.write(entity.text, entity.label_)
+    
+    st.write(ner(Text))
+    # if side == "Sentiment":
+        # st.write(sentiment(Text))
+    # elif side == "Subjectivity":
+        # st.write(subjectivity(Text))
+    # else:
+        # st.write(ner(Text))
