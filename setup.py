@@ -1,7 +1,7 @@
 import os
 import string
 import spacy
-# import en_core_web_sm
+import en_core_web_sm
 import nltk
 import matplotlib.pyplot as plt
 import numpy as np
@@ -244,8 +244,8 @@ def run_analyze():
     Text = st.text_input("Enter the sentence")
     @st.cache
     def sentiment(text):
-        nlp = en_core_web_sm.load()
-        # nlp = spacy.load('en_core_web_sm')
+        # nlp = en_core_web_sm.load()
+        nlp = spacy.load('en_core_web_sm')
         nlp.add_pipe('spacytextblob')
         doc = nlp(text)
         if doc._.polarity<0:
@@ -256,8 +256,8 @@ def run_analyze():
             return "Positive"
     @st.cache
     def subjectivity(text):
-        nlp = en_core_web_sm.load()
-        # nlp = spacy.load('en_core_web_sm')
+        # nlp = en_core_web_sm.load()
+        nlp = spacy.load('en_core_web_sm')
         nlp.add_pipe('spacytextblob')
         doc = nlp(text)
         if doc._.subjectivity > 0.5:
@@ -268,8 +268,8 @@ def run_analyze():
             return "Neutral sentence"
     @st.cache
     def ner(sentence):
-        nlp = en_core_web_sm.load()
-        # nlp = spacy.load('en_core_web_sm')
+        # nlp = en_core_web_sm.load()
+        nlp = spacy.load('en_core_web_sm')
         doc = nlp(sentence)
         ents = [(e.text, e.label_) for e in doc.ents]
         return ents
