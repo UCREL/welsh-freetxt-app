@@ -80,7 +80,6 @@ def gen_ngram(text, n=2, top=10):
             for ng, c in Counter(_ngrams).most_common(top)]
 
 #apps------------------------------------------------------------------
-@st.cache
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About this app", expanded=False):
@@ -149,7 +148,6 @@ def run_summarizer():
             else:
               st.write('Please select an example, or paste/upload your text')
 
-@st.cache
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
