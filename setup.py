@@ -254,7 +254,7 @@ def run_analyze():
     # @st.cache
     # def sentiment(text):
         # nlp = spacy.load('en_core_web_sm')
-        nlp.add_pipe(SpacyTextBlob)
+        # nlp.add_pipe(SpacyTextBlob)
         # doc = nlp(text)
         # if doc._.polarity<0:
             # return "Negative"
