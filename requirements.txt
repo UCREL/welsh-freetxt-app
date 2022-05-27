@@ -9,4 +9,3 @@ matplotlib
 wordcloud
 spacy
 spacytextblob
-en_core_web_sm
