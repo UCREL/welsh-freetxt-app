@@ -22,7 +22,8 @@ cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='utf8').read().split('\
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
-
+EXAMPLE_DIR = 'example_texts_pub'
+# EXAMPLE_DIR = 'example_texts_cadw'
 
 ## Define summarizer models
 # text_rank
@@ -91,8 +92,8 @@ def run_summarizer():
         st.markdown("#### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
-           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir('example_texts')
-                                                  if f.startswith('cy')]))
+           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLE_DIR)
+                                                  if f.startswith(('cy','ex')]))
 
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
@@ -122,11 +123,8 @@ def run_summarizer():
         st.markdown("#### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
         if option == 'Use an example text':           
-           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir('example_texts')
-                                                  if f.startswith('en')]))
-           # example_fname = st.sidebar.selectbox('Select example text:', ['example_welsh_wikipedia.txt'])
-           # example_fname = st.sidebar.selectbox('Select example text:', ['en_ex_0_Castell Coch', 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
-           # 'en_ex_4_Caernarfon Castle', 'en_ex_5_Caerphilly Castle'])
+           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLE_DIR)
+                                                  if f.startswith(('en','ex')]))
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
@@ -163,8 +161,7 @@ def run_visualizer():
     # st.markdown('### 🔍 Visualization')
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
     if option == 'Use an example text':
-       
-       example_fname = st.sidebar.selectbox('Select example text:', sorted(os.listdir('example_texts'))) #['example_welsh_wikipedia.txt']
+       example_fname = st.sidebar.selectbox('Select example text:', sorted(os.listdir(EXAMPLE_DIR))) #['example_welsh_wikipedia.txt']
        
        with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
@@ -220,7 +217,6 @@ def run_visualizer():
         plt.axis("off")
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
-    
     
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
