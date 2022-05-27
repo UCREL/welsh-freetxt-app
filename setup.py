@@ -237,7 +237,6 @@ def run_visualizer():
         st.dataframe(kwic_instances_df)
 
 def run_analyze():
-    st.set_page_config(layout='wide', initial_sidebar_state='expanded')
     st.title('Text Analysis using Spacy Textblob')
     st.markdown('Type a sentence in the below text box and choose the desired option in the adjacent menu.')
     side = st.sidebar.selectbox("Select an option below", ("Sentiment", "Subjectivity", "NER"))
