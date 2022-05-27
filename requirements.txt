@@ -7,4 +7,5 @@ networkx
 scattertext
 matplotlib
 wordcloud
+spacy
 spacytextblob
