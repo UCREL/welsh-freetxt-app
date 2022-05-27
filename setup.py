@@ -54,7 +54,7 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         keyword = keyword.lower()
     kwic_insts = []
     tokens = text.split()
-    keyword_indexes = [i for i in range(len(tokens)) if tokens[i]==keyword]
+    keyword_indexes = [i for i in range(len(tokens)) if tokens[i].lower() ==keyword.lower()]
     for index in keyword_indexes[:maxInstances]:
         left_context = ' '.join(tokens[index-window_size:index])
         target_word = tokens[index]
@@ -72,8 +72,6 @@ def gen_ngram(text, n=2, top=10):
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(_ngrams).most_common(top)]
 
-
-
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -90,8 +88,10 @@ def run_summarizer():
         st.markdown("#### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
-           example_fname = st.sidebar.selectbox('Select example text:', ['cy_ex_0_Dulyn', 'cy_ex_1_Menter Iaith Môn', 'cy_ex_2_Pencampwriaeth', 'cy_ex_3_Paris',
-           'cy_ex_4_Neuadd y Ddinas', 'cy_ex_5_Y_Gofid_Mawr_Covid19'])
+           example_fname = st.sidebar.selectbox('Select example text:', [f for f in os.listdir('example_texts')
+                                                  if f.startswith('cy')])
+           # example_fname = st.sidebar.selectbox('Select example text:', ['cy_ex_0_Dulyn', 'cy_ex_1_Menter Iaith Môn', 'cy_ex_2_Pencampwriaeth', 'cy_ex_3_Paris',
+           # 'cy_ex_4_Neuadd y Ddinas', 'cy_ex_5_Y_Gofid_Mawr_Covid19'])
 
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
                example_text = example_file.read()
@@ -121,7 +121,9 @@ def run_summarizer():
         st.markdown("#### Enter your text below:")
         option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
         if option == 'Use an example text':           
-           example_fname = st.sidebar.selectbox('Select example text:', ['example_welsh_wikipedia.txt'])
+           example_fname = st.sidebar.selectbox('Select example text:', [f for f in os.listdir('example_texts')
+                                                  if f.startswith('en')])
+           # example_fname = st.sidebar.selectbox('Select example text:', ['example_welsh_wikipedia.txt'])
            # example_fname = st.sidebar.selectbox('Select example text:', ['en_ex_0_Castell Coch', 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
            # 'en_ex_4_Caernarfon Castle', 'en_ex_5_Caerphilly Castle'])
            with open(os.path.join('example_texts', example_fname), 'r', encoding='utf8') as example_file:
@@ -163,7 +165,7 @@ def run_visualizer():
        # example_fname = st.sidebar.selectbox('Select example text:', ['cy_ex_0_Dulyn', 'cy_ex_1_Menter Iaith Môn', 'cy_ex_2_Pencampwriaeth', 'cy_ex_3_Paris',
        # 'cy_ex_4_Neuadd y Ddinas', 'cy_ex_5_Y_Gofid_Mawr_Covid19'])
        
-       example_fname = st.sidebar.selectbox('Select example text:', ['example_welsh_wikipedia.txt'])
+       example_fname = st.sidebar.selectbox('Select example text:', os.listdir('example_texts')) #['example_welsh_wikipedia.txt']
        # 'en_ex_1_Beaumaris Castle', 'en_ex_2_Blaenavon Ironworks', 'en_ex_3_Caerleon Roman Baths',
        # 'en_ex_4_Caernarfon Castle', 'en_ex_5_Caerphilly Castle'])
        
@@ -227,7 +229,6 @@ def run_visualizer():
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
         keyword = st.selectbox('Select a keyword:', getTopNWords(input_text)).split('(',1)[0].strip()
-        st.write(keyword)
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
