@@ -1,7 +1,7 @@
 import os
 import string
 import spacy
-import en_core_web_sm
+# import en_core_web_sm
 import nltk
 import matplotlib.pyplot as plt
 import numpy as np
