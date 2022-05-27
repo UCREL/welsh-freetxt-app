@@ -275,7 +275,7 @@ def run_analyze():
         st.write(sentiment(Text))
     elif side == "Subjectivity":
         st.write(subjectivity(Text))
-    else side == "NER":
+    else:
         st.write(ner(Text))
     # if __name__ == '__main__':
         # run()
