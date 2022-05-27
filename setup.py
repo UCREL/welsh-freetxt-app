@@ -1,6 +1,7 @@
 import os
 import string
 import spacy
+import en_core_web_sm
 import nltk
 import matplotlib.pyplot as plt
 import numpy as np
@@ -13,10 +14,10 @@ from nltk import word_tokenize, sent_tokenize, ngrams
 from collections import Counter
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, ImageColorGenerator
-nltk.download('punkt') # one time execution
-nltk.download('stopwords')
 from nltk.corpus import stopwords 
 from spacytextblob.spacytextblob import SpacyTextBlob
+nltk.download('punkt') # one time execution
+nltk.download('stopwords')
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -68,7 +69,7 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         kwic_insts.append((left_context, target_word, right_context))
     return kwic_insts
 
-#---------- N-gram Generator
+#-------------------------- N-gram Generator ---------------------------
 @st.cache
 def gen_ngram(text, n=2, top=10):
     _ngrams=[]
@@ -243,7 +244,8 @@ def run_analyze():
     Text = st.text_input("Enter the sentence")
     @st.cache
     def sentiment(text):
-        nlp = spacy.load('en_core_web_sm')
+        nlp = en_core_web_sm.load()
+        # nlp = spacy.load('en_core_web_sm')
         nlp.add_pipe('spacytextblob')
         doc = nlp(text)
         if doc._.polarity<0:
@@ -254,7 +256,8 @@ def run_analyze():
             return "Positive"
     @st.cache
     def subjectivity(text):
-        nlp = spacy.load('en_core_web_sm')
+        nlp = en_core_web_sm.load()
+        # nlp = spacy.load('en_core_web_sm')
         nlp.add_pipe('spacytextblob')
         doc = nlp(text)
         if doc._.subjectivity > 0.5:
@@ -265,12 +268,12 @@ def run_analyze():
             return "Neutral sentence"
     @st.cache
     def ner(sentence):
-        nlp = spacy.load("en_core_web_sm")
+        nlp = en_core_web_sm.load()
+        # nlp = spacy.load('en_core_web_sm')
         doc = nlp(sentence)
         ents = [(e.text, e.label_) for e in doc.ents]
         return ents
 
-    
     if side == "Sentiment":
         st.write(sentiment(Text))
     elif side == "Subjectivity":
