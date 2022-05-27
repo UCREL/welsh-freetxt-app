@@ -42,6 +42,7 @@ def uploadfile():
         return '<Please upload your file ...>'
 
 #-----------Get Top n most_common words plus counts--------
+@st.cache
 def getTopNWords(t, n=5):
     t = [w for w in t.lower().split() if (w not in STOPWORDS and w not in PUNCS)]
     return Counter(t).most_common(n)
@@ -49,6 +50,7 @@ def getTopNWords(t, n=5):
 
 
 #------------------------ keyword in context ------------------------
+@st.cache
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
     if lower_case:
@@ -65,6 +67,7 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     return kwic_insts
 
 #---------- N-gram Generator
+@st.cache
 def gen_ngram(text, n=2, top=10):
     _ngrams=[]
     if n==1:
@@ -77,6 +80,7 @@ def gen_ngram(text, n=2, top=10):
             for ng, c in Counter(_ngrams).most_common(top)]
 
 #apps------------------------------------------------------------------
+@st.cache
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About this app", expanded=False):
@@ -145,7 +149,7 @@ def run_summarizer():
             else:
               st.write('Please select an example, or paste/upload your text')
 
-
+@st.cache
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
