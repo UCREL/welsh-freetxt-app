@@ -266,7 +266,7 @@ def run_analyze():
     # @st.cache
     # def subjectivity(text):
         # nlp = spacy.load('en_core_web_sm')
-        nlp.add_pipe('spacytextblob')
+        # nlp.add_pipe('spacytextblob')
         # doc = nlp(text)
         # if doc._.subjectivity > 0.5:
             # return "Highly Opinionated sentence"
