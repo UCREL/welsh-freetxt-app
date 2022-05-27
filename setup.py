@@ -43,7 +43,8 @@ def uploadfile():
 #-----------Get Top n most_common words plus counts--------
 def getTopNWords(t, n=5):
     t = [w for w in t.lower().split() if (w not in STOPWORDS and w not in PUNCS)]
-    return [f"{w} ({c})" for w, c in Counter(t).most_common(n)]
+    return Counter(t).most_common(n)
+    # return [f"{w} ({c})" for w, c in Counter(t).most_common(n)]
 
 
 #------------------------ keyword in context ------------------------
@@ -65,6 +66,8 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
 #---------- N-gram Generator
 def gen_ngram(text, n=2, top=10):
     _ngrams=[]
+    if n==1:
+        return getTopNWords(text, top)
     for sent in sent_tokenize(text):
         for char in sent:
             if char in PUNCS: sent = sent.replace(char, "")
@@ -222,7 +225,8 @@ def run_visualizer():
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
         # keyword = st.text_input('Enter a keyword:','staff')
-        keyword = st.selectbox('Select a keyword:', getTopNWords(input_text)).split('(',1)[0].strip()
+        topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
+        keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
