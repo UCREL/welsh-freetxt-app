@@ -237,7 +237,6 @@ def run_visualizer():
         st.dataframe(kwic_instances_df)
 
 def run_analyze():
-    import en_core_web_sm
     st.title('Text Analysis using Spacy Textblob')
     st.markdown('Type a sentence in the below text box and choose the desired option in the adjacent menu.')
     side = st.sidebar.selectbox("Select an option below", ("Sentiment", "Subjectivity", "NER"))
@@ -256,7 +255,7 @@ def run_analyze():
     @st.cache
     def subjectivity(text):
         nlp = spacy.load('en_core_web_sm')
-        # nlp.add_pipe('spacytextblob')
+        nlp.add_pipe('spacytextblob')
         doc = nlp(text)
         if doc._.subjectivity > 0.5:
             return "Highly Opinionated sentence"
@@ -266,7 +265,6 @@ def run_analyze():
             return "Neutral sentence"
     @st.cache
     def ner(sentence):
-        nlp = en_core_web_sm.load()
         nlp = spacy.load("en_core_web_sm")
         doc = nlp(sentence)
         ents = [(e.text, e.label_) for e in doc.ents]
@@ -279,5 +277,3 @@ def run_analyze():
         st.write(subjectivity(Text))
     else:
         st.write(ner(Text))
-    # if __name__ == '__main__':
-        # run()
