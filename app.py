@@ -23,7 +23,6 @@ if task == '🔍 Visualizer':
 elif task == '📃 Summarizer':
     run_summarizer()
 elif task == '📉 Analyzer':
-    # run_analyze()
-    pass
+    run_analyze()
 else:
     st.write(task, 'is under construction...')
