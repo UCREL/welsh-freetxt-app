@@ -14,8 +14,7 @@ from nltk import word_tokenize, sent_tokenize, ngrams
 from collections import Counter
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, ImageColorGenerator
-from nltk.corpus import stopwords 
-from spacytextblob.spacytextblob import SpacyTextBlob
+from nltk.corpus import stopwords
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 
@@ -248,43 +247,12 @@ def run_analyze():
     side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
     # Process whole documents
     input_text = ("When Sebastian Thrun started working on self-driving cars at "
-        "Google in 2007, few people outside of the company took him "
-        "seriously. “I can tell you very senior CEOs of major American "
-        "car companies would shake my hand and turn away because I wasn’t "
-        "worth talking to,” said Thrun, in an interview with Recode earlier "
-        "this week.")
+                  "Google in 2007, few people outside of the company took him "
+                  "seriously. “I can tell you very senior CEOs of major American "
+                  "car companies would shake my hand and turn away because I wasn’t "
+                  "worth talking to,” said Thrun, in an interview with Recode earlier "
+                  "this week.")
     Text = st.text_area("Enter the sentence", input_text)
-
-    # @st.cache
-    # def sentiment(text):
-        # nlp = spacy.load('en_core_web_sm')
-        # nlp.add_pipe(SpacyTextBlob)
-        # doc = nlp(text)
-        # if doc._.polarity<0:
-            # return "Negative"
-        # elif doc._.polarity==0:
-            # return "Neutral"
-        # else:
-            # return "Positive"
-    
-    # @st.cache
-    # def subjectivity(text):
-        # nlp = spacy.load('en_core_web_sm')
-        # nlp.add_pipe('spacytextblob')
-        # doc = nlp(text)
-        # if doc._.subjectivity > 0.5:
-            # return "Highly Opinionated sentence"
-        # elif doc._.subjectivity < 0.5:
-            # return "Less Opinionated sentence"
-        # else:
-            # return "Neutral sentence"
-
-    # @st.cache
-    # def ner(sentence):
-        # nlp = spacy.load('en_core_web_sm')
-        # doc = nlp(sentence)
-        # ents = [(e.text, e.label_) for e in doc.ents]
-        # return ents
 
     def ner(sentence):
         nlp = spacy.load('en_core_web_sm')
