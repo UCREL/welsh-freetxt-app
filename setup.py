@@ -96,7 +96,7 @@ def plot_collocation(keyword, collocs):
         
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
-    plt.show()
+    st.pyplot()
 
 #-------------------------- N-gram Generator ---------------------------
 @st.cache
