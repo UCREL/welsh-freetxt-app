@@ -300,8 +300,8 @@ def run_analyze():
     doc = nlp(input_text)
     st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
     
-    st.write("Nouns:", Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]))
-    st.write("Verbs:", Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]))
+    st.write("Nouns:", Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]).most_common())
+    st.write("Verbs:", Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]).most_common())
 
         # Find named entities, phrases and concepts
         # for entity in doc.ents:
