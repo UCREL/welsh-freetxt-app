@@ -250,9 +250,9 @@ def run_visualizer():
         if cloud_type == 'All words':
             wordcloud = wc.generate(input_text)        
         elif cloud_type == 'Nouns':
-            wordcloud = wc.generate_from_frequencies(verbs)        
+            wordcloud = wc.generate_from_frequencies(nouns)        
         else: 
-            wordcloud = wc.generate_from_frequencies(nouns)
+            wordcloud = wc.generate_from_frequencies(verbs)
 
         color = st.radio('Switch image colour:', ('Color', 'Black'))
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
