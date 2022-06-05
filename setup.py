@@ -284,10 +284,10 @@ def run_analyze():
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
     if option == 'Use an example text':
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
-                                                  if f.startswith(('cy','ex'))]))  
+                                                  if f.startswith(('ex'))]))  
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
-           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+           input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
     elif option == 'Upload a text file':
         text = uploadfile()
         input_text = st.text_area('Visualize uploaded text:', text, height=150)
@@ -295,14 +295,6 @@ def run_analyze():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
         
     side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
-    # Process whole documents
-    input_text = ("When Sebastian Thrun started working on self-driving cars at "
-                  "Google in 2007, few people outside of the company took him "
-                  "seriously. “I can tell you very senior CEOs of major American "
-                  "car companies would shake my hand and turn away because I wasn’t "
-                  "worth talking to,” said Thrun, in an interview with Recode earlier "
-                  "this week.")
-    Text = st.text_area("Enter the sentence", input_text)
 
     def ner(sentence):
         nlp = spacy.load('en_core_web_sm')
