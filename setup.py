@@ -318,7 +318,7 @@ def run_analyze():
         mask=mask,
         background_color="white",
         font_path='font/Ubuntu-B.ttf'
-    ).generate_from_frequencies(nouns) #.generate(input_text)
+    ).generate_from_frequencies(verbs) #.generate(input_text)
     
     # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
 
