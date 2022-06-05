@@ -81,7 +81,6 @@ def get_collocs(kwic_insts, topn=10):
 
 #------------------------ plot collocation ------------------------
 @st.cache
-random.seed(10)
 def plot_collocation(collocs):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
