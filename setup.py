@@ -73,9 +73,10 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
 #------------------------ get collocation ------------------------
 @st.cache
 def get_collocs(kwic_insts, topn=10):
+    words=[]
     for l, t, r in kwic_insts:
-        all_words += l.split() + r.split()
-    all_words = [word for word in all_words if word not in STOPWORDS]
+        words += l.split() + r.split()
+    all_words = [word for word in words if word not in STOPWORDS]
     return Counter(all_words).most_common(topn)
 
 #------------------------ plot collocation ------------------------
