@@ -309,18 +309,18 @@ def run_analyze():
     # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
     #creating wordcloud
         
-    # wordcloud = WordCloud(
-        # max_words=maxWords,
-        # stopwords=STOPWORDS,
-        # width=2000, height=1000,
+    wordcloud = WordCloud(
+        max_words=maxWords,
+        stopwords=STOPWORDS,
+        width=2000, height=1000,
         # contour_color= "black", 
-        # relative_scaling = 0,
-        # mask=mask,
-        # background_color="white",
-        # font_path='font/Ubuntu-B.ttf'
-    # ).generate(input_text)
+        relative_scaling = 0,
+        mask=mask,
+        background_color="white",
+        font_path='font/Ubuntu-B.ttf'
+    ).generate(input_text)
     
-    wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
+    # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
 
     color = st.radio('Switch image colour:', ('Color', 'Black'))
     img_cols = ImageColorGenerator(mask) if color == 'Black' else None
