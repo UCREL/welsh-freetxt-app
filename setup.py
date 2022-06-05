@@ -299,18 +299,37 @@ def run_analyze():
     nlp = spacy.load('en_core_web_sm')
     doc = nlp(input_text)
     st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
-    
-    st.write("Nouns:", Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]).most_common())
-    st.write("Verbs:", Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]).most_common())
+    nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]).most_common()
+    verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]).most_common()
+    st.write("Nouns:", nouns)
+    st.write("Verbs:", verbs)
 
-        # Find named entities, phrases and concepts
-        # for entity in doc.ents:
-            # st.write(entity.text, entity.label_)
+    st.markdown("**Word Cloud**")
+    mask = np.array(Image.open('img/welsh_flag.png'))      
+    # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+    #creating wordcloud
+        
+    # wordcloud = WordCloud(
+        # max_words=maxWords,
+        # stopwords=STOPWORDS,
+        # width=2000, height=1000,
+        # contour_color= "black", 
+        # relative_scaling = 0,
+        # mask=mask,
+        # background_color="white",
+        # font_path='font/Ubuntu-B.ttf'
+    # ).generate(input_text)
     
-    # st.write(ner(input_text))
-    # if side == "Sentiment":
-        # st.write(sentiment(Text))
-    # elif side == "Subjectivity":
-        # st.write(subjectivity(Text))
-    # else:
-        # st.write(ner(Text))
+    wordcloud = WordCloud(width = 100, height = 500).generate_from_frequencies(nouns)
+
+    plt.figure(figsize=(15,8))
+    color = st.radio('Switch image colour:', ('Color', 'Black'))
+    img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+    
+    # image_colors = ImageColorGenerator(mask)
+    plt.figure(figsize=[20,15])
+    
+    plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+    plt.axis("off")
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.pyplot()
