@@ -320,9 +320,8 @@ def run_analyze():
         # font_path='font/Ubuntu-B.ttf'
     # ).generate(input_text)
     
-    wordcloud = WordCloud(width = 100, height = 500).generate_from_frequencies(nouns)
+    wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
 
-    plt.figure(figsize=(15,8))
     color = st.radio('Switch image colour:', ('Color', 'Black'))
     img_cols = ImageColorGenerator(mask) if color == 'Black' else None
     
