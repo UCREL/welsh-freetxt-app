@@ -299,8 +299,8 @@ def run_analyze():
     nlp = spacy.load('en_core_web_sm')
     doc = nlp(input_text)
     st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
-    nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]).most_common()
-    verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]).most_common()
+    nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+    verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
     st.write("Nouns:", nouns)
     st.write("Verbs:", verbs)
 
