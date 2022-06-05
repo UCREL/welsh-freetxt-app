@@ -1,8 +1,9 @@
 import os
 import string
 import spacy
-import en_core_web_sm
 import nltk
+import random
+import en_core_web_sm
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -17,6 +18,8 @@ from wordcloud import WordCloud, ImageColorGenerator
 from nltk.corpus import stopwords
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
+
+random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -43,13 +46,12 @@ def uploadfile():
     else:
         return '<Please upload your file ...>'
 
-#-----------Get Top n most_common words plus counts--------
+#--------------Get Top n most_common words plus counts---------------
 @st.cache
 def getTopNWords(t, n=5):
     t = [w for w in t.lower().split() if (w not in STOPWORDS and w not in PUNCS)]
     return Counter(t).most_common(n)
     # return [f"{w} ({c})" for w, c in Counter(t).most_common(n)]
-
 
 #------------------------ keyword in context ------------------------
 @st.cache
@@ -67,6 +69,30 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         right_context = ' '.join(tokens[index+1:index+window_size+1])
         kwic_insts.append((left_context, target_word, right_context))
     return kwic_insts
+
+#------------------------ get collocation ------------------------
+@st.cache
+def get_collocs(kwic_insts, topn=10):
+    all_words = []
+    for l, t, r in kwic_insts:
+        all_words += l.split() + r.split()
+    all_words = [word for word in all_words if word not in stopwords]
+    return Counter(all_words).most_common(topn)
+
+#------------------------ plot collocation ------------------------
+@st.cache
+def plot_collocation(collocs):
+    counts = list(zip(*collocs))[1]
+    N = len(counts)
+    plt.figure(figsize=(8,8))
+    plt.plot([0],[0], '-o', color='blue',  markersize=20, alpha=0.5)
+    for i in range(N):
+        x = -1 * random.random() if random.choice((True, False)) else random.random()
+        y = -1 * random.random() if random.choice((True, False)) else random.random()
+        plt.plot([x], [y], '-or', markersize=counts[i]*7, alpha=0.2)
+    plt.show()
+
+# get_collocs(data, 15)
 
 #-------------------------- N-gram Generator ---------------------------
 @st.cache
@@ -192,7 +218,6 @@ def run_visualizer():
         top_ngrams_df = pd.DataFrame(top_ngrams,
             columns =['NGrams', 'Counts'])
         st.dataframe(top_ngrams_df)
-    
     
     with col1:
         st.markdown("**Word Cloud**")
