@@ -301,8 +301,8 @@ def run_analyze():
     st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
     nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
     verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-    st.write("Nouns:", nouns)
-    st.write("Verbs:", verbs)
+    # st.write("Nouns:", nouns)
+    # st.write("Verbs:", verbs)
 
     st.markdown("**Word Cloud**")
     mask = np.array(Image.open('img/welsh_flag.png'))      
@@ -318,7 +318,7 @@ def run_analyze():
         mask=mask,
         background_color="white",
         font_path='font/Ubuntu-B.ttf'
-    ).generate(input_text)
+    ).generate_from_frequencies(nouns) #.generate(input_text)
     
     # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
 
