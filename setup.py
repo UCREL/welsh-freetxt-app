@@ -81,18 +81,23 @@ def get_collocs(kwic_insts, topn=10):
 
 #------------------------ plot collocation ------------------------
 @st.cache
+random.seed(10)
 def plot_collocation(collocs):
-    counts = list(zip(*collocs))[1]
-    N = len(counts)
+    words, counts = zip(*collocs)
+    N, total = len(counts), sum(counts)
     plt.figure(figsize=(8,8))
-    plt.plot([0],[0], '-o', color='blue',  markersize=20, alpha=0.5)
+    plt.xlim([-0.5, 0.5])
+    plt.ylim([-0.5, 0.5])
+    plt.plot([0],[0], '-o', color='blue',  markersize=25, alpha=0.7)
+    plt.text(0,0, keyword, color='red', fontsize=14)
     for i in range(N):
-        x = -1 * random.random() if random.choice((True, False)) else random.random()
-        y = -1 * random.random() if random.choice((True, False)) else random.random()
-        plt.plot([x], [y], '-or', markersize=counts[i]*7, alpha=0.2)
+        x, y = random.uniform((i+1)/(2*N),(i+1.5)/(2*N)), random.uniform((i+1)/(2*N), (i+1.5)/(2*N)) 
+        x = x if random.choice((True, False)) else -x
+        y = y if random.choice((True, False)) else -y
+        
+        plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
+        plt.text(x, y, words[i], fontsize=12)
     plt.show()
-
-# get_collocs(data, 15)
 
 #-------------------------- N-gram Generator ---------------------------
 @st.cache
@@ -250,17 +255,24 @@ def run_visualizer():
     
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
-        # keyword = st.text_input('Enter a keyword:','staff')
+        keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
         topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
         keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
         window_size = st.slider('Select the window size:', 1, 10, 2)
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
-
         kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-        kwic_instances_df = pd.DataFrame(kwic_instances,
-            columns =['left context', 'keyword', 'right context'])
-        st.dataframe(kwic_instances_df)
+        if option == 'Keyword in context':
+            kwic_instances_df = pd.DataFrame(kwic_instances,
+                columns =['left context', 'keyword', 'right context'])
+            st.dataframe(kwic_instances_df)
+        else col2: #Could you replace with NLTK concordance later? 
+            # keyword = st.text_input('Enter a keyword:','staff')
+            kwic = get_kwic(text, keyword, window_size=1, maxInstances=50, lower_case=True)
+            collocs = get_collocs(kwic, 20)
+            colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+            st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+            plot_collocation(collocs)
 
 def run_analyze():
     with st.expander("ℹ️ - About Analyzer", expanded=False):
