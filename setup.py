@@ -267,8 +267,7 @@ def run_visualizer():
             st.dataframe(kwic_instances_df)
         else: #Could you replace with NLTK concordance later? 
             # keyword = st.text_input('Enter a keyword:','staff')
-            kwic = get_kwic(text, keyword, window_size=1, maxInstances=50, lower_case=True)
-            collocs = get_collocs(kwic, 20)
+            collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
             colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
             st.write(f"Collocations for '{keyword}':\n{colloc_str}")
             plot_collocation(collocs)
