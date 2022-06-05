@@ -299,7 +299,9 @@ def run_analyze():
     nlp = spacy.load('en_core_web_sm')
     doc = nlp(input_text)
     st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
-    st.write("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+    
+    st.write("Nouns:", Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"]))
+    st.write("Verbs:", Counter([token.lemma_ for token in doc if token.pos_ == "VERB"]))
 
         # Find named entities, phrases and concepts
         # for entity in doc.ents:
