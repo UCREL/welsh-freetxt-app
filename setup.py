@@ -80,7 +80,7 @@ def get_collocs(kwic_insts, topn=10):
     return Counter(all_words).most_common(topn)
 
 #------------------------ plot collocation ------------------------
-@st.cache
+@st.cache(suppress_st_warning=True)
 def plot_collocation(keyword, collocs):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
@@ -97,7 +97,6 @@ def plot_collocation(keyword, collocs):
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
     st.set_option('deprecation.showPyplotGlobalUse', False)
-    @st.cache(suppress_st_warning=True)
     st.pyplot()
 
 #-------------------------- N-gram Generator ---------------------------
