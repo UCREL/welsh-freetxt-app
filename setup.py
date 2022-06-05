@@ -264,12 +264,12 @@ def run_visualizer():
         if option == 'Keyword in context':
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
-            st.dataframe(kwic_instances_df)
+            col2.dataframe(kwic_instances_df)
         else: #Could you replace with NLTK concordance later? 
             # keyword = st.text_input('Enter a keyword:','staff')
             collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
             colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-            st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+            col2.write(f"Collocations for '{keyword}':\n{colloc_str}")
             plot_collocation(keyword, collocs)
 
 def run_analyze():
