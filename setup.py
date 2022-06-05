@@ -296,18 +296,16 @@ def run_analyze():
         
     side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
 
-    def ner(sentence):
-        nlp = spacy.load('en_core_web_sm')
-        doc = nlp(sentence)
-        # Analyze syntax
-        return f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}"
-        # st.write("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
+    nlp = spacy.load('en_core_web_sm')
+    doc = nlp(input_text)
+    st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
+    st.write("Verbs:", [token.lemma_ for token in doc if token.pos_ == "VERB"])
 
         # Find named entities, phrases and concepts
         # for entity in doc.ents:
             # st.write(entity.text, entity.label_)
     
-    st.write(ner(Text))
+    # st.write(ner(input_text))
     # if side == "Sentiment":
         # st.write(sentiment(Text))
     # elif side == "Subjectivity":
