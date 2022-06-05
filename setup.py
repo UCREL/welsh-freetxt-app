@@ -230,7 +230,7 @@ def run_visualizer():
         maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
         #creating wordcloud
             
-        wordcloud = WordCloud(
+        wc = WordCloud(
             max_words=maxWords,
             stopwords=STOPWORDS,
             width=2000, height=1000,
@@ -239,7 +239,23 @@ def run_visualizer():
             mask=mask,
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
-        ).generate(input_text)
+        )#.generate(input_text)
+        wordcloud = wc.generate(input_text)        
+
+        # wc = WordCloud(
+            # max_words=maxWords,
+            # stopwords=STOPWORDS,
+            # width=2000, height=1000,
+            # # contour_color= "black", 
+            # relative_scaling = 0,
+            # mask=mask,
+            # background_color="white",
+            # font_path='font/Ubuntu-B.ttf'
+        # ).generate_from_frequencies(verbs) #.generate(input_text)
+
+
+
+
 
         color = st.radio('Switch image colour:', ('Color', 'Black'))
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
