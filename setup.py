@@ -265,7 +265,7 @@ def run_visualizer():
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             st.dataframe(kwic_instances_df)
-        else col2: #Could you replace with NLTK concordance later? 
+        else: #Could you replace with NLTK concordance later? 
             # keyword = st.text_input('Enter a keyword:','staff')
             kwic = get_kwic(text, keyword, window_size=1, maxInstances=50, lower_case=True)
             collocs = get_collocs(kwic, 20)
