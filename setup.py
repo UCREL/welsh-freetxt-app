@@ -231,7 +231,6 @@ def run_visualizer():
 
         nlp = spacy.load('en_core_web_sm')
         doc = nlp(input_text)
-        st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
         nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
         verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
     
@@ -247,7 +246,7 @@ def run_visualizer():
             font_path='font/Ubuntu-B.ttf'
         )#.generate(input_text)
         
-        cloud_type = st.sidebar.selectbox('Choose type:', ['All words', 'Nouns', 'Verbs'])
+        cloud_type = col1.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
         if cloud_type == 'All words':
             wordcloud = wc.generate(input_text)        
         elif cloud_type == 'Nouns':
