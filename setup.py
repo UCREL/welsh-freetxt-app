@@ -306,7 +306,7 @@ def run_analyze():
 
     st.markdown("**Word Cloud**")
     mask = np.array(Image.open('img/welsh_flag.png'))      
-    # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+    maxWords = 20
     #creating wordcloud
         
     wordcloud = WordCloud(
