@@ -261,7 +261,7 @@ def run_visualizer():
         maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         col2_lcase = st.checkbox("Lowercase?")
         kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-        if option == 'Keyword in context':
+        if keyword_analysis == 'Keyword in context':
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['left context', 'keyword', 'right context'])
             col2.dataframe(kwic_instances_df)
