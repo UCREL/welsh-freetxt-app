@@ -81,7 +81,7 @@ def get_collocs(kwic_insts, topn=10):
 
 #------------------------ plot collocation ------------------------
 @st.cache
-def plot_collocation(collocs):
+def plot_collocation(keyword, collocs):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
     plt.figure(figsize=(8,8))
@@ -270,7 +270,7 @@ def run_visualizer():
             collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
             colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
             st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-            plot_collocation(collocs)
+            plot_collocation(keyword, collocs)
 
 def run_analyze():
     with st.expander("ℹ️ - About Analyzer", expanded=False):
