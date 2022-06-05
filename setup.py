@@ -228,8 +228,14 @@ def run_visualizer():
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
         maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+
+        nlp = spacy.load('en_core_web_sm')
+        doc = nlp(input_text)
+        st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
+        nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+        verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+    
         #creating wordcloud
-            
         wc = WordCloud(
             max_words=maxWords,
             stopwords=STOPWORDS,
@@ -240,22 +246,14 @@ def run_visualizer():
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
         )#.generate(input_text)
-        wordcloud = wc.generate(input_text)        
-
-        # wc = WordCloud(
-            # max_words=maxWords,
-            # stopwords=STOPWORDS,
-            # width=2000, height=1000,
-            # # contour_color= "black", 
-            # relative_scaling = 0,
-            # mask=mask,
-            # background_color="white",
-            # font_path='font/Ubuntu-B.ttf'
-        # ).generate_from_frequencies(verbs) #.generate(input_text)
-
-
-
-
+        
+        cloud_type = st.sidebar.selectbox('Choose type:', ['All words', 'Nouns', 'Verbs'])
+        if cloud_type == 'All words':
+            wordcloud = wc.generate(input_text)        
+        elif cloud_type == 'Nouns':
+            wordcloud = wc.generate_from_frequencies(verbs)        
+        else: 
+            wordcloud = wc.generate_from_frequencies(nouns)
 
         color = st.radio('Switch image colour:', ('Color', 'Black'))
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
