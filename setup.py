@@ -220,25 +220,26 @@ def run_visualizer():
     img_cols = None
     col0, col1, col2 = st.columns(3)
     
-    col0.markdown("**NGram Frequency**")
     with col0:
-        # keyword = st.text_input('Enter a keyword:')
-        ngrms = st.slider('Select ngrams:', 1, 5, 1)
-        topn = st.slider('Top ngrams:', 10, 50, 10)
-        # col0_lcase = st.checkbox("Lowercase?")
-        # if col0_lcase: input_text = input_text.lower()
+        st.markdown("**NGram Frequency**")
+        if input_text:
+            # keyword = st.text_input('Enter a keyword:')
+            ngrms = st.slider('Select ngrams:', 1, 5, 1)
+            topn = st.slider('Top ngrams:', 10, 50, 10)
+            # col0_lcase = st.checkbox("Lowercase?")
+            # if col0_lcase: input_text = input_text.lower()
 
-        top_ngrams = gen_ngram(input_text, ngrms, topn)
-        top_ngrams_df = pd.DataFrame(top_ngrams,
-            columns =['NGrams', 'Counts'])
-        st.dataframe(top_ngrams_df)
+            top_ngrams = gen_ngram(input_text, ngrms, topn)
+            top_ngrams_df = pd.DataFrame(top_ngrams,
+                columns =['NGrams', 'Counts'])
+            st.dataframe(top_ngrams_df)
     
     with col1:
         st.markdown("**Word Cloud**")
-        mask = np.array(Image.open('img/welsh_flag.png'))      
-        maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
-        
         if input_text:
+            mask = np.array(Image.open('img/welsh_flag.png'))      
+            maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+        
             nlp = spacy.load('en_core_web_sm')
             doc = nlp(input_text)
             nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
@@ -276,8 +277,8 @@ def run_visualizer():
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
     
-    col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later?
+        st.markdown("**Keyword in Context**")
         if input_text:
             keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
