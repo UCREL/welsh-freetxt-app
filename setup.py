@@ -218,23 +218,24 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
     img_cols = None
-    col0, col1 = st.columns(2)
+    col0, col1, col2 = st.columns(3)
     
-    # with col0:
-        # st.markdown("**NGram Frequency**")
-        # with st.expander("ℹ️ - Settings", expanded=False):
-            # if input_text:
+    with col0:
+        st.markdown("**NGram Frequency**")
+        with st.expander("ℹ️ - Settings", expanded=False):
+            if input_text:
                 # keyword = st.text_input('Enter a keyword:')
-                # ngrms = st.slider('Select ngrams:', 1, 5, 1)
-                # topn = st.slider('Top ngrams:', 10, 50, 10)
+                ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                topn = st.slider('Top ngrams:', 10, 50, 10)
                 # col0_lcase = st.checkbox("Lowercase?")
                 # if col0_lcase: input_text = input_text.lower()
 
-                # top_ngrams = gen_ngram(input_text, ngrms, topn)
-                # top_ngrams_df = pd.DataFrame(top_ngrams,
-                    # columns =['NGrams', 'Counts'])
-                # st.dataframe(top_ngrams_df)
-    with col0:
+                top_ngrams = gen_ngram(input_text, ngrms, topn)
+                top_ngrams_df = pd.DataFrame(top_ngrams,
+                    columns =['NGrams', 'Counts'])
+                st.dataframe(top_ngrams_df)
+    
+    with col1:
         st.markdown("**Word Cloud**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
@@ -278,34 +279,21 @@ def run_visualizer():
                 st.set_option('deprecation.showPyplotGlobalUse', False)
                 st.pyplot()
     
-    with col1: #Could you replace with NLTK concordance later?
+    with col2: #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-                analysis = st.radio('Analysis:', ('Keyword in Context', 'Collocation')) # ('Keyword in Context', 'NGram Frequency', 'Collocation')
+                keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
                 maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
                 col2_lcase = st.checkbox("Lowercase?")
                 kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-                if analysis == 'Keyword in context':
+                if keyword_analysis == 'Keyword in context':
                     kwic_instances_df = pd.DataFrame(kwic_instances,
                         columns =['left context', 'keyword', 'right context'])
                     st.dataframe(kwic_instances_df)
-
-                # elif analysis == 'NGram Frequency':
-                    # # keyword = st.text_input('Enter a keyword:')
-                    # ngrms = st.slider('Select ngrams:', 1, 5, 1)
-                    # topn = st.slider('Top ngrams:', 10, 50, 10, key='NGram Frequency')
-                    # # col0_lcase = st.checkbox("Lowercase?")
-                    # # if col0_lcase: input_text = input_text.lower()
-
-                    # top_ngrams = gen_ngram(input_text, ngrms, topn)
-                    # top_ngrams_df = pd.DataFrame(top_ngrams,
-                        # columns =['NGrams', 'Counts'])
-                    # st.dataframe(top_ngrams_df)
-                    
                 else: #Could you replace with NLTK concordance later? 
                     # keyword = st.text_input('Enter a keyword:','staff')
                     collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
