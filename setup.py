@@ -234,7 +234,6 @@ def run_visualizer():
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
-    
     with col1:
         st.markdown("**Word Cloud**")
         with st.expander("ℹ️ - Settings", expanded=False):
@@ -283,17 +282,30 @@ def run_visualizer():
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-                keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
+                analysis = st.radio('Analysis:', ('NGram Frequency','Keyword in Context', 'Collocation'))
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
                 maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
                 col2_lcase = st.checkbox("Lowercase?")
                 kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-                if keyword_analysis == 'Keyword in context':
+                if analysis == 'Keyword in context':
                     kwic_instances_df = pd.DataFrame(kwic_instances,
                         columns =['left context', 'keyword', 'right context'])
                     st.dataframe(kwic_instances_df)
+
+                elif analysis == 'Keyword in context':
+                    # keyword = st.text_input('Enter a keyword:')
+                    ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                    topn = st.slider('Top ngrams:', 10, 50, 10)
+                    # col0_lcase = st.checkbox("Lowercase?")
+                    # if col0_lcase: input_text = input_text.lower()
+
+                    top_ngrams = gen_ngram(input_text, ngrms, topn)
+                    top_ngrams_df = pd.DataFrame(top_ngrams,
+                        columns =['NGrams', 'Counts'])
+                    st.dataframe(top_ngrams_df)
+                    
                 else: #Could you replace with NLTK concordance later? 
                     # keyword = st.text_input('Enter a keyword:','staff')
                     collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
@@ -301,27 +313,26 @@ def run_visualizer():
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
 
-def run_analyze():
-    with st.expander("ℹ️ - About Analyzer", expanded=False):
-        st.markdown(
-            """
-            This tool is still at the developmental stage. Updates soon...
-            """
-        )
+# def run_analyze():
+    # with st.expander("ℹ️ - About Analyzer", expanded=False):
+        # st.markdown(
+            # """
+            # This tool is still at the developmental stage. Updates soon...
+            # """
+        # )
         
-    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
-    if option == 'Use an example text':
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
-                                                  if f.startswith(('ex'))]))  
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
-           example_text = example_file.read()
-           input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
-    elif option == 'Upload a text file':
-        text = upload_multiple_files()
-        # text = uploadfile()
-        input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    else:
-        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
+    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
+    # if option == 'Use an example text':
+       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
+                                                  # if f.startswith(('ex'))]))  
+       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           # example_text = example_file.read()
+           # input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
+    # elif option == 'Upload a text file':
+        # text = upload_multiple_files()
+        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    # else:
+        # input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
         
     # side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
 
