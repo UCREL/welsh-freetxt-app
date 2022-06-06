@@ -278,7 +278,7 @@ def run_visualizer():
             st.pyplot()
     
     with col2: #Could you replace with NLTK concordance later?
-        with col2.expander("ℹ️ - Keyword in Context", expanded=False):
+        with st.expander("ℹ️ - Keyword in Context", expanded=False):
             # st.markdown("**Keyword in Context**")
             if input_text:
                 keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
