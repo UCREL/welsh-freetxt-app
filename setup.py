@@ -204,15 +204,15 @@ def run_visualizer():
         )
 
     # st.markdown('### 🔍 Visualization')
-    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
+    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     if option == 'Use an example text':
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
        
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
            input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    elif option == 'Upload a text file':
-        text = uploadfile()
+    elif option == 'Upload files':
+        text = upload_multiple_files()
         input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
