@@ -229,12 +229,18 @@ def run_visualizer():
                 # ngrms = st.slider('Select ngrams:', 1, 5, 1)
                 ngrms = st.number_input("Select ngrams",
                     value=2,
-                    step=2,
                     min_value=1,
                     max_value=5,
                     help='The maximum value for the keyphrase_ngram_range.'
                     )
-                topn = st.slider('Top ngrams:', 10, 50, 10)
+                topn = st.number_input("Select top ngrams",
+                    value=10,
+                    step=5,
+                    min_value=5,
+                    max_value=50,
+                    help='The maximum value for the keyphrase_ngram_range.'
+                    )
+                # topn = st.slider('Top ngrams:', 10, 50, 10)
                 # col0_lcase = st.checkbox("Lowercase?")
                 # if col0_lcase: input_text = input_text.lower()
 
