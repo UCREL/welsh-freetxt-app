@@ -282,7 +282,7 @@ def run_visualizer():
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-                analysis = st.radio('Analysis:', ('Keyword in Context', 'NGram Frequency', 'Collocation'))
+                analysis = st.radio('Analysis:', ('Keyword in Context', 'Collocation')) # ('Keyword in Context', 'NGram Frequency', 'Collocation')
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
@@ -294,17 +294,17 @@ def run_visualizer():
                         columns =['left context', 'keyword', 'right context'])
                     st.dataframe(kwic_instances_df)
 
-                elif analysis == 'NGram Frequency':
-                    # keyword = st.text_input('Enter a keyword:')
-                    ngrms = st.slider('Select ngrams:', 1, 5, 1)
-                    topn = st.slider('Top ngrams:', 10, 50, 10, key='NGram Frequency')
-                    # col0_lcase = st.checkbox("Lowercase?")
-                    # if col0_lcase: input_text = input_text.lower()
+                # elif analysis == 'NGram Frequency':
+                    # # keyword = st.text_input('Enter a keyword:')
+                    # ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                    # topn = st.slider('Top ngrams:', 10, 50, 10, key='NGram Frequency')
+                    # # col0_lcase = st.checkbox("Lowercase?")
+                    # # if col0_lcase: input_text = input_text.lower()
 
-                    top_ngrams = gen_ngram(input_text, ngrms, topn)
-                    top_ngrams_df = pd.DataFrame(top_ngrams,
-                        columns =['NGrams', 'Counts'])
-                    st.dataframe(top_ngrams_df)
+                    # top_ngrams = gen_ngram(input_text, ngrms, topn)
+                    # top_ngrams_df = pd.DataFrame(top_ngrams,
+                        # columns =['NGrams', 'Counts'])
+                    # st.dataframe(top_ngrams_df)
                     
                 else: #Could you replace with NLTK concordance later? 
                     # keyword = st.text_input('Enter a keyword:','staff')
