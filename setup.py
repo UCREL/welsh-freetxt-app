@@ -278,25 +278,26 @@ def run_visualizer():
             st.pyplot()
     
     with col2: #Could you replace with NLTK concordance later?
-        st.markdown("**Keyword in Context**")
-        if input_text:
-            keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
-            topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
-            keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-            window_size = st.slider('Select the window size:', 1, 10, 2)
-            maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-            col2_lcase = st.checkbox("Lowercase?")
-            kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-            if keyword_analysis == 'Keyword in context':
-                kwic_instances_df = pd.DataFrame(kwic_instances,
-                    columns =['left context', 'keyword', 'right context'])
-                col2.dataframe(kwic_instances_df)
-            else: #Could you replace with NLTK concordance later? 
-                # keyword = st.text_input('Enter a keyword:','staff')
-                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
-                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-                col2.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                plot_collocation(keyword, collocs)
+        with st.expander("ℹ️ - Keyword in Context", expanded=False):
+            # st.markdown("**Keyword in Context**")
+            if input_text:
+                keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
+                topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
+                keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
+                window_size = st.slider('Select the window size:', 1, 10, 2)
+                maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+                col2_lcase = st.checkbox("Lowercase?")
+                kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
+                if keyword_analysis == 'Keyword in context':
+                    kwic_instances_df = pd.DataFrame(kwic_instances,
+                        columns =['left context', 'keyword', 'right context'])
+                    col2.dataframe(kwic_instances_df)
+                else: #Could you replace with NLTK concordance later? 
+                    # keyword = st.text_input('Enter a keyword:','staff')
+                    collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
+                    colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                    col2.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                    plot_collocation(keyword, collocs)
 
 def run_analyze():
     with st.expander("ℹ️ - About Analyzer", expanded=False):
