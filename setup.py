@@ -291,7 +291,7 @@ def run_visualizer():
                 if keyword_analysis == 'Keyword in context':
                     kwic_instances_df = pd.DataFrame(kwic_instances,
                         columns =['left context', 'keyword', 'right context'])
-                    dataframe(kwic_instances_df)
+                    st.dataframe(kwic_instances_df)
                 else: #Could you replace with NLTK concordance later? 
                     # keyword = st.text_input('Enter a keyword:','staff')
                     collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
