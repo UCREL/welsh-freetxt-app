@@ -229,6 +229,7 @@ def run_visualizer():
                 # ngrms = st.slider('Select ngrams:', 1, 5, 1)
                 ngrms = st.number_input("Select ngrams",
                     value=2,
+                    step=2,
                     min_value=1,
                     max_value=5,
                     help='The maximum value for the keyphrase_ngram_range.'
