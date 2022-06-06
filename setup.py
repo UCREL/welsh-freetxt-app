@@ -237,43 +237,44 @@ def run_visualizer():
         st.markdown("**Word Cloud**")
         mask = np.array(Image.open('img/welsh_flag.png'))      
         maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+        
+        if input_text:
+            nlp = spacy.load('en_core_web_sm')
+            doc = nlp(input_text)
+            nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+            verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+        
+            #creating wordcloud
+            wc = WordCloud(
+                max_words=maxWords,
+                stopwords=STOPWORDS,
+                width=2000, height=1000,
+                # contour_color= "black", 
+                relative_scaling = 0,
+                mask=mask,
+                background_color="white",
+                font_path='font/Ubuntu-B.ttf'
+            )#.generate(input_text)
+            
+            cloud_type = col1.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
+            if cloud_type == 'All words':
+                wordcloud = wc.generate(input_text)        
+            elif cloud_type == 'Nouns':
+                wordcloud = wc.generate_from_frequencies(nouns)        
+            else: 
+                wordcloud = wc.generate_from_frequencies(verbs)
 
-        nlp = spacy.load('en_core_web_sm')
-        doc = nlp(input_text)
-        nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
-        verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-    
-        #creating wordcloud
-        wc = WordCloud(
-            max_words=maxWords,
-            stopwords=STOPWORDS,
-            width=2000, height=1000,
-            # contour_color= "black", 
-            relative_scaling = 0,
-            mask=mask,
-            background_color="white",
-            font_path='font/Ubuntu-B.ttf'
-        )#.generate(input_text)
-        
-        cloud_type = col1.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
-        if cloud_type == 'All words':
-            wordcloud = wc.generate(input_text)        
-        elif cloud_type == 'Nouns':
-            wordcloud = wc.generate_from_frequencies(nouns)        
-        else: 
-            wordcloud = wc.generate_from_frequencies(verbs)
-
-        color = st.radio('Switch image colour:', ('Color', 'Black'))
-        img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-        
-        # image_colors = ImageColorGenerator(mask)
-        plt.figure(figsize=[20,15])
-        
-        # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
-        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-        plt.axis("off")
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
+            color = st.radio('Switch image colour:', ('Color', 'Black'))
+            img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+            
+            # image_colors = ImageColorGenerator(mask)
+            plt.figure(figsize=[20,15])
+            
+            # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+            plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+            plt.axis("off")
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
     
     col2.markdown("**Keyword in Context**")
     with col2: #Could you replace with NLTK concordance later? 
