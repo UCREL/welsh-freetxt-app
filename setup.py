@@ -224,8 +224,15 @@ def run_visualizer():
         st.markdown("**NGram Frequency**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
+            
                 # keyword = st.text_input('Enter a keyword:')
-                ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                # ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                ngrms = st.number_input("Select ngrams",
+                    value=2,
+                    min_value=1,
+                    max_value=5,
+                    help='The maximum value for the keyphrase_ngram_range.'
+                    )
                 topn = st.slider('Top ngrams:', 10, 50, 10)
                 # col0_lcase = st.checkbox("Lowercase?")
                 # if col0_lcase: input_text = input_text.lower()
