@@ -282,7 +282,7 @@ def run_visualizer():
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-                analysis = st.radio('Analysis:', ('NGram Frequency','Keyword in Context', 'Collocation'))
+                analysis = st.radio('Analysis:', ('Keyword in Context', 'NGram Frequency', 'Collocation'))
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
@@ -294,7 +294,7 @@ def run_visualizer():
                         columns =['left context', 'keyword', 'right context'])
                     st.dataframe(kwic_instances_df)
 
-                elif analysis == 'Keyword in context':
+                elif analysis == 'NGram Frequency':
                     # keyword = st.text_input('Enter a keyword:')
                     ngrms = st.slider('Select ngrams:', 1, 5, 1)
                     topn = st.slider('Top ngrams:', 10, 50, 10)
