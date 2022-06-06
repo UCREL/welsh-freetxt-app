@@ -46,6 +46,14 @@ def uploadfile():
     else:
         return '<Please upload your file ...>'
 
+def upload_multiple_files():
+    uploaded_files = st.file_uploader(
+                    "Select file(s) to upload", accept_multiple_files=True)
+    for uploaded_file in uploaded_files:
+         bytes_data = uploaded_file.read()
+         st.write("filename:", uploaded_file.name)
+         st.write(bytes_data)
+
 #--------------Get Top n most_common words plus counts---------------
 @st.cache
 def getTopNWords(t, n=5):
@@ -301,46 +309,47 @@ def run_analyze():
            example_text = example_file.read()
            input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
     elif option == 'Upload a text file':
-        text = uploadfile()
-        input_text = st.text_area('Visualize uploaded text:', text, height=150)
+        upload_multiple_files()
+        # text = uploadfile()
+        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
         
-    side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
+    # side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
 
-    nlp = spacy.load('en_core_web_sm')
-    doc = nlp(input_text)
-    st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
-    nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
-    verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+    # nlp = spacy.load('en_core_web_sm')
+    # doc = nlp(input_text)
+    # st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
+    # nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+    # verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
     # st.write("Nouns:", nouns)
     # st.write("Verbs:", verbs)
 
-    st.markdown("**Word Cloud**")
-    mask = np.array(Image.open('img/welsh_flag.png'))      
-    maxWords = 20
-    #creating wordcloud
+    # st.markdown("**Word Cloud**")
+    # mask = np.array(Image.open('img/welsh_flag.png'))      
+    # maxWords = 20
+    # #creating wordcloud
         
-    wordcloud = WordCloud(
-        max_words=maxWords,
-        stopwords=STOPWORDS,
-        width=2000, height=1000,
-        # contour_color= "black", 
-        relative_scaling = 0,
-        mask=mask,
-        background_color="white",
-        font_path='font/Ubuntu-B.ttf'
-    ).generate_from_frequencies(verbs) #.generate(input_text)
+    # wordcloud = WordCloud(
+        # max_words=maxWords,
+        # stopwords=STOPWORDS,
+        # width=2000, height=1000,
+        # # contour_color= "black", 
+        # relative_scaling = 0,
+        # mask=mask,
+        # background_color="white",
+        # font_path='font/Ubuntu-B.ttf'
+    # ).generate_from_frequencies(verbs) #.generate(input_text)
     
-    # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
+    # # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
 
-    color = st.radio('Switch image colour:', ('Color', 'Black'))
-    img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+    # color = st.radio('Switch image colour:', ('Color', 'Black'))
+    # img_cols = ImageColorGenerator(mask) if color == 'Black' else None
     
-    # image_colors = ImageColorGenerator(mask)
-    plt.figure(figsize=[20,15])
+    # # image_colors = ImageColorGenerator(mask)
+    # plt.figure(figsize=[20,15])
     
-    plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-    plt.axis("off")
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.pyplot()
+    # plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+    # plt.axis("off")
+    # st.set_option('deprecation.showPyplotGlobalUse', False)
+    # st.pyplot()
