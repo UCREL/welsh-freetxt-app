@@ -51,7 +51,7 @@ def upload_multiple_files():
                     "Select file(s) to upload", accept_multiple_files=True)
     bytes_data = ''
     for uploaded_file in uploaded_files:
-        bytes_data += uploaded_file.read()
+        bytes_data += uploaded_file.read().decode("utf-8") 
     return bytes_data
          # st.write("filename:", uploaded_file.name)
          # st.write(bytes_data)
