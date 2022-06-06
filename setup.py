@@ -259,7 +259,7 @@ def run_visualizer():
                     font_path='font/Ubuntu-B.ttf'
                 )#.generate(input_text)
                 
-                cloud_type = col1.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
+                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
                 if cloud_type == 'All words':
                     wordcloud = wc.generate(input_text)        
                 elif cloud_type == 'Nouns':
