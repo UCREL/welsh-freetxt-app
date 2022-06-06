@@ -297,7 +297,7 @@ def run_visualizer():
                 elif analysis == 'NGram Frequency':
                     # keyword = st.text_input('Enter a keyword:')
                     ngrms = st.slider('Select ngrams:', 1, 5, 1)
-                    topn = st.slider('Top ngrams:', 10, 50, 10)
+                    topn = st.slider('Top ngrams:', 10, 50, 10, key='NGram Frequency')
                     # col0_lcase = st.checkbox("Lowercase?")
                     # if col0_lcase: input_text = input_text.lower()
 
