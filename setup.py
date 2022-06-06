@@ -218,23 +218,23 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
     img_cols = None
-    col0, col1, col2 = st.columns(3)
+    col0, col1 = st.columns(2)
     
-    with col0:
-        st.markdown("**NGram Frequency**")
-        with st.expander("ℹ️ - Settings", expanded=False):
-            if input_text:
-                # keyword = st.text_input('Enter a keyword:')
-                ngrms = st.slider('Select ngrams:', 1, 5, 1)
-                topn = st.slider('Top ngrams:', 10, 50, 10)
-                # col0_lcase = st.checkbox("Lowercase?")
-                # if col0_lcase: input_text = input_text.lower()
+    # with col0:
+        # st.markdown("**NGram Frequency**")
+        # with st.expander("ℹ️ - Settings", expanded=False):
+            # if input_text:
+                keyword = st.text_input('Enter a keyword:')
+                # ngrms = st.slider('Select ngrams:', 1, 5, 1)
+                # topn = st.slider('Top ngrams:', 10, 50, 10)
+                col0_lcase = st.checkbox("Lowercase?")
+                if col0_lcase: input_text = input_text.lower()
 
-                top_ngrams = gen_ngram(input_text, ngrms, topn)
-                top_ngrams_df = pd.DataFrame(top_ngrams,
-                    columns =['NGrams', 'Counts'])
-                st.dataframe(top_ngrams_df)
-    with col1:
+                # top_ngrams = gen_ngram(input_text, ngrms, topn)
+                # top_ngrams_df = pd.DataFrame(top_ngrams,
+                    # columns =['NGrams', 'Counts'])
+                # st.dataframe(top_ngrams_df)
+    with col0:
         st.markdown("**Word Cloud**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
@@ -278,7 +278,7 @@ def run_visualizer():
                 st.set_option('deprecation.showPyplotGlobalUse', False)
                 st.pyplot()
     
-    with col2: #Could you replace with NLTK concordance later?
+    with col1: #Could you replace with NLTK concordance later?
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
