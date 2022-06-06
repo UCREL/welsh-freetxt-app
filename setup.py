@@ -279,7 +279,7 @@ def run_visualizer():
     
     with col2: #Could you replace with NLTK concordance later?
         with st.expander("ℹ️ - Keyword in Context", expanded=False):
-            # st.markdown("**Keyword in Context**")
+            st.markdown("**Keyword in Context**")
             if input_text:
                 keyword_analysis = st.radio('Keyword Anaysis:', ('Keyword in context', 'Collocation'))
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
