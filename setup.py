@@ -49,10 +49,12 @@ def uploadfile():
 def upload_multiple_files():
     uploaded_files = st.file_uploader(
                     "Select file(s) to upload", accept_multiple_files=True)
+    bytes_data = ''
     for uploaded_file in uploaded_files:
-         bytes_data = uploaded_file.read()
-         st.write("filename:", uploaded_file.name)
-         st.write(bytes_data)
+        bytes_data += uploaded_file.read()
+    return bytes_data
+         # st.write("filename:", uploaded_file.name)
+         # st.write(bytes_data)
 
 #--------------Get Top n most_common words plus counts---------------
 @st.cache
@@ -309,9 +311,9 @@ def run_analyze():
            example_text = example_file.read()
            input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
     elif option == 'Upload a text file':
-        upload_multiple_files()
+        text = upload_multiple_files()
         # text = uploadfile()
-        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
+        input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
         
