@@ -1,4 +1,5 @@
 import os
+import re
 import string
 import spacy
 import nltk
@@ -313,10 +314,89 @@ def run_visualizer():
                 help="The higher the setting, the more diverse the keywords. Note that the *Keyword diversity* slider only works if the *MMR* checkbox is ticked."
             )
 
-        
-        
-        
-        
+            MAX_WORDS = 500
+            res = len(re.findall(r"\w+", input_text))
+            if res > MAX_WORDS:
+                st.warning(
+                    "⚠️ Your text contains "
+                    + str(res)
+                    + " words."
+                    + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+                )
+
+                input_text = input_text[:MAX_WORDS]
+
+            submit_button = st.form_submit_button(label="✨ Get me the data!")
+
+            if use_MMR:
+                mmr = True
+            else:
+                mmr = False
+
+            if StopWordsCheckbox:
+                StopWords = "english"
+            else:
+                StopWords = None
+
+            if not submit_button:
+                st.stop()
+
+            if min_Ngrams > max_Ngrams:
+                st.warning("min_Ngrams can't be greater than max_Ngrams")
+                st.stop()
+
+            keywords = kw_model.extract_keywords(
+                doc,
+                keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
+                use_mmr=mmr,
+                stop_words=StopWords,
+                top_n=top_N,
+                diversity=Diversity,
+            )
+
+# st.markdown("## **🎈 Check & download results **")
+
+# st.header("")
+
+# cs, c1, c2, c3, cLast = st.columns([2, 1.5, 1.5, 1.5, 2])
+
+# with c1:
+    # CSVButton2 = download_button(keywords, "Data.csv", "📥 Download (.csv)")
+# with c2:
+    # CSVButton2 = download_button(keywords, "Data.txt", "📥 Download (.txt)")
+# with c3:
+    # CSVButton2 = download_button(keywords, "Data.json", "📥 Download (.json)")
+
+# st.header("")
+
+        df = (
+            pd.DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
+            .sort_values(by="Relevancy", ascending=False)
+            .reset_index(drop=True)
+        )
+
+        df.index += 1
+
+        # Add styling
+        cmGreen = sns.light_palette("green", as_cmap=True)
+        cmRed = sns.light_palette("red", as_cmap=True)
+        df = df.style.background_gradient(
+            cmap=cmGreen,
+            subset=[
+                "Relevancy",
+            ],
+        )
+
+        # c1, c2, c3 = st.columns([1, 3, 1])
+
+        format_dictionary = {
+            "Relevancy": "{:.1%}",
+        }
+
+        df = df.format(format_dictionary)
+
+        # with c2:
+        st.table(df)
 
     with col1:
         st.markdown("**Word Cloud**")
