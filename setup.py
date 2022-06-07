@@ -345,7 +345,7 @@ def run_visualizer():
                 st.stop()
 
             keywords = kw_model.extract_keywords(
-                doc,
+                input_text,
                 keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
                 use_mmr=mmr,
                 stop_words=StopWords,
