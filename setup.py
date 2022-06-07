@@ -316,7 +316,7 @@ def run_visualizer():
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
-                st.write(topwords)
+                st.write(True if topwords else False)
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
                 maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
