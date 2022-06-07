@@ -363,7 +363,7 @@ def run_visualizer():
     st.markdown("**Keyword/KeyPhrase Extraction**")
     with st.expander("ℹ️ - Settings", expanded=False):
         with st.form(key="my_form"):
-            ce, c1, ce, c2, c3 = st.columns([0.07, 1, 0.07, 5, 0.07])
+            ce, c1, ce, c2, c3 = st.columns([0.05, 2, 0.05, 5, 0.07])
             with c1:
                 model_type = st.radio( "Choose your model", ["DistilBERT (Default)", "Flair"],
                 help="Only the DistilBERT works for now!",
