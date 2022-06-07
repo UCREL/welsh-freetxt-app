@@ -71,7 +71,7 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         keyword = keyword.lower()
     kwic_insts = []
     tokens = text.split()
-    keyword_indexes = [i for i in range(len(tokens)) if tokens[i].lower() ==keyword.lower()]
+    keyword_indexes = [i for i in range(len(tokens)) if tokens[i].lower() == keyword.lower()]
     for index in keyword_indexes[:maxInstances]:
         left_context = ' '.join(tokens[index-window_size:index])
         target_word = tokens[index]
@@ -334,6 +334,15 @@ def run_visualizer():
                     colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
+
+with st.container():
+    st.write("This is inside the container")
+
+    # You can call any Streamlit command, including custom components:
+    st.bar_chart(np.random.randn(50, 3))
+
+st.write("This is outside the container")
+
 
 # def run_analyze():
     # with st.expander("ℹ️ - About Analyzer", expanded=False):
