@@ -19,6 +19,15 @@ from nltk.corpus import stopwords
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 
+# For keyword extraction
+from keybert import KeyBERT
+# For Flair (Keybert) ToDo
+# from flair.embeddings import TransformerDocumentEmbeddings
+import seaborn as sns
+import json
+
+
+
 random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
@@ -242,13 +251,72 @@ def run_visualizer():
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
-        st.markdown("**Keyword/KeyPhrase Extraction**")
-        # with st.container():
-        with st.expander("ℹ️ - Settings", expanded=False):
-            st.write("This is inside the container")
 
-            # You can call any Streamlit command, including custom components:
-            st.bar_chart(np.random.randn(50, 3))
+# --------------------- Keyword/KeyPhrase ------------------------------
+# Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
+        st.markdown("**Keyword/KeyPhrase Extraction**")
+        with st.expander("ℹ️ - Settings", expanded=False):
+            model_type = st.radio( "Choose your model", ["DistilBERT (Default)", "Flair"],
+            help="Only the DistilBERT works for now!",
+        )
+            if model_type == "Default (DistilBERT)":
+            # kw_model = KeyBERT(model=roberta)
+                @st.cache(allow_output_mutation=True)
+                def load_model():
+                    return KeyBERT(model=roberta)
+                kw_model = load_model()
+            else:
+                @st.cache(allow_output_mutation=True)
+                def load_model():
+                    return KeyBERT("distilbert-base-nli-mean-tokens")
+                kw_model = load_model()
+
+            top_N = st.slider(
+                "# of results",
+                min_value=1,
+                max_value=30,
+                value=10,
+                help="You can choose the number of keywords/keyphrases to display. Between 1 and 30, default number is 10.",
+            )
+            min_Ngrams = st.number_input(
+                "Minimum Ngram",
+                min_value=1,
+                max_value=4,
+                help="The minimum value for the ngram range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
+            )
+
+            max_Ngrams = st.number_input(
+                "Maximum Ngram",
+                value=2,
+                min_value=1,
+                max_value=4,
+                help="The maximum value for the keyphrase_ngram_range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
+            )
+
+            StopWordsCheckbox = st.checkbox(
+                "Remove stop words",
+                help="Tick this box to remove stop words from the document (currently English only)",
+            )
+
+            use_MMR = st.checkbox(
+                "Use MMR",
+                value=True,
+                help="You can use Maximal Margin Relevance (MMR) to diversify the results. It creates keywords/keyphrases based on cosine similarity. Try high/low 'Diversity' settings below for interesting variations.",
+            )
+
+            Diversity = st.slider(
+                "Keyword diversity (MMR only)",
+                value=0.5,
+                min_value=0.0,
+                max_value=1.0,
+                step=0.1,
+                help="The higher the setting, the more diverse the keywords. Note that the *Keyword diversity* slider only works if the *MMR* checkbox is ticked."
+            )
+
+        
+        
+        
+        
 
     with col1:
         st.markdown("**Word Cloud**")
