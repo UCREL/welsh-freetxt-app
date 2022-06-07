@@ -251,7 +251,23 @@ def run_visualizer():
                 top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
+                    
+                top_ngrams_df.set_table_styles([
+                {'selector': 'th.col_heading', 'props': 'text-align: center;'},
+                {'selector': 'th.col_heading.level0', 'props': 'font-size: 1.5em;'},
+                {'selector': 'td', 'props': 'text-align: center; font-weight: bold;'},],
+                overwrite=False)
+
+
+                # format_dictionary = {
+                # "NGrams": "{:.1%}",
+                # }
+                    
+                   
                 st.dataframe(top_ngrams_df)
+                
+
+            # df = df.format(format_dictionary)
 
 # st.markdown("## **🎈 Check & download results **")
 
