@@ -361,7 +361,8 @@ def run_visualizer():
 # --------------------- Keyword/KeyPhrase ------------------------------
 # Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
     st.markdown("**Keyword/KeyPhrase Extraction**")
-    with st.expander("ℹ️ - Settings", expanded=False):
+    expander1 = st.expander("ℹ️ - Settings", expanded=False)
+    with expander1:
         ce, c1, ce, c2, ce = st.columns([0.05, 2, 0.05, 5, 0.07])
         with c1:
             model_type = st.radio( "Choose your model", ["DistilBERT (Default)", "Flair"],
