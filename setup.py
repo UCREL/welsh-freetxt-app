@@ -264,9 +264,11 @@ def run_visualizer():
                 
                 nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
                 verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+                proper_nouns = Counter([token.lemma_ for token in doc if token.pos_ == "PROPN"])
                 adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
                 adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
                 numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
+
 # "PROPN": "proper noun",
 # "NUM": "numeral",
 # "PART": "particle",
@@ -283,11 +285,13 @@ def run_visualizer():
                     font_path='font/Ubuntu-B.ttf'
                 )#.generate(input_text)
                 
-                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
+                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
                 if cloud_type == 'All words':
                     wordcloud = wc.generate(input_text)        
                 elif cloud_type == 'Nouns':
                     wordcloud = wc.generate_from_frequencies(nouns)        
+                elif cloud_type == 'Proper nouns':
+                    wordcloud = wc.generate_from_frequencies(proper_nouns)        
                 elif cloud_type == 'Verbs':
                     wordcloud = wc.generate_from_frequencies(verbs)
                 elif cloud_type == 'Adjectives':
