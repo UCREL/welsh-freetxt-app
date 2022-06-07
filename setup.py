@@ -337,48 +337,48 @@ def run_visualizer():
                 else:
                     StopWords = None
 
-            if not submit_button:
-                st.stop()
+                if not submit_button:
+                    st.stop()
 
-            if min_Ngrams > max_Ngrams:
-                st.warning("min_Ngrams can't be greater than max_Ngrams")
-                st.stop()
+                if min_Ngrams > max_Ngrams:
+                    st.warning("min_Ngrams can't be greater than max_Ngrams")
+                    st.stop()
 
-            keywords = kw_model.extract_keywords(
-                input_text,
-                keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
-                use_mmr=mmr,
-                stop_words=StopWords,
-                top_n=top_N,
-                diversity=Diversity,
-            )
+                keywords = kw_model.extract_keywords(
+                    input_text,
+                    keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
+                    use_mmr=mmr,
+                    stop_words=StopWords,
+                    top_n=top_N,
+                    diversity=Diversity,
+                )
 
-        df = (
-            pd.DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
-            .sort_values(by="Relevancy", ascending=False)
-            .reset_index(drop=True)
-        )
+                df = (
+                    pd.DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
+                    .sort_values(by="Relevancy", ascending=False)
+                    .reset_index(drop=True)
+                )
 
-        df.index += 1
+                df.index += 1
 
-        # Add styling
-        cmGreen = sns.light_palette("green", as_cmap=True)
-        cmRed = sns.light_palette("red", as_cmap=True)
-        df = df.style.background_gradient(
-            cmap=cmGreen,
-            subset=[
-                "Relevancy",
-            ],
-        )
+                # Add styling
+                cmGreen = sns.light_palette("green", as_cmap=True)
+                cmRed = sns.light_palette("red", as_cmap=True)
+                df = df.style.background_gradient(
+                    cmap=cmGreen,
+                    subset=[
+                        "Relevancy",
+                    ],
+                )
 
-        format_dictionary = {
-            "Relevancy": "{:.1%}",
-        }
+                format_dictionary = {
+                    "Relevancy": "{:.1%}",
+                }
 
-        df = df.format(format_dictionary)
+                df = df.format(format_dictionary)
 
-        # with c2:
-        st.table(df)
+                # with c2:
+                st.table(df)
 
 # st.markdown("## **🎈 Check & download results **")
 
