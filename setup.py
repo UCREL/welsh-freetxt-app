@@ -446,11 +446,11 @@ def run_visualizer():
                     StopWords = None
 
                 if not submit_button:
-                    st.stop()
+                    # st.stop()
 
                 if min_Ngrams > max_Ngrams:
                     st.warning("min_Ngrams can't be greater than max_Ngrams")
-                    st.stop()
+                    # st.stop()
 
                 keywords = kw_model.extract_keywords(
                     input_text,
