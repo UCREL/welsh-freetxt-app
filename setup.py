@@ -335,7 +335,7 @@ def run_visualizer():
                 if StopWordsCheckbox:
                     StopWords = "english"
                 else:
-                StopWords = None
+                    StopWords = None
 
             if not submit_button:
                 st.stop()
