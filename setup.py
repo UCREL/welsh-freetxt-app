@@ -315,13 +315,15 @@ def run_visualizer():
         st.markdown("**Keyword in Context**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-                keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text)]
+                st.write(topwords)
                 keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
                 window_size = st.slider('Select the window size:', 1, 10, 2)
                 maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
                 col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
                 kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
+
+                keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
                 if keyword_analysis == 'Keyword in context':
                     kwic_instances_df = pd.DataFrame(kwic_instances,
                         columns =['left context', 'keyword', 'right context'])
