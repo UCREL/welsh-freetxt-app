@@ -240,7 +240,7 @@ def run_visualizer():
                 col0_lcase = st.checkbox("Lowercase?")
                 if col0_lcase: input_text = input_text.lower()
 
-                top_ngrams = gen_ngram(input_text, ngrms, topn)
+                top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
