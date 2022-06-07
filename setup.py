@@ -244,7 +244,18 @@ def run_visualizer():
                 st.dataframe(top_ngrams_df)
         st.markdown("**Keyword/KeyPhrase Extraction**")
         with st.expander("ℹ️ - Settings", expanded=False):
-            pass
+            with st.container():
+                st.write("This is inside the container")
+
+                # You can call any Streamlit command, including custom components:
+                st.bar_chart(np.random.randn(50, 3))
+
+            with st.container():
+                st.write("This is inside the container")
+
+                # You can call any Streamlit command, including custom components:
+                st.bar_chart(np.random.randn(50, 3))
+    
 
     with col1:
         st.markdown("**Word Cloud**")
@@ -334,26 +345,6 @@ def run_visualizer():
                     colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
-
-with st.container():
-    st.write("This is inside the container")
-
-    # You can call any Streamlit command, including custom components:
-    st.bar_chart(np.random.randn(50, 3))
-
-with st.container():
-    st.write("This is inside the container")
-
-    # You can call any Streamlit command, including custom components:
-    st.bar_chart(np.random.randn(50, 3))
-    
-with st.container():
-    st.write("This is inside the container")
-
-    # You can call any Streamlit command, including custom components:
-    st.bar_chart(np.random.randn(50, 3))
-
-st.write("This is outside the container")
 
 
 # def run_analyze():
