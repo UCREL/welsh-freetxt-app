@@ -445,7 +445,7 @@ def run_visualizer():
                 else:
                     StopWords = None
 
-                if not submit_button:
+                # if not submit_button:
                     # st.stop()
 
                 if min_Ngrams > max_Ngrams:
