@@ -252,8 +252,8 @@ def run_visualizer():
                 # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
                 maxWords = st.number_input("Number of words:",
                     value=300,
-                    step=10,
-                    min_value=10,
+                    step=50,
+                    min_value=50,
                     max_value=300,
                     help='Number of words featured in the cloud.'
                     )
