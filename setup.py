@@ -53,16 +53,16 @@ def upload_multiple_files():
     for uploaded_file in uploaded_files:
         bytes_data += uploaded_file.read().decode("utf-8") 
     return bytes_data
-         # st.write("filename:", uploaded_file.name)
-         # st.write(bytes_data)
 
 #--------------Get Top n most_common words plus counts---------------
 @st.cache
 def getTopNWords(text, topn=5, removeStops=False):
-    text = [word for word in text.lower().split() if removeStops and (word not in STOPWORDS)]
+    text = text.translate(text.maketrans("", "", string.punctuation))
+    text = [word for word in text.lower().split()
+                if word not in STOPWORDS] if removeStops else text.lower().split()
     return Counter(text).most_common(topn)        
         
-#------------------------ keyword in context ------------------------
+#---------------------keyword in context ----------------------------
 @st.cache
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
@@ -111,7 +111,7 @@ def plot_collocation(keyword, collocs):
 @st.cache
 def gen_ngram(text, _ngrams=2, topn=10):
     if _ngrams==1:
-        return getTopNWords(text, topn, removeStops=False)
+        return getTopNWords(text, topn)
     ngram_list=[]
     for sent in sent_tokenize(text):
         for char in sent:
@@ -257,7 +257,7 @@ def run_visualizer():
                     step=50,
                     min_value=50,
                     max_value=300,
-                    help='Number of words featured in the cloud.'
+                    help='Maximum number of words featured in the cloud.'
                     )
                 nlp = spacy.load('en_core_web_sm')
                 doc = nlp(input_text)
@@ -269,10 +269,6 @@ def run_visualizer():
                 adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
                 numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
 
-# "PROPN": "proper noun",
-# "NUM": "numeral",
-# "PART": "particle",
-# "PRON": "pronoun",
                 #creating wordcloud
                 wc = WordCloud(
                     max_words=maxWords,
