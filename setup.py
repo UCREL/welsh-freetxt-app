@@ -110,7 +110,7 @@ def plot_collocation(keyword, collocs):
 #-------------------------- N-gram Generator ---------------------------
 @st.cache
 def gen_ngram(text, _ngrams=2, topn=10):
-    if n==1:
+    if _ngrams==1:
         return getTopNWords(text, top, removeStops=False)
     ngram_list=[]
     for sent in sent_tokenize(text):
