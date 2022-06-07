@@ -58,11 +58,10 @@ def upload_multiple_files():
 
 #--------------Get Top n most_common words plus counts---------------
 @st.cache
-def getTopNWords(t, n=5):
-    t = [w for w in t.lower().split() if (w not in STOPWORDS and w not in PUNCS)]
-    return Counter(t).most_common(n)
-    # return [f"{w} ({c})" for w, c in Counter(t).most_common(n)]
-
+def getTopNWords(text, topn=5, removeStops=False):
+    text = [word for word in text.lower().split() if removeStops and (word not in STOPWORDS)]
+    return Counter(text).most_common(topn)        
+        
 #------------------------ keyword in context ------------------------
 @st.cache
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
@@ -82,11 +81,11 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
 
 #------------------------ get collocation ------------------------
 @st.cache
-def get_collocs(kwic_insts, topn=10):
+def get_collocs(kwic_insts, topn=5, removeStops=False):
     words=[]
     for l, t, r in kwic_insts:
         words += l.split() + r.split()
-    all_words = [word for word in words if word not in STOPWORDS]
+    all_words = [word for word in words if removeStops and (word not in STOPWORDS)]
     return Counter(all_words).most_common(topn)
 
 #------------------------ plot collocation ------------------------
@@ -103,7 +102,6 @@ def plot_collocation(keyword, collocs):
         x, y = random.uniform((i+1)/(2*N),(i+1.5)/(2*N)), random.uniform((i+1)/(2*N), (i+1.5)/(2*N)) 
         x = x if random.choice((True, False)) else -x
         y = y if random.choice((True, False)) else -y
-        
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
     st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -111,16 +109,16 @@ def plot_collocation(keyword, collocs):
 
 #-------------------------- N-gram Generator ---------------------------
 @st.cache
-def gen_ngram(text, n=2, top=10):
-    _ngrams=[]
+def gen_ngram(text, _ngrams=2, topn=10):
     if n==1:
-        return getTopNWords(text, top)
+        return getTopNWords(text, top, removeStops=False)
+    ngram_list=[]
     for sent in sent_tokenize(text):
         for char in sent:
             if char in PUNCS: sent = sent.replace(char, "")
-        _ngrams += ngrams(word_tokenize(sent),n)
+        ngram_list += ngrams(word_tokenize(sent), _ngrams)
     return [(f"{' '.join(ng):>27s}", c) 
-            for ng, c in Counter(_ngrams).most_common(top)]
+            for ng, c in Counter(ngram_list).most_common(top)]
 
 #apps------------------------------------------------------------------
 def run_summarizer():
@@ -244,6 +242,10 @@ def run_visualizer():
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
+        st.markdown("**Keyword/KeyPhrase Extraction**")
+        with st.expander("ℹ️ - Settings", expanded=False):
+            pass
+
     with col1:
         st.markdown("**Word Cloud**")
         with st.expander("ℹ️ - Settings", expanded=False):
@@ -259,6 +261,7 @@ def run_visualizer():
                     )
                 nlp = spacy.load('en_core_web_sm')
                 doc = nlp(input_text)
+                
                 nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
                 verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
                 adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
@@ -337,55 +340,3 @@ def run_visualizer():
             # This tool is still at the developmental stage. Updates soon...
             # """
         # )
-        
-    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste a copied', 'Upload a text file'))
-    # if option == 'Use an example text':
-       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
-                                                  # if f.startswith(('ex'))]))  
-       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
-           # example_text = example_file.read()
-           # input_text = st.text_area('Analyze the text in the box:', example_text, height=150)
-    # elif option == 'Upload a text file':
-        # text = upload_multiple_files()
-        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    # else:
-        # input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
-        
-    # side = st.sidebar.selectbox("Select an option below", ["NER",]) # ("Sentiment", "Subjectivity", "NER")
-
-    # nlp = spacy.load('en_core_web_sm')
-    # doc = nlp(input_text)
-    # st.write(f"Noun phrases: {[chunk.text for chunk in doc.noun_chunks]}")
-    # nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
-    # verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-    # st.write("Nouns:", nouns)
-    # st.write("Verbs:", verbs)
-
-    # st.markdown("**Word Cloud**")
-    # mask = np.array(Image.open('img/welsh_flag.png'))      
-    # maxWords = 20
-    # #creating wordcloud
-        
-    # wordcloud = WordCloud(
-        # max_words=maxWords,
-        # stopwords=STOPWORDS,
-        # width=2000, height=1000,
-        # # contour_color= "black", 
-        # relative_scaling = 0,
-        # mask=mask,
-        # background_color="white",
-        # font_path='font/Ubuntu-B.ttf'
-    # ).generate_from_frequencies(verbs) #.generate(input_text)
-    
-    # # wordcloud = WordCloud(width = 10, height = 20).generate_from_frequencies(nouns)
-
-    # color = st.radio('Switch image colour:', ('Color', 'Black'))
-    # img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-    
-    # # image_colors = ImageColorGenerator(mask)
-    # plt.figure(figsize=[20,15])
-    
-    # plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-    # plt.axis("off")
-    # st.set_option('deprecation.showPyplotGlobalUse', False)
-    # st.pyplot()
