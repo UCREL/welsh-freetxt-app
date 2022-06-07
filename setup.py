@@ -243,12 +243,12 @@ def run_visualizer():
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
         st.markdown("**Keyword/KeyPhrase Extraction**")
-        with st.container():
-            with st.expander("ℹ️ - Settings", expanded=False):
-                st.write("This is inside the container")
+        # with st.container():
+        with st.expander("ℹ️ - Settings", expanded=False):
+            st.write("This is inside the container")
 
-                # You can call any Streamlit command, including custom components:
-                st.bar_chart(np.random.randn(50, 3))
+            # You can call any Streamlit command, including custom components:
+            st.bar_chart(np.random.randn(50, 3))
 
     with col1:
         st.markdown("**Word Cloud**")
