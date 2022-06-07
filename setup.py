@@ -224,43 +224,50 @@ def run_visualizer():
         st.markdown("**NGram Frequency**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
-            
-                # keyword = st.text_input('Enter a keyword:')
-                # ngrms = st.slider('Select ngrams:', 1, 5, 1)
                 ngrms = st.number_input("Select ngrams",
                     value=2,
                     min_value=1,
                     max_value=5,
-                    help='The maximum value for the keyphrase_ngram_range.'
+                    help='The maximum number of ngrams.'
                     )
                 topn = st.number_input("Select top ngrams",
                     value=10,
                     step=5,
                     min_value=5,
                     max_value=50,
-                    help='The maximum value for the keyphrase_ngram_range.'
+                    help='The top (most frequent) ngrams.'
                     )
-                # topn = st.slider('Top ngrams:', 10, 50, 10)
-                # col0_lcase = st.checkbox("Lowercase?")
-                # if col0_lcase: input_text = input_text.lower()
+                col0_lcase = st.checkbox("Lowercase?")
+                if col0_lcase: input_text = input_text.lower()
 
                 top_ngrams = gen_ngram(input_text, ngrms, topn)
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
-    
     with col1:
         st.markdown("**Word Cloud**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
                 mask = np.array(Image.open('img/welsh_flag.png'))      
-                maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
-            
+                # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+                maxWords = st.number_input("Number of words:",
+                    value=300,
+                    step=10,
+                    min_value=10,
+                    max_value=300,
+                    help='Number of words featured in the cloud.'
+                    )
                 nlp = spacy.load('en_core_web_sm')
                 doc = nlp(input_text)
                 nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
                 verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-            
+                adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
+                adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
+                numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
+# "PROPN": "proper noun",
+# "NUM": "numeral",
+# "PART": "particle",
+# "PRON": "pronoun",
                 #creating wordcloud
                 wc = WordCloud(
                     max_words=maxWords,
@@ -273,13 +280,21 @@ def run_visualizer():
                     font_path='font/Ubuntu-B.ttf'
                 )#.generate(input_text)
                 
-                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs'])
+                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
                 if cloud_type == 'All words':
                     wordcloud = wc.generate(input_text)        
                 elif cloud_type == 'Nouns':
                     wordcloud = wc.generate_from_frequencies(nouns)        
-                else: 
+                elif cloud_type == 'Verbs':
                     wordcloud = wc.generate_from_frequencies(verbs)
+                elif cloud_type == 'Adjectives':
+                    wordcloud = wc.generate_from_frequencies(adjectives)
+                elif cloud_type == 'Adverbs':
+                    wordcloud = wc.generate_from_frequencies(adverbs)
+                elif cloud_type == 'Numbers':
+                    wordcloud = wc.generate_from_frequencies(numbers)
+                else: 
+                    pass
 
                 color = st.radio('Switch image colour:', ('Color', 'Black'))
                 img_cols = ImageColorGenerator(mask) if color == 'Black' else None
