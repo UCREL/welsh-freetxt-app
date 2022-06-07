@@ -118,7 +118,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
             if char in PUNCS: sent = sent.replace(char, "")
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
     return [(f"{' '.join(ng):>27s}", c) 
-            for ng, c in Counter(ngram_list).most_common(top)]
+            for ng, c in Counter(ngram_list).most_common(topn)]
 
 #apps------------------------------------------------------------------
 def run_summarizer():
