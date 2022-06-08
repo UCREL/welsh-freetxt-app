@@ -357,7 +357,6 @@ def run_visualizer():
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
 
-
 # --------------------- Keyword/KeyPhrase ------------------------------
 # Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
     st.markdown("**Keyword/KeyPhrase Extraction**")
@@ -484,15 +483,4 @@ def run_visualizer():
             }
 
             df = df.format(format_dictionary)
-
-            # with c2:
             st.table(df)
-
-
-# def run_analyze():
-    # with st.expander("ℹ️ - About Analyzer", expanded=False):
-        # st.markdown(
-            # """
-            # This tool is still at the developmental stage. Updates soon...
-            # """
-        # )
