@@ -431,7 +431,7 @@ def run_visualizer():
                     + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
                 )
 
-                doc = input_text[:MAX_WORDS]
+            doc = input_text[:MAX_WORDS]
             # submit_button = st.form_submit_button(label="✨ Get me the data!")
 
             if use_MMR:
