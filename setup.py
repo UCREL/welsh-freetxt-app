@@ -27,8 +27,6 @@ from keybert import KeyBERT
 import seaborn as sns
 import json
 
-
-
 random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
