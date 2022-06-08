@@ -454,10 +454,10 @@ def run_visualizer():
             keywords = kw_model.extract_keywords(
                 doc,
                 keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
-                use_mmr=mmr,
-                stop_words=StopWords,
-                top_n=top_N,
-                diversity=int(Diversity)
+                use_mmr = mmr,
+                stop_words = StopWords,
+                top_n = top_N,
+                diversity= Diversity
             )
 
             df = (
