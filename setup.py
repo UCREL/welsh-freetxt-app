@@ -27,6 +27,8 @@ from keybert import KeyBERT
 import seaborn as sns
 import json
 
+
+
 random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
@@ -249,11 +251,7 @@ def run_visualizer():
                 top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
-                   
                 st.dataframe(top_ngrams_df)
-                
-
-            # df = df.format(format_dictionary)
 
 # st.markdown("## **🎈 Check & download results **")
 
@@ -434,7 +432,7 @@ def run_visualizer():
                     + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
                 )
 
-            doc = input_text[:MAX_WORDS]
+                doc = input_text[:MAX_WORDS]
             # submit_button = st.form_submit_button(label="✨ Get me the data!")
 
             if use_MMR:
