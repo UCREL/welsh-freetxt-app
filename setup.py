@@ -457,7 +457,7 @@ def run_visualizer():
                 use_mmr = mmr,
                 stop_words = StopWords,
                 top_n = top_N,
-                diversity= Diversity
+                diversity= 0.5 #Diversity
             )
 
             df = (
