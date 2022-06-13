@@ -425,14 +425,14 @@ def run_keyphrase():
             help="The higher the setting, the more diverse the keywords. Note that the *Keyword diversity* slider only works if the *MMR* checkbox is ticked."
         )
     with c2:
-        MAX_WORDS = 500
+        MAX_WORDS = 1000
         res = len(re.findall(r"\w+", input_text))
         if res > MAX_WORDS:
             st.warning(
                 "⚠️ Your text contains "
                 + str(res)
                 + " words."
-                + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+                + " Only the first 1000 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
             )
 
         doc = input_text[:MAX_WORDS]
