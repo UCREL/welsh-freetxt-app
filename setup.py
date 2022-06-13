@@ -340,120 +340,141 @@ def run_visualizer():
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
 
-# # --------------------- Keyword/KeyPhrase ------------------------------
-# # Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
-    # st.markdown("**Keyword/KeyPhrase Extraction**")
-    # expander1 = st.expander("ℹ️ - Settings", expanded=False)
-    # with expander1:
-        # ce, c1, ce, c2, ce = st.columns([0.05, 2, 0.05, 5, 0.07])
-        # with c1:
-            # model_type = st.radio( "Choose your model", ["DistilBERT (Default)", "Flair"],
-            # help="Only the DistilBERT works for now!",
-        # )
-            # if model_type == "Default (DistilBERT)":
-            # # kw_model = KeyBERT(model=roberta)
-                # @st.cache(allow_output_mutation=True)
-                # def load_model():
-                    # return KeyBERT(model=roberta)
-                # kw_model = load_model()
-            # else:
-                # @st.cache(allow_output_mutation=True)
-                # def load_model():
-                    # return KeyBERT("distilbert-base-nli-mean-tokens")
-                # kw_model = load_model()
+def run_keyphrase():
+# --------------------- Keyword/KeyPhrase ------------------------------
+# Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
+    st.markdown("**Keyword/KeyPhrase Extraction**")
+    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+    with st.expander("ℹ️ - About this Keyword/KeyPhrase Extract", expanded=False):
+        st.write(
+            """     
+            -   The *BERT Keyword Extractor* app is an easy-to-use interface built in Streamlit for the amazing [KeyBERT](https://github.com/MaartenGr/KeyBERT) library from Maarten Grootendorst!
+            -   It uses a minimal keyword extraction technique that leverages multiple NLP embeddings and relies on [Transformers] (https://huggingface.co/transformers/) 🤗 to create keywords/keyphrases that are most similar to a document.
+            """
+        )
 
-            # top_N = st.slider(
-                # "# of results",
-                # min_value=1,
-                # max_value=30,
-                # value=10,
-                # help="You can choose the number of keywords/keyphrases to display. Between 1 and 30, default number is 10.",
-            # )
-            # min_Ngrams = st.number_input(
-                # "Minimum Ngram",
-                # min_value=1,
-                # max_value=4,
-                # help="The minimum value for the ngram range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
-            # )
+    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
+    if option == 'Use an example text':
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
+       
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           example_text = example_file.read()
+           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+    elif option == 'Upload files':
+        text = upload_multiple_files()
+        input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    else:
+        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
-            # max_Ngrams = st.number_input(
-                # "Maximum Ngram",
-                # value=2,
-                # min_value=1,
-                # max_value=4,
-                # help="The maximum value for the keyphrase_ngram_range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
-            # )
+    ce, c1, ce, c2, ce = st.columns([0.05, 2, 0.05, 5, 0.07])
+    with c1:
+        model_type = st.radio( "Choose your model", ["DistilBERT (Default)", "Flair"],
+        help="Only the DistilBERT works for now!",
+    )
+        if model_type == "Default (DistilBERT)":
+        # kw_model = KeyBERT(model=roberta)
+            @st.cache(allow_output_mutation=True)
+            def load_model():
+                return KeyBERT(model=roberta)
+            kw_model = load_model()
+        else:
+            @st.cache(allow_output_mutation=True)
+            def load_model():
+                return KeyBERT("distilbert-base-nli-mean-tokens")
+            kw_model = load_model()
 
-            # StopWordsCheckbox = st.checkbox(
-                # "Remove stop words",
-                # help="Tick this box to remove stop words from the document (currently English only)",
-            # )
+        top_N = st.slider(
+            "# of results",
+            min_value=1,
+            max_value=30,
+            value=10,
+            help="You can choose the number of keywords/keyphrases to display. Between 1 and 30, default number is 10.",
+        )
+        min_Ngrams = st.number_input(
+            "Minimum Ngram",
+            min_value=1,
+            max_value=4,
+            help="The minimum value for the ngram range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
+        )
 
-            # use_MMR = st.checkbox(
-                # "Use MMR",
-                # value=True,
-                # help="You can use Maximal Margin Relevance (MMR) to diversify the results. It creates keywords/keyphrases based on cosine similarity. Try high/low 'Diversity' settings below for interesting variations.",
-            # )
+        max_Ngrams = st.number_input(
+            "Maximum Ngram",
+            value=2,
+            min_value=1,
+            max_value=4,
+            help="The maximum value for the keyphrase_ngram_range. *Keyphrase_ngram_range* sets the length of the resulting keywords/keyphrases. To extract keyphrases, simply set *keyphrase_ngram_range* to (1, 2) or higher depending on the number of words you would like in the resulting keyphrases."
+        )
 
-            # Diversity = st.slider(
-                # "Keyword diversity (MMR only)",
-                # value=0.5,
-                # min_value=0.0,
-                # max_value=1.0,
-                # step=0.1,
-                # help="The higher the setting, the more diverse the keywords. Note that the *Keyword diversity* slider only works if the *MMR* checkbox is ticked."
-            # )
-        # with c2:
-            # MAX_WORDS = 500
-            # res = len(re.findall(r"\w+", input_text))
-            # if res > MAX_WORDS:
-                # st.warning(
-                    # "⚠️ Your text contains "
-                    # + str(res)
-                    # + " words."
-                    # + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
-                # )
+        StopWordsCheckbox = st.checkbox(
+            "Remove stop words",
+            help="Tick this box to remove stop words from the document (currently English only)",
+        )
 
-            # doc = input_text[:MAX_WORDS]
-            # # submit_button = st.form_submit_button(label="✨ Get me the data!")
+        use_MMR = st.checkbox(
+            "Use MMR",
+            value=True,
+            help="You can use Maximal Margin Relevance (MMR) to diversify the results. It creates keywords/keyphrases based on cosine similarity. Try high/low 'Diversity' settings below for interesting variations.",
+        )
 
-            # mmr = True if use_MMR else False
+        Diversity = st.slider(
+            "Keyword diversity (MMR only)",
+            value=0.5,
+            min_value=0.0,
+            max_value=1.0,
+            step=0.1,
+            help="The higher the setting, the more diverse the keywords. Note that the *Keyword diversity* slider only works if the *MMR* checkbox is ticked."
+        )
+    with c2:
+        MAX_WORDS = 500
+        res = len(re.findall(r"\w+", input_text))
+        if res > MAX_WORDS:
+            st.warning(
+                "⚠️ Your text contains "
+                + str(res)
+                + " words."
+                + " Only the first 500 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+            )
 
-            # StopWords = "english" if StopWordsCheckbox None
+        doc = input_text[:MAX_WORDS]
+        # submit_button = st.form_submit_button(label="✨ Get me the data!")
 
-            # if min_Ngrams > max_Ngrams:
-                # st.warning("min_Ngrams can't be greater than max_Ngrams")
+        mmr = True if use_MMR else False
 
-            # keywords = kw_model.extract_keywords(
-                # doc,
-                # keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
-                # use_mmr = mmr,
-                # stop_words = StopWords,
-                # top_n = top_N,
-                # diversity= Diversity
-            # )
+        StopWords = "english" if StopWordsCheckbox None
 
-            # df = (
-                # pd.DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
-                # .sort_values(by="Relevancy", ascending=False)
-                # .reset_index(drop=True)
-            # )
+        if min_Ngrams > max_Ngrams:
+            st.warning("min_Ngrams can't be greater than max_Ngrams")
 
-            # df.index += 1
+        keywords = kw_model.extract_keywords(
+            doc,
+            keyphrase_ngram_range=(min_Ngrams, max_Ngrams),
+            use_mmr = mmr,
+            stop_words = StopWords,
+            top_n = top_N,
+            diversity= Diversity
+        )
 
-            # # Add styling
-            # cmGreen = sns.light_palette("green", as_cmap=True)
-            # cmRed = sns.light_palette("red", as_cmap=True)
-            # df = df.style.background_gradient(
-                # cmap=cmGreen,
-                # subset=[
-                    # "Relevancy",
-                # ],
-            # )
+        df = (
+            pd.DataFrame(keywords, columns=["Keyword/Keyphrase", "Relevancy"])
+            .sort_values(by="Relevancy", ascending=False)
+            .reset_index(drop=True)
+        )
 
-            # format_dictionary = {
-                # "Relevancy": "{:.1%}",
-            # }
+        df.index += 1
 
-            # df = df.format(format_dictionary)
-            # st.table(df)
+        # Add styling
+        cmGreen = sns.light_palette("green", as_cmap=True)
+        cmRed = sns.light_palette("red", as_cmap=True)
+        df = df.style.background_gradient(
+            cmap=cmGreen,
+            subset=[
+                "Relevancy",
+            ],
+        )
+
+        format_dictionary = {
+            "Relevancy": "{:.1%}",
+        }
+
+        df = df.format(format_dictionary)
+        st.table(df)
