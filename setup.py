@@ -440,7 +440,7 @@ def run_keyphrase():
 
         mmr = True if use_MMR else False
 
-        StopWords = "english" if StopWordsCheckbox None
+        StopWords = "english" if StopWordsCheckbox else None
 
         if min_Ngrams > max_Ngrams:
             st.warning("min_Ngrams can't be greater than max_Ngrams")
