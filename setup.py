@@ -27,8 +27,6 @@ from keybert import KeyBERT
 import seaborn as sns
 import json
 
-
-
 random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
@@ -133,7 +131,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    with st.expander("ℹ️ - About this app", expanded=False):
+    with st.sidebar.expander("ℹ️ - About this app", expanded=False):
         st.markdown(
             """     
             -   This tool adapts the app from the [Welsh Summarization] (https://github.com/UCREL/welsh-summarization-dataset) project!
@@ -201,7 +199,7 @@ def run_summarizer():
 
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    with st.expander("ℹ️ - About Visualizer", expanded=False):
+    with st.sidebar.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
             """
             The `Visualizer` tool provides: 
@@ -252,21 +250,6 @@ def run_visualizer():
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
                 st.dataframe(top_ngrams_df)
-
-# st.markdown("## **🎈 Check & download results **")
-
-# st.header("")
-
-# cs, c1, c2, c3, cLast = st.columns([2, 1.5, 1.5, 1.5, 2])
-
-# with c1:
-    # CSVButton2 = download_button(keywords, "Data.csv", "📥 Download (.csv)")
-# with c2:
-    # CSVButton2 = download_button(keywords, "Data.txt", "📥 Download (.txt)")
-# with c3:
-    # CSVButton2 = download_button(keywords, "Data.json", "📥 Download (.json)")
-
-# st.header("")
 
     with col1:
         st.markdown("**Word Cloud**")
