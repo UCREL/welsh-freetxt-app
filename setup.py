@@ -131,7 +131,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    with st.sidebar.expander("ℹ️ - About this app", expanded=False):
+    with st.expander("ℹ️ - About this app", expanded=False):
         st.markdown(
             """     
             -   This tool adapts the app from the [Welsh Summarization] (https://github.com/UCREL/welsh-summarization-dataset) project!
@@ -199,7 +199,7 @@ def run_summarizer():
 
 def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    with st.sidebar.expander("ℹ️ - About Visualizer", expanded=False):
+    with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
             """
             The `Visualizer` tool provides: 
