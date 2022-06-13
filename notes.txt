@@ -4,3 +4,5 @@ Comments from Dawn (Gareth)
 - Whereas the ngram  frequency tool deals well with some compouns such as “er enghraifft” and “llawer o” but also treated others like “Technoleg a” incorrectly as entities. < does all this make sense?
 - I’m wondering what you could do to help the machine recognise compounds and terms which convey a single concept?
 - I remember you mentioning that sentiment analysis is on the roadmap, which will be great.
+
+
