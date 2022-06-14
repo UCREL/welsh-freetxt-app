@@ -487,7 +487,7 @@ def testing():
     with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
         input_text = example_file.read()
     
-    MAX_WORDS = 20
+    MAX_WORDS = 100
     res = len(re.findall(r"\w+", input_text))
     if res > MAX_WORDS:
         st.warning(
