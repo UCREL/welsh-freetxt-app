@@ -483,7 +483,7 @@ def run_keyphrase():
 def testing():
     # streamlit_app.py
     import spacy_streamlit
-    example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) iff.startswith(('ex'))])[0]
+    example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex')])[0]
     with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
         input_text = example_file.read()
     
