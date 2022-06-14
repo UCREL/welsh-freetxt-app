@@ -494,7 +494,7 @@ def testing():
             "⚠️ Your text contains "
             + str(res)
             + " words."
-            + " Only the first " + res + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+            + " Only the first " + str(res) + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
         )
 
     input_text = input_text[:MAX_WORDS]
