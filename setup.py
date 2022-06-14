@@ -433,7 +433,7 @@ def run_keyphrase():
                 "⚠️ Your text contains "
                 + str(res)
                 + " words."
-                + " Only the first 1000 words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+                + " Only the first " + res + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
             )
 
         doc = input_text[:MAX_WORDS]
@@ -483,7 +483,22 @@ def run_keyphrase():
 def testing():
     # streamlit_app.py
     import spacy_streamlit
+    example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) iff.startswith(('ex'))])[0]
+    with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+        input_text = example_file.read()
+    
+    MAX_WORDS = 20
+    res = len(re.findall(r"\w+", input_text))
+    if res > MAX_WORDS:
+        st.warning(
+            "⚠️ Your text contains "
+            + str(res)
+            + " words."
+            + " Only the first " + res + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+        )
 
+    input_text = input_text[:MAX_WORDS]
+    
     models = ["en_core_web_sm", "en_core_web_md"]
-    default_text = "Sundar Pichai is the CEO of Google."
-    spacy_streamlit.visualize(models, default_text)
+    # default_text = "Sundar Pichai is the CEO of Google."
+    spacy_streamlit.visualize(models, input_text)
