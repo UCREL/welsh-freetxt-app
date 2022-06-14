@@ -341,6 +341,7 @@ def run_visualizer():
                     plot_collocation(keyword, collocs)
 
 def run_keyphrase():
+
 # --------------------- Keyword/KeyPhrase ------------------------------
 # Borrowed from https://github.com/streamlit/example-app-bert-keyword-extractor
     st.markdown("**Keyword/KeyPhrase Extraction**")
@@ -478,3 +479,11 @@ def run_keyphrase():
 
         df = df.format(format_dictionary)
         st.table(df)
+
+def testing():
+    # streamlit_app.py
+    import spacy_streamlit
+
+    models = ["en_core_web_sm", "en_core_web_md"]
+    default_text = "Sundar Pichai is the CEO of Google."
+    spacy_streamlit.visualize(models, default_text)
