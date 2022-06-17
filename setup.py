@@ -480,25 +480,40 @@ def run_keyphrase():
         df = df.format(format_dictionary)
         st.table(df)
 
+@st.cache
 def testing():
     # streamlit_app.py
-    import spacy_streamlit
+    from spacy import displacy
     example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('ex')])[0]
     with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
         input_text = example_file.read()
     
-    MAX_WORDS = 100
-    res = len(re.findall(r"\w+", input_text))
-    if res > MAX_WORDS:
-        st.warning(
-            "⚠️ Your text contains "
-            + str(res)
-            + " words."
-            + " Only the first " + str(res) + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
-        )
-
-    input_text = input_text[:MAX_WORDS]
+    @st.cache
+    def load_model(): return spacy.load("en_core_web_sm")
     
-    models = ["en_core_web_sm", "en_core_web_md"]
+    nlp = load_model()
+    
+    doc = nlp(input_text)
+    displacy.serve(doc, style="ent")
+    
+    
+    
+    
+    # import spacy_streamlit
+    # MAX_WORDS = 100
+    # res = len(re.findall(r"\w+", input_text))
+    # if res > MAX_WORDS:
+        # st.warning(
+            # "⚠️ Your text contains "
+            # + str(res)
+            # + " words."
+            # + " Only the first " + str(res) + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
+        # )
+
+    # input_text = input_text[:MAX_WORDS]
+    
+    # models = ["en_core_web_sm"]
     # default_text = "Sundar Pichai is the CEO of Google."
-    spacy_streamlit.visualize(models, input_text)
+    # spacy_streamlit.visualize(models, input_text)
+    # input_text = "When Sebastian Thrun started working on self-driving cars at Google in 2007, few people outside of the company took him seriously."
+
