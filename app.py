@@ -16,16 +16,16 @@ st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 
 #📃📌📈📈📉⛱🏓🏆🎲 
 
-task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', '📉 Keyphrase Extractor', '🎲 Testing')) #, '📉 Analyzer', '📌 Annotator'))
+task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', '📉 Keyphrase Extractor', '🎲 Sentiment Analyzer')) #, '📉 Analyzer', '📌 Annotator'))
 
 if task == '🔍 Visualizer':
     run_visualizer()
 elif task == '📃 Summarizer':
     run_summarizer()
-elif task == '📉 Keyphrase Extractor':
-    run_keyphrase()
-elif task == '🎲 Testing':
-    testing()
-
+elif task == '🎲 Sentiment Analyzer':
+    run_sentiments()
 else:
     st.write(task, 'is under construction...')
+
+# elif task == '📉 Keyphrase Extractor':
+    # run_keyphrase()
