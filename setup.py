@@ -187,7 +187,7 @@ def process_sentiments(text):
 # ---------------------
 @st.cache
 def plot_sentiments(data, fine_grained=True):
-  fig, ax = plt.subplots(figsize=(8,8))
+  fig, ax = plt.subplots(figsize=(6,6))
   size = 0.5  
   cmap = plt.get_cmap("tab20c")
 
@@ -575,7 +575,7 @@ def run_keyphrase():
         df = df.format(format_dictionary)
         st.table(df)
 
-
+@st.cache(suppress_st_warning=True)
 def run_sentiments():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
