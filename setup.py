@@ -435,6 +435,39 @@ def run_visualizer():
                     st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     plot_collocation(keyword, collocs)
 
+# @st.cache(suppress_st_warning=True)
+def run_sentiments():
+    with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
+        st.markdown(
+            """
+            ToDo: Describe the sentiment analyzer...
+            """
+        )
+
+    # st.markdown('### 🔍 Visualization')
+    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
+    if option == 'Use an example text':
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
+       
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           example_text = example_file.read()
+           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+    elif option == 'Upload files':
+        text = upload_multiple_files()
+        input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    else:
+        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        data = process_sentiments(input_text)
+        plot_sentiments(data[1])
+
+    with col2:
+        df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
+        df = df[['Review','Polarity', 'Sentiment']]
+        st.dataframe(df.head(10))
+
 def run_keyphrase():
 
 # --------------------- Keyword/KeyPhrase ------------------------------
@@ -575,34 +608,3 @@ def run_keyphrase():
         df = df.format(format_dictionary)
         st.table(df)
 
-# @st.cache(suppress_st_warning=True)
-def run_sentiments():
-    with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
-        st.markdown(
-            """
-            ToDo: Describe the sentiment analyzer...
-            """
-        )
-
-    # st.markdown('### 🔍 Visualization')
-    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
-    if option == 'Use an example text':
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
-       
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
-           example_text = example_file.read()
-           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    elif option == 'Upload files':
-        text = upload_multiple_files()
-        input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    else:
-        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
-    
-    col1, col2 = st.columns(2)
-    with col1:
-        data = process_sentiments(input_text)
-        plot_sentiments(data[1])
-    with col2:
-        df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-        df = df[['Review','Polarity', 'Sentiment']]
-        df.head(10)
