@@ -575,9 +575,8 @@ def run_keyphrase():
         df = df.format(format_dictionary)
         st.table(df)
 
-@st.cache(suppress_st_warning=True)
+# @st.cache(suppress_st_warning=True)
 def run_sentiments():
-    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
         st.markdown(
             """
