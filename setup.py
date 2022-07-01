@@ -4,28 +4,31 @@ import string
 import spacy
 import nltk
 import random
+import json
 import en_core_web_sm
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 import streamlit as st
 import networkx as nx
 from PIL import Image
 from io import StringIO
-from nltk import word_tokenize, sent_tokenize, ngrams
+from textblob import TextBlob
+from nltk.tokenize import sent_tokenize, word_tokenize
+# from nltk import word_tokenize, sent_tokenize, ngrams
 from collections import Counter
+from keybert import KeyBERT
 from summa.summarizer import summarize as summa_summarizer
 from wordcloud import WordCloud, ImageColorGenerator
 from nltk.corpus import stopwords
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
+nltk.download('averaged_perceptron_tagger')
 
 # For keyword extraction
-from keybert import KeyBERT
 # For Flair (Keybert) ToDo
 # from flair.embeddings import TransformerDocumentEmbeddings
-import seaborn as sns
-import json
 
 random.seed(10)
 
@@ -481,24 +484,25 @@ def run_keyphrase():
         st.table(df)
 
 @st.cache
-def testing():
-    # streamlit_app.py
-    from spacy import displacy
-    example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('ex')])[0]
-    with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
-        input_text = example_file.read()
+def run_sentiments():
+    pass
+# @st.cache
+# def testing():
+    streamlit_app.py
+    # from spacy import displacy
+    # example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('ex')])[0]
+    # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+        # input_text = example_file.read()
     
-    @st.cache
-    def load_model(): return spacy.load("en_core_web_sm")
+    # @st.cache
+    # def load_model(): return spacy.load("en_core_web_sm")
     
-    nlp = load_model()
+    # nlp = load_model()
     
-    doc = nlp(input_text)
-    displacy.serve(doc, style="ent")
+    # doc = nlp(input_text)
+    # displacy.serve(doc, style="ent")
     
-    
-    
-    
+
     # import spacy_streamlit
     # MAX_WORDS = 100
     # res = len(re.findall(r"\w+", input_text))
