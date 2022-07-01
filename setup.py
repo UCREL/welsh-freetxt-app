@@ -183,7 +183,7 @@ def process_sentiments(text):
   neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
   negative = get_subjectivity_distribution(sentiment_scores,'Negative')
   very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
-  return very_positive, positive, neutral, negative, very_negative
+  return sentiment_scores, (very_positive, positive, neutral, negative, very_negative)
 # ---------------------
 
 def plot_sentiments(data, fine_grained=True):
@@ -601,4 +601,8 @@ def run_sentiments():
     col1, col2 = st.columns(2)
     with col1:
         data = process_sentiments(input_text)
-        plot_sentiments(data)
+        plot_sentiments(data[1])
+    with col2:
+        df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
+        df = df[['Review','Polarity', 'Sentiment']]
+        df.head(10)
