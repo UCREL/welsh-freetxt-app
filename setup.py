@@ -571,13 +571,10 @@ def run_keyphrase():
 @st.cache
 def run_sentiments():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
-    with st.expander("ℹ️ - About Visualizer", expanded=False):
+    with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
         st.markdown(
             """
-            The `Visualizer` tool provides: 
-            * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
-            * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
-            * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
+            ToDo: Describe the sentiment analyzer...
             """
         )
 
