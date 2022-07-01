@@ -38,8 +38,8 @@ cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='utf8').read().split('\
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
-EXAMPLES_DIR = 'example_texts_pub'
-# EXAMPLES_DIR = 'example_texts_cadw'
+# EXAMPLES_DIR = 'example_texts_pub'
+EXAMPLES_DIR = 'example_texts_cadw'
 
 ## Define summarizer models
 # text_rank
@@ -598,6 +598,8 @@ def run_sentiments():
         input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
-        
-    data = process_sentiments(input_text)
-    plot_sentiments(data)
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        data = process_sentiments(input_text)
+        plot_sentiments(data)
