@@ -460,7 +460,7 @@ def run_sentiments():
     
     col1, col2 = st.columns(2)
     with col1:
-        option = st.sidebar.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
+        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
         data = process_sentiments(input_text)
         if option == '3 Class Sentiments':
             plot_sentiments(data[1], fine_grained=False)
