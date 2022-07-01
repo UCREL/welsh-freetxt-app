@@ -488,7 +488,7 @@ def run_sentiments():
     pass
 # @st.cache
 # def testing():
-    streamlit_app.py
+    # streamlit_app.py
     # from spacy import displacy
     # example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('ex')])[0]
     # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
