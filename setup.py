@@ -599,7 +599,7 @@ def run_sentiments():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        data = process_sentiments(input_text)
-        plot_sentiments(data)
+    # col1, col2 = st.columns(2)
+    # with col1:
+    data = process_sentiments(input_text)
+    plot_sentiments(data)
