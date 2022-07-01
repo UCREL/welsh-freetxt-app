@@ -142,17 +142,21 @@ def get_sentiment(polarity):
     ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
 
 #---Subjectivity score
+@st.cache
 def get_subjectivity(subjectivity):
   return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
 #---Subjectivity distribution
+@st.cache
 def get_subjectivity_distribution(scores, sentiment_class):
   count = Counter([b for _, _, a, _, b in scores if a==sentiment_class])
   return count['OBJECTIVE'], count['SUBJECTIVE']
 
+@st.cache
 def plotfunc(pct, data):
   absolute = int(np.round(pct/100.*np.sum([sum(d) for d in data])))
   return "{:.1f}%\n({:d} reviews)".format(pct, absolute)
 # ---------------------
+@st.cache
 def process_sentiments(text):
   all_reviews = sent_tokenize(text)
   # -------------------
@@ -181,6 +185,7 @@ def process_sentiments(text):
   very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
   return very_positive, positive, neutral, negative, very_negative
 # ---------------------
+@st.cache
 def plot_sentiments(data, fine_grained=True):
   fig, ax = plt.subplots(figsize=(8,8))
   size = 0.5  
@@ -214,7 +219,9 @@ def plot_sentiments(data, fine_grained=True):
   ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=14,
             bbox_to_anchor=(1, 0, 0.5, 1))
   # plt.setp(autotexts, size=10, weight="bold")
-  plt.show()
+  # plt.show()
+  st.set_option('deprecation.showPyplotGlobalUse', False)
+  st.pyplot()
 
 #apps------------------------------------------------------------------
 def run_summarizer():
@@ -568,7 +575,7 @@ def run_keyphrase():
         df = df.format(format_dictionary)
         st.table(df)
 
-@st.cache
+
 def run_sentiments():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
@@ -594,36 +601,3 @@ def run_sentiments():
         
     data = process_sentiments(input_text)
     plot_sentiments(data)
-# @st.cache
-# def testing():
-    # streamlit_app.py
-    # from spacy import displacy
-    # example_fname = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('ex')])[0]
-    # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
-        # input_text = example_file.read()
-    
-    # @st.cache
-    # def load_model(): return spacy.load("en_core_web_sm")
-    
-    # nlp = load_model()
-    
-    # doc = nlp(input_text)
-    # displacy.serve(doc, style="ent")
-    
-
-    # import spacy_streamlit
-    # MAX_WORDS = 100
-    # res = len(re.findall(r"\w+", input_text))
-    # if res > MAX_WORDS:
-        # st.warning(
-            # "⚠️ Your text contains "
-            # + str(res)
-            # + " words."
-            # + " Only the first " + str(res) + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
-        # )
-    # input_text = input_text[:MAX_WORDS]
-    # models = ["en_core_web_sm"]
-    # default_text = "Sundar Pichai is the CEO of Google."
-    # spacy_streamlit.visualize(models, input_text)
-    # input_text = "When Sebastian Thrun started working on self-driving cars at Google in 2007, few people outside of the company took him seriously."
-
