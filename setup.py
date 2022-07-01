@@ -15,7 +15,7 @@ import networkx as nx
 from PIL import Image
 from io import StringIO
 from textblob import TextBlob
-from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.tokenize import sent_tokenize, word_tokenize, ngrams
 # from nltk import word_tokenize, sent_tokenize, ngrams
 from collections import Counter
 from keybert import KeyBERT
