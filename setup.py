@@ -185,7 +185,7 @@ def process_sentiments(text):
   very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
   return very_positive, positive, neutral, negative, very_negative
 # ---------------------
-@st.cache
+
 def plot_sentiments(data, fine_grained=True):
   fig, ax = plt.subplots(figsize=(6,6))
   size = 0.5  
