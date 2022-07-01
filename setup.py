@@ -588,7 +588,8 @@ def run_sentiments():
     # st.markdown('### 🔍 Visualization')
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     if option == 'Use an example text':
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)]))
+       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
        
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
@@ -599,7 +600,7 @@ def run_sentiments():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
     
-    # col1, col2 = st.columns(2)
-    # with col1:
-    data = process_sentiments(input_text)
-    plot_sentiments(data)
+    col1, col2 = st.columns(2)
+    with col1:
+        data = process_sentiments(input_text)
+        plot_sentiments(data)
