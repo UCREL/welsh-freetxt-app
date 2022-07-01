@@ -13,3 +13,4 @@ spacytextblob
 spacy-streamlit
 keybert
 seaborn
+textblob
