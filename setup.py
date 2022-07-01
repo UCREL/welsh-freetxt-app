@@ -570,6 +570,31 @@ def run_keyphrase():
 
 @st.cache
 def run_sentiments():
+    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+    with st.expander("ℹ️ - About Visualizer", expanded=False):
+        st.markdown(
+            """
+            The `Visualizer` tool provides: 
+            * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
+            * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
+            * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
+            """
+        )
+
+    # st.markdown('### 🔍 Visualization')
+    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
+    if option == 'Use an example text':
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
+       
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           example_text = example_file.read()
+           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+    elif option == 'Upload files':
+        text = upload_multiple_files()
+        input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    else:
+        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
+        
     data = process_sentiments(input_text)
     plot_sentiments(data)
 # @st.cache
