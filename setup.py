@@ -131,6 +131,91 @@ def gen_ngram(text, _ngrams=2, topn=10):
     return [(f"{' '.join(ng):>27s}", c) 
             for ng, c in Counter(ngram_list).most_common(topn)]
 
+#---Polarity score
+def get_sentiment(polarity):
+  # if not fine_grained:
+  #   return 'Positive' if polarity > 0.0 else 'Negative' if (
+  #     polarity < 0.0) else 'Neutral'
+  # else:
+  return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
+    0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
+    ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
+
+#---Subjectivity score
+def get_subjectivity(subjectivity):
+  return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
+#---Subjectivity distribution
+def get_subjectivity_distribution(scores, sentiment_class):
+  count = Counter([b for _, _, a, _, b in scores if a==sentiment_class])
+  return count['OBJECTIVE'], count['SUBJECTIVE']
+
+def plotfunc(pct, data):
+  absolute = int(np.round(pct/100.*np.sum([sum(d) for d in data])))
+  return "{:.1f}%\n({:d} reviews)".format(pct, absolute)
+# ---------------------
+def process_sentiments(text):
+  all_reviews = sent_tokenize(text)
+  # -------------------
+  sentiment_scores = []
+  # -------------------
+  sentiments_list = []
+  subjectivity_list = []
+
+  all_reviews_blob = TextBlob("\n".join(all_reviews))
+  # print(f"Reviews Summary:\n- Token + tags: {len(ten_reviews_blob.tags)}")
+  print(f"- Words: {len(all_reviews_blob.words)}")
+  print(f"- Sentences: {len(all_reviews_blob.sentences)}")
+  #-------------------
+  for review in all_reviews:
+    blob = TextBlob(review)
+    polarity, subjectivity = blob.sentiment
+    sentiment_class, subjectivity_category = get_sentiment(polarity), get_subjectivity(subjectivity)
+    sentiments_list.append(sentiment_class)
+    subjectivity_list.append(subjectivity_category)
+    sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
+  # -------------------
+  very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
+  positive = get_subjectivity_distribution(sentiment_scores,'Positive')
+  neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
+  negative = get_subjectivity_distribution(sentiment_scores,'Negative')
+  very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
+  return very_positive, positive, neutral, negative, very_negative
+# ---------------------
+def plot_sentiments(data, fine_grained=True):
+  fig, ax = plt.subplots(figsize=(8,8))
+  size = 0.5  
+  cmap = plt.get_cmap("tab20c")
+
+  if not fine_grained:
+    new_pos = tuple(map(lambda x, y: x + y, data[0], data[1]))
+    new_neg = tuple(map(lambda x, y: x + y, data[3], data[4]))
+    data = new_pos, data[2], new_neg
+    color_code = [8, 3, 4]
+    labels = ["Positive", "Neutral", "Negative"]
+  else:
+    color_code =  [8, 10, 3, 5, 4]
+    labels = ["Very Positive", "Positive", "Neutral", "Negative", "Very Negative"]
+
+  vals = np.array(data)
+  outer_colors =  cmap(np.array(color_code)) # cmap(np.arange(5))
+  # inner_colors = cmap(np.arange(10)) # cmap(np.array([1, 2, 3, 4, 5, 6, 7,8, 9, 10]))
+
+  wedges, texts, autotexts = ax.pie(vals.sum(axis=1), radius=1,
+        autopct=lambda pct: plotfunc(pct, data),
+        colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
+        pctdistance=0.80, textprops=dict(color="w", weight="bold", size=10))
+
+  # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
+  #       autopct=lambda pct: plotfunc(pct, data),
+  #       wedgeprops=dict(width=size, edgecolor='w'),
+  #       pctdistance=0.80, textprops=dict(color="r", size=10))
+
+  ax.set_title("Sentiment Analysis Chart")
+  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=14,
+            bbox_to_anchor=(1, 0, 0.5, 1))
+  # plt.setp(autotexts, size=10, weight="bold")
+  plt.show()
+
 #apps------------------------------------------------------------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
@@ -485,7 +570,8 @@ def run_keyphrase():
 
 @st.cache
 def run_sentiments():
-    pass
+    data = process_sentiments(input_text)
+    plot_sentiments(data)
 # @st.cache
 # def testing():
     # streamlit_app.py
@@ -513,9 +599,7 @@ def run_sentiments():
             # + " words."
             # + " Only the first " + str(res) + " words will be reviewed. Stay tuned as increased allowance is coming! 😊"
         # )
-
     # input_text = input_text[:MAX_WORDS]
-    
     # models = ["en_core_web_sm"]
     # default_text = "Sundar Pichai is the CEO of Google."
     # spacy_streamlit.visualize(models, input_text)
