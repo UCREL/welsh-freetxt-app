@@ -216,7 +216,7 @@ def plot_sentiments(data, fine_grained=True):
   #       pctdistance=0.80, textprops=dict(color="r", size=10))
 
   ax.set_title("Sentiment Analysis Chart")
-  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=14,
+  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=12,
             bbox_to_anchor=(1, 0, 0.5, 1))
   # plt.setp(autotexts, size=10, weight="bold")
   # plt.show()
@@ -460,13 +460,17 @@ def run_sentiments():
     
     col1, col2 = st.columns(2)
     with col1:
+        option = st.sidebar.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
         data = process_sentiments(input_text)
-        plot_sentiments(data[1])
+        if option == '3 Class Sentiments':
+            plot_sentiments(data[1], fine_grained=False)
+        else:
+            plot_sentiments(data[1])
 
     with col2:
         df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
         df = df[['Review','Polarity', 'Sentiment']]
-        st.dataframe(df.head(10))
+        st.dataframe(df.head(15))
 
 def run_keyphrase():
 
