@@ -25,12 +25,12 @@ from nltk.corpus import stopwords
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
-
+random.seed(10)
 # For keyword extraction
 # For Flair (Keybert) ToDo
 # from flair.embeddings import TransformerDocumentEmbeddings
 
-random.seed(10)
+
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -133,10 +133,6 @@ def gen_ngram(text, _ngrams=2, topn=10):
 
 #---Polarity score
 def get_sentiment(polarity):
-  # if not fine_grained:
-  #   return 'Positive' if polarity > 0.0 else 'Negative' if (
-  #     polarity < 0.0) else 'Neutral'
-  # else:
   return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
     0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
     ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
@@ -296,12 +292,12 @@ def run_visualizer():
     # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
     with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
-            """
-            The `Visualizer` tool provides: 
-            * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
-            * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
-            * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
-            """
+        """
+        The `Visualizer` tool provides: 
+        * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
+        * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
+        * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
+        """
         )
 
     # st.markdown('### 🔍 Visualization')
@@ -437,7 +433,7 @@ def run_visualizer():
 
 # @st.cache(suppress_st_warning=True)
 def run_sentiments():
-    with st.expander("ℹ️ - About Sentiment Analizer", expanded=False):
+    with st.expander("ℹ️ - About Sentiment Analyzer", expanded=False):
         st.markdown(
             """
             ToDo: Describe the sentiment analyzer...
