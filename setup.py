@@ -303,7 +303,9 @@ def run_visualizer():
     # st.markdown('### 🔍 Visualization')
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     if option == 'Use an example text':
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
+       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
+
        
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
@@ -439,7 +441,6 @@ def run_sentiments():
             ToDo: Describe the sentiment analyzer...
             """
         )
-
     # st.markdown('### 🔍 Visualization')
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     if option == 'Use an example text':
