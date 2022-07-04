@@ -305,7 +305,6 @@ def run_visualizer():
     if option == 'Use an example text':
        # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
-
        
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
            example_text = example_file.read()
@@ -465,9 +464,10 @@ def run_sentiments():
             plot_sentiments(data[1])
 
     with col2:
+        num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5)
         df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
         df = df[['Review','Polarity', 'Sentiment']]
-        st.dataframe(df.head(15))
+        st.dataframe(df.head(num_examples))
 
 def run_keyphrase():
 
