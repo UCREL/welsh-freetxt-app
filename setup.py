@@ -320,7 +320,7 @@ def run_visualizer():
 
     img_cols = None
     col0, col1, col2 = st.columns(3)
-    with st.expander("ℹ️ Words and Clusters Frequency", expanded=False, key='frequency'):
+    with st.expander("ℹ️ Words and Clusters Frequency", expanded=False):
         if input_text:
             ngrms = st.number_input("Select ngrams",
                 value=2,
@@ -344,31 +344,31 @@ def run_visualizer():
             top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
             st.dataframe(top_ngrams_df)
 
-    with col0:
-        st.markdown("**Words and Clusters Frequency**")
-        with st.expander("ℹ️ - Settings", expanded=False):
-            if input_text:
-                ngrms = st.number_input("Select ngrams",
-                    value=2,
-                    min_value=1,
-                    max_value=5,
-                    help='The maximum number of ngrams.'
-                    )
-                topn = st.number_input("Select top ngrams",
-                    value=10,
-                    step=5,
-                    min_value=5,
-                    max_value=50,
-                    help='The top (most frequent) ngrams.'
-                    )
-                col0_lcase = st.checkbox("Lowercase?")
-                if col0_lcase: input_text = input_text.lower()
+    # with col0:
+        # st.markdown("**Words and Clusters Frequency**")
+        # with st.expander("ℹ️ - Settings", expanded=False):
+            # if input_text:
+                # ngrms = st.number_input("Select ngrams",
+                    # value=2,
+                    # min_value=1,
+                    # max_value=5,
+                    # help='The maximum number of ngrams.'
+                    # )
+                # topn = st.number_input("Select top ngrams",
+                    # value=10,
+                    # step=5,
+                    # min_value=5,
+                    # max_value=50,
+                    # help='The top (most frequent) ngrams.'
+                    # )
+                # col0_lcase = st.checkbox("Lowercase?")
+                # if col0_lcase: input_text = input_text.lower()
 
-                top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
-                top_ngrams_df = pd.DataFrame(top_ngrams,
-                    columns =['NGrams', 'Frequency', 'Percentage'])
-                top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
-                st.dataframe(top_ngrams_df)
+                # top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
+                # top_ngrams_df = pd.DataFrame(top_ngrams,
+                    # columns =['NGrams', 'Frequency', 'Percentage'])
+                # top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
+                # st.dataframe(top_ngrams_df)
 
     with col1:
         st.markdown("**Word Cloud**")
