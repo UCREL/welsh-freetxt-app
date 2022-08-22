@@ -100,7 +100,7 @@ def get_collocs(kwic_insts, topn=5, removeStops=False):
 #------------------------ plot collocation ------------------------
 @st.cache(suppress_st_warning=True)
 def plot_collocation(keyword, collocs):
-    # st.write(collocs)
+    st.write(collocs)
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
     plt.figure(figsize=(8,8))
