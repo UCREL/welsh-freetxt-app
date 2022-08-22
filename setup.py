@@ -129,8 +129,10 @@ def gen_ngram(text, _ngrams=2, topn=10):
         for char in sent:
             if char in PUNCS: sent = sent.replace(char, "")
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
-    return [(f"{' '.join(ng):>27s}", c) 
-            for ng, c in Counter(ngram_list).most_common(topn)]
+    ngram_counts = Counter(ngram_list).most_common(topn)
+    sum_ngram_counts = sum(ngram_counts.values())
+    return [(f"{' '.join(ng):>27s}", c, f"{c/sum_ngram_counts:.2f}%")
+            for ng, c in ngram_counts]
 
 #---Polarity score
 def get_sentiment(polarity):
@@ -341,7 +343,7 @@ def run_visualizer():
 
                 top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
-                    columns =['NGrams', 'Counts'])
+                    columns =['NGrams', 'Frequency', 'Percentage'])
                 top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
                 st.dataframe(top_ngrams_df)
 
