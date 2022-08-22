@@ -295,9 +295,19 @@ def run_visualizer():
         st.markdown(
         """
         The `Visualizer` tool provides: 
-        * N-gram Frequency: **input**: `text`, `ngrams`, `top ngrams:(default=10)`; **Output**: *list of tuples:* (`NGram`, `Counts`)
-        * Keyword in Context (KWIC): **input**: `text`, `keyword`, `window_size:(default=1)`, `maxInstances=(default=10)`, `lower_case=(False)`; **Output**: *list of tuples:* (`left_context`, `keyword`, `right_context`)
-        * Word Cloud: **input**: `text`, `num_words`, `color`; **Output**: Word Cloud image
+        * **N-gram Frequency:**
+        - These are words which frequently occur together to make up a phrase or chunk of language. You can chose how many you look at in clusters of 2 up to 5 e.g. 'friendly and welcoming'.
+        - *Select ngrams* allows you to choose how big you want your clusters to be 
+        - *Select top ngrams* allows you to see which ones are the most frequent in your text and at the side of each one, you can see how many times they occurred (counts).  
+
+        * **Word Cloud:**
+        - This allows you to see in a diagram (a dragon shape!) what the most common words in our text are. The larger they appear in the word cloud, the more frequent they are in your text. You can also (i) set the number of words to be included in your word cloud (ii) tell it to include all type of words or specify some types only e.g. adjectives or proper nouns (names) and (iii) you can change the colour of your word cloud. 
+
+        * **Keyword in context:**
+        - Here you can search for a word and see how it is used in context within your text. You will need to *select a keyword* and then set the *window size* to tell the tool how many words either side of your *keyword* you want to see. The number of instances of each word can also be set here. 
+        You can analyse your 'keyword' in two ways (i) keyword in context where you will see three columns with the 'keyword' in the middle and the column to the left showing words typically occurring to the left of your 'keyword' e.g. 'the / medieaval / Caernarfon' to the left of the keyword 'castle'. In the same way, the column to the right shows you which words typically appear after your 'keyword' e.g. 'food / meal' to the right of the keyword 'tasty'. 
+
+        - Another way to analyse your *keyword* is the *collocation analysis* tool. This is really useful for identifying words which frequently occur together e.g. *'tour'* + *'guide'*. This tool would help to see whether specific words in the text have positive or negative collocations e.g. the keyword 'facilities' might be collocated mainly with 'excellent / good / clean' or 'poor / limited / dirty'. 
         """
         )
 
