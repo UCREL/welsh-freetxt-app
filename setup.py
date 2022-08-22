@@ -342,7 +342,7 @@ def run_visualizer():
                 top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
-                top_ngrams_df.index = np.arange(1, len(df) + 1)
+                top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
                 st.dataframe(top_ngrams_df)
 
     with col1:
