@@ -34,7 +34,7 @@ random.seed(10)
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='utf8').read().split('\n')
+cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
@@ -239,7 +239,7 @@ def run_summarizer():
            example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
                                                   if f.startswith(('cy','ex'))]))
 
-           with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
                example_text = example_file.read()
 
            input_text = st.text_area('Crynhowch y testun enghreifftiol yn y blwch:', example_text, height=300)
@@ -269,7 +269,7 @@ def run_summarizer():
         if option == 'Use an example text':           
            example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
                                                   if f.startswith(('en','ex'))]))
-           with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+           with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
                example_text = example_file.read()
                input_text = st.text_area('Summarise the example text in the box:', example_text, height=300)
         elif option == 'Upload a text file':
@@ -307,7 +307,7 @@ def run_visualizer():
        # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
        
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
            example_text = example_file.read()
            input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
     elif option == 'Upload files':
@@ -453,7 +453,7 @@ def run_sentiments():
     if option == 'Use an example text':
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
        
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
            example_text = example_file.read()
            input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
     elif option == 'Upload files':
@@ -495,7 +495,7 @@ def run_keyphrase():
     if option == 'Use an example text':
        example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
        
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='utf8') as example_file:
+       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
            example_text = example_file.read()
            input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
     elif option == 'Upload files':
