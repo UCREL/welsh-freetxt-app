@@ -100,7 +100,7 @@ def get_collocs(kwic_insts, topn=5, removeStops=False):
 #------------------------ plot collocation ------------------------
 @st.cache(suppress_st_warning=True)
 def plot_collocation(keyword, collocs):
-    st.write(collocs)
+    st.write(collocs)#
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
     plt.figure(figsize=(8,8))
@@ -443,9 +443,9 @@ def run_visualizer():
                     columns =['left context', 'keyword', 'right context'])
                 st.dataframe(kwic_instances_df)
             else: #Could you replace with NLTK concordance later?
-                st.write(kwic_instances)
                 # keyword = st.text_input('Enter a keyword:','staff')
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
+                st.write(collocs)                
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 plot_collocation(keyword, collocs)
