@@ -442,7 +442,8 @@ def run_visualizer():
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['left context', 'keyword', 'right context'])
                 st.dataframe(kwic_instances_df)
-            else: #Could you replace with NLTK concordance later? 
+            else: #Could you replace with NLTK concordance later?
+                st.write(kwic_instances)
                 # keyword = st.text_input('Enter a keyword:','staff')
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
