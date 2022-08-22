@@ -20,10 +20,10 @@ task = st.sidebar.radio("Select a task", ('🔍 Visualizer', '📃 Summarizer', 
 
 if task == '🔍 Visualizer':
     run_visualizer()
-elif task == '📃 Summarizer':
-    run_summarizer()
 elif task == '🎲 Sentiment Analyzer':
     run_sentiments()
+elif task == '📃 Summarizer':
+    run_summarizer()
 else:
     st.write(task, 'is under construction...')
 
