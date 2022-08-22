@@ -320,7 +320,7 @@ def run_visualizer():
 
     img_cols = None
     col0, col1, col2 = st.columns(3)
-    with col0.expander("ℹ️ Words and Clusters Frequency", expanded=False):
+    with st.expander("ℹ️ Words and Clusters Frequency", expanded=False, key='frequency'):
         if input_text:
             ngrms = st.number_input("Select ngrams",
                 value=2,
