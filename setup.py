@@ -30,8 +30,6 @@ random.seed(10)
 # For Flair (Keybert) ToDo
 # from flair.embeddings import TransformerDocumentEmbeddings
 
-
-
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
@@ -319,152 +317,122 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
     img_cols = None
-    # with st.expander("ℹ️ Words and Clusters Frequency", expanded=False):
-        # if input_text:
-            # ngrms = st.number_input("Select ngrams",
-                # value=2,
-                # min_value=1,
-                # max_value=5,
-                # help='The maximum number of ngrams.'
-                # )
-            # topn = st.number_input("Select top ngrams",
-                # value=10,
-                # step=5,
-                # min_value=5,
-                # max_value=50,
-                # help='The top (most frequent) ngrams.'
-                # )
-            # col0_lcase = st.checkbox("Lowercase?")
-            # if col0_lcase: input_text = input_text.lower()
+    # col0, col1, col2 = st.columns(3)
 
-            # top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
-            # top_ngrams_df = pd.DataFrame(top_ngrams,
-                # columns =['NGrams', 'Frequency', 'Percentage'])
-            # top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
-            # st.dataframe(top_ngrams_df)
-    col0, col1, col2 = st.columns(3)
+    # with col0:
+    st.markdown("**Words and Clusters Frequency**")
+    with st.expander("ℹ️ - Settings", expanded=False):
+        if input_text:
+            ngrms = st.number_input("Select ngrams",
+                value=2,
+                min_value=1,
+                max_value=5,
+                help='The maximum number of ngrams.'
+                )
+            topn = st.number_input("Select top ngrams",
+                value=10,
+                step=5,
+                min_value=5,
+                max_value=50,
+                help='The top (most frequent) ngrams.'
+                )
+            col0_lcase = st.checkbox("Lowercase?")
+            if col0_lcase: input_text = input_text.lower()
 
-    with col0:
-        st.markdown("**Words and Clusters Frequency**")
-        with st.expander("ℹ️ - Settings", expanded=False):
-            if input_text:
-                ngrms = st.number_input("Select ngrams",
-                    value=2,
-                    min_value=1,
-                    max_value=5,
-                    help='The maximum number of ngrams.'
-                    )
-                topn = st.number_input("Select top ngrams",
-                    value=10,
-                    step=5,
-                    min_value=5,
-                    max_value=50,
-                    help='The top (most frequent) ngrams.'
-                    )
-                col0_lcase = st.checkbox("Lowercase?")
-                if col0_lcase: input_text = input_text.lower()
+            top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
+            top_ngrams_df = pd.DataFrame(top_ngrams,
+                columns =['NGrams', 'Frequency', 'Percentage'])
+            top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
+            st.dataframe(top_ngrams_df)
 
-                top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
-                top_ngrams_df = pd.DataFrame(top_ngrams,
-                    columns =['NGrams', 'Frequency', 'Percentage'])
-                top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
-                st.dataframe(top_ngrams_df)
+# with col1:
+    st.markdown("**Word Cloud**")
+    with st.expander("ℹ️ - Settings", expanded=False):
+        if input_text:
+            mask = np.array(Image.open('img/welsh_flag.png'))      
+            # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+            maxWords = st.number_input("Number of words:",
+                value=300,
+                step=50,
+                min_value=50,
+                max_value=300,
+                help='Maximum number of words featured in the cloud.'
+                )
+            nlp = spacy.load('en_core_web_sm')
+            doc = nlp(input_text)
+            
+            nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+            verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+            proper_nouns = Counter([token.lemma_ for token in doc if token.pos_ == "PROPN"])
+            adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
+            adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
+            numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
 
-    with col1:
-        st.markdown("**Word Cloud**")
-        with st.expander("ℹ️ - Settings", expanded=False):
-            if input_text:
-                mask = np.array(Image.open('img/welsh_flag.png'))      
-                # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
-                maxWords = st.number_input("Number of words:",
-                    value=300,
-                    step=50,
-                    min_value=50,
-                    max_value=300,
-                    help='Maximum number of words featured in the cloud.'
-                    )
-                nlp = spacy.load('en_core_web_sm')
-                doc = nlp(input_text)
-                
-                nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
-                verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-                proper_nouns = Counter([token.lemma_ for token in doc if token.pos_ == "PROPN"])
-                adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
-                adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
-                numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
+            #creating wordcloud
+            wc = WordCloud(
+                max_words=maxWords,
+                stopwords=STOPWORDS,
+                width=2000, height=1000,
+                # contour_color= "black", 
+                relative_scaling = 0,
+                mask=mask,
+                background_color="white",
+                font_path='font/Ubuntu-B.ttf'
+            )#.generate(input_text)
+            
+            cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
+            if cloud_type == 'All words':
+                wordcloud = wc.generate(input_text)        
+            elif cloud_type == 'Nouns':
+                wordcloud = wc.generate_from_frequencies(nouns)        
+            elif cloud_type == 'Proper nouns':
+                wordcloud = wc.generate_from_frequencies(proper_nouns)        
+            elif cloud_type == 'Verbs':
+                wordcloud = wc.generate_from_frequencies(verbs)
+            elif cloud_type == 'Adjectives':
+                wordcloud = wc.generate_from_frequencies(adjectives)
+            elif cloud_type == 'Adverbs':
+                wordcloud = wc.generate_from_frequencies(adverbs)
+            elif cloud_type == 'Numbers':
+                wordcloud = wc.generate_from_frequencies(numbers)
+            else: 
+                pass
 
-                # nouns = Counter([token for token in doc if token.pos_ == "NOUN"])
-                # verbs = Counter([token for token in doc if token.pos_ == "VERB"])
-                # proper_nouns = Counter([token for token in doc if token.pos_ == "PROPN"])
-                # adjectives = Counter([token for token in doc if token.pos_ == "ADJ"])
-                # adverbs = Counter([token for token in doc if token.pos_ == "ADV"])
-                # numbers = Counter([token for token in doc if token.pos_ == "NUM"])
+            color = st.radio('Switch image colour:', ('Color', 'Black'))
+            img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+            
+            # image_colors = ImageColorGenerator(mask)
+            plt.figure(figsize=[20,15])
+            
+            # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
+            plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+            plt.axis("off")
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
 
-                #creating wordcloud
-                wc = WordCloud(
-                    max_words=maxWords,
-                    stopwords=STOPWORDS,
-                    width=2000, height=1000,
-                    # contour_color= "black", 
-                    relative_scaling = 0,
-                    mask=mask,
-                    background_color="white",
-                    font_path='font/Ubuntu-B.ttf'
-                )#.generate(input_text)
-                
-                cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
-                if cloud_type == 'All words':
-                    wordcloud = wc.generate(input_text)        
-                elif cloud_type == 'Nouns':
-                    wordcloud = wc.generate_from_frequencies(nouns)        
-                elif cloud_type == 'Proper nouns':
-                    wordcloud = wc.generate_from_frequencies(proper_nouns)        
-                elif cloud_type == 'Verbs':
-                    wordcloud = wc.generate_from_frequencies(verbs)
-                elif cloud_type == 'Adjectives':
-                    wordcloud = wc.generate_from_frequencies(adjectives)
-                elif cloud_type == 'Adverbs':
-                    wordcloud = wc.generate_from_frequencies(adverbs)
-                elif cloud_type == 'Numbers':
-                    wordcloud = wc.generate_from_frequencies(numbers)
-                else: 
-                    pass
+# with col2: #Could you replace with NLTK concordance later?
+    st.markdown("**Explore**")
+    with st.expander("ℹ️ - Settings", expanded=False):
+        if input_text:
+            topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
+            # st.write(True if topwords else False)
+            keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
+            window_size = st.slider('Select the window size:', 1, 10, 2)
+            maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+            col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
+            kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
 
-                color = st.radio('Switch image colour:', ('Color', 'Black'))
-                img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-                
-                # image_colors = ImageColorGenerator(mask)
-                plt.figure(figsize=[20,15])
-                
-                # plt.imshow(wordcloud.recolor(color_func=image_colors), interpolation="bilinear")
-                plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-                plt.axis("off")
-                st.set_option('deprecation.showPyplotGlobalUse', False)
-                st.pyplot()
-    
-    with col2: #Could you replace with NLTK concordance later?
-        st.markdown("**Explore**")
-        with st.expander("ℹ️ - Settings", expanded=False):
-            if input_text:
-                topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
-                # st.write(True if topwords else False)
-                keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-                window_size = st.slider('Select the window size:', 1, 10, 2)
-                maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-                col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
-                kwic_instances = get_kwic(input_text, keyword, window_size, maxInsts, col2_lcase)
-
-                keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
-                if keyword_analysis == 'Keyword in context':
-                    kwic_instances_df = pd.DataFrame(kwic_instances,
-                        columns =['left context', 'keyword', 'right context'])
-                    st.dataframe(kwic_instances_df)
-                else: #Could you replace with NLTK concordance later? 
-                    # keyword = st.text_input('Enter a keyword:','staff')
-                    collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
-                    colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-                    st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                    plot_collocation(keyword, collocs)
+            keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
+            if keyword_analysis == 'Keyword in context':
+                kwic_instances_df = pd.DataFrame(kwic_instances,
+                    columns =['left context', 'keyword', 'right context'])
+                st.dataframe(kwic_instances_df)
+            else: #Could you replace with NLTK concordance later? 
+                # keyword = st.text_input('Enter a keyword:','staff')
+                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
+                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                plot_collocation(keyword, collocs)
 
 # @st.cache(suppress_st_warning=True)
 def run_sentiments():
