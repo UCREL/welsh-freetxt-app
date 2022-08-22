@@ -130,7 +130,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
             if char in PUNCS: sent = sent.replace(char, "")
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
     ngram_counts = Counter(ngram_list).most_common(topn)
-    sum_ngram_counts = sum(ngram_counts.values())
+    sum_ngram_counts = sum([c for _, c in ngram_counts])
     return [(f"{' '.join(ng):>27s}", c, f"{c/sum_ngram_counts:.2f}%")
             for ng, c in ngram_counts]
 
