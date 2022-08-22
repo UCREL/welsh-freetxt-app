@@ -131,7 +131,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
     ngram_counts = Counter(ngram_list).most_common(topn)
     sum_ngram_counts = sum([c for _, c in ngram_counts])
-    return [(f"{' '.join(ng):>27s}", c, f"{c/sum_ngram_counts:.2f}%")
+    return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
             for ng, c in ngram_counts]
 
 #---Polarity score
