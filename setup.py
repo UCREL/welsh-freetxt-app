@@ -319,7 +319,6 @@ def run_visualizer():
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
 
     img_cols = None
-    col0, col1, col2 = st.columns(3)
     with st.expander("ℹ️ Words and Clusters Frequency", expanded=False):
         if input_text:
             ngrms = st.number_input("Select ngrams",
@@ -343,6 +342,7 @@ def run_visualizer():
                 columns =['NGrams', 'Frequency', 'Percentage'])
             top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
             st.dataframe(top_ngrams_df)
+    col0, col1, col2 = st.columns(3)
 
     # with col0:
         # st.markdown("**Words and Clusters Frequency**")
