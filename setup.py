@@ -382,6 +382,7 @@ def run_visualizer():
             
             cloud_type = st.selectbox('Choose cloud type:', ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
             if cloud_type == 'All words':
+                st.write(input_text)
                 wordcloud = wc.generate(input_text)        
             elif cloud_type == 'Nouns':
                 wordcloud = wc.generate_from_frequencies(nouns)        
