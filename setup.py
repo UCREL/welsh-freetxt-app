@@ -360,12 +360,19 @@ def run_visualizer():
                 nlp = spacy.load('en_core_web_sm')
                 doc = nlp(input_text)
                 
-                nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
-                verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
-                proper_nouns = Counter([token.lemma_ for token in doc if token.pos_ == "PROPN"])
-                adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
-                adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
-                numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
+                # nouns = Counter([token.lemma_ for token in doc if token.pos_ == "NOUN"])
+                # verbs = Counter([token.lemma_ for token in doc if token.pos_ == "VERB"])
+                # proper_nouns = Counter([token.lemma_ for token in doc if token.pos_ == "PROPN"])
+                # adjectives = Counter([token.lemma_ for token in doc if token.pos_ == "ADJ"])
+                # adverbs = Counter([token.lemma_ for token in doc if token.pos_ == "ADV"])
+                # numbers = Counter([token.lemma_ for token in doc if token.pos_ == "NUM"])
+
+                nouns = Counter([token for token in doc if token.pos_ == "NOUN"])
+                verbs = Counter([token for token in doc if token.pos_ == "VERB"])
+                proper_nouns = Counter([token for token in doc if token.pos_ == "PROPN"])
+                adjectives = Counter([token for token in doc if token.pos_ == "ADJ"])
+                adverbs = Counter([token for token in doc if token.pos_ == "ADV"])
+                numbers = Counter([token for token in doc if token.pos_ == "NUM"])
 
                 #creating wordcloud
                 wc = WordCloud(
@@ -609,4 +616,3 @@ def run_keyphrase():
 
         df = df.format(format_dictionary)
         st.table(df)
-
