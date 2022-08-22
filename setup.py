@@ -320,7 +320,7 @@ def run_visualizer():
     col0, col1, col2 = st.columns(3)
     
     with col0:
-        st.markdown("**NGram Frequency**")
+        st.markdown("**Words and Clusters Frequency**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
                 ngrms = st.number_input("Select ngrams",
@@ -342,6 +342,7 @@ def run_visualizer():
                 top_ngrams = gen_ngram(input_text, int(ngrms), int(topn))
                 top_ngrams_df = pd.DataFrame(top_ngrams,
                     columns =['NGrams', 'Counts'])
+                top_ngrams_df.index = np.arange(1, len(df) + 1)
                 st.dataframe(top_ngrams_df)
 
     with col1:
@@ -417,7 +418,7 @@ def run_visualizer():
                 st.pyplot()
     
     with col2: #Could you replace with NLTK concordance later?
-        st.markdown("**Keyword in Context**")
+        st.markdown("**Explore**")
         with st.expander("ℹ️ - Settings", expanded=False):
             if input_text:
                 topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
