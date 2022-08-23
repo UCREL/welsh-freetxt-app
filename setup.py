@@ -88,20 +88,18 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
         kwic_insts.append((left_context, target_word, right_context))
     return kwic_insts
 
-#------------------------ get collocation ------------------------
+#---------- get collocation ------------------------
 @st.cache
-def get_collocs(kwic_insts, topn=10, removeStops=False):
+def get_collocs(kwic_insts, topn=10):
     words=[]
     for l, t, r in kwic_insts:
         words += l.split() + r.split()
     all_words = [word for word in words]
-    # if removeStops and (word not in STOPWORDS)]
     return Counter(all_words).most_common(topn)
 
-#------------------------ plot collocation ------------------------
+#----------- plot collocation ------------------------
 @st.cache(suppress_st_warning=True)
 def plot_collocation(keyword, collocs):
-    st.write(collocs)#
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
     plt.figure(figsize=(8,8))
@@ -445,8 +443,7 @@ def run_visualizer():
                 st.dataframe(kwic_instances_df)
             else: #Could you replace with NLTK concordance later?
                 # keyword = st.text_input('Enter a keyword:','staff')
-                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'
-                st.write(collocs)                
+                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 plot_collocation(keyword, collocs)
