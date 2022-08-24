@@ -336,9 +336,7 @@ def run_visualizer():
     # with col0:
     # st.markdown("**Words and Clusters Frequency**")
     with st.expander("Words and Clusters Frequency", expanded=False):
-        with st.expander("ℹ️ - About Visualizer", expanded=False):
-            st.markdown(
-            """
+        st.markdown("""
             - *Select ngrams* allows you to choose how big you want your clusters to be 
             - *Select top ngrams* allows you to see which ones are the most frequent in your text and at the side of each one, you can see how many times they occurred (counts).   
             """
