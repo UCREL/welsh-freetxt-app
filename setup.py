@@ -163,8 +163,8 @@ def process_sentiments(text):
 
   all_reviews_blob = TextBlob("\n".join(all_reviews))
   # print(f"Reviews Summary:\n- Token + tags: {len(ten_reviews_blob.tags)}")
-  print(f"- Words: {len(all_reviews_blob.words)}")
-  print(f"- Sentences: {len(all_reviews_blob.sentences)}")
+  # print(f"- Words: {len(all_reviews_blob.words)}")
+  # print(f"- Sentences: {len(all_reviews_blob.sentences)}")
   #-------------------
   for review in all_reviews:
     blob = TextBlob(review)
@@ -470,20 +470,20 @@ def run_sentiments():
     else:
         input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
-        data = process_sentiments(input_text)
-        if option == '3 Class Sentiments':
-            plot_sentiments(data[1], fine_grained=False)
-        else:
-            plot_sentiments(data[1])
+    # col1, col2 = st.columns(2)
+    # with col1:
+    option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
+    data = process_sentiments(input_text)
+    if option == '3 Class Sentiments':
+        plot_sentiments(data[1], fine_grained=False)
+    else:
+        plot_sentiments(data[1])
 
-    with col2:
-        num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5)
-        df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-        df = df[['Review','Polarity', 'Sentiment']]
-        st.dataframe(df.head(num_examples))
+    # with col2:
+    num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5)
+    df = pd.DataFrame(data[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
+    df = df[['Review','Polarity', 'Sentiment']]
+    st.dataframe(df.head(num_examples))
 
 def run_keyphrase():
 
