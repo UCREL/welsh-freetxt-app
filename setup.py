@@ -48,7 +48,7 @@ def text_rank_summarize(article, ratio):
 
 #------------------------- uploading file ---------------------------
 def uploadfile():
-    uploaded_file = st.file_uploader("Choose a text file")
+    uploaded_file = st.file_uploader("Choose a text file", type=['txt','xlsx', 'xls'])
     if uploaded_file is not None:
         stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
         return stringio.read()
