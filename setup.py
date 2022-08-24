@@ -295,7 +295,7 @@ def run_visualizer():
         """
         The `Visualizer` tool provides:
         
-        **N-gram Frequency:**
+        **Words and Clusters Frequency:**
         
         - These are words which frequently occur together to make up a phrase or chunk of language. You can chose how many you look at in clusters of 2 up to 5 e.g. 'friendly and welcoming'.
         - *Select ngrams* allows you to choose how big you want your clusters to be 
@@ -336,6 +336,13 @@ def run_visualizer():
     # with col0:
     # st.markdown("**Words and Clusters Frequency**")
     with st.expander("Words and Clusters Frequency", expanded=False):
+        with st.expander("ℹ️ - About Visualizer", expanded=False):
+            st.markdown(
+            """
+            - *Select ngrams* allows you to choose how big you want your clusters to be 
+            - *Select top ngrams* allows you to see which ones are the most frequent in your text and at the side of each one, you can see how many times they occurred (counts).   
+            """
+            )
         if input_text:
             ngrms = st.number_input("Select ngrams",
                 value=2,
