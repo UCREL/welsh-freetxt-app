@@ -334,8 +334,8 @@ def run_visualizer():
     # col0, col1, col2 = st.columns(3)
 
     # with col0:
-    st.markdown("**Words and Clusters Frequency**")
-    with st.expander("ℹ️ - Settings", expanded=False):
+    # st.markdown("**Words and Clusters Frequency**")
+    with st.expander("Words and Clusters Frequency", expanded=False):
         if input_text:
             ngrms = st.number_input("Select ngrams",
                 value=2,
@@ -360,8 +360,8 @@ def run_visualizer():
             st.dataframe(top_ngrams_df)
 
 # with col1:
-    st.markdown("**Word Cloud**")
-    with st.expander("ℹ️ - Settings", expanded=False):
+    # st.markdown("**Word Cloud**")
+    with st.expander("Word Cloud", expanded=False):
         if input_text:
             mask = np.array(Image.open('img/welsh_flag.png'))      
             # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
@@ -425,8 +425,8 @@ def run_visualizer():
             st.pyplot()
 
 # with col2: #Could you replace with NLTK concordance later?
-    st.markdown("**Explore**")
-    with st.expander("ℹ️ - Settings", expanded=False):
+    # st.markdown("**Explore**")
+    with st.expander("Explore", expanded=False):
         if input_text:
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
             # st.write(True if topwords else False)
