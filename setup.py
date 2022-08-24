@@ -36,8 +36,8 @@ cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().sp
 STOPWORDS = set(en_stopwords + cy_stopwords)
 PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 
-# EXAMPLES_DIR = 'example_texts_pub'
-EXAMPLES_DIR = 'example_texts_cadw'
+EXAMPLES_DIR = 'example_texts_pub'
+# EXAMPLES_DIR = 'example_texts_cadw'
 
 ## Define summarizer models
 # text_rank
@@ -319,7 +319,7 @@ def run_visualizer():
     option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     if option == 'Use an example text':
        # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('en'))]))
+       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
        
        with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
            example_text = example_file.read()
