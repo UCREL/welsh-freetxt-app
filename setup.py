@@ -64,7 +64,6 @@ def upload_multiple_files():
 
 
 #---------------------Get input text----------------------------
-# @st.cache(suppress_st_warning=True)
 def get_input_text(option, lang='en'):
 	input_text=''
 	if option == MESSAGES[lang][0]:
@@ -81,7 +80,6 @@ def get_input_text(option, lang='en'):
 	return input_text
 
 #--------------Get Top n most_common words plus counts---------------
-@st.cache
 def getTopNWords(text, topn=5, removeStops=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
     text = [word for word in text.lower().split()
@@ -229,7 +227,7 @@ def plot_sentiments(data, fine_grained=True):
 
 #-------------apps-----------------------------
 def run_summarizer():
-    language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+    language = st.sidebar.selectbox('Newid iaith (Change language):', ['English', 'Cymraeg'])
     lang = 'cy' if language == 'Cymraeg' else 'en'
     st.markdown(MESSAGES[f'{lang}.ext.md'])
     with st.expander(MESSAGES[f'{lang}.info.title'], expanded=False):
