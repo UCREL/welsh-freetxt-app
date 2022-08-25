@@ -250,6 +250,7 @@ def run_summarizer():
 
 def run_visualizer():
     lang = 'en'
+    st.markdown('#### 🔍 Visualizer')
     with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
         """
@@ -274,28 +275,11 @@ def run_visualizer():
         * Another way to analyse your *keyword* is the *collocation analysis* tool. This is really useful for identifying words which frequently occur together e.g. *'tour'* + *'guide'*. This tool would help to see whether specific words in the text have positive or negative collocations e.g. the keyword 'facilities' might be collocated mainly with 'excellent / good / clean' or 'poor / limited / dirty'. 
         """
         )
-    st.markdown('### 🔍 Visualization')
+    st.markdown('## 🔍 Visualization')
     option = st.sidebar.radio(MESSAGES[lang][7], (MESSAGES[lang][8], MESSAGES[lang][9], MESSAGES[lang][10]))
     input_text = get_input_text(option, lang=lang)
-    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
-    # if option == 'Use an example text':
-       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
-       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
-       
-       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
-           # example_text = example_file.read()
-           # input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    # elif option == 'Upload files':
-        # text = upload_multiple_files()
-        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    # else:
-        # input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)
 
     img_cols = None
-    # col0, col1, col2 = st.columns(3)
-
-    # with col0:
-    # st.markdown("**Words and Clusters Frequency**")
     with st.expander("Words and Clusters Frequency", expanded=False):
         st.markdown("""
             - *Select ngrams* allows you to choose how big you want your clusters to be 
@@ -325,8 +309,6 @@ def run_visualizer():
             top_ngrams_df.index = np.arange(1, len(top_ngrams_df) + 1)
             st.dataframe(top_ngrams_df)
 
-# with col1:
-    # st.markdown("**Word Cloud**")
     with st.expander("Word Cloud", expanded=False):
         if input_text:
             mask = np.array(Image.open('img/welsh_flag.png'))      
@@ -390,8 +372,6 @@ def run_visualizer():
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
-# with col2: #Could you replace with NLTK concordance later?
-    # st.markdown("**Explore**")
     with st.expander("Explore", expanded=False):
         if input_text:
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
@@ -416,30 +396,17 @@ def run_visualizer():
 
 # @st.cache(suppress_st_warning=True)
 def run_sentiments():
+    lang = 'en'
+    st.markdown('#### 🎲 Sentiment Analyzer')
     with st.expander("ℹ️ - About Sentiment Analyzer", expanded=False):
         st.markdown(
             """
             ToDo: Describe the sentiment analyzer...
             """
         )
-    st.markdown('### 🔍 Sentiment Analysis')
     option = st.sidebar.radio(MESSAGES[lang][7], (MESSAGES[lang][8], MESSAGES[lang][9], MESSAGES[lang][10]))
     input_text = get_input_text(option, lang=lang)
 
-    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
-    # if option == 'Use an example text':
-       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
-       
-       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
-           # example_text = example_file.read()
-           # input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    # elif option == 'Upload files':
-        # text = upload_multiple_files()
-        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    # else:
-        # input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)    
-    # col1, col2 = st.columns(2)
-    # with col1:
     if input_text:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
         data = process_sentiments(input_text)
