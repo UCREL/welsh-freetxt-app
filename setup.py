@@ -64,7 +64,7 @@ def upload_multiple_files():
 
 
 #---------------------Get input text----------------------------
-@st.cache
+@st.cache(suppress_st_warning=True)
 def get_input_text(option, lang='en'):
 	input_text=''
 	if option == MESSAGES[lang][0]:
@@ -274,9 +274,9 @@ def run_visualizer():
         * Another way to analyse your *keyword* is the *collocation analysis* tool. This is really useful for identifying words which frequently occur together e.g. *'tour'* + *'guide'*. This tool would help to see whether specific words in the text have positive or negative collocations e.g. the keyword 'facilities' might be collocated mainly with 'excellent / good / clean' or 'poor / limited / dirty'. 
         """
         )
-
-    input_text = get_input_text(option, lang=lang)
     st.markdown('### 🔍 Visualization')
+    option = st.sidebar.radio(MESSAGES[lang][7], (MESSAGES[lang][8], MESSAGES[lang][9], MESSAGES[lang][10]))
+    input_text = get_input_text(option, lang=lang)
     # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
     # if option == 'Use an example text':
        # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
@@ -422,19 +422,22 @@ def run_sentiments():
             ToDo: Describe the sentiment analyzer...
             """
         )
-    # st.markdown('### 🔍 Visualization')
-    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
-    if option == 'Use an example text':
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
+    st.markdown('### 🔍 Sentiment Analysis')
+    option = st.sidebar.radio(MESSAGES[lang][7], (MESSAGES[lang][8], MESSAGES[lang][9], MESSAGES[lang][10]))
+    input_text = get_input_text(option, lang=lang)
+
+    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
+    # if option == 'Use an example text':
+       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
        
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
-           example_text = example_file.read()
-           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    elif option == 'Upload files':
-        text = upload_multiple_files()
-        input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    else:
-        input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)    
+       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
+           # example_text = example_file.read()
+           # input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+    # elif option == 'Upload files':
+        # text = upload_multiple_files()
+        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    # else:
+        # input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)    
     # col1, col2 = st.columns(2)
     # with col1:
     if input_text:
