@@ -249,7 +249,7 @@ def run_summarizer():
             st.write("Rhowch eich testun...(Please enter your text...)")
 
 def run_visualizer():
-    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['Cymraeg', 'English'])
+    lang = 'en'
     with st.expander("ℹ️ - About Visualizer", expanded=False):
         st.markdown(
         """
