@@ -214,7 +214,7 @@ def plot_sentiments(data, fine_grained=True):
         colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
         pctdistance=0.60, textprops=dict(color="w", weight="bold", size=8))
 
-  ax.set_title("Sentiment Chart", title_fontsize='small')
+  ax.set_title("Sentiment Chart")
   
   ax.legend(wedges, labels, title="Sentiment classes", title_fontsize='small', loc="center left", fontsize=8,
             bbox_to_anchor=(1, 0, 0.5, 1))
