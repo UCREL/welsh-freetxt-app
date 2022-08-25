@@ -192,7 +192,7 @@ def process_sentiments(text):
 
 def plot_sentiments(data, fine_grained=True):
   fig, ax = plt.subplots(figsize=(5,5))
-  size = 0.3 
+  size = 0.7 
   cmap = plt.get_cmap("tab20c")
 
   if not fine_grained:
@@ -216,8 +216,11 @@ def plot_sentiments(data, fine_grained=True):
 
 
   ax.set_title("Sentiment Analysis Chart")
-  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=5,
+  
+  ax.legend(wedges, labels, title="Sentiments", title_fontsize='large', loc="center left", fontsize=8,
             bbox_to_anchor=(1, 0, 0.5, 1))
+            
+            
   st.set_option('deprecation.showPyplotGlobalUse', False)
   st.pyplot()
 
