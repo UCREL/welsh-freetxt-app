@@ -162,10 +162,6 @@ def process_sentiments(text):
   sentiments_list = []
   subjectivity_list = []
 
-  # all_reviews_blob = TextBlob("\n".join(all_reviews))
-  # print(f"Reviews Summary:\n- Token + tags: {len(ten_reviews_blob.tags)}")
-  # print(f"- Words: {len(all_reviews_blob.words)}")
-  # print(f"- Sentences: {len(all_reviews_blob.sentences)}")
   #-------------------
   for review in all_reviews:
     blob = TextBlob(review)
@@ -207,16 +203,10 @@ def plot_sentiments(data, fine_grained=True):
         colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
         pctdistance=0.80, textprops=dict(color="w", weight="bold", size=10))
 
-  # ax.pie(vals.flatten(), radius=1-size, colors=inner_colors,
-  #       autopct=lambda pct: plotfunc(pct, data),
-  #       wedgeprops=dict(width=size, edgecolor='w'),
-  #       pctdistance=0.80, textprops=dict(color="r", size=10))
 
   ax.set_title("Sentiment Analysis Chart")
-  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=10,
+  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=9,
             bbox_to_anchor=(1, 0, 0.5, 1))
-  # plt.setp(autotexts, size=10, weight="bold")
-  # plt.show()
   st.set_option('deprecation.showPyplotGlobalUse', False)
   st.pyplot()
 
@@ -236,8 +226,7 @@ def run_summarizer():
         st.markdown("#### Rhowch eich testun isod:")
         option = st.sidebar.radio('Sut ydych chi am fewnbynnu eich testun?', ('Defnyddiwch destun enghreifftiol', 'Rhowch eich testun eich hun', 'Llwythwch ffeil testun i fyny'))
         if option == 'Defnyddiwch destun enghreifftiol':
-           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR)
-                                                  if f.startswith('Reviews')]))
+           example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')]))
 
            with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
                example_text = example_file.read()
@@ -329,7 +318,7 @@ def run_visualizer():
         text = upload_multiple_files()
         input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
-        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
+        input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)
 
     img_cols = None
     # col0, col1, col2 = st.columns(3)
@@ -474,7 +463,7 @@ def run_sentiments():
         text = upload_multiple_files()
         input_text = st.text_area('Visualize uploaded text:', text, height=150)
     else:
-        input_text = st.text_area('Type or paste your text into the text box:', '<Please enter your text...>', height=150)
+        input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)
     
     # col1, col2 = st.columns(2)
     # with col1:
