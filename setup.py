@@ -281,7 +281,6 @@ def run_visualizer():
             - *Select top ngrams* allows you to see which ones are the most frequent in your text and at the side of each one, you can see how many times they occurred (counts).   
             """
             )
-        
             ngrms = st.number_input("Select ngrams",
                 value=2,
                 min_value=1,
@@ -413,3 +412,13 @@ def run_sentiments():
         df = df[['Review','Polarity', 'Sentiment']]
         df.index = np.arange(1, len(df) + 1)
         st.dataframe(df.head(num_examples))
+        
+
+test_uploaded_file = st.sidebar.file_uploader("Just testing file upload", type=['txt','xlsx', 'xls'])
+if test_uploaded_file is not None:
+    test_uploaded_file.type
+    test_uploaded_file.name
+    test_uploaded_file.size
+    # Can be used wherever a "file-like" object is accepted:
+    # dataframe = pd.read_csv(uploaded_file)
+    # st.write(dataframe)
