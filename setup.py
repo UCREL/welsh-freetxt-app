@@ -68,7 +68,7 @@ def upload_multiple_files():
 def get_input_text(option, lang='en'):
 	input_text=''
 	if option == MESSAGES[lang][0]:
-		example_fname = st.sidebar.selectbox(MESSAGES[lang][1], sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('cy')]))
+		example_fname = st.sidebar.selectbox(MESSAGES[lang][1], sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')]))
 		with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
 				example_text = example_file.read()
 		input_text = st.text_area(MESSAGES[lang][2], example_text, height=300)
