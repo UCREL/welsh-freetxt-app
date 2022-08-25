@@ -64,7 +64,7 @@ def upload_multiple_files():
 
 
 #---------------------Get input text----------------------------
-@st.cache(suppress_st_warning=True)
+# @st.cache(suppress_st_warning=True)
 def get_input_text(option, lang='en'):
 	input_text=''
 	if option == MESSAGES[lang][0]:
@@ -275,7 +275,6 @@ def run_visualizer():
         * Another way to analyse your *keyword* is the *collocation analysis* tool. This is really useful for identifying words which frequently occur together e.g. *'tour'* + *'guide'*. This tool would help to see whether specific words in the text have positive or negative collocations e.g. the keyword 'facilities' might be collocated mainly with 'excellent / good / clean' or 'poor / limited / dirty'. 
         """
         )
-    st.markdown('## 🔍 Visualization')
     option = st.sidebar.radio(MESSAGES[lang][7], (MESSAGES[lang][8], MESSAGES[lang][9], MESSAGES[lang][10]))
     input_text = get_input_text(option, lang=lang)
 
@@ -311,8 +310,7 @@ def run_visualizer():
 
     with st.expander("Word Cloud", expanded=False):
         if input_text:
-            mask = np.array(Image.open('img/welsh_flag.png'))      
-            # maxWords = st.slider('Maximum number of words:', 10, 300, 300, 10)
+            mask = np.array(Image.open('img/welsh_flag.png'))
             maxWords = st.number_input("Number of words:",
                 value=300,
                 step=50,
