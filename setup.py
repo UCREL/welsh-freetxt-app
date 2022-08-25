@@ -212,19 +212,17 @@ def plot_sentiments(data, fine_grained=True):
   wedges, texts, autotexts = ax.pie(vals.sum(axis=1), radius=1,
         autopct=lambda pct: plotfunc(pct, data),
         colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
-        pctdistance=0.80, textprops=dict(color="w", weight="bold", size=8))
+        pctdistance=0.60, textprops=dict(color="w", weight="bold", size=8))
 
-
-  ax.set_title("Sentiment Analysis Chart")
+  ax.set_title("Sentiment Chart", title_fontsize='small')
   
-  ax.legend(wedges, labels, title="Sentiments", title_fontsize='large', loc="center left", fontsize=8,
+  ax.legend(wedges, labels, title="Sentiment classes", title_fontsize='small', loc="center left", fontsize=8,
             bbox_to_anchor=(1, 0, 0.5, 1))
-            
-            
+
   st.set_option('deprecation.showPyplotGlobalUse', False)
   st.pyplot()
 
-#-------------apps-----------------------------
+#-------------apps----------------
 def run_summarizer():
     language = st.sidebar.selectbox('Newid iaith (Change language):', ['English', 'Cymraeg'])
     lang = 'cy' if language == 'Cymraeg' else 'en'
