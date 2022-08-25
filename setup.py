@@ -62,6 +62,24 @@ def upload_multiple_files():
         bytes_data += uploaded_file.read().decode("utf-8") 
     return bytes_data
 
+
+#---------------------Get input text----------------------------
+@st.cache
+def get_input_text(option, lang='en'):
+	input_text=''
+	if option == MESSAGES[lang][0]:
+		example_fname = st.sidebar.selectbox(MESSAGES[lang][1], sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('cy')]))
+		with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
+				example_text = example_file.read()
+		input_text = st.text_area(MESSAGES[lang][2], example_text, height=300)
+
+	elif option == MESSAGES[lang][3]:
+		text = upload_multiple_files(lang=lang)
+		input_text = st.text_area(MESSAGES[lang][4], text, height=300)
+	else:
+		input_text = st.text_area(MESSAGES[lang][5], MESSAGES[lang][6])
+	return input_text
+
 #--------------Get Top n most_common words plus counts---------------
 @st.cache
 def getTopNWords(text, topn=5, removeStops=False):
@@ -69,7 +87,7 @@ def getTopNWords(text, topn=5, removeStops=False):
     text = [word for word in text.lower().split()
                 if word not in STOPWORDS] if removeStops else text.lower().split()
     return Counter(text).most_common(topn)        
-        
+
 #---------------------keyword in context ----------------------------
 @st.cache
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
@@ -257,20 +275,21 @@ def run_visualizer():
         """
         )
 
-    # st.markdown('### 🔍 Visualization')
-    option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
-    if option == 'Use an example text':
+    input_text = get_input_text(option, lang=lang)
+    st.markdown('### 🔍 Visualization')
+    # option = st.sidebar.radio('How do you want to input your text?', ('Use an example text', 'Paste copied text', 'Upload files'))
+    # if option == 'Use an example text':
        # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('ex'))]))
-       example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
+       # example_fname = st.sidebar.selectbox('Select example text:', sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith(('Reviews'))]))
        
-       with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
-           example_text = example_file.read()
-           input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
-    elif option == 'Upload files':
-        text = upload_multiple_files()
-        input_text = st.text_area('Visualize uploaded text:', text, height=150)
-    else:
-        input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)
+       # with open(os.path.join(EXAMPLES_DIR, example_fname), 'r', encoding='iso-8859-1') as example_file:
+           # example_text = example_file.read()
+           # input_text = st.text_area('Visualize example text in the box:', example_text, height=150)
+    # elif option == 'Upload files':
+        # text = upload_multiple_files()
+        # input_text = st.text_area('Visualize uploaded text:', text, height=150)
+    # else:
+        # input_text = st.text_area('Type or paste your text into the text box (one review per line):', '<Please type or paste your reviews here...>', height=150)
 
     img_cols = None
     # col0, col1, col2 = st.columns(3)
