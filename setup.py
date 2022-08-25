@@ -79,6 +79,9 @@ def get_input_text(option, lang='en'):
 		input_text = st.text_area(MESSAGES[lang][5], MESSAGES[lang][6])
 	return input_text
 
+# def read_cadw_data(option, lang='en'):
+    # To do
+
 #--------------Get Top n most_common words plus counts---------------
 def getTopNWords(text, topn=5, removeStops=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
@@ -189,7 +192,7 @@ def process_sentiments(text):
 
 def plot_sentiments(data, fine_grained=True):
   fig, ax = plt.subplots(figsize=(5,5))
-  size = 0.5  
+  size = 0.3 
   cmap = plt.get_cmap("tab20c")
 
   if not fine_grained:
@@ -209,11 +212,11 @@ def plot_sentiments(data, fine_grained=True):
   wedges, texts, autotexts = ax.pie(vals.sum(axis=1), radius=1,
         autopct=lambda pct: plotfunc(pct, data),
         colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
-        pctdistance=0.80, textprops=dict(color="w", weight="bold", size=10))
+        pctdistance=0.80, textprops=dict(color="w", weight="bold", size=8))
 
 
   ax.set_title("Sentiment Analysis Chart")
-  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=9,
+  ax.legend(wedges, labels, title="Sentiments", loc="center left", fontsize=5,
             bbox_to_anchor=(1, 0, 0.5, 1))
   st.set_option('deprecation.showPyplotGlobalUse', False)
   st.pyplot()
