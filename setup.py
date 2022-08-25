@@ -73,7 +73,7 @@ def get_input_text(option, lang='en'):
 		input_text = st.text_area(MESSAGES[lang][2], example_text, height=300)
 
 	elif option == MESSAGES[lang][3]:
-		text = upload_multiple_files(lang=lang)
+		text = upload_multiple_files()
 		input_text = st.text_area(MESSAGES[lang][4], text, height=300)
 	else:
 		input_text = st.text_area(MESSAGES[lang][5], MESSAGES[lang][6])
@@ -129,7 +129,6 @@ def plot_collocation(keyword, collocs):
     st.pyplot()
 
 #-------------------------- N-gram Generator ---------------------------
-@st.cache
 def gen_ngram(text, _ngrams=2, topn=10):
     if _ngrams==1:
         return getTopNWords(text, topn)
