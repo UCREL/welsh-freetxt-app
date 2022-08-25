@@ -154,14 +154,15 @@ def plotfunc(pct, data):
 # ---------------------
 @st.cache
 def process_sentiments(text):
-  all_reviews = sent_tokenize(text)
+  # all_reviews = sent_tokenize(text)
+  all_reviews = text.split('\n')
   # -------------------
   sentiment_scores = []
   # -------------------
   sentiments_list = []
   subjectivity_list = []
 
-  all_reviews_blob = TextBlob("\n".join(all_reviews))
+  # all_reviews_blob = TextBlob("\n".join(all_reviews))
   # print(f"Reviews Summary:\n- Token + tags: {len(ten_reviews_blob.tags)}")
   # print(f"- Words: {len(all_reviews_blob.words)}")
   # print(f"- Sentences: {len(all_reviews_blob.sentences)}")
