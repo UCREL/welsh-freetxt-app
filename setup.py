@@ -87,7 +87,6 @@ def getTopNWords(text, topn=5, removeStops=False):
     return Counter(text).most_common(topn)        
 
 #---------------------keyword in context ----------------------------
-@st.cache
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
     if lower_case:
@@ -104,7 +103,6 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     return kwic_insts
 
 #---------- get collocation ------------------------
-@st.cache
 def get_collocs(kwic_insts, topn=10):
     words=[]
     for l, t, r in kwic_insts:
@@ -113,7 +111,6 @@ def get_collocs(kwic_insts, topn=10):
     return Counter(all_words).most_common(topn)
 
 #----------- plot collocation ------------------------
-@st.cache(suppress_st_warning=True)
 def plot_collocation(keyword, collocs):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
@@ -153,7 +150,6 @@ def get_sentiment(polarity):
     ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
 
 #---Subjectivity score
-@st.cache
 def get_subjectivity(subjectivity):
   return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
 #---Subjectivity distribution
@@ -162,12 +158,10 @@ def get_subjectivity_distribution(scores, sentiment_class):
   count = Counter([b for _, _, a, _, b in scores if a==sentiment_class])
   return count['OBJECTIVE'], count['SUBJECTIVE']
 
-@st.cache
 def plotfunc(pct, data):
   absolute = int(np.round(pct/100.*np.sum([sum(d) for d in data])))
   return "{:.1f}%\n({:d} reviews)".format(pct, absolute)
 # ---------------------
-@st.cache
 def process_sentiments(text):
   # all_reviews = sent_tokenize(text)
   all_reviews = text.split('\n')
@@ -390,7 +384,6 @@ def run_visualizer():
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 plot_collocation(keyword, collocs)
 
-# @st.cache(suppress_st_warning=True)
 def run_sentiments():
     lang = 'en'
     st.markdown('#### 🎲 Sentiment Analyzer')
