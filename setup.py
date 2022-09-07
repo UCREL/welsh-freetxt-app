@@ -379,7 +379,7 @@ def run_visualizer():
             if keyword_analysis == 'Keyword in context':
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
-                kwic_instances_df.style.set_properties(align = 'right')
+                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
                 # subset=['Left context', 'Keyword', 'Right context'],
                 # kwic_instances_df
                 st.dataframe(kwic_instances_df)
