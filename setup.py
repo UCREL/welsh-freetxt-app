@@ -365,7 +365,7 @@ def run_visualizer():
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
 
-    with st.expander("Explore", expanded=False):
+    with st.expander("View Keywords in Context", expanded=False):
         if input_text:
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_text, removeStops=True)]
             # st.write(True if topwords else False)
@@ -378,8 +378,12 @@ def run_visualizer():
             keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
             if keyword_analysis == 'Keyword in context':
                 kwic_instances_df = pd.DataFrame(kwic_instances,
-                    columns =['left context', 'keyword', 'right context'])
-                st.dataframe(kwic_instances_df)
+                    columns =['Left context', 'Keyword', 'Right context'])
+                kwic_instances_df.style.set_properties(subset=['Left context'], **{'text-align': 'right'})
+                kwic_instances_df
+                
+                # st.dataframe(kwic_instances_df)
+                
             else: #Could you replace with NLTK concordance later?
                 # keyword = st.text_input('Enter a keyword:','staff')
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
