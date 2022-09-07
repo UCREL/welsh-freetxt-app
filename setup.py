@@ -380,9 +380,8 @@ def run_visualizer():
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.set_properties(subset=['Left context'], **{'text-align': 'right'})
-                kwic_instances_df
-                
-                # st.dataframe(kwic_instances_df)
+                # kwic_instances_df
+                st.dataframe(kwic_instances_df)
                 
             else: #Could you replace with NLTK concordance later?
                 # keyword = st.text_input('Enter a keyword:','staff')
