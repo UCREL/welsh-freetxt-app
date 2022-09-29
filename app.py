@@ -413,7 +413,7 @@ if task == '🔍 Data Visualizer':
         for i in range(len(tabs)):
             with tabs[i]:
                 _, df = data[filenames[i]]
-                df = select_columns(df, key=i)
+                df = select_columns(df, key=i).astype(str)
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
@@ -439,7 +439,7 @@ elif task == '📃 Text Summarizer':
         for i in range(len(tabs)):
             with tabs[i]:
                 _, df = data[filenames[i]]
-                df = select_columns(df, key=i)
+                df = select_columns(df, key=i).astype(str)
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
@@ -464,7 +464,7 @@ elif task == '🎲 Sentiment Analyzer':
         for i in range(len(tabs)):
             with tabs[i]:
                 _, df = data[filenames[i]]
-                df = select_columns(df, key=i)
+                df = select_columns(df, key=i).astype(str)
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
