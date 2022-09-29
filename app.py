@@ -410,7 +410,7 @@ if task == '🔍 Data Visualizer':
     status, data = input_data
     if status:
         if 'feature_list' not in st.session_state.keys():
-            feature_list = ['Data View', 'WordCloud', 'Keyword in Context + Collocation']
+            feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
             st.session_state['feature_list'] = feature_list
         else:
             feature_list = st.session_state['feature_list']
@@ -432,7 +432,7 @@ if task == '🔍 Data Visualizer':
                     if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
                     if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
-                    if 'Keyword in Context + Collocation' in feature_options: analysis.show_kwic(filenames[i])
+                    if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
 
 elif task == '📃 Text Summarizer':
     st.markdown('''📃 Text Summarizer''')
