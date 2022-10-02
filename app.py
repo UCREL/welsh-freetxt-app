@@ -543,22 +543,24 @@ elif task == '👍 POS + USAS Tagger':
         tagged_tokens_df
     
     elif lang_detected == 'en':
-        # We exclude the following components as we do not need them. 
-        nlp = spacy.load('en_core_web_sm') #nlp = spacy.load('en_core_web_sm', exclude=['parser', 'ner'])
-        # Load the English PyMUSAS rule based tagger in a separate spaCy pipeline
-        english_tagger_pipeline = spacy.load('en_dual_none_contextual')
-        # Adds the English PyMUSAS rule based tagger to the main spaCy pipeline
-        nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
-        output_doc = nlp(text)
+        st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
 
-        cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-        tagged_tokens = []
-        for token in output_doc:
-            tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+        # # We exclude the following components as we do not need them. 
+        # nlp = spacy.load('en_core_web_sm') #nlp = spacy.load('en_core_web_sm', exclude=['parser', 'ner'])
+        # # Load the English PyMUSAS rule based tagger in a separate spaCy pipeline
+        # english_tagger_pipeline = spacy.load('en_dual_none_contextual')
+        # # Adds the English PyMUSAS rule based tagger to the main spaCy pipeline
+        # nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
+        # output_doc = nlp(text)
+
+        # cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+        # tagged_tokens = []
+        # for token in output_doc:
+            # tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
         
-        # create DataFrame using data
-        tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-        tagged_tokens_df
+        # # create DataFrame using data
+        # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+        # tagged_tokens_df
 
 else:
     st.write(task, 'is under construction...')
