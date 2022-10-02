@@ -502,7 +502,7 @@ elif task == '👍 POS + USAS Tagger':
     text = st.text_area("Paste taste to tag", value=text)
     lang_detected = detect(text)
     st.write(f"Language detected: '{lang_detected}'")
-    if lang_detected = 'cy':
+    if lang_detected == 'cy':
         with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
             example_text(text)
         os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
