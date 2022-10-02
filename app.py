@@ -21,6 +21,7 @@ from nltk.corpus import stopwords
 from labels import MESSAGES
 from summarizer_labels import SUM_MESSAGES
 from summa.summarizer import summarize as summa_summarizer
+from langdetect import detect
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
@@ -401,7 +402,7 @@ st.set_page_config(
 #📃📌📈📈📉⛱🏓🏆🎲 
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
-task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
+task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS+USAS Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
 if task == '🔍 Data Visualizer':
     # run_visualizer()
@@ -495,46 +496,51 @@ elif task == '🎲 Sentiment Analyzer':
                     df.index = np.arange(1, len(df) + 1)
                     st.dataframe(df.head(num_examples))
 
-elif task == '👍 Tagger':
-    '👍 Tagger'
+elif task == '👍 POS + USAS Tagger':
     text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
-    os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+    text = st.text_area("Paste taste to tag"), value=text)
+    lang_detected = detect(text)
+    st.write(f"Language detected: '{lang_detected}'")
+    if lang_detected = 'cy':
+        with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
+            example_text(text)
+        os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
     
-    # Load the Welsh PyMUSAS rule based tagger
-    nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
+        # Load the Welsh PyMUSAS rule based tagger
+        nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
-    tokens: List[str] = []
-    spaces: List[bool] = []
-    basic_pos_tags: List[str] = []
-    lemmas: List[str] = []
+        tokens: List[str] = []
+        spaces: List[bool] = []
+        basic_pos_tags: List[str] = []
+        lemmas: List[str] = []
 
-    welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
+        welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
 
-    with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
-        for line in welsh_tagged_data:
-            line = line.strip()
-            if line:
-                line_tags = line.split('\t')
-                tokens.append(line_tags[1])
-                lemmas.append(line_tags[3])
-                basic_pos_tags.append(line_tags[4])
-                spaces.append(True)
+        with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
+            for line in welsh_tagged_data:
+                line = line.strip()
+                if line:
+                    line_tags = line.split('\t')
+                    tokens.append(line_tags[1])
+                    lemmas.append(line_tags[3])
+                    basic_pos_tags.append(line_tags[4])
+                    spaces.append(True)
 
-    # As the tagger is a spaCy component that expects tokens, pos, and lemma
-    # we need to create a spaCy Doc object that will contain this information
-    doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
-    output_doc = nlp(doc)
+        # As the tagger is a spaCy component that expects tokens, pos, and lemma
+        # we need to create a spaCy Doc object that will contain this information
+        doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
+        output_doc = nlp(doc)
 
-    # print(f'Text\tLemma\tPOS\tUSAS Tags')
-    cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-    tagged_tokens = []
-    for token in output_doc:
-        tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-    
-    # create DataFrame using data
-    tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-    tagged_tokens_df
+        # print(f'Text\tLemma\tPOS\tUSAS Tags')
+        cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+        tagged_tokens = []
+        for token in output_doc:
+            tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+        
+        # create DataFrame using data
+        tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+        tagged_tokens_df
     
 else:
     st.write(task, 'is under construction...')

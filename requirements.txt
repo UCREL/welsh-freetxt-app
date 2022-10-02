@@ -12,3 +12,4 @@ seaborn
 textblob
 openpyxl
 summa
+langdetect
