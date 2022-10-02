@@ -499,7 +499,7 @@ elif task == '🎲 Sentiment Analyzer':
 elif task == '👍 POS + USAS Tagger':
     text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
-    text = st.text_area("Paste taste to tag"), value=text)
+    text = st.text_area("Paste taste to tag", value=text)
     lang_detected = detect(text)
     st.write(f"Language detected: '{lang_detected}'")
     if lang_detected = 'cy':
