@@ -544,7 +544,7 @@ elif task == '👍 POS + USAS Tagger':
     
     elif lang_detected == 'en':
         # We exclude the following components as we do not need them. 
-        # nlp = spacy.load('en_core_web_sm', exclude=['parser', 'ner'])
+        nlp = spacy.load('en_core_web_sm') #nlp = spacy.load('en_core_web_sm', exclude=['parser', 'ner'])
         # Load the English PyMUSAS rule based tagger in a separate spaCy pipeline
         english_tagger_pipeline = spacy.load('en_dual_none_contextual')
         # Adds the English PyMUSAS rule based tagger to the main spaCy pipeline
