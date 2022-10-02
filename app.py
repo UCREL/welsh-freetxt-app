@@ -396,7 +396,7 @@ st.set_page_config(
 #📃📌📈📈📉⛱🏓🏆🎲 
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
-task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
+task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
 if task == '🔍 Data Visualizer':
     # run_visualizer()
@@ -489,6 +489,9 @@ elif task == '🎲 Sentiment Analyzer':
                     df = df[['Review','Polarity', 'Sentiment']]
                     df.index = np.arange(1, len(df) + 1)
                     st.dataframe(df.head(num_examples))
+
+elif task == '👍 Tagger':
+    '👍 Tagger'
 else:
     st.write(task, 'is under construction...')
 
