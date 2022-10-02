@@ -495,7 +495,7 @@ elif task == '👍 Tagger':
     text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
     # os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
-    os.system("sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 " + text)
+    os.system('sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4' + text)
     
     # st.write(open('welsh_text_example.tsv').read())
 else:
