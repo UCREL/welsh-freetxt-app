@@ -492,7 +492,8 @@ elif task == '🎲 Sentiment Analyzer':
 
 elif task == '👍 Tagger':
     '👍 Tagger'
-    os.system('cat welsh_text_example.txt | docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+    os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+    st.write(open('welsh_text_example.tsv').read())
 else:
     st.write(task, 'is under construction...')
 
