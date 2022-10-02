@@ -6,6 +6,8 @@ import numpy as np
 import streamlit as st
 from collections import Counter
 import spacy
+from spacy.tokens import Doc
+from spacy.vocab import Vocab
 import nltk
 import en_core_web_sm
 import matplotlib.pyplot as plt
@@ -22,6 +24,9 @@ from summa.summarizer import summarize as summa_summarizer
 nltk.download('punkt') # one time execution
 nltk.download('stopwords')
 nltk.download('averaged_perceptron_tagger')
+
+from pathlib import Path
+from typing import List
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -494,9 +499,42 @@ elif task == '👍 Tagger':
     '👍 Tagger'
     text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
-    # os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
-    os.system('sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4' + text)
+    os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
     
+    # Load the Welsh PyMUSAS rule based tagger
+    nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
+
+    tokens: List[str] = []
+    spaces: List[bool] = []
+    basic_pos_tags: List[str] = []
+    lemmas: List[str] = []
+
+    welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
+
+    print('Text\tLemma\tPOS\tUSAS Tags')
+    with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
+        for line in welsh_tagged_data:
+            line = line.strip()
+            if line:
+                line_tags = line.split('\t')
+                tokens.append(line_tags[1])
+                lemmas.append(line_tags[3])
+                basic_pos_tags.append(line_tags[4])
+                spaces.append(True)
+
+
+    # As the tagger is a spaCy component that expects tokens, pos, and lemma
+    # we need to create a spaCy Doc object that will contain this information
+    doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
+    output_doc = nlp(doc)
+
+    print(f'Text\tLemma\tPOS\tUSAS Tags')
+    for token in output_doc:
+        print(f'{token.text}\t{token.lemma_}\t{token.tag_}\t{token._.pymusas_tags}')
+    
+    
+    
+   
     # st.write(open('welsh_text_example.tsv').read())
 else:
     st.write(task, 'is under construction...')
