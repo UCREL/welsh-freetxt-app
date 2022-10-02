@@ -402,7 +402,7 @@ st.set_page_config(
 #📃📌📈📈📉⛱🏓🏆🎲 
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
-task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS+USAS Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
+task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + USAS Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
 if task == '🔍 Data Visualizer':
     # run_visualizer()
