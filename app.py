@@ -6,8 +6,8 @@ import numpy as np
 import streamlit as st
 from collections import Counter
 import spacy
-# from spacy.tokens import Doc
-# from spacy.vocab import Vocab
+from spacy.tokens import Doc
+from spacy.vocab import Vocab
 import nltk
 import en_core_web_sm
 import matplotlib.pyplot as plt
@@ -402,7 +402,7 @@ st.set_page_config(
 #📃📌📈📈📉⛱🏓🏆🎲 
 
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
-task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + USAS Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
+task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + Semantic Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
 if task == '🔍 Data Visualizer':
     # run_visualizer()
@@ -473,6 +473,7 @@ elif task == '🎲 Sentiment Analyzer':
     
     if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
+        # With tabbed multiselect
         filenames = list(data.keys())
         tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
         tabs = st.tabs(tab_titles)
@@ -495,7 +496,7 @@ elif task == '🎲 Sentiment Analyzer':
                     df.index = np.arange(1, len(df) + 1)
                     st.dataframe(df.head(num_examples))
 
-elif task == '👍 POS + USAS Tagger':
+elif task == '👍 POS + Semantic Tagger':
     text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
     text = st.text_area("Paste taste to tag", value=text)
@@ -560,6 +561,7 @@ elif task == '👍 POS + USAS Tagger':
         # # create DataFrame using data
         # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
         # tagged_tokens_df
+
 else:
     st.write(task, 'is under construction...')
 
