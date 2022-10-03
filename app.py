@@ -6,8 +6,8 @@ import numpy as np
 import streamlit as st
 from collections import Counter
 import spacy
-from spacy.tokens import Doc
-from spacy.vocab import Vocab
+# from spacy.tokens import Doc
+# from spacy.vocab import Vocab
 import nltk
 import en_core_web_sm
 import matplotlib.pyplot as plt
@@ -473,7 +473,6 @@ elif task == '🎲 Sentiment Analyzer':
     
     if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
-        # With tabbed multiselect
         filenames = list(data.keys())
         tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
         tabs = st.tabs(tab_titles)
@@ -561,7 +560,6 @@ elif task == '👍 POS + USAS Tagger':
         # # create DataFrame using data
         # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
         # tagged_tokens_df
-
 else:
     st.write(task, 'is under construction...')
 
