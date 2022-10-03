@@ -57,21 +57,52 @@ def get_selected_checkboxes():
     return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
     st.session_state[i]]
 
+
+# def select_columns(data, key):
+    # selected_columns = st.multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
+    # return data[selected_columns].dropna(how='all')
+
 def select_columns(data, key):
-    selected_columns = st.multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
-    return data[selected_columns].dropna(how='all')
+    layout = st.columns([7, 0.2, 2, 0.2, 2, 0.2, 3, 0.2, 3])
+    selected_columns = layout[0].multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
+    start_row=0
+    if selected_columns: start_row = layout[2].number_input('Choose start row:', value=0, min_value=0, max_value=5)
+    
+    if len(selected_columns)>=2 and layout[4].checkbox('Filter rows?'):
+        filter_column = layout[6].selectbox('Select filter column', selected_columns)
+        if filter_column: 
+            filter_key = layout[8].selectbox('Select filter key', set(data[filter_column]))
+            data = data[selected_columns][start_row:].dropna(how='all')
+            return data.loc[data[filter_column] == filter_key].drop_duplicates()
+    else:
+        return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 def get_wordcloud (data, key):
-    st.markdown('''☁️ Word Cloud''')
-    cloud_columns = st.multiselect(
+    # st.markdown('''☁️ Word Cloud''')
+    # cloud_columns = st.multiselect(
+        # 'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
+    # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
+    # # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
+    # for c in PUNCS: input_data = input_data.lower().replace(c,'')
+
+    st.markdown('''
+    ---
+    
+    ☁️ Word Cloud
+    
+    ---
+    ''')
+    
+    layout = st.columns([7, 1, 4])
+    cloud_columns = layout[0].multiselect(
         'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
     input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
     # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
     for c in PUNCS: input_data = input_data.lower().replace(c,'')
     
-    input_bigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
+    input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
     input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
-    input_4grams = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
+    input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
     
     mask = np.array(Image.open('img/welsh_flag.png'))
     # maxWords = st.number_input("Number of words:",
