@@ -7,7 +7,6 @@ matplotlib
 wordcloud
 spacy>=2.2.0,<3.0.0
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz#egg=en_core_web_sm
-https://github.com/UCREL/pymusas-models/releases/download/cy_dual_basiccorcencc2usas_contextual-0.3.0/cy_dual_basiccorcencc2usas_contextual-0.3.0-py3-none-any.whl
 spacytextblob
 seaborn
 textblob
