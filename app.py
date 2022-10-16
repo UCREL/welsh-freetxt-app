@@ -107,8 +107,8 @@ def get_wordcloud (data, key):
     image_mask = {'Welsh Flag': 'img/wc_welsh_flag.png', 'Black Circle': 'img/wc_black_circle.png', 'Black Square': 'img/wc_black_square.png', 'Sherlock Holmes': 'img/wc_holmes_silhouette.png'}
     
     maskfile = image_mask[st.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
-    mask = np.array(Image.open(maskfile))
-    # mask = np.array(Image.open('img/wc_welsh_flag.png'))
+    # mask = np.array(Image.open(maskfile))
+    mask = np.array(Image.open('img/wc_black_circle.png'))
     # maxWords = st.number_input("Number of words:",
         # value=300,
         # step=50,
