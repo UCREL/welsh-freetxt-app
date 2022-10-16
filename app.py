@@ -104,7 +104,9 @@ def get_wordcloud (data, key):
     input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
     input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
     
-    mask = np.array(Image.open('img/wc_welsh_flag.png'))
+    maskfile = st.selectbox('Select cloud shape:' [f"img/{f}" if f startswith('wc') for f in os.listdir('img')] )   
+    mask = np.array(Image.open(maskfile))
+    # mask = np.array(Image.open('img/wc_welsh_flag.png'))
     # maxWords = st.number_input("Number of words:",
         # value=300,
         # step=50,
