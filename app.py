@@ -127,7 +127,7 @@ def get_wordcloud (data, key):
             stopwords=STOPWORDS,
             width=2000, height=1000,
             relative_scaling = 0,
-            mask=mask,
+            # mask=mask,
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
         ).generate(input_data)
