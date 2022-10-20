@@ -13,11 +13,11 @@ In both cases, each file can be up to 200mb in size and multiple files upload is
 
 2.	**Data Visualizer**: This is one of the key features of the tool and has three core components:
  
-   a.	_Data View_:  This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
+    a. _Data View_:  This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
    
-   b.	_Word Cloud_: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
+    b.	_Word Cloud_: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
    
-   c.	_Key word in Context and Collocation_: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords
+    c.	_Key word in Context and Collocation_: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords
 
 3.	**Text Summarizer**: This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.
 
