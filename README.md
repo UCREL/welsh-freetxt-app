@@ -3,9 +3,11 @@ Here is the [link to FreeTxt tool](https://ucrel-welsh-freetxt-app-app-q21p7a.st
 
 ### Summary of features:
 Below are the summary of the features currently available:
-1.	**Data input feature**: At the moment, the tool manages two modes of input: 
+1.	**Data input feature**: At the moment, the tool manages two modes of input:
+
  a.	_Use example data_: These are a collection of example data files in different formats (.xlsx, .txt and .tsv) that are mostly for test and demo purposes.
  b.	_Upload data file_: This feature allows users to upload their data in any of the formats above.
+
 In both cases, each file can be up to 200mb in size and multiple files upload is also allowed and can be processed simultaneously. For better memory and processing efficiency, users can select the sections of the data (i.e. columns) they wish to visualise or work with. Outputs from multiple files can be viewed in dynamically managed tabs.
 2.	**Data Visualizer**: This is one of the key features of the tool and has three core components:
  a.	_Data View_:  This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
