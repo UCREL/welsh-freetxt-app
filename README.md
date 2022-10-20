@@ -15,3 +15,12 @@ In both cases, each file can be up to 200mb in size and multiple files upload is
 4.	**Sentiment Analyzer**: This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output 
 5.	**POS and Sematic Tagger** : This feature uses the PyMUSAS pipeline on Spacy to generate and display POS (CyTag) tags as well as semantic (USAS) tags. It currently works on the Ucrel-freetxt-VM as setting up Docker on the Streamlit cloud is a bit complex.
 6.	**Language Identification**: We have implemented a basic language identification feature which can easily detect whether the text is written in English or Welsh.
+
+### Contacts
+- [Ignatius Ezeani](https://github.com/IgnatiusEzeani)
+- [Paul Rayson](https://github.com/perayson)
+- [Mahmoud El-Haj](https://github.com/drelhaj)
+- [Dawn Knight](https://github.com/DawnKnight-Cardiff)
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a>
+- This work with all the accompanying resources is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
