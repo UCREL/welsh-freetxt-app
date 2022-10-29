@@ -609,3 +609,14 @@ else:
     # lines = st.text_area('Paste reviews (replace the example text) to analyze', text, height=150).split('\n')
     # return True, pd.DataFrame.from_dict({i+1: lines[i] for i in range(len(lines))}, orient='index', columns = ['Reviews'])
     # df = df.astype(dtype={'name': 'string'})
+    
+    
+ # ---- HIDE STREAMLIT STYLE ----
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
