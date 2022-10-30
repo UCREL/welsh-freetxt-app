@@ -499,8 +499,8 @@ class Analysis:
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
 ############################################################################################       # ###using
-        print(self.reviews)
-        word_association_graph(self.reviews, k=0.5, font_size=26)
+         st.write(self.reviews)
+        #word_association_graph(self.reviews, k=0.5, font_size=26)
 
 # ----------------
 st.set_page_config(
