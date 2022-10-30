@@ -186,7 +186,7 @@ def word_association_graph(text, k=0.4, font_size=32):
     nouns_in_text = []
     is_noun = lambda pos: pos[:2] == 'NN'
 
-    for sent in text.split('.')[:-1]:   
+    for sent in text.split()[:-1]:   
         tokenized = nltk.word_tokenize(sent)
         nouns=[word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
         nouns_in_text.append(' '.join([word for word in nouns if not (word=='' or len(word)==1)]))
