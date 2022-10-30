@@ -499,7 +499,7 @@ class Analysis:
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
 ############################################################################################       # ###using
-        st.write('.'.join(str(self.reviews)))
+        st.write(self.reviews.tolist())
         #word_association_graph('.'.join(str(self.reviews)), k=0.5, font_size=26)
 
 # ----------------
