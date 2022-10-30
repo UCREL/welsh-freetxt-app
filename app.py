@@ -28,10 +28,11 @@ nltk.download('averaged_perceptron_tagger')
 
 from pathlib import Path
 from typing import List
-import circlify
-import urllib
+##import circlify
 
-%matplotlib inline
+
+
+
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
