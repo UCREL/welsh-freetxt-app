@@ -28,6 +28,10 @@ nltk.download('averaged_perceptron_tagger')
 
 from pathlib import Path
 from typing import List
+import circlify
+import urllib
+
+%matplotlib inline
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -130,6 +134,8 @@ def get_wordcloud (data, key):
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
         ).generate(input_data)
+        
+        
             
         cloud_type = st.selectbox('Choose cloud category:',
             ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
@@ -214,7 +220,7 @@ def plot_collocation(keyword, collocs):
     st.set_option('deprecation.showPyplotGlobalUse', False)
     st.pyplot()
 
-#-------------------------- N-gram Generator ---------------------------
+ #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
     if _ngrams==1:
         return getTopNWords(text, topn)
@@ -610,7 +616,12 @@ else:
     # return True, pd.DataFrame.from_dict({i+1: lines[i] for i in range(len(lines))}, orient='index', columns = ['Reviews'])
     # df = df.astype(dtype={'name': 'string'})
     
+#####-----word association --------#################
+from word_assoc_graph import plot_word_associations
+plot_word_associations(text, k=0.5, font_size=26)
+ 
     
+ 
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
             <style>
