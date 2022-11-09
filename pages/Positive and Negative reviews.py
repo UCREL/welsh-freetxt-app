@@ -1,6 +1,8 @@
 import streamlit as st
+import base64
 
 st.markdown("# Positive and Negative reviews")
+
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
@@ -44,7 +46,7 @@ def add_logo(png_file):
 
 
 
-# ----------------
+# ---------------- page style ------------------------####
 st.set_page_config(
      page_title='Welsh Free Text Tool',
      page_icon='🌐',
@@ -56,5 +58,6 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
+
 add_logo("img/FreeTxt_logo.png") 
 
