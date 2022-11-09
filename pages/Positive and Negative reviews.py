@@ -1,3 +1,3 @@
-vimport streamlit as st
+import streamlit as st
 
 st.markdown("# Positive and Negative reviews")
