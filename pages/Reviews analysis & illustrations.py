@@ -1,6 +1,10 @@
 import streamlit as st
+import base64
+from PIL import Image
+from labels import MESSAGES
 
-st.markdown("# Reviews analysis & illustrations")
+
+
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
@@ -57,4 +61,5 @@ st.set_page_config(
      }
  )
 add_logo("img/FreeTxt_logo.png") 
+st.markdown("# Reviews analysis & illustrations")
 
