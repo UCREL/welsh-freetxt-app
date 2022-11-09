@@ -33,6 +33,7 @@ import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 
 ####----------------------------Add_logo--------------------####
+import base64
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
