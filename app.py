@@ -108,8 +108,8 @@ def get_wordcloud (data, key):
     input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
     input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
     input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
-    
-    image_mask = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
+    #'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png',
+    image_mask = { 'Rectangle': None}
     
     maskfile = image_mask[st.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
     mask = np.array(Image.open(maskfile)) if maskfile else maskfile
