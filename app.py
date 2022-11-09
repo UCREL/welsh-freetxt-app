@@ -545,7 +545,7 @@ def add_logo(png_file):
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
-     page_icon='🌼',
+     page_icon=':bookmark_tabs:',
      layout="wide",
      initial_sidebar_state="expanded",
      menu_items={
@@ -555,8 +555,8 @@ st.set_page_config(
      }
  )
 #📃📌📈📈📉⛱🏓🏆🎲 
-add_logo("https://github.com/UCREL/welsh-freetxt-app/blob/main/img/FreeTxt_logo.png") 
-st.sidebar.markdown('# 🌼 Welsh FreeTxt')
+add_logo("img/FreeTxt_logo.png") 
+st.sidebar.markdown('# :bookmark_tabs: Welsh FreeTxt')
 task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + Semantic Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
 if task == '🔍 Data Visualizer':
