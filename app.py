@@ -34,7 +34,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 ####----------------------------Add_logo--------------------####
 
-@st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
         data = f.read()
@@ -44,9 +43,10 @@ def get_base64_of_bin_file(png_file):
 def build_markup_for_logo(
     png_file,
     background_position="50% 10%",
-    margin_top="30%",
+    margin_top="10%",
     image_width="60%",
-    image_height="",):
+    image_height="",
+):
     binary_string = get_base64_of_bin_file(png_file)
     return """
             <style>
@@ -73,7 +73,7 @@ def add_logo(png_file):
         logo_markup,
         unsafe_allow_html=True,
     )
-
+    
 add_logo("img/FreeTxt_logo.png")
 
 
