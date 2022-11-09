@@ -62,6 +62,7 @@ st.set_page_config(
  )
 add_logo("img/FreeTxt_logo.png") 
 st.markdown("# Reviews analysis & illustrations")
+st.write("---")
 st.write('''This is one of the key features of the tool and has three core components:
 
 a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
