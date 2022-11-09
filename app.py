@@ -75,7 +75,7 @@ def add_logo(png_file):
         unsafe_allow_html=True,
     )
 
-add_logo("images/FreeTxt_logo.png")
+add_logo("img/FreeTxt_logo.png")
 
 
 
