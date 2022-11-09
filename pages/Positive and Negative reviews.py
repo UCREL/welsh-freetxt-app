@@ -56,7 +56,7 @@ st.set_page_config(
      menu_items={
          'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
          'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
-         'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
+         #'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
              })
  
 
