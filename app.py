@@ -31,9 +31,9 @@ from typing import List
 ##word association
 import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-
-####----------------------------Add_logo--------------------####
 import base64
+####----------------------------Add_logo--------------------####
+
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
@@ -46,8 +46,7 @@ def build_markup_for_logo(
     background_position="50% 10%",
     margin_top="30%",
     image_width="60%",
-    image_height="",
-):
+    image_height="",):
     binary_string = get_base64_of_bin_file(png_file)
     return """
             <style>
