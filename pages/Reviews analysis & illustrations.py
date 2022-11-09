@@ -60,6 +60,45 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
+
+
+# reading example and uploaded files
+def read_file(fname, file_source):
+    file_name = fname if file_source=='example' else fname.name
+    if file_name.endswith('.txt'):
+        data = open(fname, 'r', encoding='cp1252').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
+        data = pd.DataFrame.from_dict({i+1: data[i] for i in range(len(data))}, orient='index', columns = ['Reviews'])
+        
+    elif file_name.endswith(('.xls','.xlsx')):
+        data = pd.read_excel(pd.ExcelFile(fname)) if file_source=='example' else pd.read_excel(fname)
+
+    elif file_name.endswith('.tsv'):
+        data = pd.read_csv(fname, sep='\t', encoding='cp1252') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
+    else:
+        return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
+    return True, data
+
+def get_data(file_source='example'):
+    try:
+        if file_source=='example':
+            example_files = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')])
+            fnames = st.sidebar.multiselect('Select example data file(s)', example_files, example_files[0])
+            if fnames:
+                return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) for fname in fnames}
+            else:
+                return False, st.info('''**NoFileSelected:** Please select at least one file from the sidebar list.''', icon="ℹ️")
+        
+        elif file_source=='uploaded': # Todo: Consider a maximum number of files for memory management. 
+            uploaded_files = st.sidebar.file_uploader("Upload your data file(s)", accept_multiple_files=True, type=['txt','tsv','xlsx', 'xls'])
+            if uploaded_files:
+                return True, {uploaded_file.name:read_file(uploaded_file, file_source) for uploaded_file in uploaded_files}
+            else:
+                return False, st.info('''**NoFileUploaded:** Please upload files with the upload button or by dragging the file into the upload area. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="ℹ️")
+        else:
+            return False, st.error(f'''**UnexpectedFileError:** Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
+    except Exception as err:
+        return False, st.error(f'''**UnexpectedFileError:** {err} Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
+
 add_logo("img/FreeTxt_logo.png") 
 st.markdown("# Reviews analysis & illustrations")
 st.write("---")
@@ -71,36 +110,4 @@ b. Word Cloud: This creates a word cloud from the content of the selected column
 
 c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
 
-st.markdown('''🔍 Free Text Visualizer''')
-option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
-if option == MESSAGES[lang][1]: input_data = get_data()
-elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
-    # elif option == MESSAGES[lang][3]: input_data = read_example_data()
-else: pass
-    
-status, data = input_data
-if status:
-    if 'feature_list' not in st.session_state.keys():
-        feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
-        st.session_state['feature_list'] = feature_list
-    else:
-        feature_list = st.session_state['feature_list']
-    checkbox_container(feature_list)
-    feature_options = get_selected_checkboxes()
-        
-    # With tabbed multiselect
-    filenames = list(data.keys())
-    tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-    tabs = st.tabs(tab_titles)
-    for i in range(len(tabs)):
-        with tabs[i]:
-            _, df = data[filenames[i]]
-            df = select_columns(df, key=i).astype(str)
-            if df.empty:
-                st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-            else:
-                analysis = Analysis(df)
-            if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-            if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
-            if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
-            if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
+
