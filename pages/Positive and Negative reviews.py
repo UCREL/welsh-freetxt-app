@@ -62,4 +62,5 @@ st.set_page_config(
 
 st.markdown("# Positive and Negative reviews")
 add_logo("img/FreeTxt_logo.png") 
+st.write("---")
 st.write("This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output")
