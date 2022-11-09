@@ -34,10 +34,6 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
 
-
-
-
-
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
 cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
@@ -502,6 +498,49 @@ class Analysis:
 ############################################################################################       # ###using
         ##st.write(self.reviews.tolist())
         #word_association_graph('.'.join(str(self.reviews)), k=0.5, font_size=26)
+ 
+@st.cache(allow_output_mutation=True)
+def get_base64_of_bin_file(png_file):
+    with open(png_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+
+def build_markup_for_logo(
+    png_file,
+    background_position="50% 10%",
+    margin_top="10%",
+    image_width="60%",
+    image_height="",
+):
+    binary_string = get_base64_of_bin_file(png_file)
+    return """
+            <style>
+                [data-testid="stSidebarNav"] {
+                    background-image: url("data:image/png;base64,%s");
+                    background-repeat: no-repeat;
+                    background-position: %s;
+                    margin-top: %s;
+                    background-size: %s %s;
+                }
+            </style>
+            """ % (
+        binary_string,
+        background_position,
+        margin_top,
+        image_width,
+        image_height,
+    )
+
+
+def add_logo(png_file):
+    logo_markup = build_markup_for_logo(png_file)
+    st.markdown(
+        logo_markup,
+        unsafe_allow_html=True,
+    )
+
+
 
 # ----------------
 st.set_page_config(
@@ -516,7 +555,7 @@ st.set_page_config(
      }
  )
 #📃📌📈📈📉⛱🏓🏆🎲 
-
+add_logo("images/FreeTxt_logo.png")
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + Semantic Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
