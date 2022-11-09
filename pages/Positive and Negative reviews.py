@@ -46,7 +46,7 @@ def add_logo(png_file):
 
 
 
-# ---------------- page style ------------------------####
+# ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
      page_icon='🌐',
