@@ -1,3 +1,3 @@
 import streamlit as st
 
-st.markdown("# Page 1")
+st.markdown("# Generate a summary")
