@@ -70,3 +70,37 @@ a. Data View: This allows the user to display and visualize the selected columns
 b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
 
 c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
+
+st.markdown('''🔍 Free Text Visualizer''')
+option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
+if option == MESSAGES[lang][1]: input_data = get_data()
+elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
+    # elif option == MESSAGES[lang][3]: input_data = read_example_data()
+else: pass
+    
+status, data = input_data
+if status:
+    if 'feature_list' not in st.session_state.keys():
+        feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
+        st.session_state['feature_list'] = feature_list
+    else:
+        feature_list = st.session_state['feature_list']
+    checkbox_container(feature_list)
+    feature_options = get_selected_checkboxes()
+        
+    # With tabbed multiselect
+    filenames = list(data.keys())
+    tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
+    tabs = st.tabs(tab_titles)
+    for i in range(len(tabs)):
+        with tabs[i]:
+            _, df = data[filenames[i]]
+            df = select_columns(df, key=i).astype(str)
+            if df.empty:
+                st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
+            else:
+                analysis = Analysis(df)
+            if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
+            if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
+            if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
+            if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
