@@ -58,7 +58,7 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-#📃📌📈📈📉⛱🏓🏆🎲 
+
 
 st.markdown("# Positive and Negative reviews")
 add_logo("img/FreeTxt_logo.png") 
