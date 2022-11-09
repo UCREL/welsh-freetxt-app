@@ -110,4 +110,5 @@ b. Word Cloud: This creates a word cloud from the content of the selected column
 
 c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
 
+st.file_uploader(label, type=None, accept_multiple_files=False, key=None, help=None, on_change=None, args=None, kwargs=None, *, disabled=False, label_visibility="visible")
 
