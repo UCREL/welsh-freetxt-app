@@ -1,5 +1,6 @@
 import streamlit as st
 import base64
+from labels import MESSAGES
 
 st.markdown("# Positive and Negative reviews")
 
