@@ -555,7 +555,7 @@ st.set_page_config(
      }
  )
 #📃📌📈📈📉⛱🏓🏆🎲 
-add_logo("images/FreeTxt_logo.png")
+add_logo("img/FreeTxt_logo.png")
 st.sidebar.markdown('# 🌼 Welsh FreeTxt')
 task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + Semantic Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
 
