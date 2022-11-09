@@ -60,4 +60,5 @@ st.set_page_config(
      }
  )
 st.markdown("# Generate a summary")
-add_logo("img/FreeTxt_logo.png") 
+add_logo("img/FreeTxt_logo.png")
+st.write('This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.')
