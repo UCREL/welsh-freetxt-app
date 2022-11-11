@@ -34,8 +34,8 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
 #import circlify
-import plotly.express as px
-from pyvis.network import Network
+#import plotly.express as px
+#from pyvis.network import Network
 import streamlit.components.v1 as components
 
 #################################################################################
