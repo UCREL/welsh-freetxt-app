@@ -33,6 +33,19 @@ import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
+import circlify
+import plotly.express as px
+from pyvis.network import Network
+import streamlit.components.v1 as components
+
+#################################################################################
+
+#create function to get a color dictionary
+def get_colordict(palette,number,start):
+    pal = list(sns.color_palette(palette=palette, n_colors=number).as_hex())
+    color_d = dict(enumerate(pal, start=start))
+    return color_d
+
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -286,6 +299,24 @@ def plot_collocation(keyword, collocs):
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
     st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.pyplot()
+    ########the treemap illistartion
+
+def plot_coll(keyward, collocs):
+    words, counts = zip(*collocs)
+    
+    st.write(words, counts)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    st.dataframe(top_collocs_df)
+    fig = px.treemap(top_collocs_df, title='Treemap chart',
+                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu)
+    fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.plotly_chart(fig,use_container_width=True)
+    ######the network 
+    top_collocs_df.insert(1, 'source', keyward)
+    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
+    nx.draw_networkx(G)
     st.pyplot()
 
  #-------------------------- N-gram Generator ---------------------------
