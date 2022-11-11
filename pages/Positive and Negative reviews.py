@@ -58,9 +58,15 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-
-
-st.markdown("# Positive and Negative reviews")
+###get the logo image 
+img_lottie_logo = Image.open("img/FreeTxt_logo.png")
+with st.container():
+      text_column,image_column = st.columns((1, 2))
+     with text_column:
+        st.markdown("# Positive and Negative reviews")
+     with image_column:
+        st.image(img_lottie_logo)
+        
 add_logo("img/FreeTxt_logo.png") 
 st.write("---")
 st.write("This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output")
