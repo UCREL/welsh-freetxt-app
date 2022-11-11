@@ -13,3 +13,5 @@ textblob
 openpyxl
 summa
 langdetect
+circlify
+plotly.express
