@@ -2,7 +2,7 @@ import streamlit as st
 import base64
 from PIL import Image
 from labels import MESSAGES
-
+from streamlit_lottie import st_lottie
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -59,7 +59,11 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
+###get the logo image 
+img_lottie_logo = Image.open("img/FreeTxt_logo.png")
+
 st.markdown("# Generate a summary")
+st.image(img_lottie_logo)
 st.write("---")
 add_logo("img/FreeTxt_logo.png")
 st.write('This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.')
