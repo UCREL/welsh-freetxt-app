@@ -16,4 +16,4 @@ langdetect
 circlify
 plotly.express
 pyvis
-streamlit_lottie
+streamlit-lottie
