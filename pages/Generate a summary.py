@@ -61,9 +61,12 @@ st.set_page_config(
  )
 ###get the logo image 
 img_lottie_logo = Image.open("img/FreeTxt_logo.png")
-
-st.markdown("# Generate a summary")
-st.image(img_lottie_logo)
+with st.container():
+     image_column, text_column = st.columns((1, 2))
+     with image_column:
+        st.image(img_lottie_logo)
+     with text_column:
+        st.markdown("# Generate a summary")
 st.write("---")
 add_logo("img/FreeTxt_logo.png")
 st.write('This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.')
