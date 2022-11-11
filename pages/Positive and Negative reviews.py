@@ -61,7 +61,7 @@ st.set_page_config(
 ###get the logo image 
 img_lottie_logo = Image.open("img/FreeTxt_logo.png")
 with st.container():
-      text_column,image_column = st.columns((1, 2))
+     text_column,image_column = st.columns((1, 2))
      with text_column:
         st.markdown("# Positive and Negative reviews")
      with image_column:
