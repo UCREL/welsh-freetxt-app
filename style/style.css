@@ -37,7 +37,9 @@ title {
   text-align: center
 }
 
-
+.img-container {
+        text-align: center;
+      }
 
 
 /* Hide Streamlit Branding */
