@@ -1,564 +1,21 @@
 import os
 import string
 import random
-import pandas as pd
-import numpy as np
 import streamlit as st
-from collections import Counter
-import spacy
-from spacy.tokens import Doc
-from spacy.vocab import Vocab
-import nltk
-import en_core_web_sm
-import matplotlib.pyplot as plt
-import seaborn as sns
-import networkx as nx
-from PIL import Image
-from textblob import TextBlob
-from nltk import word_tokenize, sent_tokenize, ngrams
-from wordcloud import WordCloud, ImageColorGenerator
-from nltk.corpus import stopwords
-from labels import MESSAGES
-from summarizer_labels import SUM_MESSAGES
-from summa.summarizer import summarize as summa_summarizer
-from langdetect import detect
-nltk.download('punkt') # one time execution
-nltk.download('stopwords')
-nltk.download('averaged_perceptron_tagger')
-
-from pathlib import Path
-from typing import List
-##word association
-import networkx as nx
-from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
-
-import circlify ###### pip install circlify
-import plotly.express as px #### pip install plotly.express
-from pyvis.network import Network
-import streamlit.components.v1 as components
+from PIL import Image
+from labels import MESSAGES
+from streamlit_lottie import st_lottie
 
 #################################################################################
 
-#create function to get a color dictionary
-def get_colordict(palette,number,start):
-    pal = list(sns.color_palette(palette=palette, n_colors=number).as_hex())
-    color_d = dict(enumerate(pal, start=start))
-    return color_d
+# Use local CSS
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 
-# Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
-en_stopwords = list(stopwords.words('english'))
-cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
-STOPWORDS = set(en_stopwords + cy_stopwords)
-PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
-pd.set_option('display.max_colwidth',None)
 
-lang='en'
-EXAMPLES_DIR = 'example_texts_pub'
-# ---------------Checkbox options------------------
-def checkbox_container(data):
-    st.sidebar.markdown('What do you want to do with the data?')
-    layout = st.sidebar.columns(2)
-    if layout[0].button('Select All'):
-        for i in data:
-            st.session_state['dynamic_checkbox_' + i] = True
-        st.experimental_rerun()
-    if layout[1].button('UnSelect All'):
-        for i in data:
-            st.session_state['dynamic_checkbox_' + i] = False
-        st.experimental_rerun()
-    for i in data:
-        st.sidebar.checkbox(i, key='dynamic_checkbox_' + i)
-        
-def get_selected_checkboxes():
-    return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
-    st.session_state[i]]
-
-
-# def select_columns(data, key):
-    # selected_columns = st.multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
-    # return data[selected_columns].dropna(how='all')
-
-def select_columns(data, key):
-    layout = st.columns([7, 0.2, 2, 0.2, 2, 0.2, 3, 0.2, 3])
-    selected_columns = layout[0].multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
-    start_row=0
-    if selected_columns: start_row = layout[2].number_input('Choose start row:', value=0, min_value=0, max_value=5)
-    
-    if len(selected_columns)>=2 and layout[4].checkbox('Filter rows?'):
-        filter_column = layout[6].selectbox('Select filter column', selected_columns)
-        if filter_column: 
-            filter_key = layout[8].selectbox('Select filter key', set(data[filter_column]))
-            data = data[selected_columns][start_row:].dropna(how='all')
-            return data.loc[data[filter_column] == filter_key].drop_duplicates()
-    else:
-        return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
-
-def get_wordcloud (data, key):
-    # st.markdown('''☁️ Word Cloud''')
-    # cloud_columns = st.multiselect(
-        # 'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
-    # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
-    # # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
-    # for c in PUNCS: input_data = input_data.lower().replace(c,'')
-
-    st.markdown('''
-    ---
-    
-    ☁️ Word Cloud
-    
-    ---
-    ''')
-    
-    layout = st.columns([7, 1, 4])
-    cloud_columns = layout[0].multiselect(
-        'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
-    input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
-    # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
-    for c in PUNCS: input_data = input_data.lower().replace(c,'')
-    
-    input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
-    input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
-    input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
-    #'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png',
-    image_mask = { 'Rectangle': None}
-    
-    maskfile = image_mask[st.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
-    mask = np.array(Image.open(maskfile)) if maskfile else maskfile
-    # maxWords = st.number_input("Number of words:",
-        # value=300,
-        # step=50,
-        # min_value=50,
-        # max_value=300,
-        # help='Maximum number of words featured in the cloud.',
-        # key=fname
-        # )
-    nlp = spacy.load('en_core_web_sm')
-    doc = nlp(input_data)
-
-    try:
-        #creating wordcloud
-        wc = WordCloud(
-            # max_words=maxWords,
-            stopwords=STOPWORDS,
-            width=2000, height=1000,
-            relative_scaling = 0,
-            mask=mask,
-            background_color="white",
-            font_path='font/Ubuntu-B.ttf'
-        ).generate(input_data)
-        
-        
-            
-        cloud_type = st.selectbox('Choose cloud category:',
-            ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
-        if cloud_type == 'All words':
-            wordcloud = wc.generate(input_data)        
-        elif cloud_type == 'Bigrams':
-            wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
-        elif cloud_type == 'Trigrams':
-            wordcloud = wc.generate_from_frequencies(Counter(input_trigrams))        
-        elif cloud_type == '4-grams':
-            wordcloud = wc.generate_from_frequencies(Counter(input_4grams))        
-        elif cloud_type == 'Nouns':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NOUN"]))        
-        elif cloud_type == 'Proper nouns':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "PROPN"]))        
-        elif cloud_type == 'Verbs':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "VERB"]))
-        elif cloud_type == 'Adjectives':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADJ"]))
-        elif cloud_type == 'Adverbs':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
-        elif cloud_type == 'Numbers':
-            wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
-        else: 
-            pass
-        color = st.radio('Switch image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
-        img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-        plt.figure(figsize=[20,15])
-        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-        plt.axis("off")
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
-    except ValueError as err:
-        st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-#####-----word association --------#################
-def word_association_graph(text, k=0.4, font_size=32):
-    '''
-    -The input text is a string of sentences ending in periods. If the text does not have any period, it does not produce a plot.
-    -The output is a plot of the nouns in the text connected to the adjectives and verbs as they appear in the text.
-    -k is the 'spread factor' - lower the k, lesser the intra-cluster spread,and vice versa.
-    -The nodes are sized according to their degree.
-    -Nodes are colored red if they are nouns, yellow if they are adjectives, and blue if they are verbs.
-    '''
-    nouns_in_text = []
-    is_noun = lambda pos: pos[:2] == 'NN'
-
-    for sent in text.split()[:-1]:   
-        tokenized = nltk.word_tokenize(sent)
-        nouns=[word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
-        nouns_in_text.append(' '.join([word for word in nouns if not (word=='' or len(word)==1)]))
-
-    nouns_list = []
-    
-    for sent in nouns_in_text:
-        temp = sent.split(' ')
-        for word in temp:
-            if word not in nouns_list:
-                nouns_list.append(word)
-
-    df = pd.DataFrame(np.zeros(shape=(len(nouns_list),2)), columns=['Nouns', 'Verbs & Adjectives'])
-    df['Nouns'] = nouns_list
-
-    is_adjective_or_verb = lambda pos: pos[:2]=='JJ' or pos[:2]=='VB'
-    for sent in text.split('.'):
-        for noun in nouns_list:
-            if noun in sent:
-                tokenized = nltk.word_tokenize(sent)
-                adjectives_or_verbs = [word for (word, pos) in nltk.pos_tag(tokenized) if is_adjective_or_verb(pos)]
-                ind = df[df['Nouns']==noun].index[0]
-                df['Verbs & Adjectives'][ind]=adjectives_or_verbs
-
-    fig = plt.figure(figsize=(30,20))
-    G = nx.Graph()
-    color_map=[]
-    for i in range(len(df)):
-        G.add_node(df['Nouns'][i])
-        color_map.append('blue')
-        for word in df['Verbs & Adjectives'][i]:
-            G.add_edges_from([(df['Nouns'][i], word)])
-            
-    pos = nx.spring_layout(G, k)
-    
-    d = nx.degree(G)
-    node_sizes = []
-    for i in d:
-        _, value = i
-        node_sizes.append(value)
-    
-    color_list = []
-    for i in G.nodes:
-        value = nltk.pos_tag([i])[0][1]
-        if (value=='NN' or value=='NNP' or value=='NNS'):
-            color_list.append('red')
-        elif value=='JJ':
-            color_list.append('yellow')
-        else:
-            color_list.append('blue')
-        
-    plt.figure(figsize=(40,40))
-    nx.draw(G, pos, node_size=[(v+1)*200 for v in node_sizes], with_labels=True, node_color=color_list, font_size=font_size)
-    plt.show() 
-
-#--------------Get Top n most_common words plus counts---------------
-def getTopNWords(text, topn=5, removeStops=False):
-    text = text.translate(text.maketrans("", "", string.punctuation))
-    text = [word for word in text.lower().split()
-                if word not in STOPWORDS] if removeStops else text.lower().split()
-    return Counter(text).most_common(topn)        
-
-#---------------------keyword in context ----------------------------
-def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
-    text = text.translate(text.maketrans("", "", string.punctuation))
-    if lower_case:
-        text = text.lower()
-        keyword = keyword.lower()
-    kwic_insts = []
-    tokens = text.split()
-    keyword_indexes = [i for i in range(len(tokens)) if tokens[i].lower() == keyword.lower()]
-    for index in keyword_indexes[:maxInstances]:
-        left_context = ' '.join(tokens[index-window_size:index])
-        target_word = tokens[index]
-        right_context = ' '.join(tokens[index+1:index+window_size+1])
-        kwic_insts.append((left_context, target_word, right_context))
-    return kwic_insts
-
-#---------- get collocation ------------------------
-def get_collocs(kwic_insts, topn=10):
-    words=[]
-    for l, t, r in kwic_insts:
-        words += l.split() + r.split()
-    all_words = [word for word in words if word not in STOPWORDS]
-    return Counter(all_words).most_common(topn)
-
-#----------- plot collocation ------------------------
-def plot_collocation(keyword, collocs):
-    words, counts = zip(*collocs)
-    N, total = len(counts), sum(counts)
-    plt.figure(figsize=(8,8))
-    plt.xlim([-0.5, 0.5])
-    plt.ylim([-0.5, 0.5])
-    plt.plot([0],[0], '-o', color='blue',  markersize=25, alpha=0.7)
-    plt.text(0,0, keyword, color='red', fontsize=14)
-    for i in range(N):
-        x, y = random.uniform((i+1)/(2*N),(i+1.5)/(2*N)), random.uniform((i+1)/(2*N), (i+1.5)/(2*N)) 
-        x = x if random.choice((True, False)) else -x
-        y = y if random.choice((True, False)) else -y
-        plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
-        plt.text(x, y, words[i], fontsize=12)
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.pyplot()
-    ########the treemap illistartion
-
-def plot_coll(keyward, collocs):
-    words, counts = zip(*collocs)
-    
-    st.write(words, counts)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    st.dataframe(top_collocs_df)
-    fig = px.treemap(top_collocs_df, title='Treemap chart',
-                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu)
-    fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.plotly_chart(fig,use_container_width=True)
-    ######the network 
-    top_collocs_df.insert(1, 'source', keyward)
-    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
-    nx.draw_networkx(G)
-    st.pyplot()
-    #########circle ploting with color and size
-    
-    # compute circle positions:
-    circles = circlify.circlify(top_collocs_df['freq'][0:30].tolist(), 
-                            show_enclosure=False, 
-                            target_enclosure=circlify.Circle(x=0, y=0)
-                           )
-    n = top_collocs_df['freq'][0:30].max()
-    color_dict = get_colordict('RdYlBu_r',n ,1)
-    fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
-    ax.axis('off')
-    lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
-    plt.xlim(-lim, lim)
-    plt.ylim(-lim, lim)
-
-# list of labels
-    labels = list(top_collocs_df['word'][0:30])  
-    counts = list(top_collocs_df['freq'][0:30])
-    labels.reverse()
-    counts.reverse()
-
-# print circles
-    for circle, label, count in zip(circles, labels, counts):
-        x, y, r = circle
-        ax.add_patch(plt.Circle((x, y), r, alpha=0.9, color = color_dict.get(count)))
-        plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
-    plt.xticks([])
-    plt.yticks([])
-    st.pyplot()
-
- #-------------------------- N-gram Generator ---------------------------
-def gen_ngram(text, _ngrams=2, topn=10):
-    if _ngrams==1:
-        return getTopNWords(text, topn)
-    ngram_list=[]
-    for sent in sent_tokenize(text):
-        for char in sent:
-            if char in PUNCS: sent = sent.replace(char, "")
-        ngram_list += ngrams(word_tokenize(sent), _ngrams)
-    ngram_counts = Counter(ngram_list).most_common(topn)
-    sum_ngram_counts = sum([c for _, c in ngram_counts])
-    return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
-            for ng, c in ngram_counts]
-
-def plot_kwic(data, key):
-    st.markdown('''💬 Key Word in Context''')
-    # cloud_columns = st.multiselect(
-        # 'Select your free text columns:', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_kwic_multiselect")
-        
-    # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
-    input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
-    for c in PUNCS: input_data = input_data.lower().replace(c,'')
-    
-    try:
-        topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
-        keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-        window_size = st.slider('Select the window size:', 1, 10, 2)
-        maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
-        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
-        kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
-
-        keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
-        if keyword_analysis == 'Keyword in context':
-            kwic_instances_df = pd.DataFrame(kwic_instances,
-                columns =['Left context', 'Keyword', 'Right context'])
-            kwic_instances_df.style.set_properties(column='Left context', align = 'right')
-            # subset=['Left context', 'Keyword', 'Right context'],
-            # kwic_instances_df
-            st.dataframe(kwic_instances_df)
-            
-        else: #Could you replace with NLTK concordance later?
-            # keyword = st.text_input('Enter a keyword:','staff')
-            collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
-            colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-            st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-            plot_collocation(keyword, collocs)
-    except ValueError as err:
-        st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-
-
-# reading example and uploaded files
-def read_file(fname, file_source):
-    file_name = fname if file_source=='example' else fname.name
-    if file_name.endswith('.txt'):
-        data = open(fname, 'r', encoding='cp1252').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
-        data = pd.DataFrame.from_dict({i+1: data[i] for i in range(len(data))}, orient='index', columns = ['Reviews'])
-        
-    elif file_name.endswith(('.xls','.xlsx')):
-        data = pd.read_excel(pd.ExcelFile(fname)) if file_source=='example' else pd.read_excel(fname)
-
-    elif file_name.endswith('.tsv'):
-        data = pd.read_csv(fname, sep='\t', encoding='cp1252') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
-    else:
-        return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
-    return True, data
-
-def get_data(file_source='example'):
-    try:
-        if file_source=='example':
-            example_files = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')])
-            fnames = st.sidebar.multiselect('Select example data file(s)', example_files, example_files[0])
-            if fnames:
-                return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) for fname in fnames}
-            else:
-                return False, st.info('''**NoFileSelected:** Please select at least one file from the sidebar list.''', icon="ℹ️")
-        
-        elif file_source=='uploaded': # Todo: Consider a maximum number of files for memory management. 
-            uploaded_files = st.sidebar.file_uploader("Upload your data file(s)", accept_multiple_files=True, type=['txt','tsv','xlsx', 'xls'])
-            if uploaded_files:
-                return True, {uploaded_file.name:read_file(uploaded_file, file_source) for uploaded_file in uploaded_files}
-            else:
-                return False, st.info('''**NoFileUploaded:** Please upload files with the upload button or by dragging the file into the upload area. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="ℹ️")
-        else:
-            return False, st.error(f'''**UnexpectedFileError:** Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
-    except Exception as err:
-        return False, st.error(f'''**UnexpectedFileError:** {err} Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
-
-# text_rank
-def text_rank_summarize(article, ratio):
-  return summa_summarizer(article, ratio=ratio)
-
-# ------------------Summarizer--------------
-def run_summarizer(input_text, lang='en'):
-    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['English', 'Cymraeg'])
-    # lang = 'cy' if language == 'Cymraeg' else 'en'
-    # st.markdown(SUM_MESSAGES[f'{lang}.ext.md'])
-    # with st.expander(SUM_MESSAGES[f'{lang}.info.title'], expanded=False):
-        # st.markdown(SUM_MESSAGES[f'{lang}.md'])
-    # option = st.sidebar.radio(SUM_MESSAGES[lang][7], (SUM_MESSAGES[lang][8], SUM_MESSAGES[lang][9], SUM_MESSAGES[lang][10]))
-    # input_text = get_input_text(option, lang=lang)
-    chosen_ratio = st.sidebar.slider(SUM_MESSAGES[f'{lang}.sb.sl'], min_value=10, max_value=50, step=10)/100
-
-    if st.button(SUM_MESSAGES[f'{lang}.button']):
-        if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
-            summary = text_rank_summarize(input_text, ratio=chosen_ratio)
-            if summary:
-                st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
-            else:
-                st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
-        else:
-            st.write("Rhowch eich testun...(Please enter your text...)")
-
-
-# --------------------Sentiments-----------------------
-
-#---Polarity score
-def get_sentiment(polarity):
-  return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
-    0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
-    ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
-
-#---Subjectivity score
-def get_subjectivity(subjectivity):
-  return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
-#---Subjectivity distribution
-@st.cache
-def get_subjectivity_distribution(scores, sentiment_class):
-  count = Counter([b for _, _, a, _, b in scores if a==sentiment_class])
-  return count['OBJECTIVE'], count['SUBJECTIVE']
-
-def plotfunc(pct, data):
-  absolute = int(np.round(pct/100.*np.sum([sum(d) for d in data])))
-  return "{:.1f}%\n({:d} reviews)".format(pct, absolute)
-# ---------------------
-def process_sentiments(text):
-  # all_reviews = sent_tokenize(text)
-  all_reviews = text.split('\n')
-  # -------------------
-  sentiment_scores = []
-  # -------------------
-  sentiments_list = []
-  subjectivity_list = []
-
-  #-------------------
-  for review in all_reviews:
-    blob = TextBlob(review)
-    polarity, subjectivity = blob.sentiment
-    sentiment_class, subjectivity_category = get_sentiment(polarity), get_subjectivity(subjectivity)
-    sentiments_list.append(sentiment_class)
-    subjectivity_list.append(subjectivity_category)
-    sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
-  # -------------------
-  very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
-  positive = get_subjectivity_distribution(sentiment_scores,'Positive')
-  neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
-  negative = get_subjectivity_distribution(sentiment_scores,'Negative')
-  very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
-  return sentiment_scores, (very_positive, positive, neutral, negative, very_negative)
-  
-# ---------------------
-def plot_sentiments(data, fine_grained=True):
-  fig, ax = plt.subplots(figsize=(5,5))
-  size = 0.7 
-  cmap = plt.get_cmap("tab20c")
-
-  if not fine_grained:
-    new_pos = tuple(map(lambda x, y: x + y, data[0], data[1]))
-    new_neg = tuple(map(lambda x, y: x + y, data[3], data[4]))
-    data = new_pos, data[2], new_neg
-    color_code = [8, 3, 4]
-    labels = ["Positive", "Neutral", "Negative"]
-  else:
-    color_code =  [8, 10, 3, 5, 4]
-    labels = ["Very Positive", "Positive", "Neutral", "Negative", "Very Negative"]
-
-  vals = np.array(data)
-  outer_colors =  cmap(np.array(color_code)) # cmap(np.arange(5))
-  # inner_colors = cmap(np.arange(10)) # cmap(np.array([1, 2, 3, 4, 5, 6, 7,8, 9, 10]))
-
-  wedges, texts, autotexts = ax.pie(vals.sum(axis=1), radius=1,
-        autopct=lambda pct: plotfunc(pct, data),
-        colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
-        pctdistance=0.60, textprops=dict(color="w", weight="bold", size=8))
-
-  # ax.set_title("Sentiment Chart")
-  
-  ax.legend(wedges, labels, title="Sentiment classes", title_fontsize='small', loc="center left", fontsize=8,
-            bbox_to_anchor=(1, 0, 0.5, 1))
-
-  st.set_option('deprecation.showPyplotGlobalUse', False)
-  st.pyplot()
-
-class Analysis:
-    def __init__(self, reviews):
-        self.reviews = reviews
-
-    def show_reviews(self, fname):
-        st.markdown(f'''📄 Viewing data: `{fname}`''')
-        st.dataframe(self.reviews)
-        st.write('Total number of reviews: ', len(self.reviews))
-        
-    def show_wordcloud(self, fname):
-        # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
-        get_wordcloud(self.reviews, fname)
-    
-    def show_kwic(self, fname):
-        plot_kwic(self.reviews, fname)
-############################################################################################       # ###using
-        ##st.write(self.reviews.tolist())
-        #word_association_graph('.'.join(str(self.reviews)), k=0.5, font_size=26)
- 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
@@ -602,6 +59,9 @@ def add_logo(png_file):
 
 
 
+
+
+
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
@@ -614,185 +74,76 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-#📃📌📈📈📉⛱🏓🏆🎲 
+
+st.markdown("# FreeTxt Text Analysis")
+
+        
 add_logo("img/FreeTxt_logo.png") 
-st.sidebar.markdown('# 🌐 Welsh FreeTxt')
-task = st.sidebar.radio("Select a task", ('🔍 Data Visualizer', '📃 Text Summarizer', '🎲 Sentiment Analyzer', '👍 POS + Semantic Tagger')) #, '📉 Analyzer', '📌 Annotator', '📉 Keyphrase Extractor',))
+st.write("---")
 
-if task == '🔍 Data Visualizer':
-    # run_visualizer()
-    st.markdown('''🔍 Free Text Visualizer''')
-    option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
-    if option == MESSAGES[lang][1]: input_data = get_data()
-    elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
-    # elif option == MESSAGES[lang][3]: input_data = read_example_data()
-    else: pass
+
+######### gif from local file"""
+
+def read_gif(name):
+
+    file_ = open(name, "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
+    return data_url
+
+#######################
+with st.container():
     
-    status, data = input_data
-    if status:
-        if 'feature_list' not in st.session_state.keys():
-            feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
-            st.session_state['feature_list'] = feature_list
-        else:
-            feature_list = st.session_state['feature_list']
-        checkbox_container(feature_list)
-        feature_options = get_selected_checkboxes()
+    left_column, right_column = st.columns([1, 1])
+    with left_column:
+        st.subheader("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations)")
+        data_url = read_gif("img/visualization.gif")
+        st.markdown(
+            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" class="center" src="data:image/gif;base64,{data_url} "></a>',
+            unsafe_allow_html=True,  
+                )
+    with right_column:
+        st.subheader("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews)")
+           
+        data_url_2 = read_gif("img/reviews.gif")
+        st.markdown(
+            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" class="center" src="data:image/gif;base64,{data_url_2} "></a>',
+            unsafe_allow_html=True, 
+                )
+#######################
+st.write("---")
+with st.container():
+    
+    left_column, right_column = st.columns([1, 1])
+    with left_column:
+        st.subheader("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary)")
+        data_url = read_gif("img/summary.gif")
+        st.markdown(
+            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" class="center" src="data:image/gif;base64,{data_url} "></a>',
+            unsafe_allow_html=True,  
+                )
+    with right_column:
+        st.subheader("[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)")
+           
+        data_url_2 = read_gif("img/semantic.gif")
+        st.markdown(
+            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="400" height="400" class="center" src="data:image/gif;base64,{data_url_2} "></a>',
+            unsafe_allow_html=True, 
+                )
+
         
-    # With tabbed multiselect
-        filenames = list(data.keys())
-        tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        tabs = st.tabs(tab_titles)
-        for i in range(len(tabs)):
-            with tabs[i]:
-                _, df = data[filenames[i]]
-                df = select_columns(df, key=i).astype(str)
-                if df.empty:
-                    st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-                else:
-                    analysis = Analysis(df)
-                    if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-                    if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
-                    if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
-                    if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
-
-elif task == '📃 Text Summarizer':
-    st.markdown('''📃 Text Summarizer''')
-    option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
-    if option == MESSAGES[lang][1]: input_data = get_data()
-    elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
-    # elif option == MESSAGES[lang][3]: input_data = read_example_data()
-    else: pass
-    status, data = input_data
-    
-    if status:
-        filenames = list(data.keys())
-        tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        tabs = st.tabs(tab_titles)
-        for i in range(len(tabs)):
-            with tabs[i]:
-                _, df = data[filenames[i]]
-                df = select_columns(df, key=i).astype(str)
-                if df.empty:
-                    st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-                else:
-                    input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
-                    run_summarizer(input_text[:2000])
-elif task == '🎲 Sentiment Analyzer':
-    # run_sentiments()
-    st.markdown('''🎲 Sentiment Analyzer''')
-    option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2]))
-    if option == MESSAGES[lang][1]: input_data = get_data()
-    elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
-    else: pass
-    status, data = input_data
-    
-    if status:
-        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
-        # With tabbed multiselect
-        filenames = list(data.keys())
-        tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        tabs = st.tabs(tab_titles)
-        for i in range(len(tabs)):
-            with tabs[i]:
-                _, df = data[filenames[i]]
-                df = select_columns(df, key=i).astype(str)
-                if df.empty:
-                    st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-                else:
-                    input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
-                    text = process_sentiments(input_text)
-                    if option == '3 Class Sentiments':
-                        plot_sentiments(text[1], fine_grained=False)
-                    else:
-                        plot_sentiments(text[1])
-                    num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
-                    df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-                    df = df[['Review','Polarity', 'Sentiment']]
-                    df.index = np.arange(1, len(df) + 1)
-                    st.dataframe(df.head(num_examples))
-
-elif task == '👍 POS + Semantic Tagger':
-    text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-    
-    text = st.text_area("Paste taste to tag", value=text)
-    lang_detected = detect(text)
-    st.write(f"Language detected: '{lang_detected}'")
-    
-    if lang_detected == 'cy':
-        st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-        # with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
-            # example_text.write(text)
-        # os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
-    
-        # # Load the Welsh PyMUSAS rule based tagger
-        # nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
-
-        # tokens: List[str] = []
-        # spaces: List[bool] = []
-        # basic_pos_tags: List[str] = []
-        # lemmas: List[str] = []
-
-        # welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
-
-        # with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
-            # for line in welsh_tagged_data:
-                # line = line.strip()
-                # if line:
-                    # line_tags = line.split('\t')
-                    # tokens.append(line_tags[1])
-                    # lemmas.append(line_tags[3])
-                    # basic_pos_tags.append(line_tags[4])
-                    # spaces.append(True)
-
-        # # As the tagger is a spaCy component that expects tokens, pos, and lemma
-        # # we need to create a spaCy Doc object that will contain this information
-        # doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
-        # output_doc = nlp(doc)
-
-        # # print(f'Text\tLemma\tPOS\tUSAS Tags')
-        # cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-        # tagged_tokens = []
-        # for token in output_doc:
-            # tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-        
-        # # create DataFrame using data
-        # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-        # tagged_tokens_df
-    
-    elif lang_detected == 'en':
-        st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
-
-        # # We exclude the following components as we do not need them. 
-        # nlp = spacy.load('en_core_web_sm') #nlp = spacy.load('en_core_web_sm', exclude=['parser', 'ner'])
-        # # Load the English PyMUSAS rule based tagger in a separate spaCy pipeline
-        # english_tagger_pipeline = spacy.load('en_dual_none_contextual')
-        # # Adds the English PyMUSAS rule based tagger to the main spaCy pipeline
-        # nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
-        # output_doc = nlp(text)
-
-        # cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-        # tagged_tokens = []
-        # for token in output_doc:
-            # tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-        
-        # # create DataFrame using data
-        # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-        # tagged_tokens_df
-
-else:
-    st.write(task, 'is under construction...')
-
-# 🏴󠁧󠁢󠁷󠁬󠁳󠁿🥸😎🤨🤔👍☑️👏🤝🏻
-# def read_example_data():
-    # fname = os.path.join(EXAMPLES_DIR, 'example_reviews.txt')
-    # text = open(fname, 'r', encoding='cp1252').read()
-    # lines = st.text_area('Paste reviews (replace the example text) to analyze', text, height=150).split('\n')
-    # return True, pd.DataFrame.from_dict({i+1: lines[i] for i in range(len(lines))}, orient='index', columns = ['Reviews'])
-    # df = df.astype(dtype={'name': 'string'})
-    
 
 
- 
+
+
+
+
+
+
+
+
+
 # ---- HIDE STREAMLIT STYLE ----
 hide_st_style = """
             <style>
