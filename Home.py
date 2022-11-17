@@ -100,7 +100,8 @@ with st.container():
         st.subheader("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations)")
         data_url = read_gif("img/visualization.gif")
         st.markdown(
-            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a>',
+            f'<p style='text-align: center; color: grey;'>
+                <a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
     with right_column:
@@ -133,7 +134,6 @@ with st.container():
                 )
 
         
-
 
 
 
