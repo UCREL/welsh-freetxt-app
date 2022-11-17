@@ -140,6 +140,14 @@ def get_colordict(palette,number,start):
     color_d = dict(enumerate(pal, start=start))
     return color_d
 
+###ploty figure scale
+def scatter(dataframe):
+    df = px.data.gapminder()
+    Plot_scatter = px.scatter(dataframe,y="freq", size="freq", color="word",
+           hover_name="word", log_x=True, size_max=60)
+
+    return(Plot_scatter)
+
 # reading example and uploaded files
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
@@ -383,6 +391,10 @@ def plot_coll(keyward, collocs):
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
     nx.draw_networkx(G)
     st.pyplot()
+    
+####scatter
+    st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
+ 
 #########circle ploting with color and size
     
     # compute circle positions:
