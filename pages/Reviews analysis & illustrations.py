@@ -132,6 +132,13 @@ pd.set_option('display.max_colwidth',None)
 lang='en'
 EXAMPLES_DIR = 'example_texts_pub'
 
+#################################################################################
+
+#create function to get a color dictionary
+def get_colordict(palette,number,start):
+    pal = list(sns.color_palette(palette=palette, n_colors=number).as_hex())
+    color_d = dict(enumerate(pal, start=start))
+    return color_d
 
 # reading example and uploaded files
 def read_file(fname, file_source):
@@ -307,6 +314,155 @@ def checkbox_container(data):
 def get_selected_checkboxes():
     return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
     st.session_state[i]]
+
+#--------------Get Top n most_common words plus counts---------------
+def getTopNWords(text, topn=5, removeStops=False):
+    text = text.translate(text.maketrans("", "", string.punctuation))
+    text = [word for word in text.lower().split()
+                if word not in STOPWORDS] if removeStops else text.lower().split()
+    return Counter(text).most_common(topn) 
+
+#---------------------keyword in context ----------------------------
+def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
+    text = text.translate(text.maketrans("", "", string.punctuation))
+    if lower_case:
+        text = text.lower()
+        keyword = keyword.lower()
+    kwic_insts = []
+    tokens = text.split()
+    keyword_indexes = [i for i in range(len(tokens)) if tokens[i].lower() == keyword.lower()]
+    for index in keyword_indexes[:maxInstances]:
+        left_context = ' '.join(tokens[index-window_size:index])
+        target_word = tokens[index]
+        right_context = ' '.join(tokens[index+1:index+window_size+1])
+        kwic_insts.append((left_context, target_word, right_context))
+    return kwic_insts
+
+#---------- get collocation ------------------------
+def get_collocs(kwic_insts, topn=10):
+    words=[]
+    for l, t, r in kwic_insts:
+        words += l.split() + r.split()
+    all_words = [word for word in words if word not in STOPWORDS]
+    return Counter(all_words).most_common(topn)
+
+#----------- plot collocation ------------------------
+def plot_collocation(keyword, collocs):
+    words, counts = zip(*collocs)
+    N, total = len(counts), sum(counts)
+    plt.figure(figsize=(8,8))
+    plt.xlim([-0.5, 0.5])
+    plt.ylim([-0.5, 0.5])
+    plt.plot([0],[0], '-o', color='blue',  markersize=25, alpha=0.7)
+    plt.text(0,0, keyword, color='red', fontsize=14)
+    for i in range(N):
+        x, y = random.uniform((i+1)/(2*N),(i+1.5)/(2*N)), random.uniform((i+1)/(2*N), (i+1.5)/(2*N)) 
+        x = x if random.choice((True, False)) else -x
+        y = y if random.choice((True, False)) else -y
+        plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
+        plt.text(x, y, words[i], fontsize=12)
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.pyplot()
+
+
+########the treemap illistartion
+
+def plot_coll(keyward, collocs):
+    words, counts = zip(*collocs)
+    
+    st.write(words, counts)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    st.dataframe(top_collocs_df)
+    fig = px.treemap(top_collocs_df, title='Treemap chart',
+                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu)
+    fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+    st.set_option('deprecation.showPyplotGlobalUse', False)
+    st.plotly_chart(fig,use_container_width=True)
+######the network 
+    top_collocs_df.insert(1, 'source', keyward)
+    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
+    nx.draw_networkx(G)
+    st.pyplot()
+#########circle ploting with color and size
+    
+    # compute circle positions:
+    circles = circlify.circlify(top_collocs_df['freq'][0:30].tolist(), 
+                            show_enclosure=False, 
+                            target_enclosure=circlify.Circle(x=0, y=0)
+                           )
+    n = top_collocs_df['freq'][0:30].max()
+    color_dict = get_colordict('RdYlBu_r',n ,1)
+    fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
+    ax.axis('off')
+    lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
+    plt.xlim(-lim, lim)
+    plt.ylim(-lim, lim)
+
+# list of labels
+    labels = list(top_collocs_df['word'][0:30])  
+    counts = list(top_collocs_df['freq'][0:30])
+    labels.reverse()
+    counts.reverse()
+
+# print circles
+    for circle, label, count in zip(circles, labels, counts):
+        x, y, r = circle
+        ax.add_patch(plt.Circle((x, y), r, alpha=0.9, color = color_dict.get(count)))
+        plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
+    plt.xticks([])
+    plt.yticks([])
+    st.pyplot()
+
+ #-------------------------- N-gram Generator ---------------------------
+def gen_ngram(text, _ngrams=2, topn=10):
+    if _ngrams==1:
+        return getTopNWords(text, topn)
+    ngram_list=[]
+    for sent in sent_tokenize(text):
+        for char in sent:
+            if char in PUNCS: sent = sent.replace(char, "")
+        ngram_list += ngrams(word_tokenize(sent), _ngrams)
+    ngram_counts = Counter(ngram_list).most_common(topn)
+    sum_ngram_counts = sum([c for _, c in ngram_counts])
+    return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
+            for ng, c in ngram_counts]
+
+def plot_kwic(data, key):
+    st.markdown('''💬 Word location in text''')
+    # cloud_columns = st.multiselect(
+        # 'Select your free text columns:', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_kwic_multiselect")
+        
+    # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
+    input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
+    for c in PUNCS: input_data = input_data.lower().replace(c,'')
+    
+    try:
+        topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
+        keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
+        window_size = st.slider('Select the window size:', 1, 10, 2)
+        maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
+        kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
+
+        keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
+        if keyword_analysis == 'Keyword in context':
+            kwic_instances_df = pd.DataFrame(kwic_instances,
+                columns =['Left context', 'Keyword', 'Right context'])
+            kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+            # subset=['Left context', 'Keyword', 'Right context'],
+            # kwic_instances_df
+            st.dataframe(kwic_instances_df)
+            
+        else: #Could you replace with NLTK concordance later?
+            # keyword = st.text_input('Enter a keyword:','staff')
+            collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
+            colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+            st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+            plot_collocation(keyword, collocs)
+            plot_coll(keyword, collocs)
+    except ValueError as err:
+        st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+
 
 st.markdown('''🔍 Free Text Visualizer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
