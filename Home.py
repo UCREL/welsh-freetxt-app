@@ -104,6 +104,7 @@ with st.container():
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
+st.write("---")
 with st.container():
     
     left_column, right_column = st.columns([1, 1])
@@ -132,7 +133,8 @@ with st.container():
         st.markdown(
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
-                )
+               )
+st.write("---")
 with st.container():
     
     left_column, right_column = st.columns([1, 1])
