@@ -99,18 +99,26 @@ with st.container():
     with left_column:
         st.subheader("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations)")
         data_url = read_gif("img/visualization.gif")
+    with right_column:
         st.markdown(
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
-    with right_column:
-        st.subheader("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews)")
-           
+with st.container():
+    
+    left_column, right_column = st.columns([1, 1])
+    with left_column:
         data_url_2 = read_gif("img/reviews.gif")
         st.markdown(
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
+        
+    with right_column:
+        st.subheader("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews)")
+           
+      
+        
 #######################
 st.write("---")
 with st.container():
@@ -118,20 +126,27 @@ with st.container():
     left_column, right_column = st.columns([1, 1])
     with left_column:
         st.subheader("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary)")
+        
+    with right_column:
         data_url = read_gif("img/summary.gif")
         st.markdown(
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
-    with right_column:
-        st.subheader("[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)")
-           
+with st.container():
+    
+    left_column, right_column = st.columns([1, 1])
+    with left_column:
         data_url_2 = read_gif("img/semantic.gif")
         st.markdown(
             f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
 
+    with right_column:
+        st.subheader("[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)")
+           
+        
         
 
 
