@@ -128,7 +128,7 @@ with st.container():
            
         data_url_2 = read_gif("img/semantic.gif")
         st.markdown(
-            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="400" height="400" class="center" src="data:image/gif;base64,{data_url_2} "></a>',
+            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" class="center" src="data:image/gif;base64,{data_url_2} "></a>',
             unsafe_allow_html=True, 
                 )
 
