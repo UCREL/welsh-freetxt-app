@@ -108,7 +108,7 @@ with st.container():
            
         data_url_2 = read_gif("img/reviews.gif")
         st.markdown(
-            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
 #######################
@@ -120,7 +120,7 @@ with st.container():
         st.subheader("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary)")
         data_url = read_gif("img/summary.gif")
         st.markdown(
-            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
     with right_column:
@@ -128,7 +128,7 @@ with st.container():
            
         data_url_2 = read_gif("img/semantic.gif")
         st.markdown(
-            f'<a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" src="data:image/gif;base64,{data_url_2} "></a>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
 
