@@ -518,7 +518,7 @@ if status:
     # With tabbed multiselect
     filenames = list(data.keys())
     tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-    tabs = st.tabs(tab_titles)
+    #tabs = st.tabs(tab_titles)
     tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
     
     for i in range(len(tabs)):
