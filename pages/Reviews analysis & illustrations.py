@@ -206,7 +206,7 @@ def select_columns(data, key):
             return data.loc[data[filter_column] == filter_key].drop_duplicates()
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
-@st.cache(allow_output_mutation=True)
+
 def get_wordcloud (data, key):
     # st.markdown('''☁️ Word Cloud''')
     # cloud_columns = st.multiselect(
@@ -311,23 +311,23 @@ class Analysis:
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
 # ---------------Checkbox options------------------
-#def checkbox_container(data):
-    #st.markdown('What do you want to do with the data?')
-    #layout = st.columns(2)
-    #if layout[0].button('Select All'):
-     #   for i in data:
-      #      st.session_state['dynamic_checkbox_' + i] = True
-       # st.experimental_rerun()
-    #if layout[1].button('UnSelect All'):
-     #   for i in data:
-      #      st.session_state['dynamic_checkbox_' + i] = False
-       # st.experimental_rerun()
-    #for i in data:
-     #   st.checkbox(i, key='dynamic_checkbox_' + i)
+def checkbox_container(data):
+    st.markdown('What do you want to do with the data?')
+    layout = st.columns(2)
+    if layout[0].button('Select All'):
+       for i in data:
+          st.session_state['dynamic_checkbox_' + i] = True
+          st.experimental_rerun()
+    if layout[1].button('UnSelect All'):
+        for i in data:
+            st.session_state['dynamic_checkbox_' + i] = False
+            st.experimental_rerun()
+        for i in data:
+          st.checkbox(i, key='dynamic_checkbox_' + i)
 
-#def get_selected_checkboxes():
- #   return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
-  #  st.session_state[i]]
+def get_selected_checkboxes():
+    return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
+    st.session_state[i]]
 
 #--------------Get Top n most_common words plus counts---------------
 def getTopNWords(text, topn=5, removeStops=False):
@@ -504,8 +504,8 @@ if status:
            st.session_state['feature_list'] = feature_list
     else:
      feature_list = st.session_state['feature_list']
-     #checkbox_container(feature_list)
-     #feature_options = get_selected_checkboxes()
+     checkbox_container(feature_list)
+     feature_options = get_selected_checkboxes()
     
  
   
@@ -527,7 +527,7 @@ if status:
 
     st.write(font_css, unsafe_allow_html=True)
     
-    ###submit button
+   
     
     
         
@@ -540,7 +540,7 @@ if status:
             if df.empty:
                 st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
             else:
-                if st.button('Analyse'):
+                
                     analysis = Analysis(df)
                     tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
