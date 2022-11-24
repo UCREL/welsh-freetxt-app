@@ -495,7 +495,7 @@ if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
     # elif option == MESSAGES[lang][3]: input_data = read_example_data()
 else: pass
-st.button('Analyse') 
+
 status, data = input_data
 if status:
     if 'feature_list' not in st.session_state.keys():
@@ -526,6 +526,11 @@ if status:
 
     st.write(font_css, unsafe_allow_html=True)
     
+    ###submit button
+    
+    if st.button('Analyse'):
+        st.write('Why hello there')
+        
     for i in range(len(filenames)):
         #with tabs[i]:
             _, df = data[filenames[i]]
