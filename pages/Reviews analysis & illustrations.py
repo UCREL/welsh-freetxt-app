@@ -497,7 +497,7 @@ elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
 else: pass
 
 status, data = input_data
-#if status:
+if status:
  #   if 'feature_list' not in st.session_state.keys():
   #          feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
    #         st.session_state['feature_list'] = feature_list
