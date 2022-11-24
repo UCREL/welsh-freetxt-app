@@ -312,18 +312,13 @@ class Analysis:
         plot_kwic(self.reviews, fname)
 # ---------------Checkbox options------------------
 def checkbox_container(data):
-    st.markdown('What do you want to do with the data?')
+    #st.markdown('What do you want to do with the data?')
     layout = st.columns(2)
-    if layout[0].button('Select All'):
+    #if layout[0].button('Select All'):
        for i in data:
           st.session_state['dynamic_checkbox_' + i] = True
           st.experimental_rerun()
-    if layout[1].button('UnSelect All'):
-        for i in data:
-            st.session_state['dynamic_checkbox_' + i] = False
-            st.experimental_rerun()
-        for i in data:
-          st.checkbox(i, key='dynamic_checkbox_' + i)
+    
 
 def get_selected_checkboxes():
     return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
