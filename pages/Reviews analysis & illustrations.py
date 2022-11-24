@@ -501,24 +501,25 @@ if status:
     
     ##tabs 
     filenames = list(data.keys())
-    _, df = data[filenames[i]]
-            df = select_columns(df, key=i).astype(str)
-            if df.empty:
-                st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-            else:
-                analysis = Analysis(df)
+    _, df = data[filenames]
+    df = select_columns(df, key=i).astype(str)
+    if df.empty:
+        st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
+    else:
+        analysis = Analysis(df)
+        if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
     tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
     data = np.random.randn(10, 1)
 
     tab1.subheader("Data View")
-    tab1.line_chart(data)
+    analysis.show_reviews(filenames)
 
     tab2.subheader("WordCloud")
-    tab2.write(data)
+    analysis.show_wordcloud(filenames)
     
     tab3.subheader("Keyword in Context & Collocation")
     tab3.write(data)
-        
+    
      
     # With tabbed multiselect
     filenames = list(data.keys())
