@@ -108,19 +108,25 @@ st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
 st.write("---")
 
-st.write('''This is one of the key features of the tool and has three core components:
+#st.write('''This is one of the key features of the tool and has three core components:
 
-a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
+#a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
 
-b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
+#b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
 
-c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
+#c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
 
-uploaded_files = st.file_uploader("Choose a .xls file", accept_multiple_files=True)
-for uploaded_file in uploaded_files:
-    bytes_data = uploaded_file.read()
-    st.write("filename:", uploaded_file.name)
-    st.write(bytes_data)
+#uploaded_files = st.file_uploader("Choose a .xls file", accept_multiple_files=True)
+#for uploaded_file in uploaded_files:
+#    bytes_data = uploaded_file.read()
+ #   st.write("filename:", uploaded_file.name)
+  #  st.write(bytes_data)
+
+
+#####text box to add raw data
+st.markdown("""---""")
+txt = st.text_area('Past a Text to analyze', ''' (...)
+    ''')
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
@@ -492,7 +498,15 @@ if status:
         feature_list = st.session_state['feature_list']
     checkbox_container(feature_list)
     feature_options = get_selected_checkboxes()
+    
+    ##tabs 
     filenames = list(data.keys())
+    _, df = data[filenames[i]]
+            df = select_columns(df, key=i).astype(str)
+            if df.empty:
+                st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
+            else:
+                analysis = Analysis(df)
     tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
     data = np.random.randn(10, 1)
 
