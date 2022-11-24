@@ -518,11 +518,11 @@ if status:
     # With tabbed multiselect
     filenames = list(data.keys())
     tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-    #tabs = st.tabs(tab_titles)
+    tabs = st.tabs(tab_titles)
     
     
     for i in range(len(filenames)):
-        
+        with tabs[i]:
             _, df = data[filenames[i]]
             df = select_columns(df, key=i).astype(str)
             if df.empty:
