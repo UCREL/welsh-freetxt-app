@@ -394,7 +394,7 @@ def plot_coll(keyward, collocs):
         st.plotly_chart(fig,use_container_width=True)
 ######the network 
     top_collocs_df.insert(1, 'source', keyward)
-    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
+    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq',node_size= 'freq')
     nx.draw_networkx(G)
     with tab3:
         st.pyplot()
