@@ -395,9 +395,10 @@ def plot_coll(keyward, collocs):
 ######the network 
     n = top_collocs_df['freq'][0:30].max()
     color_dict = get_colordict('RdYlBu_r',n ,1)
+    counts = list(top_collocs_df['freq'][0:30])
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
-    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True,node_color =color_dict.get(count)) 
+    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True,node_color =color_dict.get(top_collocs_df.freq)) 
     with tab3:
         st.pyplot()
     
