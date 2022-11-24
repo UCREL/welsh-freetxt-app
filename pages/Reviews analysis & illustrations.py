@@ -125,9 +125,9 @@ add_logo("img/FreeTxt_logo.png")
 
 #####text box to add raw data
 st.markdown("""---""")
-txt = st.text_area('Past a Text to analyze', ''' (.................................................................)
+txt = st.text_area('Text to analyze', ''' (you can past your text here.....)
     ''')
-
+st.button('Analyse')
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
