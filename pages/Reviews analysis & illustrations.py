@@ -214,7 +214,7 @@ def get_wordcloud (data, key):
     # # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
     # for c in PUNCS: input_data = input_data.lower().replace(c,'')
 
-    st.markdown('''
+    tab2.markdown('''
     ---
     
     ☁️ Word Cloud
@@ -222,7 +222,7 @@ def get_wordcloud (data, key):
     ---
     ''')
     
-    layout = st.columns([7, 1, 4])
+    layout = tab2.columns([7, 1, 4])
     cloud_columns = layout[0].multiselect(
         'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
     input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
@@ -235,7 +235,7 @@ def get_wordcloud (data, key):
     #'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png',
     image_mask = { 'Rectangle': None}
     
-    maskfile = image_mask[st.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
+    maskfile = image_mask[tab2.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
     mask = np.array(Image.open(maskfile)) if maskfile else maskfile
     # maxWords = st.number_input("Number of words:",
         # value=300,
@@ -262,7 +262,7 @@ def get_wordcloud (data, key):
         
         
             
-        cloud_type = st.selectbox('Choose cloud category:',
+        cloud_type = tab2.selectbox('Choose cloud category:',
             ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
             wordcloud = wc.generate(input_data)        
@@ -286,7 +286,7 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
         else: 
             pass
-        color = st.radio('Switch image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
+        color = tab2.radio('Switch image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
@@ -294,15 +294,15 @@ def get_wordcloud (data, key):
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.pyplot()
     except ValueError as err:
-        st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+        tab2.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
 
     def show_reviews(self, fname):
-        st.markdown(f'''📄 Viewing data: `{fname}`''')
-        st.dataframe(self.reviews)
-        st.write('Total number of reviews: ', len(self.reviews))
+        tab1.markdown(f'''📄 Viewing data: `{fname}`''')
+        tab1.dataframe(self.reviews)
+        tab1.write('Total number of reviews: ', len(self.reviews))
         
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
@@ -375,8 +375,8 @@ def plot_collocation(keyword, collocs):
         y = y if random.choice((True, False)) else -y
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.pyplot()
+    tab3.set_option('deprecation.showPyplotGlobalUse', False)
+    tab3.pyplot()
 
 
 ########the treemap illistartion
@@ -386,20 +386,20 @@ def plot_coll(keyward, collocs):
     
     st.write(words, counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    st.dataframe(top_collocs_df)
+    tab3.dataframe(top_collocs_df)
     fig = px.treemap(top_collocs_df, title='Treemap chart',
                  path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu)
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-    st.set_option('deprecation.showPyplotGlobalUse', False)
-    st.plotly_chart(fig,use_container_width=True)
+    tab3.set_option('deprecation.showPyplotGlobalUse', False)
+    tab3.plotly_chart(fig,use_container_width=True)
 ######the network 
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
     nx.draw_networkx(G)
-    st.pyplot()
+    tab3.pyplot()
     
 ####scatter
-    st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
+    tab3.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
  
 #########circle ploting with color and size
     
@@ -429,7 +429,7 @@ def plot_coll(keyward, collocs):
         plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
     plt.xticks([])
     plt.yticks([])
-    st.pyplot()
+    tab3.pyplot()
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
@@ -446,7 +446,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
             for ng, c in ngram_counts]
 
 def plot_kwic(data, key):
-    st.markdown('''💬 Word location in text''')
+    tab3.markdown('''💬 Word location in text''')
     # cloud_columns = st.multiselect(
         # 'Select your free text columns:', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_kwic_multiselect")
         
@@ -519,6 +519,6 @@ if status:
             else:
                 analysis = Analysis(df)
                 if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-                if 'Data View' in feature_options: tab1.write(analysis.show_reviews(filenames[i]))
-                if 'WordCloud' in feature_options: tab2.write(analysis.show_wordcloud(filenames[i]))
-                if 'Keyword in Context & Collocation' in feature_options: tab3.write(analysis.show_kwic(filenames[i]))
+                if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
+                if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
+                if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
