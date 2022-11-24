@@ -493,7 +493,7 @@ def plot_kwic(data, key):
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
-st.markdown('''🔍 Free Text Visualizer''')
+#st.markdown('''🔍 Free Text Visualizer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
 if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
