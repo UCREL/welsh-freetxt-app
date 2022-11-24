@@ -214,12 +214,8 @@ def get_wordcloud (data, key):
     # # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
     # for c in PUNCS: input_data = input_data.lower().replace(c,'')
 
-    tab2.markdown('''
-    ---
-    
+    tab2.markdown('''    
     ☁️ Word Cloud
-    
-    ---
     ''')
     
     layout = tab2.columns([7, 1, 4])
@@ -529,7 +525,7 @@ if status:
                 st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
             else:
                 analysis = Analysis(df)
-                tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
+                tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
                 if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                 if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
                 if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
