@@ -538,7 +538,7 @@ if status:
             else:
                 
                     analysis = Analysis(df)
-                    tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
+                    tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                 
                     analysis.show_reviews(filenames[i])
