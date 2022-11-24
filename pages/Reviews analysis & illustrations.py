@@ -291,8 +291,8 @@ def get_wordcloud (data, key):
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
+        tab2.set_option('deprecation.showPyplotGlobalUse', False)
+        tab2.pyplot()
     except ValueError as err:
         tab2.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 class Analysis:
