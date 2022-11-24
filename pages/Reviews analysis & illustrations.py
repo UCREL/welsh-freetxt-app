@@ -539,11 +539,11 @@ if status:
             if df.empty:
                 st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
             else:
-                st.button('Analyse')
-                analysis = Analysis(df)
-                tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
-                #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                 if st.button('Analyse'):
+                    analysis = Analysis(df)
+                    tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
+                #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
+                
                     analysis.show_reviews(filenames[i])
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
