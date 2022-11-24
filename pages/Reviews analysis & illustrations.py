@@ -528,11 +528,12 @@ if status:
     
     ###submit button
     
-    if st.button('Analyse'):
-        st.write('Why hello there')
+    
         
     for i in range(len(filenames)):
         #with tabs[i]:
+         if st.button('Analyse'):
+        
             _, df = data[filenames[i]]
             df = select_columns(df, key=i).astype(str)
             if df.empty:
@@ -540,7 +541,7 @@ if status:
             else:
                 analysis = Analysis(df)
                 tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'🗃 Keyword in Context & Collocation'])
-                if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-                if 'Data View' in feature_options: analysis.show_reviews(filenames[i])
-                if 'WordCloud' in feature_options: analysis.show_wordcloud(filenames[i])
-                if 'Keyword in Context & Collocation' in feature_options: analysis.show_kwic(filenames[i])
+                #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
+                analysis.show_reviews(filenames[i])
+                analysis.show_wordcloud(filenames[i])
+                analysis.show_kwic(filenames[i])
