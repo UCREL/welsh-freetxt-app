@@ -387,7 +387,7 @@ def plot_coll(keyward, collocs):
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     tab3.dataframe(top_collocs_df)
     fig = px.treemap(top_collocs_df, title='Treemap chart',
-                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, textinfo = "label+value+percent parent+percent entry")
+                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
     with tab3:
         st.set_option('deprecation.showPyplotGlobalUse', False)
