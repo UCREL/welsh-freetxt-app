@@ -495,7 +495,7 @@ if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
     # elif option == MESSAGES[lang][3]: input_data = read_example_data()
 else: pass
-    
+st.button('Analyse') 
 status, data = input_data
 if status:
     if 'feature_list' not in st.session_state.keys():
