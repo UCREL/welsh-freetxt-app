@@ -503,8 +503,8 @@ if status:
            st.session_state['feature_list'] = feature_list
     else:
      feature_list = st.session_state['feature_list']
-     checkbox_container(feature_list)
-     feature_options = get_selected_checkboxes()
+     #checkbox_container(feature_list)
+     #feature_options = get_selected_checkboxes()
     
  
   
