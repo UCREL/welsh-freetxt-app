@@ -291,18 +291,21 @@ def get_wordcloud (data, key):
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
-        tab2.set_option('deprecation.showPyplotGlobalUse', False)
-        tab2.pyplot()
+        with tab2:
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
     except ValueError as err:
-        tab2.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+        with tab2:
+            st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
 
     def show_reviews(self, fname):
-        tab1.markdown(f'''📄 Viewing data: `{fname}`''')
-        tab1.dataframe(self.reviews)
-        tab1.write('Total number of reviews: ', len(self.reviews))
+        with tab1:
+            st.markdown(f'''📄 Viewing data: `{fname}`''')
+            st.dataframe(self.reviews)
+            st.write('Total number of reviews: ', len(self.reviews))
         
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
@@ -375,8 +378,10 @@ def plot_collocation(keyword, collocs):
         y = y if random.choice((True, False)) else -y
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
-    tab3.set_option('deprecation.showPyplotGlobalUse', False)
-    tab3.pyplot()
+    with tab3:
+        
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        st.pyplot()
 
 
 ########the treemap illistartion
@@ -390,16 +395,19 @@ def plot_coll(keyward, collocs):
     fig = px.treemap(top_collocs_df, title='Treemap chart',
                  path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu)
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-    tab3.set_option('deprecation.showPyplotGlobalUse', False)
-    tab3.plotly_chart(fig,use_container_width=True)
+    with tab3:
+        st.set_option('deprecation.showPyplotGlobalUse', False)
+        st.plotly_chart(fig,use_container_width=True)
 ######the network 
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
     nx.draw_networkx(G)
-    tab3.pyplot()
+    with tab3:
+        st.pyplot()
     
 ####scatter
-    tab3.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
+    with tab3:
+        st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
  
 #########circle ploting with color and size
     
@@ -429,7 +437,8 @@ def plot_coll(keyward, collocs):
         plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
     plt.xticks([])
     plt.yticks([])
-    tab3.pyplot()
+    with tab3:
+        st.pyplot()
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
@@ -469,7 +478,8 @@ def plot_kwic(data, key):
             kwic_instances_df.style.set_properties(column='Left context', align = 'right')
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
-            tab3.dataframe(kwic_instances_df)
+            with tab3:
+                st.dataframe(kwic_instances_df)
             
         else: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
@@ -479,7 +489,8 @@ def plot_kwic(data, key):
             plot_collocation(keyword, collocs)
             plot_coll(keyword, collocs)
     except ValueError as err:
-        tab3.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+        with tab3:
+            st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
 st.markdown('''🔍 Free Text Visualizer''')
