@@ -522,7 +522,7 @@ if status:
     tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
     
     for i in range(len(filenames)):
-        with tabs[i]:
+        with i:
             _, df = data[filenames[i]]
             df = select_columns(df, key=i).astype(str)
             if df.empty:
