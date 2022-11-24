@@ -317,7 +317,7 @@ def checkbox_container(data):
     #if layout[0].button('Select All'):
     for i in data:
           st.session_state['dynamic_checkbox_' + i] = True
-          st.experimental_rerun()
+          #st.experimental_rerun()
     
 
 def get_selected_checkboxes():
