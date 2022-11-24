@@ -389,7 +389,7 @@ def plot_collocation(keyword, collocs):
 def plot_coll(keyward, collocs):
     words, counts = zip(*collocs)
     
-    st.write(words, counts)
+    tab3.write(words, counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     tab3.dataframe(top_collocs_df)
     fig = px.treemap(top_collocs_df, title='Treemap chart',
