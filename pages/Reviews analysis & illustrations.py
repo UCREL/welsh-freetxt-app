@@ -501,7 +501,7 @@ if status:
     
     ##tabs 
     filenames = list(data.keys())
-    _, df = data[filenames]
+    df = data[filenames]
     df = select_columns(df, key=i).astype(str)
     if df.empty:
         st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
