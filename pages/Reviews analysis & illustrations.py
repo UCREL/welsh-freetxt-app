@@ -501,6 +501,7 @@ if status:
     
     ##tabs 
     filenames = list(data.keys())
+    st.write(filenames)
     df = data[filenames[1]]
     df = select_columns(df, key=i).astype(str)
     if df.empty:
