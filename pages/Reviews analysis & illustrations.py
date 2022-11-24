@@ -393,9 +393,11 @@ def plot_coll(keyward, collocs):
         st.set_option('deprecation.showPyplotGlobalUse', False)
         st.plotly_chart(fig,use_container_width=True)
 ######the network 
+    n = top_collocs_df['freq'][0:30].max()
+    color_dict = get_colordict('RdYlBu_r',n ,1)
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
-    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True)
+    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True,node_color =color_dict )
     with tab3:
         st.pyplot()
     
@@ -410,8 +412,7 @@ def plot_coll(keyward, collocs):
      #                       show_enclosure=False, 
       #                      target_enclosure=circlify.Circle(x=0, y=0)
        #                    )
-    #n = top_collocs_df['freq'][0:30].max()
-    #color_dict = get_colordict('RdYlBu_r',n ,1)
+    #
     #fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
    # ax.axis('off')
     #lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
