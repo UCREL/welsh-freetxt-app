@@ -313,9 +313,9 @@ class Analysis:
 # ---------------Checkbox options------------------
 def checkbox_container(data):
     #st.markdown('What do you want to do with the data?')
-    layout = st.columns(2)
+    #layout = st.columns(2)
     #if layout[0].button('Select All'):
-       for i in data:
+    for i in data:
           st.session_state['dynamic_checkbox_' + i] = True
           st.experimental_rerun()
     
