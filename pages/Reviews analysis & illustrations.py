@@ -471,7 +471,7 @@ def plot_kwic(data, key):
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
         kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
 
-        keyword_analysis = st.radio('Anaysis:', ('Keyword in context', 'Collocation'))
+        keyword_analysis = tab3.radio('Anaysis:', ('Keyword in context', 'Collocation'))
         if keyword_analysis == 'Keyword in context':
             kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['Left context', 'Keyword', 'Right context'])
