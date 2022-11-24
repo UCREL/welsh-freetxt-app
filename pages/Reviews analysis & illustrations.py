@@ -500,26 +500,26 @@ if status:
     feature_options = get_selected_checkboxes()
     
     ##tabs 
-    filenames = list(data.keys())
-    st.write(filenames)
-    df = data[filenames[0]]
-    df = select_columns(df, key=0).astype(str)
-    if df.empty:
-        st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
-    else:
-        analysis = Analysis(df)
-        if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-    tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
-    data = np.random.randn(10, 1)
+   # filenames = list(data.keys())
+   # st.write(filenames)
+    #df = data[filenames[0]]
+   # df = select_columns(df, key=0).astype(str)
+    #if df.empty:
+     #   st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
+    #else:
+     #   analysis = Analysis(df)
+      #  if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
+    #tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
+   # data = np.random.randn(10, 1)
 
-    tab1.subheader("Data View")
-    analysis.show_reviews(filenames)
+    #tab1.subheader("Data View")
+    #analysis.show_reviews(filenames)
 
-    tab2.subheader("WordCloud")
-    analysis.show_wordcloud(filenames)
+    #tab2.subheader("WordCloud")
+    #analysis.show_wordcloud(filenames)
     
-    tab3.subheader("Keyword in Context & Collocation")
-    tab3.write(data)
+    #tab3.subheader("Keyword in Context & Collocation")
+    #tab3.write(data)
     
      
     # With tabbed multiselect
