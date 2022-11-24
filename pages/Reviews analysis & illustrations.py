@@ -385,7 +385,7 @@ def plot_collocation(keyword, collocs):
 def plot_coll(keyward, collocs):
     words, counts = zip(*collocs)
     
-    tab3.write(words, counts)
+    #tab3.write(words, counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     tab3.dataframe(top_collocs_df)
     fig = px.treemap(top_collocs_df, title='Treemap chart',
@@ -402,39 +402,39 @@ def plot_coll(keyward, collocs):
         st.pyplot()
     
 ####scatter
-    with tab3:
-        st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
+   # with tab3:
+    #    st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
  
 #########circle ploting with color and size
     
     # compute circle positions:
-    circles = circlify.circlify(top_collocs_df['freq'][0:30].tolist(), 
-                            show_enclosure=False, 
-                            target_enclosure=circlify.Circle(x=0, y=0)
-                           )
-    n = top_collocs_df['freq'][0:30].max()
-    color_dict = get_colordict('RdYlBu_r',n ,1)
-    fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
-    ax.axis('off')
-    lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
-    plt.xlim(-lim, lim)
-    plt.ylim(-lim, lim)
+    #circles = circlify.circlify(top_collocs_df['freq'][0:30].tolist(), 
+     #                       show_enclosure=False, 
+      #                      target_enclosure=circlify.Circle(x=0, y=0)
+       #                    )
+    #n = top_collocs_df['freq'][0:30].max()
+    #color_dict = get_colordict('RdYlBu_r',n ,1)
+    #fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
+   # ax.axis('off')
+    #lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
+   # plt.xlim(-lim, lim)
+    #plt.ylim(-lim, lim)
 
 # list of labels
-    labels = list(top_collocs_df['word'][0:30])  
-    counts = list(top_collocs_df['freq'][0:30])
-    labels.reverse()
-    counts.reverse()
+    #labels = list(top_collocs_df['word'][0:30])  
+    #counts = list(top_collocs_df['freq'][0:30])
+    #labels.reverse()
+    #counts.reverse()
 
 # print circles
-    for circle, label, count in zip(circles, labels, counts):
-        x, y, r = circle
-        ax.add_patch(plt.Circle((x, y), r, alpha=0.9, color = color_dict.get(count)))
-        plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
-    plt.xticks([])
-    plt.yticks([])
-    with tab3:
-        st.pyplot()
+    #for circle, label, count in zip(circles, labels, counts):
+     #   x, y, r = circle
+      #  ax.add_patch(plt.Circle((x, y), r, alpha=0.9, color = color_dict.get(count)))
+      #  plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
+    #plt.xticks([])
+   # plt.yticks([])
+    #with tab3:
+     #   st.pyplot()
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
