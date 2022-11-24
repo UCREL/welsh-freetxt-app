@@ -395,7 +395,7 @@ def plot_coll(keyward, collocs):
 ######the network 
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
-    nx.draw_networkx(G,node_size= 'freq')
+    nx.draw(G,width=top_collocs_df.freq)
     with tab3:
         st.pyplot()
     
