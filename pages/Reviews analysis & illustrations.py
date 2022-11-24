@@ -106,7 +106,7 @@ st.set_page_config(
 
 st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
-st.write("---")
+#st.write("---")
 
 #st.write('''This is one of the key features of the tool and has three core components:
 
@@ -456,9 +456,9 @@ def plot_kwic(data, key):
     
     try:
         topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
-        keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-        window_size = st.slider('Select the window size:', 1, 10, 2)
-        maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+        keyword = tab3.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
+        window_size = tab3.slider('Select the window size:', 1, 10, 2)
+        maxInsts = tab3.slider('Maximum number of instances:', 5, 50, 10, 5)
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
         kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
 
@@ -469,17 +469,17 @@ def plot_kwic(data, key):
             kwic_instances_df.style.set_properties(column='Left context', align = 'right')
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
-            st.dataframe(kwic_instances_df)
+            tab3.dataframe(kwic_instances_df)
             
         else: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
             collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
             colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-            st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+            tab3.write(f"Collocations for '{keyword}':\n{colloc_str}")
             plot_collocation(keyword, collocs)
             plot_coll(keyword, collocs)
     except ValueError as err:
-        st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+        tab3.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
 st.markdown('''🔍 Free Text Visualizer''')
