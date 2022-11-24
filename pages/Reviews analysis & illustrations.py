@@ -492,7 +492,20 @@ if status:
         feature_list = st.session_state['feature_list']
     checkbox_container(feature_list)
     feature_options = get_selected_checkboxes()
+    filenames = list(data.keys())
+    tab1, tab2, tab3 = st.tabs(["📈 Data View", "🗃 WordCloud",'Keyword in Context & Collocation'])
+    data = np.random.randn(10, 1)
+
+    tab1.subheader("Data View")
+    tab1.line_chart(data)
+
+    tab2.subheader("WordCloud")
+    tab2.write(data)
+    
+    tab3.subheader("Keyword in Context & Collocation")
+    tab3.write(data)
         
+     
     # With tabbed multiselect
     filenames = list(data.keys())
     tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
