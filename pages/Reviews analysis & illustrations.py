@@ -310,23 +310,23 @@ class Analysis:
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
 # ---------------Checkbox options------------------
-def checkbox_container(data):
-    st.markdown('What do you want to do with the data?')
-    layout = st.columns(2)
-    if layout[0].button('Select All'):
-        for i in data:
-            st.session_state['dynamic_checkbox_' + i] = True
-        st.experimental_rerun()
-    if layout[1].button('UnSelect All'):
-        for i in data:
-            st.session_state['dynamic_checkbox_' + i] = False
-        st.experimental_rerun()
-    for i in data:
-        st.checkbox(i, key='dynamic_checkbox_' + i)
+#def checkbox_container(data):
+    #st.markdown('What do you want to do with the data?')
+    #layout = st.columns(2)
+    #if layout[0].button('Select All'):
+     #   for i in data:
+      #      st.session_state['dynamic_checkbox_' + i] = True
+       # st.experimental_rerun()
+    #if layout[1].button('UnSelect All'):
+     #   for i in data:
+      #      st.session_state['dynamic_checkbox_' + i] = False
+       # st.experimental_rerun()
+    #for i in data:
+     #   st.checkbox(i, key='dynamic_checkbox_' + i)
 
-def get_selected_checkboxes():
-    return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
-    st.session_state[i]]
+#def get_selected_checkboxes():
+ #   return [i.replace('dynamic_checkbox_','') for i in st.session_state.keys() if i.startswith('dynamic_checkbox_') and 
+  #  st.session_state[i]]
 
 #--------------Get Top n most_common words plus counts---------------
 def getTopNWords(text, topn=5, removeStops=False):
@@ -497,14 +497,14 @@ elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
 else: pass
 
 status, data = input_data
-if status:
-    if 'feature_list' not in st.session_state.keys():
-            feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
-            st.session_state['feature_list'] = feature_list
-    else:
-        feature_list = st.session_state['feature_list']
-    checkbox_container(feature_list)
-    feature_options = get_selected_checkboxes()
+#if status:
+ #   if 'feature_list' not in st.session_state.keys():
+  #          feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
+   #         st.session_state['feature_list'] = feature_list
+    #else:
+     #   feature_list = st.session_state['feature_list']
+   # checkbox_container(feature_list)
+    #feature_options = get_selected_checkboxes()
     
  
   
