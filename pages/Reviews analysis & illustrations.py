@@ -498,13 +498,13 @@ else: pass
 
 status, data = input_data
 if status:
- #   if 'feature_list' not in st.session_state.keys():
-  #          feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
-   #         st.session_state['feature_list'] = feature_list
-    #else:
-     #   feature_list = st.session_state['feature_list']
-   # checkbox_container(feature_list)
-    #feature_options = get_selected_checkboxes()
+  if 'feature_list' not in st.session_state.keys():
+           feature_list = ['Data View', 'WordCloud', 'Keyword in Context & Collocation']
+           st.session_state['feature_list'] = feature_list
+  else:
+     #feature_list = st.session_state['feature_list']
+     #checkbox_container(feature_list)
+     #feature_options = get_selected_checkboxes()
     
  
   
