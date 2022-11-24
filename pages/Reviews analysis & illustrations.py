@@ -206,6 +206,7 @@ def select_columns(data, key):
             return data.loc[data[filter_column] == filter_key].drop_duplicates()
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
+@st.cache(allow_output_mutation=True)
 def get_wordcloud (data, key):
     # st.markdown('''☁️ Word Cloud''')
     # cloud_columns = st.multiselect(
