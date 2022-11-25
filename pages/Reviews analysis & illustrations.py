@@ -466,27 +466,28 @@ def plot_kwic(data, key):
         maxInsts = tab3.slider('Maximum number of instances:', 5, 50, 10, 5)
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
         kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
-
-        keyword_analysis = tab3.radio('Anaysis:', ('Keyword in context', 'Collocation'))
-        if keyword_analysis == 'Keyword in context':
-            kwic_instances_df = pd.DataFrame(kwic_instances,
-                columns =['Left context', 'Keyword', 'Right context'])
-            kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+        with tab3:
+        #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
+        #if keyword_analysis == 'Keyword in context':
+            with st.expander("Keyword in context"):
+                kwic_instances_df = pd.DataFrame(kwic_instances,
+                    columns =['Left context', 'Keyword', 'Right context'])
+                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
-            with tab3:
+            
                 st.dataframe(kwic_instances_df,use_container_width=True)
             
-        else: #Could you replace with NLTK concordance later?
+            with st.expander("Collocation"): #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
-            collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
-            colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-            tab3.write(f"Collocations for '{keyword}':\n{colloc_str}")
-            plot_collocation(keyword, collocs)
-            plot_coll(keyword, collocs)
-    except ValueError as err:
-        with tab3:
-            st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
+                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                tab3.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                plot_collocation(keyword, collocs)
+                plot_coll(keyword, collocs)
+        except ValueError as err:
+            with tab3:
+                st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
 #st.markdown('''🔍 Free Text Visualizer''')
