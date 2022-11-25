@@ -385,7 +385,7 @@ def plot_coll(keyward, collocs):
     #tab3.write(words, counts)
     
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    tab3.dataframe(top_collocs_df,,use_container_width=True)
+    tab3.dataframe(top_collocs_df,use_container_width=True)
     fig = px.treemap(top_collocs_df, title='Treemap chart',
                  path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
@@ -475,7 +475,7 @@ def plot_kwic(data, key):
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
             with tab3:
-                st.dataframe(kwic_instances_df,,use_container_width=True)
+                st.dataframe(kwic_instances_df,use_container_width=True)
             
         else: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
