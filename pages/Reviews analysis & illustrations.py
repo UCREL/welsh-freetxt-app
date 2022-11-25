@@ -35,7 +35,7 @@ import base64
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
-#from pyvis.network import Network
+from pyvis.network import Network
 import streamlit.components.v1 as components
 
 
@@ -356,10 +356,13 @@ def get_collocs(kwic_insts, topn=10):
     all_words = [word for word in words if word not in STOPWORDS]
     return Counter(all_words).most_common(topn)
 
+
+
 #----------- plot collocation ------------------------
-def plot_collocation(keyword, collocs):
+def plot_collocation(keyword, collocs,expander):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     plt.figure(figsize=(8,8))
     plt.xlim([-0.5, 0.5])
     plt.ylim([-0.5, 0.5])
@@ -372,26 +375,29 @@ def plot_collocation(keyword, collocs):
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
     with tab3:
-        
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.pyplot()
+        with expander:
+            st.dataframe(top_collocs_df,use_container_width=True)
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.pyplot()
 
 
 ########the treemap illistartion
 
-def plot_coll(keyward, collocs):
+def plot_coll(keyward, collocs,expander):
     words, counts = zip(*collocs)
     
     #tab3.write(words, counts)
     
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    tab3.dataframe(top_collocs_df,use_container_width=True)
+    
     fig = px.treemap(top_collocs_df, title='Treemap chart',
                  path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
     with tab3:
-        st.set_option('deprecation.showPyplotGlobalUse', False)
-        st.plotly_chart(fig,use_container_width=True)
+        with expander:
+            
+            st.set_option('deprecation.showPyplotGlobalUse', False)
+            st.plotly_chart(fig,use_container_width=True)
 ######the network 
     n = top_collocs_df['freq'][0:30].max()
     color_dict = get_colordict('RdYlBu_r',n ,1)
@@ -400,7 +406,8 @@ def plot_coll(keyward, collocs):
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
     nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True) 
     with tab3:
-        st.pyplot()
+        with expander:
+            st.pyplot()
     
 ####scatter
    # with tab3:
@@ -452,6 +459,7 @@ def gen_ngram(text, _ngrams=2, topn=10):
 
 def plot_kwic(data, key):
     tab3.markdown('''💬 Word location in text''')
+    
     # cloud_columns = st.multiselect(
         # 'Select your free text columns:', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_kwic_multiselect")
         
@@ -460,33 +468,34 @@ def plot_kwic(data, key):
     for c in PUNCS: input_data = input_data.lower().replace(c,'')
     
     try:
-        topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
-        keyword = tab3.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-        window_size = tab3.slider('Select the window size:', 1, 10, 2)
-        maxInsts = tab3.slider('Maximum number of instances:', 5, 50, 10, 5)
-        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
-        kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
         with tab3:
+            topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
+            keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
+            window_size = st.slider('Select the window size:', 1, 10, 2)
+            maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
+        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
+            kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
+        
         #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
-            with st.expander("Keyword in context"):
+            with st.expander('Keyword in context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.set_properties(column='Left context', align = 'right')
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
-            
+                
                 st.dataframe(kwic_instances_df,use_container_width=True)
-            
-            with st.expander("Collocation"): #Could you replace with NLTK concordance later?
+            expander = st.expander('collocation')
+            with expander: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-                tab3.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                plot_collocation(keyword, collocs)
-                plot_coll(keyword, collocs)
-        except ValueError as err:
-            with tab3:
+                st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                plot_collocation(keyword, collocs,expander)
+                plot_coll(keyword, collocs,expander)
+    except ValueError as err:
+        with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
@@ -511,7 +520,7 @@ if status:
   
 
     
-     
+    
     # With tabbed multiselect
     filenames = list(data.keys())
     #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
@@ -543,8 +552,9 @@ if status:
                 
                     analysis = Analysis(df)
                     tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
+
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
-                
+                    
                     analysis.show_reviews(filenames[i])
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
