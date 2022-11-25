@@ -40,7 +40,7 @@ import base64
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
-from pyvis.network import Network
+#from pyvis.network import Network
 import streamlit.components.v1 as components
 
 @st.cache(allow_output_mutation=True)
