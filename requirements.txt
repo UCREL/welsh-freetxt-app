@@ -4,8 +4,8 @@ numpy
 nltk
 networkx
 matplotlib
-wordcloud
-spacy>=2.2.0,<3.0.0
+wordcloud 
+spacy=3.3.1 
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz#egg=en_core_web_sm
 https://github.com/UCREL/pymusas-models/releases/download/en_dual_none_contextual-0.3.1/en_dual_none_contextual-0.3.1-py3-none-any.whl
 spacytextblob
