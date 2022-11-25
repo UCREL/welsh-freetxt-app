@@ -215,3 +215,19 @@ if lang_detected == 'cy':
     
 elif lang_detected == 'en':
         st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
+	
+# Load the spacy model
+nlp = spacy.load('./en_core_web_sm-3.2.0')
+# Load the English PyMUSAS rule-based tagger in a separate spaCy pipeline
+english_tagger_pipeline = spacy.load('en_dual_none_contextual')
+# Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
+nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
+
+# Test the tagger
+text = "The Nile is a major north-flowing river in Northeastern Africa."
+output_doc = nlp(text)
+st.write(f'Text\tLemma\tPOS\tUSAS Tags')
+for token in output_doc:
+	st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
+
+
