@@ -217,7 +217,7 @@ elif lang_detected == 'en':
         st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
 	
 # Load the spacy model
-nlp = spacy.load('./en_core_web_sm-3.2.0')
+nlp = spacy.load('en_core_web_sm-3.2.0')
 # Load the English PyMUSAS rule-based tagger in a separate spaCy pipeline
 english_tagger_pipeline = spacy.load('en_dual_none_contextual')
 # Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
