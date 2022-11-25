@@ -243,7 +243,7 @@ def get_wordcloud (data, key):
         # help='Maximum number of words featured in the cloud.',
         # key=fname
         # )
-    nlp = spacy.load('en_core_web_sm')
+    nlp = spacy.load('en_core_web_sm-3.2.0')
     doc = nlp(input_data)
 
     try:
