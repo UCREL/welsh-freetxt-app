@@ -9,7 +9,7 @@ import spacy
 from spacy.tokens import Doc
 from spacy.vocab import Vocab
 import nltk
-import en_core_web_sm
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import networkx as nx
