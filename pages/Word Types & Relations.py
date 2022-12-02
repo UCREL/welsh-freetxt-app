@@ -232,7 +232,7 @@ elif lang_detected == 'en':
 			st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 			
 	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-        tagged_tokens = []
+	tagged_tokens = []
         for token in output_doc:
         		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
         
