@@ -232,6 +232,6 @@ output_doc = nlp(text)
 percentage_value = 9
 
 with st.expander('', expanded=True):
-	st.write(f'-\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
+	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
 	for token in output_doc:
-		st.write(f'-\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
