@@ -94,6 +94,14 @@ pd.set_option('display.max_colwidth',None)
 lang='en'
 EXAMPLES_DIR = 'example_texts_pub'
 
+# Load the spacy model
+nlp = spacy.load('en_core_web_sm-3.2.0')
+# Load the English PyMUSAS rule-based tagger in a separate spaCy pipeline
+english_tagger_pipeline = spacy.load('en_dual_none_contextual')
+# Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
+nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
+
+
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
@@ -166,8 +174,10 @@ st.write("---")
 st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and display POS (CyTag) tags as well as semantic (USAS) tags. 
 						''')
 
-text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-    
+#text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
+
+text = "The Nile is a major north-flowing river in Northeastern Africa."
+
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
@@ -214,24 +224,9 @@ if lang_detected == 'cy':
         # tagged_tokens_df
     
 elif lang_detected == 'en':
-        st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
-	
-# Load the spacy model
-nlp = spacy.load('en_core_web_sm-3.2.0')
-# Load the English PyMUSAS rule-based tagger in a separate spaCy pipeline
-english_tagger_pipeline = spacy.load('en_dual_none_contextual')
-# Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
-nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
-
-# Test the tagger
-text = "The Nile is a major north-flowing river in Northeastern Africa."
-output_doc = nlp(text)
-
-
-
-percentage_value = 9
-
-with st.expander('', expanded=True):
-	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
-	for token in output_doc:
-		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+        #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
+	output_doc = nlp(text)
+	with st.expander('', expanded=True):
+		st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
+		for token in output_doc:
+			st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
