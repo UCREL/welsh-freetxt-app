@@ -1,6 +1,6 @@
 ## The FreeTxt tool
 
-Here is the [link to FreeTxt tool](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/) which is currently under development. 
+Here is the [link to FreeTxt tool](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/) which is currently under development. 
 
 ### Summary of features:
 Below are the summary of the features currently available:
