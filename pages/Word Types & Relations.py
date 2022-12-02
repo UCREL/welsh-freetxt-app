@@ -238,4 +238,4 @@ elif lang_detected == 'en':
         
         # # create DataFrame using data
 	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-	tagged_tokens_df
+	st.dataframe(tagged_tokens_df,use_container_width=True)
