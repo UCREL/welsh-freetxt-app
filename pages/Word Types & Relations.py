@@ -227,18 +227,10 @@ nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
 text = "The Nile is a major north-flowing river in Northeastern Africa."
 output_doc = nlp(text)
 st.write(f'Text\tLemma\tPOS\tUSAS Tags')
-for token in output_doc:
-	st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
+
 
 percentage_value = 9
 
 with st.expander('', expanded=True):
-    st.markdown(f'''
-    ##### Percentage of members with goals
-    <ul style="padding-left:20px">
-      <li>The percentage of members with goals in june 2020</br>
-          has increased by {percentage_value} percentage.
-      </li>
-      <li>The percentage of members with goals is 98.</li>
-    </ul>
-    ''', unsafe_allow_html=True)
+    for token in output_doc:
+	st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
