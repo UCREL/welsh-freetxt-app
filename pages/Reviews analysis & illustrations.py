@@ -544,17 +544,8 @@ if status:
                     analysis = Analysis(df)
                     
                     
-                    ###font tabs
-                    font_css = """
-                     <style>
-                      button[data-baseweb="tab"] {
-                     font-size: 26px;
-                              }
-                         </style>
-                         """
-
-                     st.write(font_css, unsafe_allow_html=True)
-                     tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
+                 
+                    tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
