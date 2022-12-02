@@ -232,5 +232,5 @@ st.write(f'Text\tLemma\tPOS\tUSAS Tags')
 percentage_value = 9
 
 with st.expander('', expanded=True):
-    for token in output_doc:
-	st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
+	for token in output_doc:
+		st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
