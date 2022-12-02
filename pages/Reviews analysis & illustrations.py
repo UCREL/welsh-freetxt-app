@@ -525,16 +525,7 @@ if status:
     filenames = list(data.keys())
     #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
     #tabs = st.tabs(tab_titles)
-    ###font tabs
-    font_css = """
-    <style>
-    button[data-baseweb="tab"] {
-    font-size: 26px;
-        }
-    </style>
-    """
-
-    st.write(font_css, unsafe_allow_html=True)
+    
     
    
     
@@ -551,7 +542,19 @@ if status:
             else:
                 
                     analysis = Analysis(df)
-                    tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
+                    
+                    
+                    ###font tabs
+                    font_css = """
+                     <style>
+                      button[data-baseweb="tab"] {
+                     font-size: 26px;
+                              }
+                         </style>
+                         """
+
+                     st.write(font_css, unsafe_allow_html=True)
+                     tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
