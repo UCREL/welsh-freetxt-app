@@ -168,7 +168,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
     
-text = st.text_area("Paste taste to tag", value=text)
+text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
     
@@ -226,11 +226,12 @@ nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
 # Test the tagger
 text = "The Nile is a major north-flowing river in Northeastern Africa."
 output_doc = nlp(text)
-st.write(f'Text\tLemma\tPOS\tUSAS Tags')
+
 
 
 percentage_value = 9
 
 with st.expander('', expanded=True):
+	st.write(f'Text\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
 	for token in output_doc:
-		st.write(f'{token.text}\t{token.lemma_}\t{token.pos_}\t{token._.pymusas_tags}')
+		st.write(f'{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
