@@ -238,4 +238,4 @@ if lang_detected == 'cy':
         
         # # create DataFrame using data
 #	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-	st.dataframe(tagged_tokens_df,use_container_width=True)
+#	st.dataframe(tagged_tokens_df,use_container_width=True)
