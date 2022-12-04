@@ -181,17 +181,18 @@ text_1 = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gy
 text = st.text_area("Paste text to tag", value=text_1)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
+with open('img/text_test.txt', 'w+') as txt_reader:
+	string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
+	txt_reader.write(string)
+	st.write(string)
     
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-	with open('img/text_test.txt', 'w+') as txt_reader:
-    		string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
-    		txt_reader.write(string)
-    		st.write(string)	
+	
 
-        #with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
+        with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
             	#example_text.write(text_1)
-        #os.system('cat img/text_test.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+        os.system('cat img/text_test.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
     	
         # # Load the Welsh PyMUSAS rule based tagger
         nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
