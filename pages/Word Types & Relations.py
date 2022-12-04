@@ -191,7 +191,7 @@ if lang_detected == 'cy':
 	
 
         with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
-            	#example_text.write(text_1)
+            	example_text.write(text_1)
         os.system('cat img/text_test.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
     	
         # # Load the Welsh PyMUSAS rule based tagger
