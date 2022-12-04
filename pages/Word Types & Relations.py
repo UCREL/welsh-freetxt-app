@@ -185,7 +185,7 @@ with open('img/text_test.txt', 'w+') as txt_reader:
 	string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
 	txt_reader.write(string)
 	st.write(string)
-@st.cache(allow_output_mutation=True)    
+   
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
 	
