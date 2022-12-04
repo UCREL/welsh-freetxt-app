@@ -189,8 +189,8 @@ with open('img/text_test.txt', 'w+') as txt_reader:
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
 	
-
-        with open(os.path.join("img/text_test.txt"), 'wb', encoding='utf-8') as example_text:
+	@st.cache(allow_output_mutation=True)
+        with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
             	example_text.write(text_1)
         os.system('cat img/text_test.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
     	
