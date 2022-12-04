@@ -187,8 +187,7 @@ if lang_detected == 'cy':
         with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
             	example_text.write(text)
         os.system('cat welsh_text_example.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
-    	filenames = os.listdir('welsh-freetxt-app')
-	st.write(filenames)
+    	
         # # Load the Welsh PyMUSAS rule based tagger
         nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
