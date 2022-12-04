@@ -49,6 +49,10 @@ def get_base64_of_bin_file(png_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
+@st.cache(allow_output_mutation=True)
+def readfile(txt_file,data):
+    with open(txt_file, "w") as file:
+        f.write(data)
 
 def build_markup_for_logo(
     png_file,
@@ -175,7 +179,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 						''')
 
 text_1 = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-
+readfile('img/data.txt',text_1)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 
 text = st.text_area("Paste text to tag", value=text_1)
