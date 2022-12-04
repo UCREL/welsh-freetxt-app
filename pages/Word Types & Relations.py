@@ -52,7 +52,7 @@ def get_base64_of_bin_file(png_file):
 @st.cache(allow_output_mutation=True)
 def readfile(txt_file,data):
     with open(txt_file, "w") as file:
-        f.write(data)
+        file.write(data)
 
 def build_markup_for_logo(
     png_file,
