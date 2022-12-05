@@ -302,7 +302,8 @@ class Analysis:
     def show_reviews(self, fname):
         with tab1:
             st.markdown(f'''📄 Viewing data: `{fname}`''')
-            AgGrid(self.reviews)
+            df = pd.DataFrame(self.reviews)
+            AgGrid(df)
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
         
