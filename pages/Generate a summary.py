@@ -205,6 +205,10 @@ def select_columns(data, key):
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 st.markdown('''📃 Text Summarizer''')
+txt = st.text_area('Text to analyze', ''' you can past your text here.....
+    ''')
+#st.button('Analyse')
+
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
 if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
