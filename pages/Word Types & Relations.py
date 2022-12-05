@@ -178,11 +178,11 @@ st.write("---")
 st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and display POS (CyTag) tags as well as semantic (USAS) tags. 
 						''')
 
-text_1 = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
+#text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
 readfile('img/data.txt',text_1)
-#text = "The Nile is a major north-flowing river in Northeastern Africa."
+text = "The Nile is a major north-flowing river in Northeastern Africa."
 
-text = st.text_area("Paste text to tag", value=text_1)
+text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
 with open('img/text_test.txt', 'w+') as txt_reader:
@@ -195,7 +195,7 @@ if lang_detected == 'cy':
 	
 	
         with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
-            	example_text.write(text_1)
+            	example_text.write(text)
 		
         os.system('sh run_PyMUSAS.sh')
 	
@@ -234,19 +234,19 @@ if lang_detected == 'cy':
         tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
         tagged_tokens_df
     
-#elif lang_detected == 'en':
-        #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
-#	output_doc = nlp(text)
-#	with st.expander('', expanded=True):
-#		st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
-#		for token in output_doc:
-#			st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+elif lang_detected == 'en':
+        st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
+	output_doc = nlp(text)
+	with st.expander('', expanded=True):
+		st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
+		for token in output_doc:
+			st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 			
-#	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-#	tagged_tokens = []
-#	for token in output_doc:
-#		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+	tagged_tokens = []
+	for token in output_doc:
+		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
         
         # # create DataFrame using data
-#	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-#	st.dataframe(tagged_tokens_df,use_container_width=True)
+	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+	st.dataframe(tagged_tokens_df,use_container_width=True)
