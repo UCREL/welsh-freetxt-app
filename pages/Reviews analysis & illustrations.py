@@ -39,7 +39,7 @@ import plotly.express as px #### pip install plotly.express
 import streamlit.components.v1 as components
 
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-from pandasgui import show
+
 
 
 
@@ -328,7 +328,7 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            show(pd.DataFrame(data))
+            
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
         
