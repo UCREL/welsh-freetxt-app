@@ -39,6 +39,8 @@ import plotly.express as px #### pip install plotly.express
 import streamlit.components.v1 as components
 
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+from pandasgui import show
+
 
 
 import streamlit as st
@@ -304,7 +306,7 @@ class Analysis:
             st.markdown(f'''📄 Viewing data: `{fname}`''')
             #df = pd.DataFrame(self.reviews)
             data = self.reviews 
-            #st.AgGrid(self.reviews)
+            #### interactive dataframe
             gb = GridOptionsBuilder.from_dataframe(data)
             gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
             gb.configure_side_bar() #Add a sidebar
@@ -326,6 +328,7 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+            show(pd.DataFrame(data))
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
         
