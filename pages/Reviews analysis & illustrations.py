@@ -309,6 +309,8 @@ class Analysis:
         with tab1:
             st.markdown(f'''📄 Viewing data: `{fname}`''')
             #df = pd.DataFrame(self.reviews)
+            st.dataframe(self.reviews,use_container_width=True)
+            st.write('Total number of reviews: ', len(self.reviews))
             data = self.reviews 
             #### interactive dataframe
             gb = GridOptionsBuilder.from_dataframe(data)
@@ -333,8 +335,7 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             
-            st.dataframe(self.reviews,use_container_width=True)
-            st.write('Total number of reviews: ', len(self.reviews))
+            
         
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
