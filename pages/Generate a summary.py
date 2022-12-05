@@ -208,7 +208,8 @@ st.subheader('''📃 Text Summarizer''')
 txt = st.text_area('', ''' you can past your text here.....
     ''')
 #st.button('Analyse')
-
+st.markdown('----')
+st.subheader('''📃 File Summarizer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
 if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
