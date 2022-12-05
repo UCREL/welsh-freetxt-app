@@ -303,7 +303,7 @@ class Analysis:
         with tab1:
             st.markdown(f'''📄 Viewing data: `{fname}`''')
             df = pd.DataFrame(self.reviews)
-            AgGrid(df)
+            st.AgGrid(self.reviews)
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
         
