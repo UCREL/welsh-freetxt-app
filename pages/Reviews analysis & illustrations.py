@@ -41,7 +41,7 @@ import streamlit.components.v1 as components
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
 
-
+from io import StringIO
 
 import streamlit as st
 import base64
@@ -131,7 +131,8 @@ txt = st.text_area('Text to analyze', ''' you can past your text here.....
     ''')
 if st.button('Analyse'):
     st.write(txt)
-    df = pd.DataFrame(txt)
+    StringData = StringIO(txt)
+    df = pd.read_csv(StringData)
     if df.empty:
         st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
     else:
