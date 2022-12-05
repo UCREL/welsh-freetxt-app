@@ -204,8 +204,8 @@ def select_columns(data, key):
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
-st.markdown('''📃 Text Summarizer''')
-txt = st.text_area('Text to analyze', ''' you can past your text here.....
+st.title('''📃 Text Summarizer''')
+txt = st.text_area('', ''' you can past your text here.....
     ''')
 #st.button('Analyse')
 
