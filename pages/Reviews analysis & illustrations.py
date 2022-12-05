@@ -302,8 +302,30 @@ class Analysis:
     def show_reviews(self, fname):
         with tab1:
             st.markdown(f'''📄 Viewing data: `{fname}`''')
-            df = pd.DataFrame(self.reviews)
-            st.AgGrid(self.reviews)
+            #df = pd.DataFrame(self.reviews)
+            data = self.reviews 
+            #st.AgGrid(self.reviews)
+            gb = GridOptionsBuilder.from_dataframe(data)
+            gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+            gb.configure_side_bar() #Add a sidebar
+            gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
+            gridOptions = gb.build()
+
+            grid_response = AgGrid(
+    data,
+    gridOptions=gridOptions,
+    data_return_mode='AS_INPUT', 
+    update_mode='MODEL_CHANGED', 
+    fit_columns_on_grid_load=False,
+    theme='blue', #Add theme color to the table
+    enable_enterprise_modules=True,
+    height=350, 
+    width='100%',
+    reload_data=True
+        )
+            data = grid_response['data']
+            selected = grid_response['selected_rows'] 
+            df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
         
