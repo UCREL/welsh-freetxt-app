@@ -1,0 +1,76 @@
+Line Number Token   Sentence Index, Token Index Lemma   Basic POS   Enriched POS    Mutation
+1   Sefydliad   1,1 sefydliad   E   Egu 
+2   cyllidol    1,2 cyllidol    Ans Anscadu 
+3   yw  1,3 bod B   Bpres3u 
+4   bancwr  1,4 bancwr  E   Egu 
+5   neu 1,5 neu Cys Cyscyd  
+6   fanc    1,6 banc    E   Egu +sm
+7   sy  1,7 bod B   Bpres3perth 
+8   'n  1,8 yn  U   Uberf   
+9   actio   1,9 actio   B   Be  
+10  fel 1,10    fel Cys Cyscyd  
+11  asiant  1,11    asiant | asio   E | B   Egu | Bpres3ll  
+12  talu    1,12    talu    B   Be  
+13  ar  1,13    ar  Ar  Arsym   
+14  gyfer   1,14    cyfer   E   Egu +sm
+15  cwsmeriaid  1,15    cwsmer  E   Egll    
+16  ,   1,16    ,   Atd Atdcan  
+17  ac  1,17    a   Cys Cyscyd  
+18  yn  1,18    yn  U   Uberf   
+19  rhoi    1,19    rhoi    B   Be  
+20  benthyg 1,20    benthyg E   Egu 
+21  ac  1,21    a   Cys Cyscyd  
+22  yn  1,22    yn  U   Uberf   
+23  benthyg 1,23    benthyg B   Be  
+24  arian   1,24    arian   E   Egu 
+25  .   1,25    .   Atd Atdt    
+26  Yn  2,1 yn  Ar  Arsym   
+27  rhai    2,2 rhai    unk unk 
+28  gwledydd    2,3 gwlad   E   Ebll    
+29  ,   2,4 ,   Atd Atdcan  
+30  megis   2,5 megis   Cys Cyscyd  
+31  yr  2,6 y   YFB YFB 
+32  Almaen  2,7 Almaen  E   Epb 
+33  a   2,8 a   Cys Cyscyd  
+34  Siapan  2,9 Siapan  E   Epb 
+35  ,   2,10    ,   Atd Atdcan  
+36  mae 2,11    bod B   Bpres3u 
+37  banciau 2,12    banc    E   Egll    
+38  'n  2,13    yn  U   Utra    
+39  brif    2,14    brif    unk unk 
+40  berchenogion    2,15    berchenogion    unk unk 
+41  corfforaethau   2,16    corfforaeth E   Ebll    
+42  diwydiannol 2,17    diwydiannol Ans Anscadu 
+43  ,   2,18    ,   Atd Atdcan  
+44  tra 2,19    tra Cys Cyscyd  
+45  mewn    2,20    mewn    Ar  Arsym   
+46  gwledydd    2,21    gwlad   E   Ebll    
+47  eraill  2,22    arall   Ans Anscadu 
+48  ,   2,23    ,   Atd Atdcan  
+49  megis   2,24    megis   Cys Cyscyd  
+50  yr  2,25    y   YFB YFB 
+51  Unol    2,26    unol    Ans Anscadu 
+52  Daleithiau  2,27    Daleithiau  E   Ep  
+53  ,   2,28    ,   Atd Atdcan  
+54  mae 2,29    bod B   Bpres3u 
+55  banciau 2,30    banc    E   Egll    
+56  'n  2,31    yn  U   Uberf   
+57  cael    2,32    cael    B   Be  
+58  eu  2,33    eu  Rha Rhadib3ll   
+59  gwahardd    2,34    gwahardd    B   Be  
+60  rhag    2,35    rhag    Ar  Arsym   
+61  bod 2,36    bod B   Be  
+62  yn  2,37    yn  U   Utra    
+63  berchen 2,38    perchen E   Egu +sm
+64  ar  2,39    ar  Ar  Arsym   
+65  gwmniau 2,40    gwmniau unk unk 
+66  sydd    2,41    bod B   Bpres3perth 
+67  ddim    2,42    dim E   Egu +sm
+68  yn  2,43    yn  U   Utra    
+69  rhai    2,44    rhai    unk unk 
+70  cyllidol    2,45    cyllidol    Ans Anscadu 
+71  .   2,46    .   Atd Atdt    
+72  Adran   3,1 adran   E   Ebu 
+73  Iechyd  3,2 iechyd  E   Egu 
+74  Cymru   3,3 Cymru   E   Epb 
+75  .   3,4 .   Atd Atdt
