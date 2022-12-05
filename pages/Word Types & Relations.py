@@ -235,7 +235,7 @@ if lang_detected == 'cy':
         tagged_tokens_df
     
 elif lang_detected == 'en':
-        st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
+        #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
 	output_doc = nlp(text)
 	with st.expander('', expanded=True):
 		st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
