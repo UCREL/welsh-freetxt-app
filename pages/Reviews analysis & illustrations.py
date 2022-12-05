@@ -129,7 +129,9 @@ add_logo("img/FreeTxt_logo.png")
 st.markdown("""---""")
 txt = st.text_area('Text to analyze', ''' you can past your text here.....
     ''')
-st.button('Analyse')
+if st.button('Analyse'):
+    st.write('Why hello there')
+
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
 en_stopwords = list(stopwords.words('english'))
