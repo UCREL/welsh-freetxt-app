@@ -127,7 +127,7 @@ add_logo("img/FreeTxt_logo.png")
 
 #####text box to add raw data
 st.markdown("""---""")
-st.title('Text to analyse')
+st.header('Text to analyse')
 txt = st.text_area('', ''' you can past your text here.....
     ''')
 st.button('Analyse')
