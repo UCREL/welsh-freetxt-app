@@ -131,7 +131,7 @@ txt = st.text_area('Text to analyze', ''' you can past your text here.....
     ''')
 if st.button('Analyse'):
     st.write('Why hello there')
-    df = pd.DataFrame(txt).astype(str)
+    df = pd.DataFrame(txt)
     if df.empty:
         st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
     else:
