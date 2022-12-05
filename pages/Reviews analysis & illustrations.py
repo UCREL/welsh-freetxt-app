@@ -38,7 +38,7 @@ import plotly.express as px #### pip install plotly.express
 
 import streamlit.components.v1 as components
 
-
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 
 
 import streamlit as st
