@@ -17,3 +17,4 @@ langdetect
 circlify
 plotly.express
 streamlit-lottie
+streamlit-aggrid
