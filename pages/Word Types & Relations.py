@@ -185,10 +185,10 @@ text = "The Nile is a major north-flowing river in Northeastern Africa."
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
-with open('img/text_test.txt', 'w+') as txt_reader:
-	string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
-	txt_reader.write(string)
-	st.write(string)
+#with open('img/text_test.txt', 'w+') as txt_reader:
+#	string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
+#	txt_reader.write(string)
+#	st.write(string)
    
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
@@ -237,10 +237,10 @@ if lang_detected == 'cy':
 elif lang_detected == 'en':
         #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
 	output_doc = nlp(text)
-	with st.expander('', expanded=True):
-		st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
-		for token in output_doc:
-			st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+	#with st.expander('', expanded=True):
+	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
+	#	for token in output_doc:
+	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 			
 	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
 	tagged_tokens = []
