@@ -131,7 +131,7 @@ txt = st.text_area('Text to analyze', ''' you can past your text here.....
     ''')
 if st.button('Analyse'):
     st.write(txt)
-    StringData = StringIO(txt)
+    StringData = StringIO(' you can past your text here.')
     df = pd.read_csv(StringData)
     if df.empty:
         st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
