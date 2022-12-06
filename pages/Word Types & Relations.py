@@ -168,11 +168,9 @@ st.write(f"Language detected: '{lang_detected}'")
 
    
 if lang_detected == 'cy':
+	os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-	with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
-             example_text.write(text)
-        os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
-    
+	
         # # Load the Welsh PyMUSAS rule based tagger
         # nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
