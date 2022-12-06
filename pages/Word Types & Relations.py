@@ -141,6 +141,8 @@ def write_file(fname, file_source,text):
 	file_name = fname if file_source=='example' else fname.name
 	data = open(fname, 'r', encoding='cp1252').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
 	data = text
+	
+	
 	with open (fname, 'w', encoding='cp1252')as example_text:
             	example_text.write(text)
 	with open (fname, "a+") as f:
@@ -159,14 +161,12 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
 #x= write_file('img/data.txt','example',text)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
-
+data = pd.DataFrame(pd.read_csv('img/data.txt', names=[0])
+st.dataframe(data)
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
-#with open('img/text_test.txt', 'w+') as txt_reader:
-#	string = st.text_input('ENTER TEXT', value='', max_chars=None, key=None, type='default')
-#	txt_reader.write(string)
-#	st.write(string)
+
    
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
