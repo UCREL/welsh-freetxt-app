@@ -143,7 +143,7 @@ def write_file(fname, file_source,text):
 	data = text
 	with open (fname, 'w', encoding='cp1252')as example_text:
             	example_text.write(text)
-	with open (file, "a+") as f:
+	with open (fname, "a+") as f:
   		f.write("Hello")
 	return data
 	
