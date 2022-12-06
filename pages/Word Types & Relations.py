@@ -147,42 +147,8 @@ def write_file(fname, file_source,text):
   		f.write("Hello")
 	return data
 	
-
-def get_data(file_source='example'):
-    try:
-        if file_source=='example':
-            example_files = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')])
-            fnames = st.sidebar.multiselect('Select example data file(s)', example_files, example_files[0])
-            if fnames:
-                return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) for fname in fnames}
-            else:
-                return False, st.info('''**NoFileSelected:** Please select at least one file from the sidebar list.''', icon="ℹ️")
-        
-        elif file_source=='uploaded': # Todo: Consider a maximum number of files for memory management. 
-            uploaded_files = st.sidebar.file_uploader("Upload your data file(s)", accept_multiple_files=True, type=['txt','tsv','xlsx', 'xls'])
-            if uploaded_files:
-                return True, {uploaded_file.name:read_file(uploaded_file, file_source) for uploaded_file in uploaded_files}
-            else:
-                return False, st.info('''**NoFileUploaded:** Please upload files with the upload button or by dragging the file into the upload area. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="ℹ️")
-        else:
-            return False, st.error(f'''**UnexpectedFileError:** Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
-    except Exception as err:
-        return False, st.error(f'''**UnexpectedFileError:** {err} Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
-def select_columns(data, key):
-    layout = st.columns([7, 0.2, 2, 0.2, 2, 0.2, 3, 0.2, 3])
-    selected_columns = layout[0].multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
-    start_row=0
-    if selected_columns: start_row = layout[2].number_input('Choose start row:', value=0, min_value=0, max_value=5)
-    
-    if len(selected_columns)>=2 and layout[4].checkbox('Filter rows?'):
-        filter_column = layout[6].selectbox('Select filter column', selected_columns)
-        if filter_column: 
-            filter_key = layout[8].selectbox('Select filter key', set(data[filter_column]))
-            data = data[selected_columns][start_row:].dropna(how='all')
-            return data.loc[data[filter_column] == filter_key].drop_duplicates()
-    else:
-        return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
-
+with open ('img/data.txt', "a+") as f:
+  		f.write("Word Types & Relations")
 
 add_logo("img/FreeTxt_logo.png") 
 st.markdown("# Word Types & Relations")
@@ -191,7 +157,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 						''')
 
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-x= write_file('img/data.txt','example',text)
+#x= write_file('img/data.txt','example',text)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 
 text = st.text_area("Paste text to tag", value=x)
