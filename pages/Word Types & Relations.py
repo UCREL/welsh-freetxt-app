@@ -36,7 +36,10 @@ from typing import List
 ##word association
 import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import base64
+import base6
+
+import subprocess
+import sys
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
@@ -168,9 +171,9 @@ st.write(f"Language detected: '{lang_detected}'")
 
    
 if lang_detected == 'cy':
-	os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+	#os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-	
+	subprocess.run(['bash','run_PyMUSAS.sh'])
         # # Load the Welsh PyMUSAS rule based tagger
         # nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
