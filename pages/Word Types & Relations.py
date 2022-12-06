@@ -36,7 +36,7 @@ from typing import List
 ##word association
 import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
-import base6
+
 
 import subprocess
 import sys
