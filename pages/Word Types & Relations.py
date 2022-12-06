@@ -136,6 +136,13 @@ def read_file(fname, file_source):
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     return True, data
 
+## read and write in the txt file
+def write_file(fname, file_source):
+	file_name = fname if file_source=='example' else fname.name
+	data = open(fname, 'r', encoding='cp1252').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
+	return data
+	
+
 def get_data(file_source='example'):
     try:
         if file_source=='example':
@@ -179,7 +186,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 						''')
 
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-x= read_file('img/data.txt','example')
+x= write_file('img/data.txt','example')
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 
 text = st.text_area("Paste text to tag", value=x)
