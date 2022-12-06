@@ -136,18 +136,7 @@ def read_file(fname, file_source):
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     return True, data
 
-## read and write in the txt file
-def write_file(fname, file_source,text):
-	file_name = fname if file_source=='example' else fname.name
-	data = open(fname, 'r', encoding='cp1252').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
-	data = text
-	
-	
-	with open (fname, 'w', encoding='cp1252')as example_text:
-            	example_text.write(text)
-	with open (fname, "a+") as f:
-  		f.write("Hello")
-	return data
+
 	
 # Remove punctuation
 import string
@@ -168,9 +157,10 @@ text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfe
 text = preprocess_punc(text)
 with open ('img/data.txt', "w") as f:
   		f.write(text)
-#x= write_file('img/data.txt','example',text)
+
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
-data = pd.DataFrame(pd.read_csv('img/data.txt', names=[0]))
+data = pd.DataFrame(pd.read_csv('img/data.txt'))
+data.write_csv('img/nn.txt')
 st.dataframe(data)
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
