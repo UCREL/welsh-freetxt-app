@@ -149,8 +149,14 @@ def write_file(fname, file_source,text):
   		f.write("Hello")
 	return data
 	
-with open ('img/data.txt', "a") as f:
-  		f.write("Word Types & Relations")
+# Remove punctuation
+import string
+def preprocess_punc(sent):
+    x="".join([i for i in sent if i not in string.punctuation])
+    ## lower case is not a feature in arabic language however i keep it to be genertic 
+    return x.lower()
+
+
 
 add_logo("img/FreeTxt_logo.png") 
 st.markdown("# Word Types & Relations")
@@ -159,6 +165,9 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 						''')
 
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
+text = preprocess_punc(text)
+with open ('img/data.txt', "a") as f:
+  		f.write(text)
 #x= write_file('img/data.txt','example',text)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 data = pd.DataFrame(pd.read_csv('img/data.txt', names=[0]))
