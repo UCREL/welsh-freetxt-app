@@ -185,7 +185,7 @@ if lang_detected == 'cy':
         basic_pos_tags: List[str] = []
         lemmas: List[str] = []
 
-        welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
+        welsh_tagged_file = Path(Path.cwd(), '/img/welsh_text_example.tsv').resolve()
 
         with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
             	for line in welsh_tagged_data:
