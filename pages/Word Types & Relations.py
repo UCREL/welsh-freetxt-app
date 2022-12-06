@@ -160,7 +160,7 @@ text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfe
 #x= write_file('img/data.txt','example',text)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 
-text = st.text_area("Paste text to tag", value=x)
+text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
 #with open('img/text_test.txt', 'w+') as txt_reader:
