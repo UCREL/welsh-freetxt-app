@@ -188,15 +188,7 @@ if lang_detected == 'cy':
         welsh_tagged_file = Path(Path.cwd(), 'img/welsh_text_example.tsv').resolve()
 
         with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
-		for line in welsh_tagged_data:
-			line = line.strip()
-			st.write(line)
-                	if line:
-				line_tags = line.split('\t')
-				tokens.append(line_tags[1])
-				lemmas.append(line_tags[3])
-				basic_pos_tags.append(line_tags[4])
-				spaces.append(True)
+		
 
         # # As the tagger is a spaCy component that expects tokens, pos, and lemma
         # # we need to create a spaCy Doc object that will contain this information
