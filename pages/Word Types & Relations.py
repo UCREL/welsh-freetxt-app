@@ -191,7 +191,8 @@ if lang_detected == 'cy':
             	for line in welsh_tagged_data:
                 	line = line.strip()
                 	if line:
-                    		line_tags = line.split('\t')
+                    		print(line)
+				line_tags = line.split('\t')
                     		tokens.append(line_tags[1])
                     		lemmas.append(line_tags[3])
                     		basic_pos_tags.append(line_tags[4])
