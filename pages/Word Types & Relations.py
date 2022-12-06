@@ -190,20 +190,7 @@ if lang_detected == 'cy':
         with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
 		
 
-        # # As the tagger is a spaCy component that expects tokens, pos, and lemma
-        # # we need to create a spaCy Doc object that will contain this information
-        doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
-        output_doc = nlp(doc)
-
-        print(f'Text\tLemma\tPOS\tUSAS Tags')
-        cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-        tagged_tokens = []
-        for token in output_doc:
-        	tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
         
-        # # create DataFrame using data
-        tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-        tagged_tokens_df
     
 elif lang_detected == 'en':
         #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
