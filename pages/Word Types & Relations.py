@@ -149,7 +149,7 @@ def write_file(fname, file_source,text):
   		f.write("Hello")
 	return data
 	
-with open ('img/data.txt', "a+") as f:
+with open ('img/data.txt', "a") as f:
   		f.write("Word Types & Relations")
 
 add_logo("img/FreeTxt_logo.png") 
@@ -161,7 +161,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
 #x= write_file('img/data.txt','example',text)
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
-data = pd.DataFrame(pd.read_csv('img/data.txt', names=[0])
+data = pd.DataFrame(pd.read_csv('img/data.txt', names=[0]))
 st.dataframe(data)
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
