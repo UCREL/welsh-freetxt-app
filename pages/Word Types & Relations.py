@@ -187,7 +187,7 @@ if lang_detected == 'cy':
 
         welsh_tagged_file = Path(Path.cwd(), 'img/welsh_text_example.tsv').resolve()
 
-        with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
+        #with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
 		
 
         
