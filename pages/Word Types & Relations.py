@@ -160,7 +160,7 @@ with open ('img/data.txt', "w") as f:
 
 #text = "The Nile is a major north-flowing river in Northeastern Africa."
 data = pd.DataFrame(pd.read_csv('img/data.txt'))
-data.write_csv('img/nn.txt')
+data.to_csv('img/nn.txt')
 st.dataframe(data)
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
