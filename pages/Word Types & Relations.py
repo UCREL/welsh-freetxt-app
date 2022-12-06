@@ -169,24 +169,46 @@ st.write(f"Language detected: '{lang_detected}'")
    
 if lang_detected == 'cy':
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-	
-	
-        with open("img/text_test.txt", 'w', encoding='utf-8') as example_text:
-            	example_text.write(text)
-		
-        os.system('sh run_PyMUSAS.sh')
-	
+	with open("welsh_text_example.txt", 'w', encoding='utf-8') as example_text:
+             example_text.write(text)
+        os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+    
         # # Load the Welsh PyMUSAS rule based tagger
-        nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
+        # nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
-        tokens: List[str] = []
-        spaces: List[bool] = []
-        basic_pos_tags: List[str] = []
-        lemmas: List[str] = []
+        # tokens: List[str] = []
+        # spaces: List[bool] = []
+        # basic_pos_tags: List[str] = []
+        # lemmas: List[str] = []
 
-        welsh_tagged_file = Path(Path.cwd(), 'img/welsh_text_example.tsv').resolve()
+        # welsh_tagged_file = Path(Path.cwd(), 'welsh_text_example.tsv').resolve()
 
-        #with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
+        # with welsh_tagged_file.open('r', encoding='utf-8') as welsh_tagged_data:
+            # for line in welsh_tagged_data:
+                # line = line.strip()
+                # if line:
+                    # line_tags = line.split('\t')
+                    # tokens.append(line_tags[1])
+                    # lemmas.append(line_tags[3])
+                    # basic_pos_tags.append(line_tags[4])
+                    # spaces.append(True)
+
+        # # As the tagger is a spaCy component that expects tokens, pos, and lemma
+        # # we need to create a spaCy Doc object that will contain this information
+        # doc = Doc(Vocab(), words=tokens, tags=basic_pos_tags, lemmas=lemmas)
+        # output_doc = nlp(doc)
+
+        # # print(f'Text\tLemma\tPOS\tUSAS Tags')
+        # cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+        # tagged_tokens = []
+        # for token in output_doc:
+            # tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+        
+        # # create DataFrame using data
+        # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+        # tagged_tokens_df
+	
+
 		
 
         
