@@ -162,16 +162,16 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
  # 		f.write(text)
 
 text = "The Nile is a major north-flowing river in Northeastern Africa."
-data = pd.DataFrame(pd.read_csv('img/data.txt',names=[0]))
-data.to_csv('img/nn.txt')
-st.dataframe(data)
+#data = pd.DataFrame(pd.read_csv('img/data.txt',names=[0]))
+#data.to_csv('img/nn.txt')
+#st.dataframe(data)
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
 
    
 if lang_detected == 'cy':
-	#os.system('cat img/data.txt | sudo docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
+	#os.system('cat img/data.txt | docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
 	subprocess.run(['bash','run_PyMUSAS.sh'])
         # # Load the Welsh PyMUSAS rule based tagger
