@@ -250,6 +250,7 @@ def get_wordcloud (data, key):
         # key=fname
         # )
     nlp = spacy.load('en_core_web_sm-3.2.0')
+    nlp.max_length = 9000000
     doc = nlp(input_data)
 
     try:
