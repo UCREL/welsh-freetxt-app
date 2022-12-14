@@ -174,7 +174,7 @@ add_logo("img/FreeTxt_logo.png")
 
 
 st.subheader('Text to Analyse')
-st.markdown('----')
+#st.markdown('----')
 txt = st.text_area('', ''' you can past your text here.....
    ''')
 
