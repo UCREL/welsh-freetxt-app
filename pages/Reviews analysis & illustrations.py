@@ -37,11 +37,11 @@ import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 
 import streamlit.components.v1 as components
-
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-
-
 from io import StringIO
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
+#from pandasgui import show
+
+
 
 import streamlit as st
 import base64
@@ -55,7 +55,67 @@ def get_base64_of_bin_file(png_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
+@st.cache(allow_output_mutation=True)
+def get_state():
+    return {}
+### stopwords
+# Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
+en_stopwords = list(stopwords.words('english'))
+cy_stopwords = open('welsh_stopwords.txt', 'r', encoding='iso-8859-1').read().split('\n') # replaced 'utf8' with 'iso-8859-1'
+STOPWORDS = set(en_stopwords + cy_stopwords)
+PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
+pd.set_option('display.max_colwidth',None)
 
+lang='en'
+# --- Initialising SessionState ---
+if "load_state" not in st.session_state:
+     st.session_state.load_state = False
+class Analysis:
+    def __init__(self, reviews):
+        self.reviews = reviews
+
+    def show_reviews(self, fname):
+        with tab1:
+            st.markdown(f'''📄 Viewing data: `{fname}`''')
+            #df = pd.DataFrame(self.reviews)
+            data = self.reviews 
+            #### interactive dataframe
+            gb = GridOptionsBuilder.from_dataframe(data)
+            gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+            gb.configure_side_bar() #Add a sidebar
+            gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
+            gridOptions = gb.build()
+
+            grid_response = AgGrid(
+    data,
+    gridOptions=gridOptions,
+    data_return_mode='AS_INPUT', 
+    update_mode='MODEL_CHANGED', 
+    fit_columns_on_grid_load=False,
+    
+    enable_enterprise_modules=True,
+    height=350, 
+    width='100%',
+    reload_data=True
+        )
+            data = grid_response['data']
+            selected = grid_response['selected_rows'] 
+            df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+            #show(pd.DataFrame(data))
+            st.dataframe(self.reviews,use_container_width=True)
+            st.write('Total number of reviews: ', len(self.reviews))
+            HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+            source_code = HtmlFile.read() 
+            print(source_code)
+            components.html(source_code,height = 800)
+        
+    def show_wordcloud(self, fname):
+        # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
+        get_wordcloud(self.reviews, fname)
+    
+    def show_kwic(self, fname):
+        plot_kwic(self.reviews, fname)
+####add_logo
 def build_markup_for_logo(
     png_file,
     background_position="50% 10%",
@@ -104,35 +164,19 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
+####
 
-
+   
+ 
 st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
 #st.write("---")
 
-#st.write('''This is one of the key features of the tool and has three core components:
 
-#a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
-
-#b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type – i.e. 'All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'
-
-#c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text allowing the user to adjust the context window. It also shows the collocated words with the selected keywords''')
-
-#uploaded_files = st.file_uploader("Choose a .xls file", accept_multiple_files=True)
-#for uploaded_file in uploaded_files:
-#    bytes_data = uploaded_file.read()
- #   st.write("filename:", uploaded_file.name)
-  #  st.write(bytes_data)
-
-
-#####text box to add raw data
-st.markdown("""---""")
-st.subheader('Text to analyse')
+st.subheader('Text to Analyse')
+st.markdown('----')
 txt = st.text_area('', ''' you can past your text here.....
-    ''')
-st.button('Analyse')
-st.markdown("""---""")
-st.subheader('File to analyse')
+   ''')
 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
@@ -146,7 +190,7 @@ lang='en'
 EXAMPLES_DIR = 'example_texts_pub'
 
 #################################################################################
-
+state = get_state()
 #create function to get a color dictionary
 def get_colordict(palette,number,start):
     pal = list(sns.color_palette(palette=palette, n_colors=number).as_hex())
@@ -199,6 +243,7 @@ def get_data(file_source='example'):
         return False, st.error(f'''**UnexpectedFileError:** {err} Some or all of your files may be empty or invalid. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="🚨")
 
 
+    
 def select_columns(data, key):
     layout = st.columns([7, 0.2, 2, 0.2, 2, 0.2, 3, 0.2, 3])
     selected_columns = layout[0].multiselect('Select column(s) below to analyse', data.columns, help='Select columns you are interested in with this selection box', key= f"{key}_cols_multiselect")
@@ -237,10 +282,12 @@ def get_wordcloud (data, key):
     input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
     input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
     #'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png',
-    image_mask = { 'Rectangle': None}
     
-    maskfile = image_mask[tab2.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
-    mask = np.array(Image.open(maskfile)) if maskfile else maskfile
+    image_mask_2 = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
+    
+   
+    maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
+    mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
     # maxWords = st.number_input("Number of words:",
         # value=300,
         # step=50,
@@ -250,7 +297,6 @@ def get_wordcloud (data, key):
         # key=fname
         # )
     nlp = spacy.load('en_core_web_sm-3.2.0')
-    nlp.max_length = 9000000
     doc = nlp(input_data)
 
     try:
@@ -291,7 +337,7 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
         else: 
             pass
-        color = tab2.radio('Switch image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
+        color = tab2.radio('select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
@@ -302,48 +348,7 @@ def get_wordcloud (data, key):
     except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-class Analysis:
-    def __init__(self, reviews):
-        self.reviews = reviews
 
-    def show_reviews(self, fname):
-        with tab1:
-            st.markdown(f'''📄 Viewing data: `{fname}`''')
-            #df = pd.DataFrame(self.reviews)
-            st.dataframe(self.reviews,use_container_width=True)
-            st.write('Total number of reviews: ', len(self.reviews))
-            data = self.reviews 
-            #### interactive dataframe
-            gb = GridOptionsBuilder.from_dataframe(data)
-            gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
-            gb.configure_side_bar() #Add a sidebar
-            gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
-            gridOptions = gb.build()
-
-            grid_response = AgGrid(
-    data,
-    gridOptions=gridOptions,
-    data_return_mode='AS_INPUT', 
-    update_mode='MODEL_CHANGED', 
-    fit_columns_on_grid_load=False,
-    
-    enable_enterprise_modules=True,
-    height=350, 
-    width='100%',
-    reload_data=True
-        )
-            data = grid_response['data']
-            selected = grid_response['selected_rows'] 
-            df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            
-            
-        
-    def show_wordcloud(self, fname):
-        # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
-        get_wordcloud(self.reviews, fname)
-    
-    def show_kwic(self, fname):
-        plot_kwic(self.reviews, fname)
 # ---------------Checkbox options------------------
 def checkbox_container(data):
     #st.markdown('What do you want to do with the data?')
@@ -392,7 +397,7 @@ def get_collocs(kwic_insts, topn=10):
 
 
 #----------- plot collocation ------------------------
-def plot_collocation(keyword, collocs,expander):
+def plot_collocation(keyword, collocs,expander,tab):
     words, counts = zip(*collocs)
     N, total = len(counts), sum(counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -407,7 +412,7 @@ def plot_collocation(keyword, collocs,expander):
         y = y if random.choice((True, False)) else -y
         plt.plot(x, y, '-og', markersize=counts[i]*10, alpha=0.3)
         plt.text(x, y, words[i], fontsize=12)
-    with tab3:
+    with tab:
         with expander:
             st.dataframe(top_collocs_df,use_container_width=True)
             st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -416,7 +421,7 @@ def plot_collocation(keyword, collocs,expander):
 
 ########the treemap illistartion
 
-def plot_coll(keyward, collocs,expander):
+def plot_coll(keyward, collocs,expander,tab):
     words, counts = zip(*collocs)
     
     #tab3.write(words, counts)
@@ -426,7 +431,7 @@ def plot_coll(keyward, collocs,expander):
     fig = px.treemap(top_collocs_df, title='Treemap chart',
                  path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
     fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-    with tab3:
+    with tab:
         with expander:
             
             st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -438,43 +443,10 @@ def plot_coll(keyward, collocs,expander):
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
     nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True) 
-    with tab3:
+    with tab:
         with expander:
             st.pyplot()
     
-####scatter
-   # with tab3:
-    #    st.plotly_chart(scatter(top_collocs_df), use_container_width=True)   
- 
-#########circle ploting with color and size
-    
-    # compute circle positions:
-    #circles = circlify.circlify(top_collocs_df['freq'][0:30].tolist(), 
-     #                       show_enclosure=False, 
-      #                      target_enclosure=circlify.Circle(x=0, y=0)
-       #                    )
-    #
-    #fig, ax = plt.subplots(figsize=(9,9), facecolor='white')
-   # ax.axis('off')
-    #lim = max(max(abs(circle.x)+circle.r, abs(circle.y)+circle.r,) for circle in circles)
-   # plt.xlim(-lim, lim)
-    #plt.ylim(-lim, lim)
-
-# list of labels
-    #labels = list(top_collocs_df['word'][0:30])  
-    #counts = list(top_collocs_df['freq'][0:30])
-    #labels.reverse()
-    #counts.reverse()
-
-# print circles
-    #for circle, label, count in zip(circles, labels, counts):
-     #   x, y, r = circle
-      #  ax.add_patch(plt.Circle((x, y), r, alpha=0.9, color = color_dict.get(count)))
-      #  plt.annotate(label +'\n'+ str(count), (x,y), size=12, va='center', ha='center')
-    #plt.xticks([])
-   # plt.yticks([])
-    #with tab3:
-     #   st.pyplot()
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
@@ -503,13 +475,52 @@ def plot_kwic(data, key):
     try:
         with tab3:
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
+            keyword = st.selectbox('Select keyword:', topwords).split('(',1)[0].strip()
+            window_size = st.slider('Select window size:', 1, 10, 2)
+            maxInsts = st.slider('maximum number of instances:', 5, 50, 10, 5)
+        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
+            kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
+        
+        #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
+        #if keyword_analysis == 'Keyword in context':
+            with st.expander('Keyword in context'):
+                kwic_instances_df = pd.DataFrame(kwic_instances,
+                    columns =['Left context', 'Keyword', 'Right context'])
+                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+            # subset=['Left context', 'Keyword', 'Right context'],
+            # kwic_instances_df
+                
+                st.dataframe(kwic_instances_df,use_container_width=True)
+            expander = st.expander('Collocation')
+            with expander: #Could you replace with NLTK concordance later?
+            # keyword = st.text_input('Enter a keyword:','staff')
+                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
+                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                plot_collocation(keyword, collocs,expander,tab3)
+                plot_coll(keyword, collocs,expander,tab3)
+    except ValueError as err:
+        with tab3:
+                st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+
+                
+                
+def plot_kwic_txt(df):
+    tab6.markdown('''💬 Word location in text''')
+    input_data = ' '.join([str(t) for t in df[0].split(' ') if t not in STOPWORDS])
+    
+    for c in PUNCS: input_data = input_data.lower().replace(c,'')
+    
+    try:
+        with tab6:
+            topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
             keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
             window_size = st.slider('Select the window size:', 1, 10, 2)
             maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
             kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
         
-        #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
+        #keyword_analysis = tab6.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
             with st.expander('Keyword in context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
@@ -525,13 +536,125 @@ def plot_kwic(data, key):
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                plot_collocation(keyword, collocs,expander)
-                plot_coll(keyword, collocs,expander)
+                plot_collocation(keyword, collocs,expander,tab6)
+                plot_coll(keyword, collocs,expander,tab6)
     except ValueError as err:
-        with tab3:
+        with tab6:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
+if st.button('Analysis') or st.session_state.load_state:
+    st.session_state.load_state = True
+    #st.write(txt)
+    area =[]
+    area.append(txt)
+    df = pd.DataFrame(area)
+    df.columns =['Review']
+    
+       
+    df = df['Review'].dropna(how='all').drop_duplicates()
+   
+    if df.empty:
+        st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
+    else:
+       
+        tab4, tab5, tab6 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
+                    ###font tabs
+   
+        font_css = """
+                                         <style>
+                                              button[data-baseweb="tab"] {
+                                                 font-size: 26px;
+                                                                 }
+                                                          </style>
+                                                      """
+        st.write(font_css, unsafe_allow_html=True)           
+                
+        
+        ##show review
+        tab4.dataframe(df ,use_container_width=True)
+        ###show word cloud
+        
+        tab5.markdown('''    
+             ☁️ Word Cloud
+            ''')
+    
+        layout = tab5.columns([7, 1, 4])
+        input_data = ' '.join([str(t) for t in df[0].split(' ') if t not in STOPWORDS])
+        
+        for c in PUNCS: input_data = input_data.lower().replace(c,'')
+    
+        input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
+        input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
+        input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
+    
+        image_mask = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
+    
+        
+        maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
+        mask = np.array(Image.open(maskfile)) if maskfile else maskfile
+ 
+        nlp = spacy.load('en_core_web_sm-3.2.0')
+        doc = nlp(input_data)
+
+        try:
+            #creating wordcloud
+            wc = WordCloud(
+            # max_words=maxWords,
+                stopwords=STOPWORDS,
+                width=2000, height=1000,
+                relative_scaling = 0,
+                mask=mask,
+                background_color="white",
+                font_path='font/Ubuntu-B.ttf'
+                ).generate(input_data)
+        
+        #, key= f"{key}_cloud_select"
+            
+            cloud_type = tab5.selectbox('Choose cloud category:',
+            ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
+            if cloud_type == 'All words':
+                wordcloud = wc.generate(input_data)        
+            elif cloud_type == 'Bigrams':
+                wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
+            elif cloud_type == 'Trigrams':
+                wordcloud = wc.generate_from_frequencies(Counter(input_trigrams))        
+            elif cloud_type == '4-grams':
+                wordcloud = wc.generate_from_frequencies(Counter(input_4grams))        
+            elif cloud_type == 'Nouns':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NOUN"]))        
+            elif cloud_type == 'Proper nouns':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "PROPN"]))        
+            elif cloud_type == 'Verbs':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "VERB"]))
+            elif cloud_type == 'Adjectives':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADJ"]))
+            elif cloud_type == 'Adverbs':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
+            elif cloud_type == 'Numbers':
+                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
+            else: 
+                pass
+            #, key=f"{key}_cloud_radio"
+            
+            color = tab5.radio('switch image colour:', ('Color', 'Black'))
+            img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+            plt.figure(figsize=[20,15])
+            
+            plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+            plt.axis("off")
+            with tab5:
+                st.set_option('deprecation.showPyplotGlobalUse', False)
+                st.pyplot()
+        except ValueError as err:
+            with tab5:
+                st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+        
+        with tab6:
+            plot_kwic_txt(df)
+
+st.markdown("""---""")
+st.subheader('File to Analyse')
 #st.markdown('''🔍 Free Text Visualizer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2])) #, MESSAGES[lang][3]))
 if option == MESSAGES[lang][1]: input_data = get_data()
@@ -579,16 +702,6 @@ if status:
                     
                  
                     tab1, tab2, tab3 = st.tabs(["📈 Data View", "☁️ WordCloud",'💬 Keyword in Context & Collocation'])
-                    ###font tabs
-   
-                    font_css = """
-                                         <style>
-                                              button[data-baseweb="tab"] {
-                                                 font-size: 26px;
-                                                                 }
-                                                          </style>
-                                                      """
-                    st.write(font_css, unsafe_allow_html=True)
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
