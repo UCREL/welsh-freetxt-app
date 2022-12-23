@@ -175,8 +175,7 @@ add_logo("img/FreeTxt_logo.png")
 
 st.subheader('Text to Analyse')
 st.markdown('----')
-txt = st.text_area('', ''' you can past your text here.....
-   ''')
+txt = st.text_area('please past text here', '')
 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
