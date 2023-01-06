@@ -258,6 +258,12 @@ def select_columns(data, key):
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
+    
+###to upload image
+def load_image(image_file):
+	img = Image.open(image_file)
+	return img
+
 def get_wordcloud (data, key):
     # st.markdown('''☁️ Word Cloud''')
     # cloud_columns = st.multiselect(
@@ -286,7 +292,22 @@ def get_wordcloud (data, key):
     
    
     maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
-    mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
+    tab2.subheader("upload mask Image")
+    image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
+    maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
+    if image_file is not None:
+
+			  # To See details
+        file_details = {"filename":image_file.name, "filetype":image_file.type,"filesize":image_file.size}
+        img = load_image(image_file)
+        mask = mask = np.array(img)
+        with open(os.path.join("img",image_file.name),"wb") as f:
+               f.write(image_file.getbuffer())
+       
+              
+    else:   
+    
+        mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
     # maxWords = st.number_input("Number of words:",
         # value=300,
         # step=50,
@@ -591,7 +612,24 @@ if st.button('Analysis') or st.session_state.load_state:
     
         
         maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
-        mask = np.array(Image.open(maskfile)) if maskfile else maskfile
+        
+        tab5.subheader("upload mask Image")
+        image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
+        
+        maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
+	
+        if image_file_2 is not None:
+
+			  # To See details
+           file_details = {"filename":image_file_2.name, "filetype":image_file_2.type,"filesize":image_file_2.size}
+           img = load_image(image_file_2)
+           mask = mask = np.array(img)
+        #with open(os.path.join("img",image_file_2.name),"wb") as f:
+         #      f.write(image_file.getbuffer())
+       
+              
+        else:   
+            mask = np.array(Image.open(maskfile)) if maskfile else maskfile
  
         nlp = spacy.load('en_core_web_sm-3.2.0')
         doc = nlp(input_data)
