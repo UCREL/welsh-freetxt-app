@@ -510,7 +510,7 @@ def plot_kwic(data, key):
 		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
                 #st.write(kwic_instances_df)
-
+		st.table(kwic_instances_df)
                 st.dataframe(kwic_instances_df,use_container_width=True)
                 s1 = dict(selector='th', props=[('text-align', 'center')])
                 s2 = dict(selector='td', props=[('text-align', 'right')])
