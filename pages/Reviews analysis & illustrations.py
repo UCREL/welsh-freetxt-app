@@ -332,7 +332,7 @@ def get_wordcloud (data, key):
         
         
             
-        cloud_type = tab2.selectbox('Choose cloud category:',
+        cloud_type = tab2.selectbox('Choose Cloud category:',
             ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
             wordcloud = wc.generate(input_data)        
