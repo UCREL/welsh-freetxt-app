@@ -560,6 +560,7 @@ def plot_kwic(data, key):
 # table
                 df=df.style.set_table_styles(styles,overwrite=False).set_properties(**{'text-align':'center'})
                 st.table(df)
+		st.markdown(df.style.set_table_styles(styles).to_html(),unsafe_allow_html=True)
 		# you can include more styling paramteres, check the pandas docs
                 table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
                 st.write(f'{table}', unsafe_allow_html=True)
