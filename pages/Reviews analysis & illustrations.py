@@ -290,7 +290,7 @@ def get_wordcloud (data, key):
     image_mask_2 = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
     
    
-    maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
+    
     tab2.subheader("upload mask Image")
     image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
     maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
