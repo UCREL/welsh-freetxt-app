@@ -505,7 +505,9 @@ def plot_kwic(data, key):
             with st.expander('Keyword in context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
-                kwic_instances_df.style.set_properties(column='Left context', **{'text-align': 'right'})
+		
+                kwic_instances_df.style.set_properties(subset=['Left context'],**{'text-align': 'right'})
+		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
 
