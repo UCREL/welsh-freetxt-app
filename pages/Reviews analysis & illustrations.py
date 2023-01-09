@@ -615,7 +615,7 @@ if st.button('Analysis') or st.session_state.load_state:
         tab5.subheader("upload mask Image")
         image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
         
-        maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
+        maskfile = image_mask[tab5.selectbox('Select Cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
 	
         if image_file_2 is not None:
 
