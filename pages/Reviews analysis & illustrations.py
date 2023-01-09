@@ -509,7 +509,7 @@ def plot_kwic(data, key):
                 kwic_instances_df.style.set_properties(subset=['Left context'],**{'text-align': 'right'})
 		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
-            # kwic_instances_df
+                st.write(kwic_instances_df)
 
                 st.dataframe(kwic_instances_df,use_container_width=True)
                 s1 = dict(selector='th', props=[('text-align', 'center')])
