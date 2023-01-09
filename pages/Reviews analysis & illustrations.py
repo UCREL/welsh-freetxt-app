@@ -539,7 +539,7 @@ def plot_kwic(data, key):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
 		
-                kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).set_properties(**{'text-align':'center'})
+                kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).set_properties(subset=['Left context'],**{'text-align': 'right'})
 		##style.hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
 		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
@@ -551,8 +551,8 @@ def plot_kwic(data, key):
                 s2 = dict(selector='td', props=[('text-align', 'right')])
         
 		# you can include more styling paramteres, check the pandas docs
-                table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
-                st.write(f'{table}', unsafe_allow_html=True)
+                #table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
+                #st.write(f'{table}', unsafe_allow_html=True)
 		#
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
