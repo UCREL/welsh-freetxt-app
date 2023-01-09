@@ -506,15 +506,15 @@ def plot_kwic(data, key):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
 		
-                kwic_instances_df.style.set_properties(subset=['Left context'],**{'text-align': 'right'})
+                kwic_instances_df.style.hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
 		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
-                st.write(kwic_instances_df)
+                #st.write(kwic_instances_df)
 
                 st.dataframe(kwic_instances_df,use_container_width=True)
                 s1 = dict(selector='th', props=[('text-align', 'center')])
                 s2 = dict(selector='td', props=[('text-align', 'right')])
-                #s3 = dict(selector='td', props=[('text-align', 'left')])
+               
 		# you can include more styling paramteres, check the pandas docs
                 table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
                 st.write(f'{table}', unsafe_allow_html=True)
