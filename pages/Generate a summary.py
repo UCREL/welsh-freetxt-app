@@ -205,8 +205,9 @@ def select_columns(data, key):
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 st.subheader('''📃 Text Summarizer''')
-txt = st.text_area('', ''' you can past your text here.....
-    ''')
+
+txt = st.text_area('please past text here', '')
+
 #st.button('Analyse')
 st.markdown('----')
 st.subheader('''📃 File Summarizer''')
