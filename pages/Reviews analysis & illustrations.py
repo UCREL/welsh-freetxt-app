@@ -293,7 +293,7 @@ def get_wordcloud (data, key):
     maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
     tab2.subheader("upload mask Image")
     image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
-    maskfile_2 = image_mask_2[tab2.selectbox('select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
+    maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
     if image_file is not None:
 
 			  # To See details
@@ -356,7 +356,7 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
         else: 
             pass
-        color = tab2.radio('select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
+        color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
