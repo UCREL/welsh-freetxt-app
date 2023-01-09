@@ -539,7 +539,7 @@ def plot_kwic(data, key):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
 		
-                kwic_instances_df.style.hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
+                kwic_instances_df=kwic_instances_df.style.hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
 		#column='Left context', **{'text-align': 'right'}
             # subset=['Left context', 'Keyword', 'Right context'],
                 #st.write(kwic_instances_df)
