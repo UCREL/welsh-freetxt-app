@@ -514,7 +514,7 @@ def plot_kwic(data, key):
                 s2 = dict(selector='td', props=[('text-align', 'center')])
                 s3 = dict(selector='td', props=[('text-align', 'center')])
 		# you can include more styling paramteres, check the pandas docs
-                table = df.style.set_table_styles([s1,s2,s3]).hide(axis=0).to_html()     
+                table = kwic_instances_df.style.set_table_styles([s1,s2,s3]).hide(axis=0).to_html()     
                 st.write(f'{table}', unsafe_allow_html=True)
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
