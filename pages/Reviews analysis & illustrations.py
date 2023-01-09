@@ -480,7 +480,40 @@ def gen_ngram(text, _ngrams=2, topn=10):
     sum_ngram_counts = sum([c for _, c in ngram_counts])
     return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
             for ng, c in ngram_counts]
+#####style
+th_props = [
+  ('font-size', '14px'),
+  ('text-align', 'left'),
+  ('font-weight', 'bold'),
+  ('color', '#6d6d6d'),
+  ('background-color', '#eeeeef'),
+  ('border','1px solid #eeeeef'),
+  #('padding','12px 35px')
+]
 
+td_props = [
+  ('font-size', '14px'),
+  ('text-align', 'center'),
+]
+
+cell_hover_props = [  # for row hover use <tr> instead of <td>
+    ('background-color', '#eeeeef')
+]
+
+headers_props = [
+    ('text-align','center'),
+    ('font-size','1.1em')
+]
+#dict(selector='th:not(.index_name)',props=headers_props)
+
+styles = [
+    dict(selector="th", props=th_props),
+    dict(selector="td", props=td_props),
+    dict(selector="td:hover",props=cell_hover_props),
+    # dict(selector='th.col_heading',props=headers_props),
+    dict(selector='th.col_heading.level0',props=headers_props),
+    dict(selector='th.col_heading.level1',props=td_props)
+]                
 def plot_kwic(data, key):
     tab3.markdown('''💬 Word location in text''')
     
@@ -514,7 +547,19 @@ def plot_kwic(data, key):
                 st.dataframe(kwic_instances_df,use_container_width=True)
                 s1 = dict(selector='th', props=[('text-align', 'center')])
                 s2 = dict(selector='td', props=[('text-align', 'right')])
-               
+                arrays = [
+   		 ["bar", "bar", "baz", "baz", "foo", "foo", "qux", "qux"],
+   			 ["one", "two", "one", "two", "one", "two", "one", "two"],
+			]
+                tuples = list(zip(*arrays))
+
+                index = pd.MultiIndex.from_tuples(tuples, names=[None, "Brand"])
+
+                df = pd.DataFrame(np.random.randn(3, 8), index=["A", "B", "C"], columns=index)
+
+# table
+                df=df.style.set_table_styles(styles,overwrite=False).set_properties(**{'text-align':'center'})
+                st.table(df)
 		# you can include more styling paramteres, check the pandas docs
                 table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
                 st.write(f'{table}', unsafe_allow_html=True)
@@ -531,7 +576,7 @@ def plot_kwic(data, key):
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
-                
+
                 
 def plot_kwic_txt(df):
     tab6.markdown('''💬 Word location in text''')
