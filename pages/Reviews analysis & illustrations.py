@@ -539,8 +539,12 @@ def plot_kwic(data, key):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
                 #st.markdown(kwic_instances_df.style.set_table_styles(styles).to_html(),unsafe_allow_html=True)
-                kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
-		        
+                #kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
+		kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+            # subset=['Left context', 'Keyword', 'Right context'],
+            # kwic_instances_df
+                
+                st.dataframe(kwic_instances_df,use_container_width=True)       
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
