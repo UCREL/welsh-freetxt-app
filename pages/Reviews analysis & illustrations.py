@@ -540,20 +540,8 @@ def plot_kwic(data, key):
                     columns =['Left context', 'Keyword', 'Right context'])
                 #st.markdown(kwic_instances_df.style.set_table_styles(styles).to_html(),unsafe_allow_html=True)
                 kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
-		##style.hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
-		#column='Left context', **{'text-align': 'right'}
-            # subset=['Left context', 'Keyword', 'Right context'],
-                #st.write(kwic_instances_df)
-                #st.table(kwic_instances_df)
-                #st.dataframe(kwic_instances_df,use_container_width=True)
-                #st.table(kwic_instances_df)
-                #s1 = dict(selector='th', props=[('text-align', 'center')])
-                #s2 = dict(selector='td', props=[('text-align', 'right')])
-        
-		# you can include more styling paramteres, check the pandas docs
-                #table = kwic_instances_df.style.set_table_styles([s1,s2]).hide(axis=0).to_html()     
-                #st.write(f'{table}', unsafe_allow_html=True)
-		#
+		        
+		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
