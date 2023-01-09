@@ -510,13 +510,12 @@ def plot_kwic(data, key):
             # kwic_instances_df
 
                 st.dataframe(kwic_instances_df,use_container_width=True)
-		
-		s1 = dict(selector='th', props=[('text-align', 'center')])
-		s2 = dict(selector='td', props=[('text-align', 'center')])
-		s3 = dict(selector='td', props=[('text-align', 'center')])
+                s1 = dict(selector='th', props=[('text-align', 'center')])
+                s2 = dict(selector='td', props=[('text-align', 'center')])
+                s3 = dict(selector='td', props=[('text-align', 'center')])
 		# you can include more styling paramteres, check the pandas docs
-		table = df.style.set_table_styles([s1,s2,s3]).hide(axis=0).to_html()     
-		st.write(f'{table}', unsafe_allow_html=True)
+                table = df.style.set_table_styles([s1,s2,s3]).hide(axis=0).to_html()     
+                st.write(f'{table}', unsafe_allow_html=True)
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
