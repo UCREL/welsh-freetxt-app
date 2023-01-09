@@ -546,7 +546,7 @@ def plot_kwic(data, key):
                 #st.write(kwic_instances_df)
                 #st.table(kwic_instances_df)
                 st.dataframe(kwic_instances_df,use_container_width=True)
-		st.table(kwic_instances_df)
+                st.table(kwic_instances_df)
                 s1 = dict(selector='th', props=[('text-align', 'center')])
                 s2 = dict(selector='td', props=[('text-align', 'right')])
         
