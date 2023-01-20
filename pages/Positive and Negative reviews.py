@@ -45,6 +45,9 @@ import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 
+import scattertext as st
+import spacy
+from pprint import pprint
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -296,8 +299,32 @@ if status:
                         df.index = np.arange(1, len(df) + 1)
                     with tab2:
                         
+                        
                          st.dataframe(df.head(num_examples),use_container_width=True)
                          HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 800)
+                            
+                            
+                         convention_df = st.SampleCorpora.ConventionData2012.get_data()  
+                         convention_df.iloc[0]
+                         nlp = spacy.load('en_core_web_sm')               
+                         corpus = st.CorpusFromPandas(convention_df, 
+                             category_col='party', 
+                             text_col='text',
+                             nlp=nlp).build()
+                         term_freq_df = corpus.get_term_freq_df()
+                         term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('democrat')
+                         term_freq_df['Republican Score'] = corpus.get_scaled_f_scores('republican')
+                         html = st.produce_scattertext_explorer(corpus,
+          category='democrat',
+          category_name='Democratic',
+          not_category_name='Republican',
+          width_in_pixels=1000,
+          metadata=convention_df['speaker'])
+                        open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+                        HtmlFile = open("Convention-Visualization.html", 'r', encoding='utf-8')
+                        source_code = HtmlFile.read() 
+                        print(source_code)
+                        components.html(source_code,height = 800)
