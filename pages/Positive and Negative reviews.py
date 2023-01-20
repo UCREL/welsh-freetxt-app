@@ -10,7 +10,7 @@ import string
 import random
 import pandas as pd
 import numpy as np
-import streamlit as st
+import streamlit as tt
 from collections import Counter
 import spacy
 from spacy.tokens import Doc
@@ -307,17 +307,17 @@ if status:
                          components.html(source_code,height = 800)
                             
                             
-                         convention_df = st.SampleCorpora.ConventionData2012.get_data()  
+                         convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
                          convention_df.iloc[0]
                          nlp = spacy.load('en_core_web_sm')               
-                         corpus = st.CorpusFromPandas(convention_df, 
+                         corpus = tt.CorpusFromPandas(convention_df, 
                              category_col='party', 
                              text_col='text',
                              nlp=nlp).build()
                          term_freq_df = corpus.get_term_freq_df()
                          term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('democrat')
                          term_freq_df['Republican Score'] = corpus.get_scaled_f_scores('republican')
-                         html = st.produce_scattertext_explorer(corpus,
+                         html = tt.produce_scattertext_explorer(corpus,
                               category='democrat',
                               category_name='Democratic',
                              not_category_name='Republican',
