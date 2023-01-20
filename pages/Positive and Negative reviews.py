@@ -314,18 +314,18 @@ if status:
                              category_col='Sentiment', 
                              text_col='Review',
                              nlp=nlp).build()
-                         term_freq_df = corpus.get_term_freq_df()
-                         term_freq_df['Positive Score'] = corpus.get_scaled_f_scores('Positive')
-                         term_freq_df['Negative Score'] = corpus.get_scaled_f_scores('Negative')
-                         html = tt.produce_scattertext_explorer(corpus,
-                              category='Positive',
-                              category_name='Positive',
-                             not_category_name='Negative',
-                             width_in_pixels=1000)
+                         #term_freq_df = corpus.get_term_freq_df()
+                         #term_freq_df['Positive Score'] = corpus.get_scaled_f_scores('Positive')
+                         #term_freq_df['Negative Score'] = corpus.get_scaled_f_scores('Negative')
+                         #html = tt.produce_scattertext_explorer(corpus,
+                          #    category='Positive',
+                            #  category_name='Positive',
+                           #  not_category_name='Negative',
+                            # width_in_pixels=1000)
                            # metadata=convention_df['speaker'])
-                         open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+                         #open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                         
-                         HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
-                         source_code = HtmlFile.read() 
-                         print(source_code)
-                         components.html(source_code,height = 800)
+                       #  HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
+                        # source_code = HtmlFile.read() 
+                         #print(source_code)
+                         #components.html(source_code,height = 800)
