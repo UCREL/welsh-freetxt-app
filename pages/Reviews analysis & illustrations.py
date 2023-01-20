@@ -852,4 +852,4 @@ if status:
                     analysis.show_reviews(filenames[i])
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
-		    analysis.concordance(filenames[i])
+                    analysis.concordance(filenames[i])
