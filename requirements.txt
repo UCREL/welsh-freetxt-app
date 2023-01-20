@@ -19,4 +19,4 @@ plotly.express
 streamlit-lottie
 streamlit-aggrid
 pandasgui
-
+scattertext
