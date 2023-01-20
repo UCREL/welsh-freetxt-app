@@ -10,7 +10,7 @@ import string
 import random
 import pandas as pd
 import numpy as np
-import streamlit as tt
+
 from collections import Counter
 import spacy
 from spacy.tokens import Doc
@@ -45,7 +45,7 @@ import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 
-import scattertext as st
+import scattertext as tt
 import spacy
 from pprint import pprint
 
