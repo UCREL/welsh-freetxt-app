@@ -794,8 +794,7 @@ if st.button('Analysis') or st.session_state.load_state:
         
         with tab6:
             plot_kwic_txt(df)
-	#with tab7:
-		#analysis.concordance(filenames[i])
+	
 
 st.markdown("""---""")
 st.subheader('File to Analyse')
