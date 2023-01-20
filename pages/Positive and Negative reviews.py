@@ -294,7 +294,7 @@ if status:
                         df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
                         df = df[['Review','Polarity', 'Sentiment']]
                         df.index = np.arange(1, len(df) + 1)
-                     with tab2:
+                    with tab2:
                         
                          st.dataframe(df.head(num_examples),use_container_width=True)
                          HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
