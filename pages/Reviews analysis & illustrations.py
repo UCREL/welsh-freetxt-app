@@ -173,6 +173,7 @@ class Analysis:
         plot_kwic(self.reviews, fname)
 	
     def concordance(self, fname):
+        with tab8:
        	    st.header('Search Word')
             search_word = st.text_input('', 'the')
             html.create_html(self, fname,search_word)
