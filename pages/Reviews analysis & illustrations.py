@@ -70,6 +70,62 @@ lang='en'
 # --- Initialising SessionState ---
 if "load_state" not in st.session_state:
      st.session_state.load_state = False
+##create the html file for the wordTree
+class html:
+    def __init__(self, reviews):
+        self.reviews = reviews
+    def create_html(self, fname,search_word):
+    
+    # Creating an HTML file to pass to google chart
+        Func = open("GFG-1.html","w")
+        sentences = ''.join(str(self.reviews.values.tolist()))
+        Func.write('''<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {packages:['wordtree']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(
+          '''+
+           sentences
+             +
+         ''' 
+        );
+
+        var options = {
+          wordtree: {
+            format: 'implicit',
+            type: 'double',
+            word:
+            "'''          
+            +
+            search_word
+            +
+            '''"
+                        
+            ,
+            colors: ['red', 'black', 'green']
+          }
+        };
+
+        var chart = new google.visualization.WordTree(document.getElementById('wordtree_basic'));
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="wordtree_basic" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
+
+    
+        ''')
+        Func.close()
+
+
+
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
@@ -115,6 +171,20 @@ class Analysis:
     
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
+	
+    def concordance(self, fname):
+       	    st.header('Search Word')
+            search_word = st.text_input('', 'the')
+            html.create_html(self, fname,search_word)
+            HtmlFile = open("GFG-1.html", 'r')
+            source_code = HtmlFile.read() 
+            print(source_code)
+            components.html(source_code,height = 800)
+	
+	
+	
+	
+	
 ####add_logo
 def build_markup_for_logo(
     png_file,
@@ -724,6 +794,8 @@ if st.button('Analysis') or st.session_state.load_state:
         
         with tab6:
             plot_kwic_txt(df)
+	#with tab7:
+		#analysis.concordance(filenames[i])
 
 st.markdown("""---""")
 st.subheader('File to Analyse')
@@ -780,3 +852,4 @@ if status:
                     analysis.show_reviews(filenames[i])
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
+		    analysis.concordance(filenames[i])
