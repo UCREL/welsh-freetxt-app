@@ -271,27 +271,33 @@ if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
         # With tabbed multiselect
         filenames = list(data.keys())
-        tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        tabs = st.tabs(tab_titles)
-        for i in range(len(tabs)):
-            with tabs[i]:
+        #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
+        #tabs = st.tabs(tab_titles)
+        for i in range(len(filenames)):
+            #with tabs[i]:
                 _, df = data[filenames[i]]
                 df = select_columns(df, key=i).astype(str)
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
-                    input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
-                    text = process_sentiments(input_text)
-                    if option == '3 Class Sentiments':
-                        plot_sentiments(text[1], fine_grained=False)
-                    else:
-                        plot_sentiments(text[1])
-                    num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
-                    df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-                    df = df[['Review','Polarity', 'Sentiment']]
-                    df.index = np.arange(1, len(df) + 1)
-                    st.dataframe(df.head(num_examples),use_container_width=True)
-                    HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
-                    source_code = HtmlFile.read() 
-                    print(source_code)
-                    components.html(source_code,height = 800)
+                    
+                    tab1, tab2 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Concordance"])
+                    with tab1:
+                        
+                        input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
+                        text = process_sentiments(input_text)
+                        if option == '3 Class Sentiments':
+                           plot_sentiments(text[1], fine_grained=False)
+                        else:
+                           plot_sentiments(text[1])
+                        num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
+                        df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
+                        df = df[['Review','Polarity', 'Sentiment']]
+                        df.index = np.arange(1, len(df) + 1)
+                     with tab2:
+                        
+                         st.dataframe(df.head(num_examples),use_container_width=True)
+                         HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+                         source_code = HtmlFile.read() 
+                         print(source_code)
+                         components.html(source_code,height = 800)
