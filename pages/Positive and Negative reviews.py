@@ -318,11 +318,11 @@ if status:
                          term_freq_df['Democratic Score'] = corpus.get_scaled_f_scores('democrat')
                          term_freq_df['Republican Score'] = corpus.get_scaled_f_scores('republican')
                          html = st.produce_scattertext_explorer(corpus,
-          category='democrat',
-          category_name='Democratic',
-          not_category_name='Republican',
-          width_in_pixels=1000,
-          metadata=convention_df['speaker'])
+                                category='democrat',
+                               category_name='Democratic',
+                             not_category_name='Republican',
+                                  width_in_pixels=1000,
+                                     metadata=convention_df['speaker'])
                         open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                         HtmlFile = open("Convention-Visualization.html", 'r', encoding='utf-8')
                         source_code = HtmlFile.read() 
