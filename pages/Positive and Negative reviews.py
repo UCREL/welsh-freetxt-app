@@ -324,6 +324,7 @@ if status:
                                   width_in_pixels=1000,
                                      metadata=convention_df['speaker'])
                         open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+                        
                         HtmlFile = open("Convention-Visualization.html", 'r', encoding='utf-8')
                         source_code = HtmlFile.read() 
                         print(source_code)
