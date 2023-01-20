@@ -264,6 +264,12 @@ if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
 else: pass
 status, data = input_data
+
+
+HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+source_code = HtmlFile.read() 
+print(source_code)
+components.html(source_code,height = 800)
     
 if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
