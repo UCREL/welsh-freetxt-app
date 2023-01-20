@@ -49,7 +49,7 @@ import scattertext as st
 import spacy
 from pprint import pprint
 
-#@st.cache(allow_output_mutation=True)
+@st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
         data = f.read()
