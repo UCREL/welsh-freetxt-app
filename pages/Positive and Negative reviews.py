@@ -266,10 +266,6 @@ else: pass
 status, data = input_data
 
 
-HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
-source_code = HtmlFile.read() 
-print(source_code)
-components.html(source_code,height = 800)
     
 if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
@@ -295,3 +291,7 @@ if status:
                     df = df[['Review','Polarity', 'Sentiment']]
                     df.index = np.arange(1, len(df) + 1)
                     st.dataframe(df.head(num_examples),use_container_width=True)
+                    HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+                    source_code = HtmlFile.read() 
+                    print(source_code)
+                    components.html(source_code,height = 800)
