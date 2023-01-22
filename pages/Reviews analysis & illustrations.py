@@ -686,7 +686,7 @@ if st.button('Analysis') or st.session_state.load_state:
         st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
     else:
        
-        tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Concordance"])
+        tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
                     ###font tabs
    
         font_css = """
@@ -811,7 +811,7 @@ else: pass
 status, data = input_data
 if status:
     if 'feature_list' not in st.session_state.keys():
-           feature_list = ['Data View', 'Keyword Cloud', 'Keyword in Context & Collocation', "Concordance"]
+           feature_list = ['Data View', 'Keyword Cloud', 'Keyword in Context & Collocation', "Word Tree"]
            st.session_state['feature_list'] = feature_list
     else:
      feature_list = st.session_state['feature_list']
@@ -847,7 +847,7 @@ if status:
                     
                     
                  
-                    tab1, tab2, tab3,tab8= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Concordance"])
+                    tab1, tab2, tab3,tab8= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
