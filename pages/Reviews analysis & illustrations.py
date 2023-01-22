@@ -296,7 +296,8 @@ def get_data(file_source='example'):
     try:
         if file_source=='example':
             example_files = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')])
-            fnames = st.sidebar.multiselect('Select example data file(s)', example_files, example_files[0])
+		# .multiselect to chang to multi selction and add the files together
+            fnames = st.sidebar.selectbox('Select example data file(s)', example_files, example_files[0])
             if fnames:
                 return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) for fname in fnames}
             else:
