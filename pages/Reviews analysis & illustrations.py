@@ -297,10 +297,10 @@ def get_data(file_source='example'):
         if file_source=='example':
             example_files = sorted([f for f in os.listdir(EXAMPLES_DIR) if f.startswith('Reviews')])
 		# .selectbox to chang to multi selction and add the files together
-            fnames = st.sidebar.selectbox('Select example data file(s)', example_files, example_files[0])
+            fnames = st.sidebar.multiselect('Select example data file(s)', example_files, example_files[0])
             if fnames:
-			#for fname in fnames
-                return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) }
+			#
+                return True, {fname:read_file(os.path.join(EXAMPLES_DIR, fname), file_source) for fname in fnames}
             else:
                 return False, st.info('''**NoFileSelected:** Please select at least one file from the sidebar list.''', icon="ℹ️")
         
