@@ -439,7 +439,7 @@ def get_wordcloud (data, key):
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
-     except ValueError as err:
+    except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
