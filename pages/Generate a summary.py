@@ -164,13 +164,21 @@ def text_rank_summarize(article, ratio):
 
 # ------------------Summarizer--------------
 def run_summarizer(input_text, lang='en'):
-    # language = st.sidebar.selectbox('Newid iaith (Change language):', ['English', 'Cymraeg'])
-    # lang = 'cy' if language == 'Cymraeg' else 'en'
-    # st.markdown(SUM_MESSAGES[f'{lang}.ext.md'])
-    # with st.expander(SUM_MESSAGES[f'{lang}.info.title'], expanded=False):
-        # st.markdown(SUM_MESSAGES[f'{lang}.md'])
-    # option = st.sidebar.radio(SUM_MESSAGES[lang][7], (SUM_MESSAGES[lang][8], SUM_MESSAGES[lang][9], SUM_MESSAGES[lang][10]))
-    # input_text = get_input_text(option, lang=lang)
+
+    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl'], min_value=10, max_value=50, step=10)/100
+
+    if st.button(SUM_MESSAGES[f'{lang}.button']):
+        if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
+            summary = text_rank_summarize(input_text, ratio=chosen_ratio)
+            if summary:
+                st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
+            else:
+                st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+        else:
+            st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+ #-------------Summariser--------------
+def run_summarizertxt(input_text, lang='en'):
+
     chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl'], min_value=10, max_value=50, step=10)/100
 
     if st.button(SUM_MESSAGES[f'{lang}.button']):
@@ -201,15 +209,7 @@ def select_columns(data, key):
 st.subheader('''📃 Text Summarizer''')
 
 text = st.text_area('Rhowch eich testun (Please enter your text...)', '')
-if st.button(SUM_MESSAGES[f'{lang}.button']):
-        if text and text!='<Rhowch eich testun (Please enter your text...)>':
-            summary = text_rank_summarize(text, ratio=chosen_ratio)
-            if summary:
-                st.write(text_rank_summarize(text, ratio=chosen_ratio))
-            else:
-                st.write(sent_tokenize(text_rank_summarize(text, ratio=0.5))[0])
-        else:
-            st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+run_summarizertxt(text)
 
 
 #st.button('Analyse')
