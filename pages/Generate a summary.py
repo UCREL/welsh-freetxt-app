@@ -170,23 +170,23 @@ def run_summarizer(input_text, num,lang='en'):
     chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl'],key = f'ss+ {num}', min_value=10, max_value=50, step=10)/100
 
     #if st.button(SUM_MESSAGES[f'{lang}.button'],key = f'bb+ {num}'):
-    if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
-            summary = text_rank_summarize(input_text, ratio=chosen_ratio)
-            if summary:
+    #if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
+    summary = text_rank_summarize(input_text, ratio=chosen_ratio)
+    if summary:
                 st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
-            else:
-                st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
     else:
-            st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+                st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+    #else:
+     #       st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
             
             
             
 #-------------Summariser--------------
 def run_summarizertxt(input_text, lang='en'):
 
-    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+' ', min_value=10, max_value=50, step=10)/100
+    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' ', min_value=10, max_value=50, step=10)/100
 
-    if st.button(SUM_MESSAGES[f'{lang}.button']+ ' '):
+    if st.button(SUM_MESSAGES[f'{lang}.button']):
         if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>' and len(input_text) > 10:
             summary = text_rank_summarize(input_text, ratio=chosen_ratio)
             if summary:
