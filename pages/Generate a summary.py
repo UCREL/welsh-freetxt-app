@@ -202,7 +202,7 @@ st.subheader('''📃 Text Summarizer''')
 
 text = st.text_area('Rhowch eich testun (Please enter your text...)', '')
 if st.button(SUM_MESSAGES[f'{lang}.button']):
-        if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
+        if text and text!='<Rhowch eich testun (Please enter your text...)>':
             summary = text_rank_summarize(text, ratio=chosen_ratio)
             if summary:
                 st.write(text_rank_summarize(text, ratio=chosen_ratio))
