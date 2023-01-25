@@ -215,9 +215,10 @@ status, data = input_data
     
 if status:
         filenames = list(data.keys())
-        
-        for i in range(len(filenames)):
-            
+        tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
+        tabs = st.tabs(tab_titles)
+        for i in range(len(tabs)):
+            with tabs[i]:
                 _, df = data[filenames[i]]
                 df = select_columns(df, key=i).astype(str)
                 if df.empty:
@@ -225,3 +226,4 @@ if status:
                 else:
                     input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
                     run_summarizer(input_text[:2000])
+                
