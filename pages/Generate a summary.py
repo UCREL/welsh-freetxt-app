@@ -174,7 +174,7 @@ def run_summarizer(input_text, num,lang='en'):
     #if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
     summ = text_rank_summarize(input_text, ratio=chosen_ratio)
     if summ:
-                st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
+                st.write(text_rank_summarize(input_text, ratio=chosen_ratio_2))
     else:
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
     #else:
