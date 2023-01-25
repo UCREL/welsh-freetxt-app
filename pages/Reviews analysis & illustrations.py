@@ -677,7 +677,10 @@ if st.button('Analysis') or st.session_state.load_state:
     st.session_state.load_state = True
     #st.write(txt)
     area =[]
+	
     area.append(txt)
+   
+            
     df = pd.DataFrame(area)
     df.columns =['Review']
     
@@ -686,6 +689,8 @@ if st.button('Analysis') or st.session_state.load_state:
    
     if df.empty:
         st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
+    elif len(txt) > 10:
+	st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
     else:
        
         tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
