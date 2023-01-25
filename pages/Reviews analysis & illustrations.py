@@ -369,27 +369,9 @@ def get_wordcloud (data, key):
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
     maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
-    #if image_file is not None:
-
-			  # To See details
-        #file_details = {"filename":image_file.name, "filetype":image_file.type,"filesize":image_file.size}
-        #img = load_image(image_file)
-       # mask = mask = np.array(img)
-      #  with open(os.path.join("img",image_file.name),"wb") as f:
-     #          f.write(image_file.getbuffer())
-       
-              
-    #else:   
     
     mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
-    # maxWords = st.number_input("Number of words:",
-        # value=300,
-        # step=50,
-        # min_value=50,
-        # max_value=300,
-        # help='Maximum number of words featured in the cloud.',
-        # key=fname
-        # )
+   
     nlp = spacy.load('en_core_web_sm-3.2.0')
     doc = nlp(input_data)
 
