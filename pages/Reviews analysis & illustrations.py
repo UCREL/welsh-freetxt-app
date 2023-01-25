@@ -677,7 +677,7 @@ if st.button('Analysis') or st.session_state.load_state:
     st.session_state.load_state = True
     #st.write(txt)
     area =[]
-    if len(txt) > 10:
+    if len(txt) < 10:
         st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
     else:
         area.append(txt)
