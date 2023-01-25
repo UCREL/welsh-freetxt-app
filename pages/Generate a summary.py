@@ -165,9 +165,9 @@ def text_rank_summarize(article, ratio):
   return summa_summarizer(article, ratio=ratio)
 
 # ------------------Summarizer--------------
-def run_summarizer(input_text, num,lang='en'):
+def run_summarizer(input_text, key,lang='en'):
 
-    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' '+ str(num),key = f'ss+ {num}', min_value=10, max_value=50, step=10)/100
+    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' '+ str(num),key = f'ss+ {key}', min_value=10, max_value=50, step=10)/100
 
     #if st.button(SUM_MESSAGES[f'{lang}.button'],key = f'bb+ {num}'):
     #if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
