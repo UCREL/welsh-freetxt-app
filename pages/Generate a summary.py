@@ -100,7 +100,9 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-
+@st.cache(allow_output_mutation=True)
+def get_state():
+    return {}
 st.markdown("# Generate a summary")
 st.write("---")
 add_logo("img/FreeTxt_logo.png")
@@ -224,7 +226,7 @@ elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
     # elif option == MESSAGES[lang][3]: input_data = read_example_data()
 else: pass
 status, data = input_data
-    
+
 if status:
         filenames = list(data.keys())
         tab_titles= [f"File-{i}" for i in filenames]
