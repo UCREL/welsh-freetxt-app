@@ -765,7 +765,7 @@ if st.button('Analysis') or st.session_state.load_state:
         #, key= f"{key}_cloud_select"
             
               cloud_type = tab5.selectbox('Choose cloud category:',
-            ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
+                            ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
               if cloud_type == 'All words':
                   wordcloud = wc.generate(input_data)        
               elif cloud_type == 'Bigrams':
