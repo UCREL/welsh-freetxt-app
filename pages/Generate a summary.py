@@ -176,12 +176,12 @@ def run_summarizer(input_text, lang='en'):
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
         else:
             st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
- #-------------Summariser--------------
+#-------------Summariser--------------
 def run_summarizertxt(input_text, lang='en'):
 
-    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl'], min_value=10, max_value=50, step=10)/100
+    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+'1', min_value=10, max_value=50, step=10)/100
 
-    if st.button(SUM_MESSAGES[f'{lang}.button']):
+    if st.button(SUM_MESSAGES[f'{lang}.button']+'1'):
         if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
             summary = text_rank_summarize(input_text, ratio=chosen_ratio)
             if summary:
