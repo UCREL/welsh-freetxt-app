@@ -100,13 +100,7 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-###get the logo image 
-#img_lottie_logo = Image.open("img/FreeTxt_logo.png")#
-#with st.container():
- #    image_column, text_column = st.columns((1, 2))
-  #   with image_column:
-   #     st.image(img_lottie_logo)
-    # with text_column:
+
 st.markdown("# Generate a summary")
 st.write("---")
 add_logo("img/FreeTxt_logo.png")
@@ -206,7 +200,8 @@ def select_columns(data, key):
 
 st.subheader('''📃 Text Summarizer''')
 
-txt = st.text_area('please past text here', '')
+input_text = st.text_area('please past text here', '')
+run_summarizer(input_text, lang='en')
 
 #st.button('Analyse')
 st.markdown('----')
@@ -220,10 +215,9 @@ status, data = input_data
     
 if status:
         filenames = list(data.keys())
-        #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        #tabs = st.tabs(tab_titles)
+        
         for i in range(len(filenames)):
-            #with tabs[i]:
+            
                 _, df = data[filenames[i]]
                 df = select_columns(df, key=i).astype(str)
                 if df.empty:
