@@ -764,47 +764,47 @@ if st.button('Analysis') or st.session_state.load_state:
         
         #, key= f"{key}_cloud_select"
             
-              cloud_type = tab5.selectbox('Choose cloud category:',
+               cloud_type = tab5.selectbox('Choose cloud category:',
                             ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
-              if cloud_type == 'All words':
+               if cloud_type == 'All words':
                   wordcloud = wc.generate(input_data)        
-              elif cloud_type == 'Bigrams':
+               elif cloud_type == 'Bigrams':
                   wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
-              elif cloud_type == 'Trigrams':
+               elif cloud_type == 'Trigrams':
                   wordcloud = wc.generate_from_frequencies(Counter(input_trigrams))        
-              elif cloud_type == '4-grams':
+               elif cloud_type == '4-grams':
                   wordcloud = wc.generate_from_frequencies(Counter(input_4grams))        
-              elif cloud_type == 'Nouns':
+               elif cloud_type == 'Nouns':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NOUN"]))        
-              elif cloud_type == 'Proper nouns':
+               elif cloud_type == 'Proper nouns':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "PROPN"]))        
-              elif cloud_type == 'Verbs':
+               elif cloud_type == 'Verbs':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "VERB"]))
-              elif cloud_type == 'Adjectives':
+               elif cloud_type == 'Adjectives':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADJ"]))
-              elif cloud_type == 'Adverbs':
+               elif cloud_type == 'Adverbs':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
-              elif cloud_type == 'Numbers':
+               elif cloud_type == 'Numbers':
                   wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
-              else: 
+               else: 
                   pass
             #, key=f"{key}_cloud_radio"
             
-              color = tab5.radio('switch image colour:', ('Color', 'Black'))
-              img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-              plt.figure(figsize=[20,15])
+               color = tab5.radio('switch image colour:', ('Color', 'Black'))
+               img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+               plt.figure(figsize=[20,15])
             
-              plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-              plt.axis("off")
-              with tab5:
+               plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+               plt.axis("off")
+               with tab5:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.pyplot()
-          except ValueError as err:
-              with tab5:
+             except ValueError as err:
+               with tab5:
                   st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
         
-          with tab6:
-              plot_kwic_txt(df)
+             with tab6:
+                plot_kwic_txt(df)
 	
 
 st.markdown("""---""")
