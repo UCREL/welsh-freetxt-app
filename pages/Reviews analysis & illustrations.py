@@ -676,7 +676,7 @@ if st.button('Analysis') or st.session_state.load_state:
     
         else:
        
-            tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
+            tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "🌳 Word Tree"])
                     ###font tabs
    
             font_css = """
@@ -837,7 +837,7 @@ if status:
                     
                     
                  
-                    tab1, tab2, tab3,tab8= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
+                    tab1, tab2, tab3,tab8= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', " 🌳 Word Tree"])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
