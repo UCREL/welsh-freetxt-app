@@ -240,5 +240,5 @@ if status:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
                     input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
-                    run_summarizer(input_text[:2000])
+                    run_summarizer(input_text[:2000],i)
                 
