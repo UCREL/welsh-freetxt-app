@@ -689,42 +689,42 @@ if st.button('Analysis') or st.session_state.load_state:
        
         df = df['Review'].dropna(how='all').drop_duplicates()
    
-    if df.empty:
-           st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
+        if df.empty:
+             st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
     
-    else:
+        else:
        
-        tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
+            tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
                     ###font tabs
    
-        font_css = """
+            font_css = """
                                          <style>
                                               button[data-baseweb="tab"] {
                                                  font-size: 26px;
                                                                  }
                                                           </style>
                                                       """
-        st.write(font_css, unsafe_allow_html=True)           
+            st.write(font_css, unsafe_allow_html=True)           
                 
         
         ##show review
-        tab4.dataframe(df ,use_container_width=True)
+            tab4.dataframe(df ,use_container_width=True)
         ###show word cloud
         
-        tab5.markdown('''    
+            tab5.markdown('''    
              ☁️ Word Cloud
             ''')
     
-        layout = tab5.columns([7, 1, 4])
-        input_data = ' '.join([str(t) for t in df[0].split(' ') if t not in STOPWORDS])
+            layout = tab5.columns([7, 1, 4])
+            input_data = ' '.join([str(t) for t in df[0].split(' ') if t not in STOPWORDS])
         
-        for c in PUNCS: input_data = input_data.lower().replace(c,'')
+            for c in PUNCS: input_data = input_data.lower().replace(c,'')
     
-        input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
-        input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
-        input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
+            input_bigrams  = [' '.join(g) for g in nltk.ngrams(input_data.split(),2)]
+            input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
+            input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
     
-        image_mask = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
+            image_mask = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
     
         
         
@@ -732,7 +732,7 @@ if st.button('Analysis') or st.session_state.load_state:
         #tab5.subheader("upload mask Image")
         #image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
         
-        maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
+            maskfile = image_mask[tab5.selectbox('Select cloud shape:', image_mask.keys(), help='Select the shape of the word cloud')]
 	
         #if image_file_2 is not None:
 
@@ -745,14 +745,14 @@ if st.button('Analysis') or st.session_state.load_state:
        
               
         #else:   
-        mask = np.array(Image.open(maskfile)) if maskfile else maskfile
+            mask = np.array(Image.open(maskfile)) if maskfile else maskfile
  
-        nlp = spacy.load('en_core_web_sm-3.2.0')
-        doc = nlp(input_data)
+            nlp = spacy.load('en_core_web_sm-3.2.0')
+            doc = nlp(input_data)
 
-        try:
+            try:
             #creating wordcloud
-            wc = WordCloud(
+               wc = WordCloud(
             # max_words=maxWords,
                 stopwords=STOPWORDS,
                 width=2000, height=1000,
@@ -764,47 +764,47 @@ if st.button('Analysis') or st.session_state.load_state:
         
         #, key= f"{key}_cloud_select"
             
-            cloud_type = tab5.selectbox('Choose cloud category:',
+              cloud_type = tab5.selectbox('Choose cloud category:',
             ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'])
-            if cloud_type == 'All words':
-                wordcloud = wc.generate(input_data)        
-            elif cloud_type == 'Bigrams':
-                wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
-            elif cloud_type == 'Trigrams':
-                wordcloud = wc.generate_from_frequencies(Counter(input_trigrams))        
-            elif cloud_type == '4-grams':
-                wordcloud = wc.generate_from_frequencies(Counter(input_4grams))        
-            elif cloud_type == 'Nouns':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NOUN"]))        
-            elif cloud_type == 'Proper nouns':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "PROPN"]))        
-            elif cloud_type == 'Verbs':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "VERB"]))
-            elif cloud_type == 'Adjectives':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADJ"]))
-            elif cloud_type == 'Adverbs':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
-            elif cloud_type == 'Numbers':
-                wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
-            else: 
-                pass
+              if cloud_type == 'All words':
+                  wordcloud = wc.generate(input_data)        
+              elif cloud_type == 'Bigrams':
+                  wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
+              elif cloud_type == 'Trigrams':
+                  wordcloud = wc.generate_from_frequencies(Counter(input_trigrams))        
+              elif cloud_type == '4-grams':
+                  wordcloud = wc.generate_from_frequencies(Counter(input_4grams))        
+              elif cloud_type == 'Nouns':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NOUN"]))        
+              elif cloud_type == 'Proper nouns':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "PROPN"]))        
+              elif cloud_type == 'Verbs':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "VERB"]))
+              elif cloud_type == 'Adjectives':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADJ"]))
+              elif cloud_type == 'Adverbs':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
+              elif cloud_type == 'Numbers':
+                  wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
+              else: 
+                  pass
             #, key=f"{key}_cloud_radio"
             
-            color = tab5.radio('switch image colour:', ('Color', 'Black'))
-            img_cols = ImageColorGenerator(mask) if color == 'Black' else None
-            plt.figure(figsize=[20,15])
+              color = tab5.radio('switch image colour:', ('Color', 'Black'))
+              img_cols = ImageColorGenerator(mask) if color == 'Black' else None
+              plt.figure(figsize=[20,15])
             
-            plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
-            plt.axis("off")
-            with tab5:
-                st.set_option('deprecation.showPyplotGlobalUse', False)
-                st.pyplot()
-        except ValueError as err:
-            with tab5:
-                st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+              plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+              plt.axis("off")
+              with tab5:
+                  st.set_option('deprecation.showPyplotGlobalUse', False)
+                  st.pyplot()
+          except ValueError as err:
+              with tab5:
+                  st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
         
-        with tab6:
-            plot_kwic_txt(df)
+          with tab6:
+              plot_kwic_txt(df)
 	
 
 st.markdown("""---""")
