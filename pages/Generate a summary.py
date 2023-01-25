@@ -228,7 +228,7 @@ status, data = input_data
 if status:
         filenames = list(data.keys())
         tab_titles= [f"File-{i}" for i in filenames]
-        #[f"File-{i+1}" for i in range(len(filenames))]
+        
         tabs = st.tabs(tab_titles)
         for i in range(len(tabs)):
             
