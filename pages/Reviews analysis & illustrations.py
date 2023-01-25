@@ -785,7 +785,7 @@ if st.button('Analysis') or st.session_state.load_state:
                with tab5:
                   st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
         
-             with tab6:
+            with tab6:
                 plot_kwic_txt(df)
 	
 
