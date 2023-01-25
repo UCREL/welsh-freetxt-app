@@ -172,8 +172,8 @@ def run_summarizer(input_text, num,lang='en'):
 
     #if st.button(SUM_MESSAGES[f'{lang}.button'],key = f'bb+ {num}'):
     #if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>':
-    summar = text_rank_summarize(input_text, ratio=chosen_ratio)
-    if summar:
+    summ = text_rank_summarize(input_text, ratio=chosen_ratio)
+    if summ:
                 st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
     else:
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
