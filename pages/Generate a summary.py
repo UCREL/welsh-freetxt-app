@@ -165,7 +165,7 @@ def text_rank_summarize(article, ratio):
   return summa_summarizer(article, ratio=ratio)
 
 # ------------------Summarizer--------------
-def run_summarizer(input_text, key,lang='en'):
+def run_summarizer(input_text, num,lang='en'):
 
     chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' '+ str(num), min_value=10, max_value=50, step=10)/100
 
