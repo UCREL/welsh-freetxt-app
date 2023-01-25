@@ -200,7 +200,7 @@ def select_columns(data, key):
 
 st.subheader('''📃 Text Summarizer''')
 
-input_text = st.text_area('please past text here', '')
+input_text = st.text_area('Rhowch eich testun (Please enter your text...)', '')
 run_summarizer(input_text, lang='en')
 
 #st.button('Analyse')
