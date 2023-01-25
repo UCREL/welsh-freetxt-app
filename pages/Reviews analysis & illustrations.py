@@ -677,20 +677,21 @@ if st.button('Analysis') or st.session_state.load_state:
     st.session_state.load_state = True
     #st.write(txt)
     area =[]
-	
-    area.append(txt)
+    if len(txt) > 10:
+        st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+    else:
+        area.append(txt)
    
             
-    df = pd.DataFrame(area)
-    df.columns =['Review']
+        df = pd.DataFrame(area)
+        df.columns =['Review']
     
        
-    df = df['Review'].dropna(how='all').drop_duplicates()
+        df = df['Review'].dropna(how='all').drop_duplicates()
    
     if df.empty:
-        st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
-    elif len(txt) > 10:
-        st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+           st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
+    
     else:
        
         tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "📌 Word Tree"])
