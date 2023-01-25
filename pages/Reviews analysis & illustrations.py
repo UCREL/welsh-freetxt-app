@@ -781,7 +781,7 @@ if st.button('Analysis') or st.session_state.load_state:
                with tab5:
                   st.set_option('deprecation.showPyplotGlobalUse', False)
                   st.pyplot()
-             except ValueError as err:
+            except ValueError as err:
                with tab5:
                   st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
         
