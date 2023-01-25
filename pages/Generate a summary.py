@@ -118,7 +118,9 @@ pd.set_option('display.max_colwidth',None)
 lang='en'
 EXAMPLES_DIR = 'example_texts_pub'
 
-
+# --- Initialising SessionState ---
+if "load_state" not in st.session_state:
+     st.session_state.load_state = False
 
 # reading example and uploaded files
 def read_file(fname, file_source):
@@ -184,7 +186,7 @@ def run_summarizer(input_text, num,lang='en'):
 #-------------Summariser--------------
 def run_summarizertxt(input_text, lang='en'):
 
-    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' ', key = str(num),min_value=10, max_value=50, step=10)/100
+    chosen_ratio = st.slider(SUM_MESSAGES[f'{lang}.sb.sl']+ ' ',min_value=10, max_value=50, step=10)/100
 
     if st.button(SUM_MESSAGES[f'{lang}.button']):
         if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>' and len(input_text) > 10:
