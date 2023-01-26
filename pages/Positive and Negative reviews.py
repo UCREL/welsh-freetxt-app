@@ -2,9 +2,6 @@ import streamlit as st
 import base64
 from PIL import Image
 from labels import MESSAGES
-
-
-
 import os
 import string
 import random
@@ -307,25 +304,29 @@ if status:
                          components.html(source_code,height = 800)
                             
                             
-                         #convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
+                         convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
                          #convention_df.iloc[0]
-                         nlp = spacy.load('en_core_web_sm-3.2.0')    
-                         corpus = tt.CorpusFromPandas(df, 
-                             category_col='Sentiment', 
-                             text_col='Review',
+                         nlp = spacy.load('en_core_web_sm-3.2.0')  
+                         nlp.max_length = 9000000
+                         corpus = tt.CorpusFromPandas(convention_df, 
+                             category_col='party', 
+                             text_col='text',
                              nlp=nlp).build()
-                         #term_freq_df = corpus.get_term_freq_df()
-                         #term_freq_df['Positive Score'] = corpus.get_scaled_f_scores('Positive')
-                         #term_freq_df['Negative Score'] = corpus.get_scaled_f_scores('Negative')
-                         #html = tt.produce_scattertext_explorer(corpus,
-                          #    category='Positive',
-                            #  category_name='Positive',
-                           #  not_category_name='Negative',
-                            # width_in_pixels=1000)
-                           # metadata=convention_df['speaker'])
-                         #open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+
+                
+
+                         term_freq_df = corpus.get_term_freq_df()
+                         term_freq_df['Positive Score'] = corpus.get_scaled_f_scores('democrat')
+                         term_freq_df['Negative Score'] = corpus.get_scaled_f_scores('republican')
+                         html = tt.produce_scattertext_explorer(corpus,
+                             category='democrat',
+                              category_name='Positive',
+                             not_category_name='Negative',
+                             width_in_pixels=1000)
+                            metadata=convention_df['speaker'])
+                         open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                         
-                       #  HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
-                        # source_code = HtmlFile.read() 
-                         #print(source_code)
-                         #components.html(source_code,height = 800)
+                         HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
+                         source_code = HtmlFile.read() 
+                         print(source_code)
+                         components.html(source_code,height = 800)
