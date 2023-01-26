@@ -436,7 +436,7 @@ def get_wordcloud (data, key):
     fdist1 = nltk.FreqDist(words)
     filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
     items = pd.DataFrame(filtered_word_freq, columns = ['word','freq'])
-    s = Bnc_corpus.loc[items.word]
+    s = Bnc_corpus.loc[items.word.values()]
     tab2.write(s)
 
 # ---------------Checkbox options------------------
