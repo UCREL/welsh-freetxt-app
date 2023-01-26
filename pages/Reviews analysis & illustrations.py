@@ -741,6 +741,7 @@ if st.button('Analysis') or st.session_state.load_state:
                 stopwords=STOPWORDS,
                 width=2000, height=1000,
                 relative_scaling = 0,
+		       contour_color='red',
                 mask=mask,
                 background_color="white",
                 font_path='font/Ubuntu-B.ttf'
