@@ -308,7 +308,7 @@ if status:
                          #convention_df.iloc[0]
                          nlp = spacy.load('en_core_web_sm-3.2.0')  
                          nlp.max_length = 9000000
-                         corpus = st.CorpusFromPandas(convention_df, 
+                         corpus = tt.CorpusFromPandas(convention_df, 
                              category_col='party', 
                              text_col='text',
                              nlp=nlp).build()
@@ -316,7 +316,7 @@ if status:
                          term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
                          term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
 
-                         html = st.produce_scattertext_explorer(corpus,
+                         html = tt.produce_scattertext_explorer(corpus,
                            category='democrat',
                             category_name='positivity',
                             not_category_name='negativity',
