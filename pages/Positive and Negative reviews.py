@@ -308,10 +308,10 @@ if status:
                          #convention_df.iloc[0]
                          nlp = spacy.load('en_core_web_sm-3.2.0')  
                          nlp.max_length = 9000000
-                         corpus = tt.CorpusFromPandas(convention_df, 
-                             category_col='party', 
-                             text_col='text',
-                             nlp=nlp).build()
+                         #corpus = tt.CorpusFromPandas(convention_df, 
+                          #   category_col='party', 
+                           #  text_col='text',
+                            # nlp=nlp).build()
                          #st.write(corpus)
                          #term_freq_df = corpus.get_term_freq_df()
                          #term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
