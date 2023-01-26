@@ -716,7 +716,7 @@ if st.button('Analysis') or st.session_state.load_state:
         
         #tab5.subheader("upload mask Image")
         #image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
-            color =[yellow,white,black,grey,green,blue,red]
+            color =['yellow','white','black','grey','green','blue','red']
             maskfile = image_mask_2[tab5.selectbox('Select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
             outline = color[tab5.selectbox('Select cloud outline color:', color, help='Select outline color word cloud')]
         #if image_file_2 is not None:
