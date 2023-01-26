@@ -427,6 +427,15 @@ def get_wordcloud (data, key):
     except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+   ####generate a wordcloud based on Keness
+#####English Keness
+####load the Bnc Frequency list
+    Bnc_corpus=pd.read_execl('keness/Bnc.xlsx')
+    #### Get the frequency list of the requested data using NLTK
+    words = nltk.tokenize.word_tokenize(input_data)
+    fdist1 = nltk.FreqDist(words)
+    filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
+    tab2.write(filtered_word_freq)
 
 # ---------------Checkbox options------------------
 def checkbox_container(data):
