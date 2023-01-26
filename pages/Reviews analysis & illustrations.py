@@ -708,7 +708,8 @@ if st.button('Analysis') or st.session_state.load_state:
             input_trigrams = [' '.join(g) for g in nltk.ngrams(input_data.split(),3)]
             input_4grams   = [' '.join(g) for g in nltk.ngrams(input_data.split(),4)]
     
-            image_mask = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'Rectangle': None}
+            image_mask_2 = {'Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'national-trust':'img/national-trust-logo-black-on-white-silhouette.webp','Cadw':'img/cadw-clip.jpeg','Rectangle': None}
+    
     
         
         
@@ -741,7 +742,7 @@ if st.button('Analysis') or st.session_state.load_state:
                 stopwords=STOPWORDS,
                 width=2000, height=1000,
                 relative_scaling = 0,
-		       contour_color='red',
+		       contour_color='grey', contour_width =1,
                 mask=mask,
                 background_color="white",
                 font_path='font/Ubuntu-B.ttf'
