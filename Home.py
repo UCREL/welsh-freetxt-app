@@ -109,7 +109,7 @@ c. Key word in Context and Collocation: This extracts the keywords in the review
     with right_column:
         data_url = read_gif("img/visualization.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
 st.write("---")
@@ -119,7 +119,7 @@ with st.container():
     with left_column:
         data_url_2 = read_gif("img/reviews.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
         
@@ -134,12 +134,12 @@ with st.container():
     
     left_column, right_column = st.columns([1, 1])
     with left_column:
-        st.subheader("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary)")
+        st.subheader("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Generate_a_summary)")
         st.write('This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.')
     with right_column:
         data_url = read_gif("img/summary.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                )
 st.write("---")
