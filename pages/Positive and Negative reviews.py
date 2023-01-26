@@ -306,7 +306,7 @@ if status:
                             
                          convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
                          #convention_df.iloc[0]
-                         nlp = spacy.load('en_core_web_sm-3.2.0')  
+                         nlp = spacy.load('en_core_web_sm')  
                          nlp.max_length = 9000000
                          corpus = tt.CorpusFromPandas(convention_df, 
                              category_col='party', 
