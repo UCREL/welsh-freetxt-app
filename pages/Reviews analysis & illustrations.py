@@ -369,7 +369,8 @@ def get_wordcloud (data, key):
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
     maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
-    
+    colors =['yellow','white','black','grey','green','blue','red']
+    outlines = tab5.selectbox('Select cloud outline color ', colors, help='Select outline color word cloud')
     mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
    
     nlp = spacy.load('en_core_web_sm-3.2.0')
@@ -381,7 +382,7 @@ def get_wordcloud (data, key):
             # max_words=maxWords,
             stopwords=STOPWORDS,
             width=2000, height=1000,
-		contour_color='grey', contour_width = 1,
+		contour_color=outlines, contour_width = 1,
             relative_scaling = 0,
             mask=mask,
 		
@@ -716,8 +717,9 @@ if st.button('Analysis') or st.session_state.load_state:
         
         #tab5.subheader("upload mask Image")
         #image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
-            color =['yellow','white','black','grey','green','blue','red']
+            
             maskfile = image_mask_2[tab5.selectbox('Select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
+            color =['yellow','white','black','grey','green','blue','red']
             outline = tab5.selectbox('Select cloud outline color:', color, help='Select outline color word cloud')
         #if image_file_2 is not None:
 
