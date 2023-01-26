@@ -308,22 +308,22 @@ if status:
                          #convention_df.iloc[0]
                          nlp = spacy.load('en_core_web_sm-3.2.0')  
                          nlp.max_length = 9000000
-                         corpus = tt.CorpusFromPandas(convention_df, 
-                             category_col='party', 
-                             text_col='text',
+                         corpus = tt.CorpusFromPandas(df, 
+                             category_col='Sentiment', 
+                             text_col='Review',
                              nlp=nlp).build()
 
                 
 
                          term_freq_df = corpus.get_term_freq_df()
-                         term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
-                         term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
+                         term_freq_df['positive Score'] = corpus.get_scaled_f_scores('Positive')
+                         term_freq_df['negative Score'] = corpus.get_scaled_f_scores('Negative')
                          html = tt.produce_scattertext_explorer(corpus,
-                             category='democrat',
+                             category='Sentiment',
                               category_name='positivity',
                              not_category_name='negativity',
                              width_in_pixels=1000,
-                               metadata=convention_df['speaker'])
+                               metadata=convention_df['Polarity'])
                          open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                         
                          HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
