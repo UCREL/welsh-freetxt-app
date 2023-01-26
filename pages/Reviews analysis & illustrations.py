@@ -438,7 +438,7 @@ def get_wordcloud (data, key):
    
     #items = pd.DataFrame(filtered_word_freq)
     word_freq = pd.DataFrame.from_dict(filtered_word_freq,  orient='index')
-    #df.columns = ['one','two']
+    df.columns = ['one','two']
     tab2.write(word_freq)
     #items.columns = ['word','freq']
     word_freq.columns = ['word','freq']
