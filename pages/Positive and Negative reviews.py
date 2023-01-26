@@ -316,12 +316,12 @@ if status:
                 
 
                          term_freq_df = corpus.get_term_freq_df()
-                         term_freq_df['Positive Score'] = corpus.get_scaled_f_scores('democrat')
-                         term_freq_df['Negative Score'] = corpus.get_scaled_f_scores('republican')
+                         term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
+                         term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
                          html = tt.produce_scattertext_explorer(corpus,
                              category='democrat',
-                              category_name='Positive',
-                             not_category_name='Negative',
+                              category_name='positivity',
+                             not_category_name='negativity',
                              width_in_pixels=1000,
                                metadata=convention_df['speaker'])
                          open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
