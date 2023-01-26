@@ -97,7 +97,7 @@ with st.container():
     
     left_column, right_column = st.columns([1, 1])
     with left_column:
-        st.subheader("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Reviews_analysis_&_illustrations)")
+        st.subheader("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations)")
         st.write('''This is one of the key features of the tool and has three core components:
 	
 a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at. The user can also dynamically modify the selection or the order of the columns as they wish before performing any other task on the selected columns
@@ -124,7 +124,7 @@ with st.container():
                 )
         
     with right_column:
-        st.subheader("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Positive_and_Negative_reviews)")
+        st.subheader("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Positive_and_Negative_reviews)")
         st.write("This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output") 
       
         
