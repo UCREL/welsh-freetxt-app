@@ -383,6 +383,7 @@ def get_wordcloud (data, key):
             width=2000, height=1000,
             relative_scaling = 0,
             mask=mask,
+		contour_color='red',
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
         ).generate(input_data)
