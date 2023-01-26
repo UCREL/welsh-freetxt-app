@@ -381,13 +381,13 @@ def get_wordcloud (data, key):
             # max_words=maxWords,
             stopwords=STOPWORDS,
             width=2000, height=1000,
-		contour_color='red',
+		contour_color='black', contour_width = 1
             relative_scaling = 0,
             mask=mask,
 		
             background_color="white",
             font_path='font/Ubuntu-B.ttf'
-        ).generate(input_data)
+        ).generate_from_text(input_data)
         
         
             
