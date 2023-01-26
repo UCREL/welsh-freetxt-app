@@ -304,7 +304,7 @@ if status:
                          components.html(source_code,height = 800)
                             
                             
-                         convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
+                         #convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
                          #convention_df.iloc[0]
                          nlp = spacy.load('en_core_web_sm-3.2.0')  
                          nlp.max_length = 9000000
@@ -312,22 +312,22 @@ if status:
                              category_col='party', 
                              text_col='text',
                              nlp=nlp).build()
-                         st.write(corpus)
-                         term_freq_df = corpus.get_term_freq_df()
-                         term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
-                         term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
+                         #st.write(corpus)
+                         #term_freq_df = corpus.get_term_freq_df()
+                         #term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
+                         #term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
 
-                         html = tt.produce_scattertext_explorer(corpus,
-                           category='democrat',
-                            category_name='positivity',
-                            not_category_name='negativity',
-                                    width_in_pixels=1000,
-                                metadata=convention_df['speaker'])
-                         open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
+                         #html = tt.produce_scattertext_explorer(corpus,
+                          # category='democrat',
+                           # category_name='positivity',
+                            #not_category_name='negativity',
+                             #       width_in_pixels=1000,
+                              #  metadata=convention_df['speaker'])
+                        # open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                          
                         
-                         HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
-                         source_code = HtmlFile.read() 
-                         print(source_code)
-                         components.html(source_code,height = 800)
+                         #HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
+                         #source_code = HtmlFile.read() 
+                         #print(source_code)
+                         #components.html(source_code,height = 800)
                         
