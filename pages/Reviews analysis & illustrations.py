@@ -369,7 +369,7 @@ def get_wordcloud (data, key):
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
     maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
-    colors =['yellow','white','black','grey','green','blue','red']
+    colors =['grey','yellow','white','black','green','blue','red']
     outlines = tab2.selectbox('Select cloud outline color ', colors, help='Select outline color word cloud')
     mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
    
@@ -719,7 +719,7 @@ if st.button('Analysis') or st.session_state.load_state:
         #image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
             
             maskfile = image_mask_2[tab5.selectbox('Select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
-            color =['yellow','white','black','grey','green','blue','red']
+            color =['grey','yellow','white','black','green','blue','red']
             outline = tab5.selectbox('Select cloud outline color:', color, help='Select outline color word cloud')
         #if image_file_2 is not None:
 
