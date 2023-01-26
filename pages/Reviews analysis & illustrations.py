@@ -437,7 +437,7 @@ def get_wordcloud (data, key):
     filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
    
     #items = pd.DataFrame(filtered_word_freq)
-    word_freq = pd.DataFrame.from_dict(filtered_word_freq, index=list(range(len(filtered_word_freq))))
+    word_freq = pd.DataFrame.from_dict(filtered_word_freq,  orient='index')
     tab2.write(word_freq)
     #items.columns = ['word','freq']
     word_freq.columns = ['word','freq']
