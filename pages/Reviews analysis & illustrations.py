@@ -435,12 +435,13 @@ def get_wordcloud (data, key):
     words = nltk.tokenize.word_tokenize(input_data)
     fdist1 = nltk.FreqDist(words)
     filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
-   
-    #items = pd.DataFrame(filtered_word_freq)
-    word_freq = pd.DataFrame(list(filtered_word_freq.values()))
-    #df.columns = ['one','two']
+    column1 = list(filtered_word_freq.keys())
+    column2= list(filtered_word_freq.values())
+    word_freq = pd.DataFrame()
+    word_freq['word']= column1
+    word_freq['freq']= column2
     tab2.write(word_freq)
-    #items.columns = ['word','freq']
+   
    # word_freq.columns = ['word','freq']
     #array = word_freq['word']
   
