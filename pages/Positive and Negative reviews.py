@@ -322,8 +322,8 @@ if status:
                              category='democrat',
                               category_name='Positive',
                              not_category_name='Negative',
-                             width_in_pixels=1000)
-                         metadata=convention_df['speaker'])
+                             width_in_pixels=1000),
+                               metadata=convention_df['speaker'])
                          open("temp/Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                         
                          HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
