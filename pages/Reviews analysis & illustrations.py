@@ -441,12 +441,8 @@ def get_wordcloud (data, key):
     word_freq['word']= column1
     word_freq['freq']= column2
     tab2.write(word_freq)
-   
-   # word_freq.columns = ['word','freq']
-    #array = word_freq['word']
-  
-   # s = Bnc_corpus.loc[Bnc_corpus['word'].isin(array)]
-   # tab2.write(s)
+    s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
+    tab2.write(s)
 
 # ---------------Checkbox options------------------
 def checkbox_container(data):
