@@ -447,8 +447,9 @@ def get_wordcloud (data, key):
     word_freq = word_freq.merge(s, how='inner', on='word')
     tab2.write(word_freq)
     freq = word_freq[['word','freq','f_Reference']].values.tolist()
+    ff = [tuple(r) for r in word_freq.to_numpy()]
 #.apply(tuple, axis=1).tolist()
-    tab2.write(freq)
+    tab2.write(ff)
 	
     ll = keness.run(freq,len(words),968267)
     tab2.write(ll)
