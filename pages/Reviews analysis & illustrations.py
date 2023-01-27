@@ -453,7 +453,7 @@ def get_wordcloud (data, key):
 #.apply(tuple, axis=1).tolist()
     tab2.write(freq)
 	
-    ll = keness.run(freq,len(words),968267)
+    ll = keness.run(ff,len(words),968267)
     tab2.write(ll)
 
 # ---------------Checkbox options------------------
