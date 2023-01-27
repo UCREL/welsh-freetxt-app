@@ -446,7 +446,8 @@ def get_wordcloud (data, key):
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
     tab2.write(word_freq)
-    freq = word_freq[['word','freq','f_Reference']].values.tolist()
+    
+    freq = word_freq[['word','freq','f_Reference']].tolist()
     ff = [tuple(r) for r in word_freq.to_numpy()]
     ff = list(ff)
 #.apply(tuple, axis=1).tolist()
