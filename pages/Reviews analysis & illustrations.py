@@ -432,7 +432,7 @@ def get_wordcloud (data, key):
 ####load the Bnc Frequency list
     Bnc_corpus=pd.read_excel('keness/Bnc.xlsx')
     #### Get the frequency list of the requested data using NLTK
-    #words = nltk.tokenize.word_tokenize(input_data)
+    words = nltk.tokenize.word_tokenize(input_data)
     fdist1 = nltk.FreqDist(words)
     filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
     column1 = list(filtered_word_freq.keys())
