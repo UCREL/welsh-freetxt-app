@@ -276,6 +276,9 @@ def scatter(dataframe):
 
     return(Plot_scatter)
 
+
+
+
 # reading example and uploaded files
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
@@ -431,7 +434,6 @@ def get_wordcloud (data, key):
 #####English Keness
 ####load the Bnc Frequency list
     Bnc_corpus=pd.read_excel('keness/Bnc.xlsx')
-    tab2.write(Bnc_corpus)
     #### Get the frequency list of the requested data using NLTK
     words = nltk.tokenize.word_tokenize(input_data)
     fdist1 = nltk.FreqDist(words)
@@ -441,7 +443,6 @@ def get_wordcloud (data, key):
     word_freq = pd.DataFrame()
     word_freq['word']= column1
     word_freq['freq']= column2
-    tab2.write(word_freq)
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
     tab2.write(word_freq)
