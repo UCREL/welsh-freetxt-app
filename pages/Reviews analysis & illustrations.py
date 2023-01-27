@@ -430,20 +430,20 @@ def get_wordcloud (data, key):
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
-    #Bnc_corpus=pd.read_excel('keness/Bnc.xlsx')
+    Bnc_corpus=pd.read_excel('keness/Bnc.xlsx')
     #### Get the frequency list of the requested data using NLTK
     #words = nltk.tokenize.word_tokenize(input_data)
-    #fdist1 = nltk.FreqDist(words)
-    #filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
-    #column1 = list(filtered_word_freq.keys())
-    #column2= list(filtered_word_freq.values())
-    #word_freq = pd.DataFrame()
-    #word_freq['word']= column1
-    #word_freq['freq']= column2
-    #tab2.write(word_freq)
-    #s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
-    #word_freq = word_freq.merge(s, how='outer', on='word')
-    #tab2.write(word_freq)
+    fdist1 = nltk.FreqDist(words)
+    filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
+    column1 = list(filtered_word_freq.keys())
+    column2= list(filtered_word_freq.values())
+    word_freq = pd.DataFrame()
+    word_freq['word']= column1
+    word_freq['freq']= column2
+    tab2.write(word_freq)
+    s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
+    word_freq = word_freq.merge(s, how='outer', on='word')
+    tab2.write(word_freq)
 
 # ---------------Checkbox options------------------
 def checkbox_container(data):
