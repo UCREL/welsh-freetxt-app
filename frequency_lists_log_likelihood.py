@@ -94,34 +94,9 @@ class Item(object):
         return sep.join(str_vals)
         #return "%s\t%d\t%d\t%s\t%.4f\t%.4f\t%.4f\t%.2f\t%.4f\t%.4f" %(self.name, self.freq_1, self.freq_2, self.overused,
         #                                                        self.log_likelihood, self.p, self.p_corrected,
-        #                                                        self.p_level, self.log_ratio, abs(self.log_ratio))
+        #                                                        self.p_level, self.log_ratio, abs(self.log_ratio)
 
-def read_items_tsv(file):
-    items = []
-    with open(file, "r") as f:
-        # expect that first line gives totals
-        total, total_1, total_2 = f.readline().strip().split("\t")
-        total_1 = float(total_1)
-        total_2 = float(total_2)
-        for line in f.readlines():
-            name, freq_1, freq_2 = line.strip().split("\t")
-            items.append(Item(name, freq_1, freq_2))
 
-    return items, total_1, total_2
-
-def read_items_csv(file):
-    terms = pd.read_csv(file)
-    # first row contains totals
-    total_1 = terms.iloc[0]["f_PR-BD"]
-    total_2 = terms.iloc[0]["f_Reference"]
-    print(total_1, total_2)
-    terms.drop(0, inplace=True)
-    print(terms)
-    items = []
-    for term, freq_1, freq_2 in zip(terms.term.to_list(), terms["f_PR-BD"].to_list(), terms["f_Reference"].to_list()):
-        items.append(Item(term, freq_1, freq_2))
-
-    return items, total_1, total_2
 
 def compute_log_likelihood_log_ratio(items, total_1, total_2, num_comparisons):
     for item in items:
@@ -139,42 +114,11 @@ def write_statistics(items, p_level=None, log_ratio = None):
     for item in items:
         print(item)
 
-def test_item(item, total_1, total_2, expected_ll, expected_p, expected_p_corrected, expected_lr, expected_overused):
-    item.compute_log_likelihood(total_1, total_2)
-    item.compute_relative_frequency(total_1, total_2)
-    item.compute_log_ratio(total_1, total_2)
-    item.compute_significance(490364)
-
-    print("log likelihood: expected: %.2f computed: %.2f" %(expected_ll, round(item.log_likelihood, 2)))
-    print("p: %.4f (expected: %.4f), p(Bonferroni corrected): %.4f (expected: %.4f)" %
-          (round(item.p, 4), expected_p, round(item.p_corrected, 4), expected_p_corrected))
-    print("log ratio: expected: %.2f computed: %.2f" % (expected_lr, round(item.log_ratio, 2)))
-    print("overused: expected: %s computed: %s" % (expected_overused, item.overused))
-
-    assert round(item.log_likelihood, 2) == round(expected_ll, 2)
-    assert round(item.p, 4) == round(expected_p, 4)
-    assert round(item.p_corrected, 4) == round(expected_p_corrected, 4)
-    assert round(item.log_ratio, 2) == round(expected_lr, 2)
-    assert item.overused == expected_overused
-
-def test():
-    total_1 = float(17771448)
-    total_2 = float(17479101)
-    item_1 = Item("i", 1088469, 561184)
-    test_item(item_1, total_1, total_2, 162899.39, 0.0, 0.0, 0.93, "+")
-    item_2 = Item("factchecker", 0, 1)
-    test_item(item_2, total_1, total_2, 1.40, 0.2362, 1.0, -1.02, "-")
-    item_3 = Item("difficulties", 187, 92)
-    test_item(item_3, total_1, total_2, 31.45, 0.0, 0.0101, 1.00, "+")
-
-def run():
+def run(items, total_1, total_2):
     file = sys.argv[1]
-
-    items, total_1, total_2 = read_items_csv(file) # read_items_tsv(file)
+    items, total_1, total_2 = items, total_1, total_2
     items = compute_log_likelihood_log_ratio(items, total_1, total_2, 94)
     write_statistics(items) #, p_level=99.99, log_ratio=1.0)
 
-if __name__ == "__main__":
-    # test()
-    run()
+
 
