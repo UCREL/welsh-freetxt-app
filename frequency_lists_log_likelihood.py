@@ -115,7 +115,6 @@ def write_statistics(items, p_level=None, log_ratio = None):
         print(item)
 
 def run(items, total_1, total_2):
-    file = sys.argv[1]
     items, total_1, total_2 = items, total_1, total_2
     items = compute_log_likelihood_log_ratio(items, total_1, total_2, 94)
     write_statistics(items) #, p_level=99.99, log_ratio=1.0)
