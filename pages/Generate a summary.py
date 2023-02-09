@@ -39,7 +39,9 @@ import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
-
+##Multilinguial 
+import gettext
+_ = gettext.gettext
 
 import streamlit.components.v1 as components
 
