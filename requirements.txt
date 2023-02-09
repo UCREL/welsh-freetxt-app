@@ -20,3 +20,4 @@ streamlit-lottie
 streamlit-aggrid
 pandasgui
 scattertext
+python-gettext
