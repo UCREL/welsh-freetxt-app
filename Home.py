@@ -76,9 +76,9 @@ st.set_page_config(
  )
 ttt = st.sidebar.selectbox('', ['🏴󠁧󠁢󠁥󠁮󠁧󠁿en', '󠁧󠁢󠁷🏴󠁧󠁢󠁷󠁬󠁳󠁿cy'])
 if ttt ='en':
-    language = 'en'
+    language =='en'
 elif ttt = 'cy'
-    language = 'cy'
+    language =='cy'
 
 try:
   localizator = gettext.translation('base', localedir='locales', languages=[language])
