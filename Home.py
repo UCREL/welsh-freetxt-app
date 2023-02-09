@@ -75,9 +75,9 @@ st.set_page_config(
      }
  )
 ttt = st.sidebar.selectbox('', ['🏴󠁧󠁢󠁥󠁮󠁧󠁿en', '󠁧󠁢󠁷🏴󠁧󠁢󠁷󠁬󠁳󠁿cy'])
-if ttt =='en':
+if ttt =='🏴󠁧󠁢󠁥󠁮󠁧󠁿en':
     language ='en'
-elif ttt =='cy':
+elif ttt =='🏴󠁧󠁢󠁷󠁬󠁳󠁿cy':
     language ='cy'
 
 try:
