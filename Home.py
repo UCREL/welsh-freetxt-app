@@ -62,10 +62,6 @@ def add_logo(png_file):
     )
 
 
-
-
-
-
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
@@ -78,7 +74,12 @@ st.set_page_config(
          'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
      }
  )
-language = st.sidebar.selectbox('', ['en', '󠁧󠁢󠁷cy'])
+ttt = st.sidebar.selectbox('', ['🏴󠁧󠁢󠁥󠁮󠁧󠁿en', '󠁧󠁢󠁷🏴󠁧󠁢󠁷󠁬󠁳󠁿cy'])
+if ttt ='en':
+    language = 'en'
+elif ttt = 'cy'
+    language = 'cy'
+
 try:
   localizator = gettext.translation('base', localedir='locales', languages=[language])
   localizator.install()
