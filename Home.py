@@ -61,7 +61,6 @@ def add_logo(png_file):
         unsafe_allow_html=True,
     )
 
-
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
