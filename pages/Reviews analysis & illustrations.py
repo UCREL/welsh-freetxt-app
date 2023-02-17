@@ -159,6 +159,8 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             st.dataframe(self.reviews,use_container_width=True)
+		
+            st.write('Total number of reviews: ', len(self.reviews))
             start_date = datetime.strptime(data['Date'].min(),'%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
@@ -168,11 +170,11 @@ class Analysis:
             mask = (data['Date'] > start_date) & (data['Date'] <= slider)
             filterdf = data.loc[mask]
             st.dataframe(filterdf)
-		
+            st.write('filtered  number of reviews: ', len(filterdf))
            
             
             #
-            st.write('Total number of reviews: ', len(self.reviews))
+            
             
 
     def show_wordcloud(self, fname):
