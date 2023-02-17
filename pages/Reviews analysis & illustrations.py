@@ -160,12 +160,12 @@ class Analysis:
             #show(pd.DataFrame(data))
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
-            st.dataframe(self.reviews,use_container_width=True)
-            st.write('Total number of reviews: ', len(self.reviews))
-            HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
-            source_code = HtmlFile.read() 
-            print(source_code)
-            components.html(source_code,height = 800)
+           # st.dataframe(self.reviews,use_container_width=True)
+            #st.write('Total number of reviews: ', len(self.reviews))
+            #HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+            #source_code = HtmlFile.read() 
+            #print(source_code)
+            #components.html(source_code,height = 800)
 
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
