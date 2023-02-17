@@ -164,17 +164,10 @@ class Analysis:
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date, format=format)
-            
-            start_date = st.date_input('Start date', start_date)
-            end_date = st.date_input('End date', end_date)
-            if start_date < end_date:
-                display = data[data['Date'].between(start_date.datetime.date, end_date.datetime.date)]
-                #mask = (data['Date'].datetime.date > start_date) & (data['Date'].datetime.date <= end_date)
-               # display = data.loc[mask]
-                st.dataframe(display,use_container_width=True)
+           
+            st.dataframe(display,use_container_width=True)
 		
-            else:
-                 st.error('Error: End date must fall after start date.')
+           
             
             #
             st.write('Total number of reviews: ', len(self.reviews))
