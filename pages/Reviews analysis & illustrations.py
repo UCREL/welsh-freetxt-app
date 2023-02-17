@@ -158,8 +158,8 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
 	
-            today = min(df['Date'])
-            tomorrow = max(df['Date'].dt.date)
+            today = min(data['Date'])
+            tomorrow = max(data['Date'].dt.date)
             start_date = st.date_input('Start date', )
             end_date = st.date_input('End date', )
             if start_date < end_date:
