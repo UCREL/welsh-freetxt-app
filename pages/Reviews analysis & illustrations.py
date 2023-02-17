@@ -40,8 +40,7 @@ import streamlit.components.v1 as components
 from io import StringIO
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 #from pandasgui import show
-
-import IPython.display
+from IPython.display import display
 
 import base64
 from PIL import Image
@@ -626,7 +625,7 @@ def plot_kwic(data, key):
                 dfStyler = kwic_instances_df.style.set_properties(subset=["Right context"],**{'text-align': 'right'})
                 dfStyler.set_table_styles([dict(selector='th', props=[('text-align', 'center')])])
 
-                IPython.display.display(dfStyler)
+                display(dfStyler)
 		
 		
 		
@@ -634,7 +633,7 @@ def plot_kwic(data, key):
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
                 
-                st.dataframe(dfStyler)       
+                #st.dataframe(dfStyler)       
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
