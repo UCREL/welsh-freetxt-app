@@ -296,7 +296,7 @@ if status:
                         df.index = np.arange(1, len(df) + 1)
                     with tab2:
                           #### interactive dataframe
-                         gb = GridOptionsBuilder.from_dataframe(data)
+                         gb = GridOptionsBuilder.from_dataframe(df)
                          gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                          gb.configure_side_bar() #Add a sidebar
                          gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
