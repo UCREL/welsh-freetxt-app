@@ -161,8 +161,8 @@ class Analysis:
             st.dataframe(self.reviews,use_container_width=True)
 		
             st.write('Total number of reviews: ', len(self.reviews))
-            start_date = datetime.strptime(data['Date'].min(),'%d/%m/%Y')
-            end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
+            start_date = datetime.strptime(data['Date'].min(),'%m/%d/%Y')
+            end_date = datetime.strptime(data['Date'].max(), '%m/%d/%Y')
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date,value=end_date, format=format)
@@ -307,7 +307,7 @@ def read_file(fname, file_source):
     column_list = ['date','Date','Dateandtime']
     for col in column_list:
     	if col in data.columns:
-             data['Date'] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y'))
+             data['Date'] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%m/%d/%Y'))
 
 
     return True, data
