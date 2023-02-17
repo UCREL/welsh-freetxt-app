@@ -158,8 +158,8 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            start_date = datetime.strptime(data['Date'].min(), '%d/%m/%Y %H:%M')
-            end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y %H:%M')
+            start_date = datetime.strptime(data['Date'].min(), '%d/%m/%Y')
+            end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
             slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
             #start = min(data['Date'])
@@ -305,7 +305,7 @@ def read_file(fname, file_source):
     column_list = ['date','Date','Dateandtime']
     for col in column_list:
     	if col in data.columns:
-             data['Date'] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
+             data['Date'] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y'))
 
 
     return True, data
