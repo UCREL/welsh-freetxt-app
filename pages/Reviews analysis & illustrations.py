@@ -433,7 +433,7 @@ def get_wordcloud (data, key):
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
-    Bnc_corpus=pd.read_excel('keness/Bnc.xlsx', read_only=True)
+    Bnc_corpus=pd.read_csv('keness/Bnc.csv')
     #### Get the frequency list of the requested data using NLTK
     words = nltk.tokenize.word_tokenize(input_data)
     fdist1 = nltk.FreqDist(words)
