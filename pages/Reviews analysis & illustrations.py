@@ -165,7 +165,7 @@ class Analysis:
             format = 'DD MMM, YYYY'  # format output
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date,value=end_date, format=format)
             #(0.5 <= df['two']) and (df['two'] < 0.5)
-            filterdf= (df['Data'] >= start_date) & (df['Data'] <= end_date)
+            filterdf= (df['Date'] >= start_date) & (df['Date'] <= end_date)
             st.write(filterdf,use_container_width=True)
 		
            
