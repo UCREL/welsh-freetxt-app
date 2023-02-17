@@ -35,7 +35,7 @@ import base64
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
-
+from dateutil import parser
 import streamlit.components.v1 as components
 from io import StringIO
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
@@ -157,8 +157,9 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            start_date = min(data['Date'])
-            end_date = max(data['Date'])
+            start_date = data['Date'].min()
+            end_date = data['Date'].max()
+            print(start_date)
             slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
             #start = min(data['Date'])
             #end = max(data['Date'])
