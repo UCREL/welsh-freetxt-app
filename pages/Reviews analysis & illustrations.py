@@ -168,8 +168,9 @@ class Analysis:
             start_date = st.date_input('Start date', start_date)
             end_date = st.date_input('End date', end_date)
             if start_date < end_date:
-                mask = (data['Date'].datetime.date > start_date) & (data['Date'].datetime.date <= end_date)
-                display = data.loc[mask]
+                display = data[data['Date'].between(start_date.datetime.date, end_date.datetime.date)]
+                #mask = (data['Date'].datetime.date > start_date) & (data['Date'].datetime.date <= end_date)
+               # display = data.loc[mask]
                 st.dataframe(display,use_container_width=True)
 		
             else:
