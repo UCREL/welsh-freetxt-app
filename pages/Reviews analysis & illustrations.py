@@ -169,7 +169,7 @@ class Analysis:
             data['Date'] = pd.to_datetime(data['Date'])  
             mask = (data['Date'] >= start_date) & (data['Date'] <= slider)
             filterdf = data.loc[mask]
-            st.dataframe(filterdf)
+            st.dataframe(mask)
             st.write('filtered  number of reviews: ', len(filterdf))
            
             
