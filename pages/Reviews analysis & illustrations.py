@@ -635,7 +635,7 @@ def plot_kwic(data, key):
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
                 
-                st.dataframe(dfStyler,use_container_width=True)       
+                st.table(dfStyler,use_container_width=True)       
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
