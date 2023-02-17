@@ -159,7 +159,7 @@ class Analysis:
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             start_date = data['Date'].min()
             end_date = data['Date'].max()
-            print(start_date)
+            st.write(start_date)
             slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
             #start = min(data['Date'])
             #end = max(data['Date'])
