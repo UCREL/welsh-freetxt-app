@@ -160,12 +160,7 @@ class Analysis:
             #show(pd.DataFrame(data))
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
-            #st.dataframe(self.reviews,use_container_width=True)
-            #st.write('Total number of reviews: ', len(self.reviews))
-            #HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
-            #source_code = HtmlFile.read() 
-            #print(source_code)
-            #components.html(source_code,height = 800)
+            
 
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
@@ -293,6 +288,10 @@ def read_file(fname, file_source):
         data = pd.read_csv(fname, sep='\t', encoding='cp1252') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
+    
+    if ("date" in data.columns):
+        data['date'] = data.date.apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
+
     return True, data
 
 def get_data(file_source='example'):
