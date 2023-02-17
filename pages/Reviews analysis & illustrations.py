@@ -168,11 +168,14 @@ class Analysis:
             start_date = st.date_input('Start date', start_date)
             end_date = st.date_input('End date', end_date)
             if start_date < end_date:
-                st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
+                mask = (data['Date'] > start_date) & (data['Date'] <= end_date)
+                df = data.loc[mask]
+                st.dataframe(df,use_container_width=True)
+		
             else:
                  st.error('Error: End date must fall after start date.')
             
-            st.dataframe(self.reviews,use_container_width=True)
+            #st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
             
 
