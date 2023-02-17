@@ -157,7 +157,7 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-	    start_date = min(data['Date'])
+            start_date = min(data['Date'])
             end_date = max(data['Date'])
             slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
             #start = min(data['Date'])
