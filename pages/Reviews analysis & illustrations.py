@@ -288,9 +288,10 @@ def read_file(fname, file_source):
         data = pd.read_csv(fname, sep='\t', encoding='cp1252') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
-    columnnames = ['date','Date','Dateandtime']
-    if ([x for x in columnnames] in data.columns):
-        data[x] = data.x.apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
+    column_list = ['date','Date','Dateandtime']
+    for col in column_list:
+    	if ( col in data.columns):
+             data[col] = data.col.apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
 
     return True, data
 
