@@ -626,11 +626,18 @@ def plot_kwic(data, key):
             with st.expander('Keyword in context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
-                #st.markdown(kwic_instances_df.style.set_table_styles(styles).to_html(),unsafe_allow_html=True)
-                #kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
+                
                 kwic_instances_df.style.set_properties(column='Left context', align = 'right')
-            # subset=['Left context', 'Keyword', 'Right context'],
-            # kwic_instances_df
+		col1, col2, col3 = st.columns(3)
+           	with col1:
+                   st.dataframe(kwic_instances_df['Left context'],use_container_width=True)
+
+                with col2:
+		   st.dataframe(kwic_instances_df['Keyword'],use_container_width=True)
+
+                with col3:
+                   st.dataframe(kwic_instances_df['Right context'],use_container_width=True)
+
                 
                 st.dataframe(kwic_instances_df,use_container_width=True)       
 		
