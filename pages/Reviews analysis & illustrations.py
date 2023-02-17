@@ -166,7 +166,7 @@ class Analysis:
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date,value=end_date, format=format)
             data['Date'] = pd.to_datetime(data['Date'])  
             mask = (data['Date'] > start_date) & (data['Date'] <= end_date)
-            fiterdf = data.loc[mask]
+            filterdf = data.loc[mask]
             st.dataframe(filterdf)
 		
            
