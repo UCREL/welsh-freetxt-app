@@ -297,7 +297,7 @@ if status:
                     with tab2:
                         
                         
-                         st.AgGrid(df.head(num_examples),use_container_width=True)
+                         AgGrid(df.head(num_examples),use_container_width=True)
                          HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
