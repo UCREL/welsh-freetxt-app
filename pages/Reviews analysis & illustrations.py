@@ -163,7 +163,7 @@ class Analysis:
             st.write('Total number of reviews: ', len(self.reviews))
 	    
 		
-            data['Date'] = pd.to_datetime(data['Date'].strftime('%d/%m/%Y'))
+            data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y'))
             start_date = data['Date'].min()
 
             end_date = data['Date'].max()
