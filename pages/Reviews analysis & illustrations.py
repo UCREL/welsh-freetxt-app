@@ -162,9 +162,8 @@ class Analysis:
             start_date = datetime.strptime(data['Date'].min(),'%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
-            #slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
-            #start = min(data['Date'])
-            #end = max(data['Date'])
+            slider = st.slider('Select date', min_value=start_date ,max_value=end_date, format=format)
+            
             start_date = st.date_input('Start date', start_date)
             end_date = st.date_input('End date', end_date)
             if start_date < end_date:
