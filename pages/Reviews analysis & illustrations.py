@@ -146,6 +146,8 @@ def df_filter(message,df):
         filtered_df = df.iloc[slider_1:slider_2+1][:].reset_index(drop=True)
 
         return filtered_df
+
+
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
