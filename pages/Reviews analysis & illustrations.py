@@ -41,9 +41,8 @@ from io import StringIO
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 #from pandasgui import show
 
+import IPython.display
 
-
-import streamlit as st
 import base64
 from PIL import Image
 from labels import MESSAGES
