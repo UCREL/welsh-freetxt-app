@@ -158,6 +158,8 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+	
+	    st.dataframe(self.reviews,use_container_width=True)
             start_date = datetime.strptime(data['Date'].min(), 
 					'%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
@@ -168,14 +170,14 @@ class Analysis:
             start_date = st.date_input('Start date', start_date)
             end_date = st.date_input('End date', end_date)
             if start_date < end_date:
-                mask = (data['Date'] > start_date) & (data['Date'] <= end_date)
-                df = data.loc[mask]
-                st.dataframe(df,use_container_width=True)
+                mask = (data['Date'].datetime.date > start_date) & (data['Date'].datetime.date <= end_date)
+                display = data.loc[mask]
+                st.dataframe(display,use_container_width=True)
 		
             else:
                  st.error('Error: End date must fall after start date.')
             
-            #st.dataframe(self.reviews,use_container_width=True)
+            #
             st.write('Total number of reviews: ', len(self.reviews))
             
 
