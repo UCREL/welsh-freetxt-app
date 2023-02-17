@@ -21,3 +21,4 @@ streamlit-aggrid
 pandasgui
 scattertext
 python-gettext
+IPython
