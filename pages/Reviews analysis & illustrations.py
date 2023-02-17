@@ -157,18 +157,20 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-	
-            start = min(data['Date'])
-            end = max(data['Date'])
-            start_date = st.date_input('Start date', start)
-            end_date = st.date_input('End date', end)
-            if start_date < end_date:
-                st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
-            else:
-                 st.error('Error: End date must fall after start date.')
+	    start_date = min(data['Date'])
+            end_date = max(data['Date'])
+            slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
+            #start = min(data['Date'])
+            #end = max(data['Date'])
+            #start_date = st.date_input('Start date', start)
+            #end_date = st.date_input('End date', end)
+            #if start_date < end_date:
+             #   st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
+            #else:
+             #    st.error('Error: End date must fall after start date.')
             
-            st.dataframe(self.reviews,use_container_width=True)
-            st.write('Total number of reviews: ', len(self.reviews))
+           # st.dataframe(self.reviews,use_container_width=True)
+           # st.write('Total number of reviews: ', len(self.reviews))
             
 
     def show_wordcloud(self, fname):
