@@ -167,7 +167,7 @@ class Analysis:
             data['Date'] = pd.to_datetime(data['Date'])  
             fiterdf = (data['Date'] > start_date) & (data['Date'] <= end_date)
             fiterdf = df.loc[fiterdf]
-            st.write(filterdf,use_container_width=True)
+            st.write(filterdf)
 		
            
             
