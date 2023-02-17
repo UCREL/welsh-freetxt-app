@@ -158,8 +158,7 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-	
-	    st.dataframe(self.reviews,use_container_width=True)
+            st.dataframe(self.reviews,use_container_width=True)
             start_date = datetime.strptime(data['Date'].min(), 
 					'%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
