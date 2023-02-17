@@ -159,8 +159,7 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             st.dataframe(self.reviews,use_container_width=True)
-            start_date = datetime.strptime(data['Date'].min(), 
-					'%d/%m/%Y')
+            start_date = datetime.strptime(data['Date'].min(),'%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
             #slider = st.slider('Select date', min_value=start_date, value=end_date ,max_value=end_date, format=format)
