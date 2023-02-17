@@ -40,7 +40,7 @@ import streamlit.components.v1 as components
 from io import StringIO
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 #from pandasgui import show
-from IPython.display import display
+
 
 import base64
 from PIL import Image
