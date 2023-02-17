@@ -45,7 +45,7 @@ import streamlit.components.v1 as components
 import scattertext as tt
 import spacy
 from pprint import pprint
-
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
@@ -297,7 +297,7 @@ if status:
                     with tab2:
                         
                         
-                         st.dataframe(df.head(num_examples),use_container_width=True)
+                         st.AgGrid(df.head(num_examples),use_container_width=True)
                          HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
