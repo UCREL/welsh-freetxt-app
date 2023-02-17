@@ -635,12 +635,13 @@ def plot_kwic(data, key):
         div[data-testid="column"]:nth-of-type(1)
         {
             border:1px solid red;
+	    text-align: end;
         } 
 
         div[data-testid="column"]:nth-of-type(2)
         {
             border:1px solid blue;
-            text-align: end;
+            
         } 
     </style>
     """,unsafe_allow_html=True
