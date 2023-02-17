@@ -152,7 +152,7 @@ class Analysis:
     enable_enterprise_modules=True,
     height=350, 
     width='100%',
-    reload_data=True, align= 'leftAligned'
+    reload_data=True
         )
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
