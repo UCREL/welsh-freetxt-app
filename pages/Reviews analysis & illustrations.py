@@ -182,8 +182,8 @@ class Analysis:
 	
             today = datetime.date.today()
             tomorrow = today + datetime.timedelta(days=1)
-            start_date = st.date_input('Start date', df.loc[df['Date'].idxmin()])
-            end_date = st.date_input('End date', df.loc[df['Date'].idxmax()])
+            start_date = st.date_input('Start date', df.index.min())
+            end_date = st.date_input('End date', df.index.max())
             if start_date < end_date:
                 st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
             else:
@@ -324,7 +324,7 @@ def read_file(fname, file_source):
     column_list = ['date','Date','Dateandtime']
     for col in column_list:
     	if col in data.columns:
-             data[col] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
+             data['Date'] = data[col].apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
 
 
     return True, data
