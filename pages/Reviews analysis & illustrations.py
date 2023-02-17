@@ -40,7 +40,7 @@ import streamlit.components.v1 as components
 from io import StringIO
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
 #from pandasgui import show
-
+import datetime
 
 
 import streamlit as st
@@ -158,6 +158,15 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             #show(pd.DataFrame(data))
+		
+            today = datetime.date.today()
+            tomorrow = today + datetime.timedelta(days=1)
+            start_date = st.date_input('Start date', today)
+            end_date = st.date_input('End date', tomorrow)
+            if start_date < end_date:
+                st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
+            else:
+                st.error('Error: End date must fall after start date.')
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
             
