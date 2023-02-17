@@ -318,7 +318,7 @@ if status:
                          selected = grid_response['selected_rows'] 
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
                         
-                         AgGrid(df.head(num_examples),use_container_width=True)
+                         #AgGrid(df.head(num_examples),use_container_width=True)
                          HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
