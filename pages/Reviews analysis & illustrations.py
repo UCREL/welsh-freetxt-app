@@ -161,7 +161,7 @@ class Analysis:
             st.dataframe(self.reviews,use_container_width=True)
 		
             st.write('Total number of reviews: ', len(self.reviews))
-            start_date = datetime.strptime(data['Date'], format='%d/%m/%Y').min()
+            start_date = datetime.strptime(data['Date'].min(), '%d/%m/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
