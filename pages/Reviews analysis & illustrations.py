@@ -289,8 +289,8 @@ def read_file(fname, file_source):
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     
-    if ("date" in data.columns):
-        data['date'] = data.date.apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
+    if ("Date" in data.columns):
+        data['Date'] = data.date.apply(lambda x: pd.to_datetime(x).strftime('%d/%m/%Y %H:%M'))
 
     return True, data
 
