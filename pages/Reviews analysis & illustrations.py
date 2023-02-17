@@ -633,7 +633,7 @@ def plot_kwic(data, key):
                    st.dataframe(kwic_instances_df['Left context'],use_container_width=True)
 
                 with col2:
-		   st.dataframe(kwic_instances_df['Keyword'],use_container_width=True)
+                   st.dataframe(kwic_instances_df['Keyword'],use_container_width=True)
 
                 with col3:
                    st.dataframe(kwic_instances_df['Right context'],use_container_width=True)
