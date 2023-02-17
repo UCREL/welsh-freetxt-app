@@ -124,28 +124,6 @@ class html:
         ''')
         Func.close()
 
-####datetime filter
-def df_filter(message,df):
-
-        slider_1, slider_2 = st.slider('%s' % (message),0,df['Date'].min(),0,df['Date'].max(),1)
-
-        while len(str(df.iloc[slider_1][1]).replace('.0','')) < 4:
-            df.iloc[slider_1,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
-            
-        #while len(str(df.iloc[slider_2][1]).replace('.0','')) < 4:
-         #   df.iloc[slider_2,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
-
-        start_date = datetime.datetime.strptime(str(df.iloc[slider_1][0]).replace('.0','') + str(df.iloc[slider_1][1]).replace('.0',''),'%Y%m%d%H%M%S')
-        start_date = start_date.strftime('%d %b %Y, %I:%M%p')
-        
-        end_date = datetime.datetime.strptime(str(df.iloc[slider_2][0]).replace('.0','') + str(df.iloc[slider_2][1]).replace('.0',''),'%Y%m%d%H%M%S')
-        end_date = end_date.strftime('%d %b %Y, %I:%M%p')
-
-        st.info('Start: **%s** End: **%s**' % (start_date,end_date))
-        
-        filtered_df = df.iloc[slider_1:slider_2+1][:].reset_index(drop=True)
-
-        return filtered_df
 
 
 class Analysis:
@@ -180,16 +158,15 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
 	
-            today = datetime.date.today()
-            tomorrow = today + datetime.timedelta(days=1)
-            start_date = st.date_input('Start date', min(df['Date'].dt.date))
-            end_date = st.date_input('End date', max(df['Date'].dt.date))
+            today = min(df['Date'])
+            tomorrow = max(df['Date'].dt.date)
+            start_date = st.date_input('Start date', )
+            end_date = st.date_input('End date', )
             if start_date < end_date:
                 st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
             else:
                  st.error('Error: End date must fall after start date.')
-            #filtered_df = df_filter('Move sliders to filter dataframe',df)
-           # st.write(filtered_df)
+            
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
             
