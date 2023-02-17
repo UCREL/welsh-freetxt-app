@@ -164,12 +164,12 @@ class Analysis:
 	    
 		
             data['Date'] = pd.to_datetime(data['Date'])
-            start_date = datetime.strptime(data['Date'].min(), '%d/%m/%y')
+            start_date = data['Date'].min()
 
             end_date = data['Date'].max()
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
-            slider = st.slider('Select date', min_value= data['Date'].min(),max_value=data['Date'].max(),value=data['Date'].max(), format=format)
+            slider = st.slider('Select date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
               
             mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
             filterdf = data.loc[mask]
