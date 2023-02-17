@@ -159,9 +159,9 @@ class Analysis:
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
 	
             today = min(data['Date'])
-            tomorrow = max(data['Date'].dt.date)
-            start_date = st.date_input('Start date', )
-            end_date = st.date_input('End date', )
+            tomorrow = max(data['Date'])
+            start_date = st.date_input('Start date', today)
+            end_date = st.date_input('End date', tomorrow)
             if start_date < end_date:
                 st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
             else:
