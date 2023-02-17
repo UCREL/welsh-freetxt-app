@@ -623,7 +623,7 @@ def plot_kwic(data, key):
                     columns =['Left context', 'Keyword', 'Right context'])
                 
                 df = pd.DataFrame({'Unit': ['Bit', 'Nibble','Byte/Octet', 'Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte'], 'Abbreviation': ['b', '-', 'B', 'KB', 'MB', 'GB', 'TB'], 'Storage': ['Binary digit, single 0 or 1', '4 bits', '8 bits', '1024 bytes', '1024 KB', '1024 MB', '1024 GB']})
-                dfStyler = df.style.set_properties(subset=["Left context",**{'text-align': 'left'})
+                dfStyler = df.style.set_properties(subset=["Left context"],**{'text-align': 'left'})
                 dfStyler = df.style.set_properties(subset=["Right context"],**{'text-align': 'right'})
                 dfStyler.set_table_styles([dict(selector='th', props=[('text-align', 'center')])])
 
