@@ -164,7 +164,7 @@ class Analysis:
             start_date = datetime.strptime(data['Date'].min(),'%m/%d/%Y')
             end_date = datetime.strptime(data['Date'].max(), '%m/%d/%Y')
             st.write(start_date)
-            format = 'DD MMM, YYYY'  # format output
+            format = 'MM DD, YYYY'  # format output
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date,value=end_date, format=format)
             data['Date'] = pd.to_datetime(data['Date'])  
             mask = (data['Date'] >= start_date) & (data['Date'] <= slider)
