@@ -164,7 +164,7 @@ class Analysis:
 	    
 		
             data['Date'] = pd.to_datetime(data['Date'])
-            start_date = datetime.strptime(data['Date'].min(), '%d/%m/%Y')
+            start_date = data['Date'].min()
             end_date = datetime.strptime(data['Date'].max(), '%d/%m/%Y')
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
