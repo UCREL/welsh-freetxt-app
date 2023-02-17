@@ -166,14 +166,14 @@ class Analysis:
             st.write(start_date)
             format = 'DD MMM, YYYY'  # format output
             slider = st.slider('Select date', min_value=start_date ,max_value=end_date,value=end_date, format=format)
-            data['Date'] = pd.to_datetime(data['Date'])  
+            #data['Date'] = pd.to_datetime(data['Date'])  
             mask = (data['Date'] > start_date) & (data['Date'] <= slider)
             filterdf = data.loc[mask]
             st.dataframe(filterdf)
             st.write('filtered  number of reviews: ', len(filterdf))
            
             
-            #
+            
             
             
 
