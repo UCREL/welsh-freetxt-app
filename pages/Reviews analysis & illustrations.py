@@ -179,8 +179,17 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            filtered_df = df_filter('Move sliders to filter dataframe',df)
-            st.write(filtered_df)
+	
+            today = datetime.date.today()
+            tomorrow = today + datetime.timedelta(days=1)
+            start_date = st.date_input('Start date', df.loc[df['Date'].idxmin())
+            end_date = st.date_input('End date', df.loc[df['Date'].idxmax())
+            if start_date < end_date:
+                st.success('Start date: `%s`\n\nEnd date:`%s`' % (start_date, end_date))
+            else:
+                 st.error('Error: End date must fall after start date.')
+            #filtered_df = df_filter('Move sliders to filter dataframe',df)
+           # st.write(filtered_df)
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
             
