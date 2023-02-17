@@ -157,15 +157,10 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            #show(pd.DataFrame(data))
+            #show(pd.DataFrame(data))	
             st.dataframe(self.reviews,use_container_width=True)
             st.write('Total number of reviews: ', len(self.reviews))
-           # st.dataframe(self.reviews,use_container_width=True)
-            #st.write('Total number of reviews: ', len(self.reviews))
-            #HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
-            #source_code = HtmlFile.read() 
-            #print(source_code)
-            #components.html(source_code,height = 800)
+          
 
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
@@ -626,13 +621,21 @@ def plot_kwic(data, key):
             with st.expander('Keyword in context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
-                #st.markdown(kwic_instances_df.style.set_table_styles(styles).to_html(),unsafe_allow_html=True)
-                #kwic_instances_df=kwic_instances_df.style.set_table_styles(styles,overwrite=False).hide_index().set_properties(subset=['Left context'],**{'text-align': 'right'})
-                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+                
+                df = pd.DataFrame({'Unit': ['Bit', 'Nibble','Byte/Octet', 'Kilobyte', 'Megabyte', 'Gigabyte', 'Terabyte'], 'Abbreviation': ['b', '-', 'B', 'KB', 'MB', 'GB', 'TB'], 'Storage': ['Binary digit, single 0 or 1', '4 bits', '8 bits', '1024 bytes', '1024 KB', '1024 MB', '1024 GB']})
+                dfStyler = df.style.set_properties(subset=["Left context",**{'text-align': 'left'})
+                dfStyler = df.style.set_properties(subset=["Right context"],**{'text-align': 'right'})
+                dfStyler.set_table_styles([dict(selector='th', props=[('text-align', 'center')])])
+
+                display(dfStyler.hide_index())
+		
+		
+		
+		#kwic_instances_df.style.set_properties(column='Left context', align = 'right')
             # subset=['Left context', 'Keyword', 'Right context'],
             # kwic_instances_df
                 
-                st.dataframe(kwic_instances_df,use_container_width=True)       
+                st.dataframe(dfStyler,use_container_width=True)       
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
