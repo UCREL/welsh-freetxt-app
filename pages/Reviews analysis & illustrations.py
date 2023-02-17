@@ -127,7 +127,7 @@ class html:
 ####datetime filter
 def df_filter(message,df):
 
-        slider_1, slider_2 = st.slider('%s' % (message),0,df['Date'].min(),[0,df['Date'].max(),1)
+        slider_1, slider_2 = st.slider('%s' % (message),0,df['Date'].min(),0,df['Date'].max(),1)
 
         while len(str(df.iloc[slider_1][1]).replace('.0','')) < 4:
             df.iloc[slider_1,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
