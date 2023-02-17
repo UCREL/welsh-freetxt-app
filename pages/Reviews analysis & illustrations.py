@@ -625,7 +625,7 @@ def plot_kwic(data, key):
                 dfStyler = kwic_instances_df.style.set_properties(subset=["Right context"],**{'text-align': 'right'})
                 dfStyler.set_table_styles([dict(selector='th', props=[('text-align', 'center')])])
 
-                display(dfStyler)
+                #display(dfStyler)
 		
 		
 		
