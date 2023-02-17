@@ -628,6 +628,25 @@ def plot_kwic(data, key):
                     columns =['Left context', 'Keyword', 'Right context'])
                 
                 kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+		
+                st.markdown(
+    """
+    <style>
+        div[data-testid="column"]:nth-of-type(1)
+        {
+            border:1px solid red;
+        } 
+
+        div[data-testid="column"]:nth-of-type(2)
+        {
+            border:1px solid blue;
+            text-align: end;
+        } 
+    </style>
+    """,unsafe_allow_html=True
+                         )
+		
+		
                 col1, col2, col3 = st.columns(3)
                 with col1:
                    st.dataframe(kwic_instances_df['Left context'],use_container_width=True)
