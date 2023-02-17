@@ -129,11 +129,11 @@ def df_filter(message,df):
 
         slider_1, slider_2 = st.slider('%s' % (message),0,len(df)-1,[0,len(df)-1],1)
 
-        while len(str(df.iloc[slider_1][0]).replace('.0','')) < 4:
-            df.iloc[slider_1,0] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
+        while len(str(df.iloc[slider_1][1]).replace('.0','')) < 4:
+            df.iloc[slider_1,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
             
-        while len(str(df.iloc[slider_2][1]).replace('.0','')) < 4:
-            df.iloc[slider_2,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
+        #while len(str(df.iloc[slider_2][1]).replace('.0','')) < 4:
+         #   df.iloc[slider_2,1] = '0' + str(df.iloc[slider_1][1]).replace('.0','')
 
         start_date = datetime.datetime.strptime(str(df.iloc[slider_1][0]).replace('.0','') + str(df.iloc[slider_1][1]).replace('.0',''),'%Y%m%d%H%M%S')
         start_date = start_date.strftime('%d %b %Y, %I:%M%p')
