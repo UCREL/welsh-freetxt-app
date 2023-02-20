@@ -179,7 +179,7 @@ if lang_detected == 'cy':
 		}
 
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
-	st.write(response.text)
+	st.print(response.text)
 	
 	#with st.expander('', expanded=True):
 	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
@@ -187,12 +187,7 @@ if lang_detected == 'cy':
 	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
 	tagged_tokens = []
-	for token in output_doc:
-		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-        
-        # # create DataFrame using data
-	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-	st.dataframe(tagged_tokens_df,use_container_width=True)		
+	
 	
 		
 
