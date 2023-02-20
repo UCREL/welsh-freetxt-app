@@ -188,12 +188,12 @@ if lang_detected == 'cy':
                    'Works with SGML entities e.g. 5 > 4.'
                    'Also with MWE like New York.')
 	ucrel_doc = api.usas(text_to_process)
-		for index, sentence in enumerate(ucrel_doc.sentences):
-    	print(f'Sentence {index}')
-    	for token in sentence:
-        	st.write(token)
-    	if index == 0 or index == 1:
-        	st.write('\n')
+	for index, sentence in enumerate(ucrel_doc.sentences):
+    		print(f'Sentence {index}')
+    		for token in sentence:
+        		st.write(token)
+    		if index == 0 or index == 1:
+        		st.write('\n')
 		
 
         
