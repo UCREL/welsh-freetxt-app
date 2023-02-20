@@ -175,7 +175,7 @@ if lang_detected == 'cy':
    	 'type': (None, 'rest'),
     	'style': (None, 'tab'),
     	'lang': (None, 'cy'),
-    	'text': txt,
+    	'text': text,
 		}
 
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
