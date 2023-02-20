@@ -161,8 +161,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 #with open ('img/data.txt', "w") as f:
  # 		f.write(text)
 ##"The Nile is a major north-flowing river in Northeastern Africa."
-text = f'''
-Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru.'''
+text = f'''Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru.'''
 
 #data = pd.DataFrame(pd.read_csv('img/data.txt',names=[0]))
 #data.to_csv('img/nn.txt')
