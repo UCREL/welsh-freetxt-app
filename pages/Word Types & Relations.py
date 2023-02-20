@@ -179,8 +179,8 @@ if lang_detected == 'cy':
 		}
 
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
-	for line in response.text:
-		st.write(line)
+	
+	st.write(response.text)
 	
 	#with st.expander('', expanded=True):
 	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
