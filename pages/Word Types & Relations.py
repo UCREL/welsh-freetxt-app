@@ -170,9 +170,9 @@ if lang_detected == 'cy':
 	# Load the spacy model
 	nlp = spacy.load('cy_dual_basiccorcencc2usas_contextual')	
 	output_doc = nlp(text)
-	welsh_tagger_pipeline = spacy.load('cy_dual_basiccorcencc2usas_contextual')
+	#welsh_tagger_pipeline = spacy.load('cy_dual_basiccorcencc2usas_contextual')
 # Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
-	nlp.add_pipe('pymusas_rule_based_tagger', source=welsh_tagger_pipeline)
+	#nlp.add_pipe('pymusas_rule_based_tagger', source=welsh_tagger_pipeline)
 	
 	
 	#with st.expander('', expanded=True):
