@@ -187,8 +187,17 @@ if lang_detected == 'cy':
 	#	for token in output_doc:
 	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-	tagged_tokens = []
-	
+	Text = []
+	Lemma = []
+	POS = []
+	USAS = []
+	for x in range len(data):
+		Text.append(data(x))
+		Lemma.append(data(x+1))
+		POS.append(data(x+2))
+		USAS.append(data(x+3))
+		x=x+4
+	st.write(Text)
 	
 		
 
