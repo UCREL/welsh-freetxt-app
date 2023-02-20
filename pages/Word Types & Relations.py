@@ -181,7 +181,7 @@ if lang_detected == 'cy':
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
 	data = response.text
 	st.text(data)
-	with open('/temp/cy_tagged.txt','a') as f:
+	with open('/temp/cy_tagged.txt','w') as f:
     		f.write(response.text)
 	
 	cy_tagged =pd.read_csv('/temp/cy_tagged.txt',sep='\t')
