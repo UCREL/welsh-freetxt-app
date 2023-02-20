@@ -185,7 +185,7 @@ if lang_detected == 'cy':
 	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 			
 	text_to_process = text
-	ucrel_doc = api.pymusas(text_to_process)
+	ucrel_doc = api.usas(text_to_process)
 	for index, sentence in enumerate(ucrel_doc.sentences):
     		print(f'Sentence {index}')
     		for token in sentence:
