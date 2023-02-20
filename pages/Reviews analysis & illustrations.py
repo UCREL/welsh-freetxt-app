@@ -264,7 +264,7 @@ add_logo("img/FreeTxt_logo.png")
 
 
 st.subheader('Text to analyse')
-txt = st.text_area('please paste your text here', '')
+txt = st.text_area('Please paste your text here', '')
 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
