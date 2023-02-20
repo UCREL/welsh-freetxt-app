@@ -192,10 +192,10 @@ if lang_detected == 'cy':
 	POS = []
 	USAS = []
 	for x in range(len(data)):
-		Text.append(data(x))
-		Lemma.append(data(x+1))
-		POS.append(data(x+2))
-		USAS.append(data(x+3))
+		Text.append(data[x])
+		Lemma.append(data[x+1])
+		POS.append(data[x+2])
+		USAS.append(data[x+3])
 		x=x+4
 	st.write(Text)
 	
