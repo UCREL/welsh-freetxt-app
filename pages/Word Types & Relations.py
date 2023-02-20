@@ -191,14 +191,7 @@ if lang_detected == 'cy':
         # # create DataFrame using data
 	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
 	st.dataframe(tagged_tokens_df,use_container_width=True)		
-	text_to_process = text
-	ucrel_doc = api.cgi-bin(text_to_process)
-	for index, sentence in enumerate(ucrel_doc.sentences):
-    		print(f'Sentence {index}')
-    		for token in sentence:
-        		st.write(token)
-    		if index == 0 or index == 1:
-        		st.write('\n')
+	
 		
 
         
