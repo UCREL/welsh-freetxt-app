@@ -168,8 +168,13 @@ st.write(f"Language detected: '{lang_detected}'")
 if lang_detected == 'cy':
 	 #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
 	# Load the spacy model
-	nlp = spacy.load('cy_dual_basiccorcencc2usas_contextual')	
+	nlp = spacy.load('xx_ent_wiki_sm-3.5.0')	
 	output_doc = nlp(text)
+	welsh_tagger_pipeline = spacy.load('cy_dual_basiccorcencc2usas_contextual')
+# Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
+	nlp.add_pipe('pymusas_rule_based_tagger', source=welsh_tagger_pipeline)
+	
+	
 	#with st.expander('', expanded=True):
 	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
 	#	for token in output_doc:
