@@ -4,6 +4,7 @@ from PIL import Image
 from labels import MESSAGES
 
 import os
+import requests
 import string
 import random
 import pandas as pd
@@ -45,10 +46,9 @@ import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
-###Welsh Pymusas
-from ucrel_api.api import UCREL_API
 
-api = UCREL_API('a.moore@lancaster.ac.uk', 'http://ucrel-api.lancaster.ac.uk')
+
+
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -170,14 +170,16 @@ st.write(f"Language detected: '{lang_detected}'")
 
    
 if lang_detected == 'cy':
-	 #st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
-	# Load the spacy model
-	nlp = spacy.load('cy_dual_basiccorcencc2usas_contextual')	
-	output_doc = nlp(text)
-	#welsh_tagger_pipeline = spacy.load('cy_dual_basiccorcencc2usas_contextual')
-# Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
-	#nlp.add_pipe('pymusas_rule_based_tagger', source=welsh_tagger_pipeline)
-	
+	###curl -F type=rest -F style=tab -F lang=cy -F text=@d.txt http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl
+	files = {
+   	 'type': (None, 'rest'),
+    	'style': (None, 'tab'),
+    	'lang': (None, 'cy'),
+    	'text': txt,
+		}
+
+	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
+	st.write(response.text)
 	
 	#with st.expander('', expanded=True):
 	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
