@@ -107,7 +107,7 @@ st.markdown("# Positive and Negative reviews")
         
 add_logo("img/FreeTxt_logo.png") 
 st.write("---")
-st.write("This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output")
+st.write("This tool performs sentiment analyses on your reviews, displaying the results in a pie chart")
 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
