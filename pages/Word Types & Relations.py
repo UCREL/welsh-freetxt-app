@@ -181,7 +181,7 @@ if lang_detected == 'cy':
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
 	data = response.text
 	st.text(data)
-	cy_tagged =pd.DataFrame(data)
+	cy_tagged =pd.DataFrame([data])
 	st.dataframe(cy_tagged)
 	
 	#with st.expander('', expanded=True):
