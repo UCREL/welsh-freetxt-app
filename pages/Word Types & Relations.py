@@ -179,7 +179,7 @@ if lang_detected == 'cy':
 		}
 
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
-	data = response.text.split('	')
+	data = response.text.split()
 	st.write(data)
 	
 	#with st.expander('', expanded=True):
