@@ -45,6 +45,10 @@ import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
+###Welsh Pymusas
+from ucrel_api.api import UCREL_API
+
+api = UCREL_API('a.moore@lancaster.ac.uk', 'http://ucrel-api.lancaster.ac.uk')
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
