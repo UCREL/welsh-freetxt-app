@@ -263,8 +263,8 @@ add_logo("img/FreeTxt_logo.png")
 #st.write("---")
 
 
-st.subheader('Text to Analyse')
-txt = st.text_area('please past text here', '')
+st.subheader('Text to analyse')
+txt = st.text_area('please paste your text here', '')
 
 
 # Update with the Welsh stopwords (source: https://github.com/techiaith/ataleiriau)
@@ -705,7 +705,7 @@ def plot_kwic_txt(df):
                 plot_coll(keyword, collocs,expander,tab6)
     except ValueError as err:
         with tab6:
-                st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+                st.info(f'Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
 
 if st.button('Analysis') or st.session_state.load_state:
@@ -725,7 +725,7 @@ if st.button('Analysis') or st.session_state.load_state:
         df = df['Review'].dropna(how='all').drop_duplicates()
    
         if df.empty:
-             st.info('''** 🤨**: Please past text to analyse.''', icon="ℹ️")
+             st.info('''** 🤨**: Please paste text to analyse.''', icon="ℹ️")
     
         else:
        
