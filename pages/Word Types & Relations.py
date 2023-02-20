@@ -160,8 +160,10 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 #text = preprocess_punc(text)
 #with open ('img/data.txt', "w") as f:
  # 		f.write(text)
+##"The Nile is a major north-flowing river in Northeastern Africa."
+text = f'''
+Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru.'''
 
-text = "The Nile is a major north-flowing river in Northeastern Africa."
 #data = pd.DataFrame(pd.read_csv('img/data.txt',names=[0]))
 #data.to_csv('img/nn.txt')
 #st.dataframe(data)
@@ -173,7 +175,7 @@ st.write(f"Language detected: '{lang_detected}'")
 if lang_detected == 'cy':
 	#os.system('cat img/data.txt | docker run -i --rm ghcr.io/ucrel/cytag:1.0.4 > welsh_text_example.tsv')
         #st.info('The Welsh PyMUSAS tagger is still under construction...', icon='😎')
-	subprocess.run(['bash','run_PyMUSAS.sh'])
+	#subprocess.run(['bash','run_PyMUSAS.sh'])
         # # Load the Welsh PyMUSAS rule based tagger
         # nlp = spacy.load("cy_dual_basiccorcencc2usas_contextual")
 
@@ -208,7 +210,21 @@ if lang_detected == 'cy':
         # # create DataFrame using data
         # tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
         # tagged_tokens_df
-	
+	#st.info('The English PyMUSAS tagger is still under construction...', icon='😎')
+	output_doc = nlp(text)
+	#with st.expander('', expanded=True):
+	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
+	#	for token in output_doc:
+	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+			
+	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+	tagged_tokens = []
+	for token in output_doc:
+		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+        
+        # # create DataFrame using data
+	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+	st.dataframe(tagged_tokens_df,use_container_width=True)
 
 		
 
