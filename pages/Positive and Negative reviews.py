@@ -268,7 +268,7 @@ status, data = input_data
 
     
 if status:
-        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments', '5 Class Sentiments'))
+        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
         # With tabbed multiselect
         filenames = list(data.keys())
         #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
@@ -286,7 +286,7 @@ if status:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         text = process_sentiments(input_text)
-                        if option == '3 Class Sentiments':
+                        if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                            plot_sentiments(text[1], fine_grained=False)
                         else:
                            plot_sentiments(text[1])
