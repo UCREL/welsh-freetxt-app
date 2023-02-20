@@ -184,17 +184,16 @@ if lang_detected == 'cy':
 	#	for token in output_doc:
 	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
 			
-	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-	tagged_tokens = []
-	for token in output_doc:
-		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-        
-        # # create DataFrame using data
-	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-	st.dataframe(tagged_tokens_df,use_container_width=True)
-	for token in output_doc:
-		st.write(token.lemma_)
-
+	text_to_process = ('Hope you have a nice day. '
+                   'Works with SGML entities e.g. 5 > 4.'
+                   'Also with MWE like New York.')
+	ucrel_doc = api.usas(text_to_process)
+		for index, sentence in enumerate(ucrel_doc.sentences):
+    	print(f'Sentence {index}')
+    	for token in sentence:
+        	st.write(token)
+    	if index == 0 or index == 1:
+        	st.write('\n')
 		
 
         
