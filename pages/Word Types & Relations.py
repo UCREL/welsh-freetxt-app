@@ -191,7 +191,7 @@ if lang_detected == 'cy':
 	Lemma = []
 	POS = []
 	USAS = []
-	for x inrange len(data):
+	for x in range(len(data)):
 		Text.append(data(x))
 		Lemma.append(data(x+1))
 		POS.append(data(x+2))
