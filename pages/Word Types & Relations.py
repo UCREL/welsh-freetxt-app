@@ -180,17 +180,13 @@ if lang_detected == 'cy':
 
 	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
 	data = response.text
-	st.text(data)
+	#st.text(data)
 	with open('cy_tagged.txt','w') as f:
     		f.write(response.text)
 	
 	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
-	st.dataframe(cy_tagged)
-	
-	#with st.expander('', expanded=True):
-	#	st.write(f'-\t\tText\t\t\tLemma\t\t\tPOS\t\t\tUSAS Tags')
-	#	for token in output_doc:
-	#		st.write(f'-\t\t{token.text}\t\t\t{token.lemma_}\t\t\t{token.pos_}\t\t\t{token._.pymusas_tags}')
+	st.dataframe(cy_tagged,use_container_width=True)
+
 	
 	
 		
