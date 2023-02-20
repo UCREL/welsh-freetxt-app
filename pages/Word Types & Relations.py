@@ -184,7 +184,7 @@ if lang_detected == 'cy':
 	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
 	st.dataframe(tagged_tokens_df,use_container_width=True)
 	for token in output_doc:
-		st.write(token)
+		st.write(token.lemma_)
 
 		
 
