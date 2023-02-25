@@ -175,7 +175,7 @@ class Analysis:
             
 	    
             start_d, end_d = st.select_slider('Select a range dates', 
-						      options=data['Date'].to_list(),
+						      options=data['Date'].sort_values(by='Date').unique().to_list(),
 						      value=(start_date, end_date))
             #mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
             #filterdf = data.loc[mask]
