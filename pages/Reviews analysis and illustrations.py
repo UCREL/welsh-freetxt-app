@@ -173,9 +173,9 @@ class Analysis:
             format = 'DD MMM, YYYY'  # format output
             #slider = st.slider('Select start date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
             
-	    
+	    options = data['Date'].sort_values('Date').unique().to_list()
             start_d, end_d = st.select_slider('Select a range dates', 
-						      options=data['Date'].sort_values(by='Date').unique().to_list(),
+						      options=options,
 						      value=(start_date, end_date))
             #mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
             #filterdf = data.loc[mask]
