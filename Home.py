@@ -107,14 +107,14 @@ with st.container():
     
     left_column, right_column = st.columns([1, 1])
     with left_column:
-        st.subheader(_("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations)"))
+        st.subheader(_("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_and_illustrations)"))
         st.write(_("This is one of the key features of the tool and has three core components: a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at."))
 
        
     with right_column:
         data_url = read_gif("img/visualization.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_and_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
 st.write("---")
