@@ -176,10 +176,10 @@ class Analysis:
 	    
             start_d, end_d = st.select_slider('Select a range dates', 
 						      options=data['Date'].to_list(),
-						      value=(datetime.strptime(start_date, '%d/%m/%y'), datetime.strptime(end_date,'%d/%m/%y')))
-            mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
-            filterdf = data.loc[mask]
-            st.dataframe(mask)
+						      value=(start_date, end_date))
+            #mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
+            #filterdf = data.loc[mask]
+            #st.dataframe(mask)
             #st.write('filtered  number of reviews: ', len(filterdf))
            
             
