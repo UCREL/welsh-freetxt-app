@@ -162,7 +162,8 @@ class Analysis:
 		
             st.write('Total number of reviews: ', len(self.reviews))
 	    
-		
+            values = st.slider( 'Select a range of values', 0.0, 100.0, (25.0, 75.0))
+            st.write('Values:', values)
             data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
             start_date = data['Date'].min()
 
