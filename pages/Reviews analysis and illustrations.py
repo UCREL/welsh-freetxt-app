@@ -159,8 +159,8 @@ class Analysis:
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             
-            st.table(self.reviews, unsafe_allow_html=True)
-            st.dataframe(self.reviews)
+            st.table(self.reviews)
+            st.dataframe(self.reviews, unsafe_allow_html=True)
 		
             st.write('Total number of reviews: ', len(self.reviews))
 	    
