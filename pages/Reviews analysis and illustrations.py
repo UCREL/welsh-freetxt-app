@@ -160,7 +160,7 @@ class Analysis:
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
             
             st.table(self.reviews, unsafe_allow_html=True)
-            st.dataframe(self.reviews,use_container_width=True)
+            st.dataframe(self.reviews)
 		
             st.write('Total number of reviews: ', len(self.reviews))
 	    
