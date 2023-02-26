@@ -664,7 +664,26 @@ def plot_kwic(data, key):
 		
                 
                 
-                st.dataframe(kwic_instances_df)       
+                st.dataframe(kwic_instances_df)
+		   #### interactive dataframe
+                gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
+                gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+                gb.configure_side_bar() #Add a sidebar
+                gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
+                gridOptions = gb.build()
+
+                grid_response = AgGrid(
+                kwic_instances_df,
+                gridOptions=gridOptions,
+                   data_return_mode='AS_INPUT', 
+                   update_mode='MODEL_CHANGED', 
+                   fit_columns_on_grid_load=False,
+    
+                   enable_enterprise_modules=True,
+                   height=350, 
+                   width='100%',
+                     reload_data=True
+                      )
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
