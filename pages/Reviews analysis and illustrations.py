@@ -663,7 +663,7 @@ def plot_kwic(data, key):
 		
                 
                 
-                st.table(kwic_instances_df,use_container_width=True)       
+                st.table(kwic_instances_df)       
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
