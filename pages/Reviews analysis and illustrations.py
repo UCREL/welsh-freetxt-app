@@ -158,6 +158,17 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+            # CSS to inject contained in a string
+            hide_dataframe_row_index = """
+            <style>
+            .row_heading.level0 {display:none}
+            .blank {display:none}
+            </style>
+            """
+
+            # Inject CSS with Markdown
+            st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
+
             st.dataframe(self.reviews,use_container_width=True)
 		
             st.write('Total number of reviews: ', len(self.reviews))
