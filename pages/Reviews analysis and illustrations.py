@@ -176,6 +176,8 @@ class Analysis:
             start_d, end_d = st.select_slider('Select a range dates', 
 						      options=data['Date'].unique(),
 						      value=(str(start_date), str(end_date)))
+            from dateutil import parser
+            start_d= parser.parse(start_d)
             start_d= datetime.strftime(start_d, '%d/%m/%y')
             end_d = datetime.strftime(end_d, '%d/%m/%y')
             mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
