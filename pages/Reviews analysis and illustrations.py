@@ -185,7 +185,7 @@ class Analysis:
             end_d = datetime.strftime(end_d, '%d/%m/%y')
             mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
             filterdf = data.loc[mask]
-            st.dataframe(filterdf,use_container_width=True)
+            st._legacy_dataframe(filterdf,use_container_width=True)
             st.write('filtered  number of reviews: ', len(filterdf))
            
             
