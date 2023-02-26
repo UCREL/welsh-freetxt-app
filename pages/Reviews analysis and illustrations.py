@@ -164,23 +164,24 @@ class Analysis:
 	    
             values = st.slider( 'Select a range of values', 0.0, 100.0, (25.0, 75.0))
             st.write('Values:', values)
-            #data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
+            data['Date_sort'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
+            data= data.sort_values('Date_sort')
             start_date = data['Date'].min()
 
             end_date = data['Date'].max()
             st.write(start_date)
             st.write(end_date)
             format = 'DD MMM, YYYY'  # format output
-            data= data.sort_values('Date')
+            #data= data.sort_values('Date')
             #slider = st.slider('Select start date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
             #options = data['Date'].sort_values().unique().to_list()
             start_d, end_d = st.select_slider('Select a range dates', 
-						      options=data['Date'].unique(),
+						      options=data['Date_sort'].unique(),
 						      value=(start_date, end_date))
-            #mask = (data['Date'] >= data['Date'].min()) & (data['Date'] <= slider)
-            #filterdf = data.loc[mask]
-            #st.dataframe(mask)
-            #st.write('filtered  number of reviews: ', len(filterdf))
+            mask = (data['Date'] >= start_d) & (data['Date'] <= end_d)
+            filterdf = data.loc[mask]
+            st.dataframe(mask)
+            st.write('filtered  number of reviews: ', len(filterdf))
            
             
             
