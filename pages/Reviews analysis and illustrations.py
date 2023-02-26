@@ -176,14 +176,13 @@ class Analysis:
             start_d, end_d = st.select_slider('Select a range dates', 
 						      options=data['Date'].unique(),
 						      value=(str(start_date), str(end_date)))
-            start_d= datetime.strptime(start_d, '%d/%m/%y')
-            end_d = datetime.strptime(end_d, '%d/%m/%y')
+            start_d= datetime.strptime(start_d, '%d/%m/%y').date()
+            end_d = datetime.strptime(end_d, '%d/%m/%y').date()
             mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
             filterdf = data.loc[mask]
             st.dataframe(filterdf,use_container_width=True)
             st.write('filtered  number of reviews: ', len(filterdf))
            
-            
             
             
             
