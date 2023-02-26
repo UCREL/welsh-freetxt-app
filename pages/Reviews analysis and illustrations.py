@@ -179,7 +179,7 @@ class Analysis:
 						      options=data['Date'].unique(),
 						      value=(start_date, end_date))
             mask = (data['Date'] >= start_d) & (data['Date'] <= end_d)
-            filterdf = df.loc[mask]
+            filterdf = data.loc[mask]
             st.dataframe(filterdf)
             st.write('filtered  number of reviews: ', len(filterdf))
            
