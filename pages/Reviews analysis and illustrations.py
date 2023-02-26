@@ -179,6 +179,7 @@ class Analysis:
             from dateutil import parser
             start_d= parser.parse(start_d)
             start_d= datetime.strftime(start_d, '%d/%m/%y')
+            end_d= parser.parse(end_d)
             end_d = datetime.strftime(end_d, '%d/%m/%y')
             mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
             filterdf = data.loc[mask]
