@@ -166,7 +166,6 @@ class Analysis:
             data['Date_sort'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
             data= data.sort_values('Date_sort')
             start_date = data['Date_sort'].min()
-
             end_date = data['Date_sort'].max()
             st.write(start_date)
             st.write(end_date)
