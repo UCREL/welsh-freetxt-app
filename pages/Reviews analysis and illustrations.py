@@ -167,8 +167,8 @@ class Analysis:
             data= data.sort_values('Date_sort')
             start_date = data['Date'].min()
             end_date = data['Date'].max()
-            st.write(start_date)
-            st.write(end_date)
+            #st.write(start_date)
+            #st.write(end_date)
             format = 'DD MMM, YYYY'  # format output
             #data= data.sort_values('Date')
             #slider = st.slider('Select start date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
