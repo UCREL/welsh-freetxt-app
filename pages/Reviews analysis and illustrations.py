@@ -126,16 +126,7 @@ class html:
         Func.close()
 
 
-# CSS to inject contained in a string
-hide_dataframe_row_index = """
-            <style>
-            .row_heading.level0 {display:none}
-            .blank {display:none}
-            </style>
-            """
 
-            # Inject CSS with Markdown
-st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
@@ -274,7 +265,16 @@ st.set_page_config(
  )
 ####
 
-   
+# CSS to inject contained in a string
+hide_dataframe_row_index = """
+            <style>
+            .row_heading.level0 {display:none}
+            .blank {display:none}
+            </style>
+            """
+
+            # Inject CSS with Markdown
+st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
  
 st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
