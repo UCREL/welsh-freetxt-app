@@ -680,6 +680,7 @@ def plot_kwic(data, key):
                    fit_columns_on_grid_load=False,
     
                    enable_enterprise_modules=True,
+		   key='select_grid',
                    height=350, 
                    width='100%',
                      reload_data=True
