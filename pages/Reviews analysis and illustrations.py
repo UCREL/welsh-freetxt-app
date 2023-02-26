@@ -164,7 +164,7 @@ class Analysis:
 	    
             values = st.slider( 'Select a range of values', 0.0, 100.0, (25.0, 75.0))
             st.write('Values:', values)
-            data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
+            #data['Date'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
             start_date = data['Date'].min()
 
             end_date = data['Date'].max()
