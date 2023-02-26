@@ -162,13 +162,12 @@ class Analysis:
 		
             st.write('Total number of reviews: ', len(self.reviews))
 	    
-            values = st.slider( 'Select a range of values', 0.0, 100.0, (25.0, 75.0))
-            st.write('Values:', values)
+            
             data['Date_sort'] = pd.to_datetime(data['Date'], format='%d/%m/%Y')
             data= data.sort_values('Date_sort')
-            start_date = data['Date'].min()
+            start_date = data['Date_sort'].min()
 
-            end_date = data['Date'].max()
+            end_date = data['Date_sort'].max()
             st.write(start_date)
             st.write(end_date)
             format = 'DD MMM, YYYY'  # format output
