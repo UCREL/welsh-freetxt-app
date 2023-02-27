@@ -691,7 +691,7 @@ def plot_kwic(data, key):
                 data = grid_response['data']
                 selected = grid_response['selected_rows'] 
                 df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-                st.write(df)
+                #st.write(df)
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
