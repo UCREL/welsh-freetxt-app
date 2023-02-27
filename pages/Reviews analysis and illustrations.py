@@ -688,7 +688,7 @@ def plot_kwic(data, key):
                    width='100%',
                      reload_data=True
                       )
-                data = grid_response['kwic_instances_df']
+                data = grid_response['data']
                 selected = grid_response['selected_rows'] 
                 df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
                 st.write(df)
