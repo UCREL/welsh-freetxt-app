@@ -670,7 +670,7 @@ def plot_kwic(data, key):
                 gb.configure_column("Left context", editable=True)
 		
 			#cellStyle={ textAlign: 'center'}
-                gb.configure_column("Keyword", cellClass: 'text-right')
+                gb.configure_column("Keyword", cellClass ='text-right')
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                 gb.configure_side_bar() #Add a sidebar
                 gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
