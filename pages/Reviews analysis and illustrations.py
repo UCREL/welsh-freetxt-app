@@ -178,7 +178,6 @@ class Analysis:
             format = 'DD MMM, YYYY'  # format output
             #data= data.sort_values('Date')
             #slider = st.slider('Select start date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
-            
                       start_d, end_d = st.select_slider('Select a range dates', 
 						      options=data['Date'].unique(),
 						      value=(str(start_date), str(end_date)))
