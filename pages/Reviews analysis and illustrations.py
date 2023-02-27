@@ -68,8 +68,6 @@ PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 pd.set_option('display.max_colwidth',None)
 
 lang='en'
-with open('style/style.css') as f:
-	st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
 
 
 # --- Initialising SessionState ---
@@ -270,7 +268,9 @@ st.set_page_config(
 ####
 
 
- 
+with open('style/style.css') as f:
+	st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
+
 st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
 #st.write("---")
