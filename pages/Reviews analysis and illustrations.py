@@ -179,18 +179,18 @@ class Analysis:
             #data= data.sort_values('Date')
             #slider = st.slider('Select start date', min_value= datetime.strptime(start_date, '%d/%m/%y'),max_value=datetime.strptime(end_date,'%d/%m/%y'),value=datetime.strptime(end_date,'%d/%m/%y'), format=format)
             
-                       start_d, end_d = st.select_slider('Select a range dates', 
+                      start_d, end_d = st.select_slider('Select a range dates', 
 						      options=data['Date'].unique(),
 						      value=(str(start_date), str(end_date)))
-                       from dateutil import parser
-                       start_d= parser.parse(start_d)
-                       start_d= datetime.strftime(start_d, '%d/%m/%y')
-                       end_d= parser.parse(end_d)
-                       end_d = datetime.strftime(end_d, '%d/%m/%y')
-                       mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
-                       filterdf = data.loc[mask]
-                       st._legacy_dataframe(filterdf)
-                       st.write('filtered  number of reviews: ', len(filterdf))
+                      from dateutil import parser
+                      start_d= parser.parse(start_d)
+                      start_d= datetime.strftime(start_d, '%d/%m/%y')
+                      end_d= parser.parse(end_d)
+                      end_d = datetime.strftime(end_d, '%d/%m/%y')
+                      mask = (data['Date_sort'] >= start_d) & (data['Date_sort'] <= end_d)
+                      filterdf = data.loc[mask]
+                      st._legacy_dataframe(filterdf)
+                      st.write('filtered  number of reviews: ', len(filterdf))
            
             
             
