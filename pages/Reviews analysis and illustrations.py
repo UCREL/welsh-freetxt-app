@@ -668,7 +668,7 @@ def plot_kwic(data, key):
                 gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
                    'color': 'white',
                        'backgroundColor': 'red',
-                                               })
+                                             'font-weight': 'bold'  })
                 gb.configure_column("Right context", cellClass ='text-left')
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                 gb.configure_side_bar() #Add a sidebar
