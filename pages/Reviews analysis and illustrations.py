@@ -68,6 +68,10 @@ PUNCS = '''!→()-[]{};:'"\,<>./?@#$%^&*_~'''
 pd.set_option('display.max_colwidth',None)
 
 lang='en'
+with open('style/style.css'):
+	st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
+
+
 # --- Initialising SessionState ---
 if "load_state" not in st.session_state:
      st.session_state.load_state = False
