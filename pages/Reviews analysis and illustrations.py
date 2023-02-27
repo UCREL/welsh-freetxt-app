@@ -160,9 +160,7 @@ class Analysis:
             data = grid_response['data']
             selected = grid_response['selected_rows'] 
             df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-            df.set_index('Review', inplace=True)
-            
-            st.dataframe(df, unsafe_allow_html=True)
+
 		
             st.write('Total number of reviews: ', len(self.reviews))
 	    
