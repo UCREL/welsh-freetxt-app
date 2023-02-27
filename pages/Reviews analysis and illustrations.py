@@ -38,8 +38,7 @@ import plotly.express as px #### pip install plotly.express
 from dateutil import parser
 import streamlit.components.v1 as components
 from io import StringIO
-from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode
-#from pandasgui import show
+from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode, DataReturnMode, ColumnsAutoSizeMode
 
 from datetime import datetime
 
@@ -666,9 +665,8 @@ def plot_kwic(data, key):
 		#, 
 			#cellStyle={ textAlign: 'center'}
                 gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
-                   'color': 'red',
-                   
-                                             'font-weight': 'bold'  })
+                   'color': 'red', 
+                   'font-weight': 'bold'  })
                 gb.configure_column("Right context", cellClass ='text-left')
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                 gb.configure_side_bar() #Add a sidebar
@@ -685,7 +683,7 @@ def plot_kwic(data, key):
                    enable_enterprise_modules=True,
 		   key='select_grid',
                    height=350, 
-                   
+                   columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS,
                      reload_data=True
                       )
                 data = grid_response['data']
