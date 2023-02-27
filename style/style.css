@@ -9,3 +9,9 @@
 .title {
   text-align: center;
 }
+.ag-header-right {
+  ag-header-cell-label {
+  justify-content: right;
+  margin-right: 10px;
+  }
+}
