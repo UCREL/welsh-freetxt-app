@@ -9,7 +9,7 @@
 .title {
   text-align: center;
 }
-div.ag-header-cell-label
+span.ag-header-cell-text
   {
   justify-content: right;
   margin-right: 10px;
