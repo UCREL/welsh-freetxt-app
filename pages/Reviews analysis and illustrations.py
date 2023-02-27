@@ -668,6 +668,7 @@ def plot_kwic(data, key):
 		   #### interactive dataframe
                 gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
                 gb.configure_column("Left context", header_name="Left context", editable=True)
+                gb.configure_column("Keyword", cellStyle={'color': 'red'})
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                 gb.configure_side_bar() #Add a sidebar
                 gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
