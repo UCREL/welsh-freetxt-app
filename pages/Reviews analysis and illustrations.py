@@ -663,10 +663,17 @@ def plot_kwic(data, key):
           
 		   #### interactive dataframe
                 gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
+                cellstyle_jscode = JsCode("""
+
+                {
+            'color': 'white',
+             'backgroundColor': 'red',
+               }
+                 """)
                 gb.configure_column("Left context", cellClass ='text-right', headerClass= 'ag-header-right')
 		
 			#cellStyle={ textAlign: 'center'}
-                gb.configure_column("Keyword", cellClass ='text-center')
+                gb.configure_column("Keyword", cellClass ='text-center', cellStyle= cellstyle_jscode)
                 gb.configure_column("Right context", cellClass ='text-left')
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                 gb.configure_side_bar() #Add a sidebar
