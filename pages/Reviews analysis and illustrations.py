@@ -680,7 +680,7 @@ def plot_kwic(data, key):
                 gridOptions=gridOptions,
                    data_return_mode='AS_INPUT', 
                    update_mode='MODEL_CHANGED', 
-                   fit_columns_on_grid_load=False,
+                   fit_columns_on_grid_load=True,
     
                    enable_enterprise_modules=True,
 		   key='select_grid',
@@ -688,6 +688,10 @@ def plot_kwic(data, key):
                    width='100%',
                      reload_data=True
                       )
+                data = grid_response['kwic_instances_df']
+                selected = grid_response['selected_rows'] 
+                df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+		st.write(df)
 		
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
