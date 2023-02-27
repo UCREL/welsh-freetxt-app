@@ -662,8 +662,8 @@ def plot_kwic(data, key):
 		   #### interactive dataframe
                 gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
               
-                gb.configure_column("Left context", cellClass ='text-right', headerClass= 'ag-header-cell-label')
-		
+                gb.configure_column("Left context", cellClass ='text-right')
+		#, headerClass= 'ag-header-cell-label'
 			#cellStyle={ textAlign: 'center'}
                 gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
                    'color': 'white',
