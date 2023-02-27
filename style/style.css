@@ -10,7 +10,7 @@
   text-align: center;
 }
 .ag-header-right {
-  ag-header-cell-label {
+  ag-header-cell-text {
   justify-content: right;
   margin-right: 10px;
   }
