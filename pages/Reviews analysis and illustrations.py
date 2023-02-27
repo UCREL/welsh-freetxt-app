@@ -660,7 +660,7 @@ def plot_kwic(data, key):
                     columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.hide_index()
                 
-                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
+                #kwic_instances_df.style.set_properties(column='Left context', align = 'right')
 		
                 
                 
