@@ -660,11 +660,7 @@ def plot_kwic(data, key):
                     columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.hide_index()
                 
-                #kwic_instances_df.style.set_properties(column='Left context', align = 'right')
-		
-                
-                
-                st.dataframe(kwic_instances_df)
+          
 		   #### interactive dataframe
                 gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
                 gb.configure_column("Left context", cellClass ='text-right')
@@ -726,8 +722,7 @@ def plot_kwic_txt(df):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.set_properties(column='Left context', align = 'right')
-            # subset=['Left context', 'Keyword', 'Right context'],
-            # kwic_instances_df
+           
                 
                 st.dataframe(kwic_instances_df,use_container_width=True)
             expander = st.expander('collocation')
