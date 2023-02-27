@@ -666,8 +666,8 @@ def plot_kwic(data, key):
 		#, 
 			#cellStyle={ textAlign: 'center'}
                 gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
-                   'color': 'white',
-                       'backgroundColor': 'yellow',
+                   'color': 'red',
+                   
                                              'font-weight': 'bold'  })
                 gb.configure_column("Right context", cellClass ='text-left')
                 gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
@@ -680,7 +680,7 @@ def plot_kwic(data, key):
                 gridOptions=gridOptions,
                    data_return_mode='AS_INPUT', 
                    update_mode='MODEL_CHANGED', 
-                   fit_columns_on_grid_load=True,
+                   fit_columns_on_grid_load=False,
     
                    enable_enterprise_modules=True,
 		   key='select_grid',
