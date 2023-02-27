@@ -682,7 +682,7 @@ def plot_kwic(data, key):
     
                    enable_enterprise_modules=True,
 		   key='select_grid',
-                   height=350, 
+                   height=350, width= 100%,
                    columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS,
                      reload_data=True
                       )
