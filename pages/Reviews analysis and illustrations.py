@@ -715,7 +715,7 @@ def plot_kwic_txt(df):
         with tab6:
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
             keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
-            window_size = st.slider('Select the window size:', 1, 10, 2)
+            window_size = st.slider('Select the window size:', 1, 10, 5)
             maxInsts = st.slider('Maximum number of instances:', 5, 50, 10, 5)
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
             kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
