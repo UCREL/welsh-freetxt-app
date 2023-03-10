@@ -557,21 +557,21 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the treemap illistartion
 
-def plot_coll(keyward, collocs,expander,tab):
-    words, counts = zip(*collocs)
+#def plot_coll(keyward, collocs,expander,tab):
+   # words, counts = zip(*collocs)
     
     #tab3.write(words, counts)
     
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+  #  top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     
-    fig = px.treemap(top_collocs_df, title='Treemap chart',
-                 path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
-    fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-    with tab:
-        with expander:
+  #  fig = px.treemap(top_collocs_df, title='Treemap chart',
+   #              path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
+  #  fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+  #  with tab:
+       # with expander:
             
-            st.set_option('deprecation.showPyplotGlobalUse', False)
-            st.plotly_chart(fig,use_container_width=True)
+           # st.set_option('deprecation.showPyplotGlobalUse', False)
+           # st.plotly_chart(fig,use_container_width=True)
 ######the network 
     n = top_collocs_df['freq'][0:30].max()
     color_dict = get_colordict('RdYlBu_r',n ,1)
@@ -698,7 +698,7 @@ def plot_kwic(data, key):
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 plot_collocation(keyword, collocs,expander,tab3)
-                plot_coll(keyword, collocs,expander,tab3)
+               # plot_coll(keyword, collocs,expander,tab3)
     except ValueError as err:
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
