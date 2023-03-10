@@ -557,12 +557,12 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the treemap illistartion
 
-#def plot_coll(keyward, collocs,expander,tab):
-   # words, counts = zip(*collocs)
+def plot_coll(keyward, collocs,expander,tab):
+    words, counts = zip(*collocs)
     
-    #tab3.write(words, counts)
+    tab3.write(words, counts)
     
-  #  top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     
   #  fig = px.treemap(top_collocs_df, title='Treemap chart',
    #              path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
@@ -698,7 +698,7 @@ def plot_kwic(data, key):
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 plot_collocation(keyword, collocs,expander,tab3)
-               # plot_coll(keyword, collocs,expander,tab3)
+                plot_coll(keyword, collocs,expander,tab3)
     except ValueError as err:
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
