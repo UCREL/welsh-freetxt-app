@@ -196,7 +196,7 @@ class Analysis:
 	
     def concordance(self, fname):
         with tab8:
-       	    st.header('Search Word')
+       	    st.write('Search Word')
             search_word = st.text_input('', 'the')
             html.create_html(self, fname,search_word)
             HtmlFile = open("GFG-1.html", 'r')
