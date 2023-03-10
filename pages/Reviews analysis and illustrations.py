@@ -266,7 +266,7 @@ with open('style/style.css') as f:
 
 st.markdown("# Reviews analysis & illustrations")
 add_logo("img/FreeTxt_logo.png") 
-#st.write("---")
+
 
 
 st.subheader('Text to analyse')
