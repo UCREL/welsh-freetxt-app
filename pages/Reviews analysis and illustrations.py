@@ -560,15 +560,15 @@ def plot_collocation(keyword, collocs,expander,tab):
 def plot_coll(keyward, collocs,expander,tab):
     words, counts = zip(*collocs)
     
-    tab3.write(words, counts)
+    #tab3.write(words, counts)
     
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     
   #  fig = px.treemap(top_collocs_df, title='Treemap chart',
    #              path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
   #  fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-  #  with tab:
-       # with expander:
+  #with tab:
+   #     with expander:
             
            # st.set_option('deprecation.showPyplotGlobalUse', False)
            # st.plotly_chart(fig,use_container_width=True)
