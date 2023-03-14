@@ -697,7 +697,7 @@ def plot_kwic(data, key):
             # keyword = st.text_input('Enter a keyword:','staff')
                 Word_type = st.selectbox('Choose word type:',
                  ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_type_select")
-		collocs = get_collocs(kwic_instances)
+                collocs = get_collocs(kwic_instances)
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 words = nlp(colloc_str)
                 if Word_type == 'All words':
