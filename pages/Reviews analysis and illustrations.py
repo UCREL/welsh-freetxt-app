@@ -714,15 +714,15 @@ def plot_kwic(data, key):
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 
                 elif cloud_type == 'Verbs':
-		       collocs = [token.text for token in words if token.pos_ == "VERB"]
+                       collocs = [token.text for token in words if token.pos_ == "VERB"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 elif cloud_type == 'Adjectives':
-		       collocs = [token.text for token in words if token.pos_ == "ADJ"]
+                       collocs = [token.text for token in words if token.pos_ == "ADJ"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 elif cloud_type == 'Adverbs':
-		       collocs = [token.text for token in words if token.pos_ == "ADV"]
+                       collocs = [token.text for token in words if token.pos_ == "ADV"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 elif cloud_type == 'Numbers':
