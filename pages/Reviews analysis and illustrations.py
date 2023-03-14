@@ -639,6 +639,8 @@ def plot_kwic(data, key):
         
     # input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in cloud_columns])
     input_data = ' '.join([' '.join([str(t) for t in list(data[col]) if t not in STOPWORDS]) for col in data])
+    nlp = spacy.load('en_core_web_sm-3.2.0')
+    doc = nlp(input_data)
     for c in PUNCS: input_data = input_data.lower().replace(c,'')
     
     try:
@@ -662,8 +664,7 @@ def plot_kwic(data, key):
                 gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
               
                 gb.configure_column("Left context", cellClass ='text-right', headerClass= 'ag-header-cell-text' )
-		#, 
-			#cellStyle={ textAlign: 'center'}
+		
                 gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
                    'color': 'red', 
                    'font-weight': 'bold'  })
@@ -696,7 +697,11 @@ def plot_kwic(data, key):
             # keyword = st.text_input('Enter a keyword:','staff')
                 Word_type = st.selectbox('Choose word type:',
                  ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_type_select")
-
+                if Word_type == 'Nouns':
+                       collocs = get_collocs(kwic_instances)
+                       words = nlp(collocs)
+                       collocs = [token.text for token in doc if token.pos_ == "NOUN"]      
+     
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
                 colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                 st.write(f"Collocations for '{keyword}':\n{colloc_str}")
