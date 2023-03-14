@@ -694,7 +694,7 @@ def plot_kwic(data, key):
             expander = st.expander('Collocation')
             with expander: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
-                Word_type = tab3.selectbox('Choose word type:',
+                Word_type = st.selectbox('Choose word type:',
                  ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_type_select")
 
                 collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
