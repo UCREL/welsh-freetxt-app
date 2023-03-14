@@ -726,7 +726,7 @@ def plot_kwic(data, key):
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 elif cloud_type == 'Numbers':
-		       collocs = [token.text for token in words if token.pos_ == "NUM"]
+                       collocs = [token.text for token in words if token.pos_ == "NUM"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 else: 
