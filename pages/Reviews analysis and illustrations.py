@@ -709,7 +709,7 @@ def plot_kwic(data, key):
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 elif cloud_type == 'Proper nouns':
-		       collocs = [token.text for token in words if token.pos_ == "PROPN"]
+                       collocs = [token.text for token in words if token.pos_ == "PROPN"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 
