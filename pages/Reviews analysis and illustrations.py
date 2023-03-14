@@ -704,10 +704,10 @@ def plot_kwic(data, key):
                     
                 elif Word_type == 'Nouns':
                        collocs = get_collocs(kwic_instances)
-                       collocs =' '.join(collocs)
-                       words = nlp(collocs)
-                       collocs = Counter([token.text for token in words if token.pos_ == "NOUN"])
                        colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                       words = nlp(colloc_str)
+                       collocs = Counter([token.text for token in words if token.pos_ == "NOUN"])
+                       
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
 		
 		
