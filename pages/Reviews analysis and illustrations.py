@@ -706,7 +706,7 @@ def plot_kwic(data, key):
                 elif Word_type == 'Nouns':
                        collocs = get_collocs(kwic_instances)
                        words = nlp(collocs)
-                       collocs = [token.text for token in doc if token.pos_ == "NOUN"]
+                       collocs = [token.text for token in words if token.pos_ == "NOUN"]
                        colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                        plot_collocation(keyword, collocs,expander,tab3)
