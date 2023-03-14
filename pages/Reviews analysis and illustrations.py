@@ -708,24 +708,24 @@ def plot_kwic(data, key):
                        collocs = [token.text for token in words if token.pos_ == "NOUN"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                elif cloud_type == 'Proper nouns':
+                elif Word_type == 'Proper nouns':
                        collocs = [token.text for token in words if token.pos_ == "PROPN"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                 
-                elif cloud_type == 'Verbs':
+                elif Word_type == 'Verbs':
                        collocs = [token.text for token in words if token.pos_ == "VERB"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                elif cloud_type == 'Adjectives':
+                elif Word_type == 'Adjectives':
                        collocs = [token.text for token in words if token.pos_ == "ADJ"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                elif cloud_type == 'Adverbs':
+                elif Word_type == 'Adverbs':
                        collocs = [token.text for token in words if token.pos_ == "ADV"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                elif cloud_type == 'Numbers':
+                elif Word_type == 'Numbers':
                        collocs = [token.text for token in words if token.pos_ == "NUM"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
