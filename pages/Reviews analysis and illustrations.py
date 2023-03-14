@@ -697,19 +697,39 @@ def plot_kwic(data, key):
             # keyword = st.text_input('Enter a keyword:','staff')
                 Word_type = st.selectbox('Choose word type:',
                  ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_type_select")
+		collocs = get_collocs(kwic_instances)
+                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                words = nlp(colloc_str)
                 if Word_type == 'All words':
-                       collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
-                       colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
                     
                 elif Word_type == 'Nouns':
-                       collocs = get_collocs(kwic_instances)
-                       colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-                       words = nlp(colloc_str)
+                       
                        collocs = [token.text for token in words if token.pos_ == "NOUN"]
                        st.write(collocs)
                        st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-		
+               elif cloud_type == 'Proper nouns':
+		       collocs = [token.text for token in words if token.pos_ == "PROPN"]
+                       st.write(collocs)
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+               elif cloud_type == 'Verbs':
+		       collocs = [token.text for token in words if token.pos_ == "VERB"]
+                       st.write(collocs)
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+               elif cloud_type == 'Adjectives':
+		       collocs = [token.text for token in words if token.pos_ == "ADJ"]
+                       st.write(collocs)
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+               elif cloud_type == 'Adverbs':
+		       collocs = [token.text for token in words if token.pos_ == "ADV"]
+                       st.write(collocs)
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+               elif cloud_type == 'Numbers':
+		       collocs = [token.text for token in words if token.pos_ == "NUM"]
+                       st.write(collocs)
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+               else: 
+                      pass
 		
                 plot_collocation(keyword, collocs,expander,tab3)
                 plot_coll(keyword, collocs,expander,tab3)
