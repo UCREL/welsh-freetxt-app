@@ -697,7 +697,13 @@ def plot_kwic(data, key):
             # keyword = st.text_input('Enter a keyword:','staff')
                 Word_type = st.selectbox('Choose word type:',
                  ['All words', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_type_select")
-                if Word_type == 'Nouns':
+                if cloud_type == 'All words':
+                       collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
+                       colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
+                       st.write(f"Collocations for '{keyword}':\n{colloc_str}")
+                       plot_collocation(keyword, collocs,expander,tab3)
+                       plot_coll(keyword, collocs,expander,tab3)
+		elif Word_type == 'Nouns':
                        collocs = get_collocs(kwic_instances)
                        words = nlp(collocs)
                        collocs = [token.text for token in doc if token.pos_ == "NOUN"]
@@ -706,11 +712,7 @@ def plot_kwic(data, key):
                        plot_collocation(keyword, collocs,expander,tab3)
                        plot_coll(keyword, collocs,expander,tab3)
      
-                collocs = get_collocs(kwic_instances) #TODO: Modify to accept 'topn'               
-                colloc_str = ', '.join([f"{w}[{c}]" for w, c in collocs])
-                st.write(f"Collocations for '{keyword}':\n{colloc_str}")
-                plot_collocation(keyword, collocs,expander,tab3)
-                plot_coll(keyword, collocs,expander,tab3)
+                
     except ValueError as err:
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
