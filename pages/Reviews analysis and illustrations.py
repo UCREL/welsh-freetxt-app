@@ -131,14 +131,19 @@ class html:
 
 
 ########### Class to Genrate PDf formate report
+		
 class PDF(FPDF):
-	def header(self):
-		self.image('img/FreeTxt_logo.png',10,8,25)
-		self.set_font('hevetica','B',20)
-		self.cell(0,10,'Title', border=False, ln=1, align = 'C')
-		self.ln(20)
-		
-		
+    def header(self):
+        # Logo
+        self.image('img/FreeTxt_logo.png', 10, 8, 25)
+        # font
+        self.set_font('helvetica', 'B', 20)
+        # Padding
+        self.cell(80)
+        # Title
+        self.cell(30, 10, 'Title', border=True, ln=1, align='C')
+        # Line break
+        self.ln(20)		
 		
 class Analysis:
     def __init__(self, reviews):
