@@ -567,11 +567,11 @@ def plot_coll(keyward, collocs, expander, tab):
     n = top_collocs_df['freq'].max()
     # Set the node sizes based on the freq column
     node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
-    pos = nx.circular_layout(G, weight='draw_weight')
+    pos = nx.spring_layout(G, weight='draw_weight')
     nx.draw(G, width=top_collocs_df['freq'], node_size=node_sizes, pos=pos, with_labels=True)
     with tab:
         with expander:
-            
+            st.write(fig)
             st.pyplot()
     
 
