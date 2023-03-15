@@ -565,7 +565,7 @@ def plot_coll(keyward, collocs, expander, tab):
 
     pos = nx.circular_layout(G)
 
-    node_colors = ['blue' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
