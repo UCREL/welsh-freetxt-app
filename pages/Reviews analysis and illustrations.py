@@ -558,35 +558,20 @@ def plot_collocation(keyword, collocs,expander,tab):
 ########the network illistartion
 
 	
-def plot_coll(keyward, collocs, expander, tab):
-
-    # Convert the collocs data to a pandas dataframe
+ddef plot_coll(keyward, collocs,expander,tab):
+    words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-
-    # Get the maximum frequency from the top 30 collocs
-    n = top_collocs_df['freq'].nlargest(30).max()
-
-    # Set the node sizes based on the freq column
+    n = top_collocs_df['freq'][0:30].max()
+    counts = list(top_collocs_df['freq'][0:30])
+     # Set the node sizes based on the freq column
     node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
-
-    # Create a color map for the node sizes
-    cmap = plt.cm.get_cmap('Blues')
-    node_colors = [cmap(freq / n) for freq in top_collocs_df['freq']]
-
-    # Create the network graph
-    G = nx.from_pandas_edgelist(top_collocs_df, source='word', target='word', edge_attr='freq')
-    pos = nx.spring_layout(G)
-
-    # Draw the graph with node sizes and edge widths based on frequency
-    nx.draw(G, pos=pos, with_labels=True, node_size=node_sizes, node_color=node_colors, width=top_collocs_df['freq'], edge_color='gray')
-
-    # Add a colorbar for the node sizes
-    sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=0, vmax=n))
-    sm._A = []
-    plt.colorbar(sm)
+    top_collocs_df.insert(1, 'source', keyward)
+    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
+    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight’), node_size=node_sizes, with_labels=True) 
     with tab:
         with expander:
             st.pyplot()
+   
     
 
  #-------------------------- N-gram Generator ---------------------------
