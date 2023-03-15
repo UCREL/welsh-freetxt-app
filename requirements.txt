@@ -23,3 +23,4 @@ scattertext
 python-gettext
 ucrel_api
 python-dateutil
+PyPDF2
