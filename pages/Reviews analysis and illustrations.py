@@ -556,6 +556,9 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
+import base64
+import io
+
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -576,9 +579,27 @@ def plot_coll(keyword, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
+    # Convert plot to PNG image
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    plt.clf()
+
+    # Create a download link for the plot
+    b64 = base64.b64encode(img.getvalue()).decode()
+    href = f'<a href="data:file/png;base64,{b64}" download="{keyword}_plot.png">Download plot</a>'
+
+    # Create a download link for the text
+    text = top_collocs_df.to_csv(index=False)
+    b64 = base64.b64encode(text.encode()).decode()
+    href2 = f'<a href="data:file/csv;base64,{b64}" download="{keyword}_text.csv">Download text</a>'
+
+    # Display the plot and the download links in the app
     with tab:
         with expander:
             st.pyplot()
+            st.markdown(f"Download the plot: {href}", unsafe_allow_html=True)
+            st.markdown(f"Download the text: {href2}", unsafe_allow_html=True)
+
 
 
  #-------------------------- N-gram Generator ---------------------------
