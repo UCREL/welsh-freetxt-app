@@ -556,14 +556,9 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-
 import io
-import networkx as nx
-import pandas as pd
-import streamlit as st
-import matplotlib.pyplot as plt
-from PIL import Image
 import fitz
+from PIL import Image
 
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -591,12 +586,11 @@ def plot_coll(keyward, collocs, expander, tab):
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
-        image = Image.open(f)
-        image_data = image.convert('RGB').tobytes('PNG')
-        
-        pixmap = fitz.Pixmap(io.BytesIO(image_data))
-        page = pdf_writer.new_page(width=pixmap.width, height=pixmap.height)
-        page.insert_image(fitz.Rect(0, 0, pixmap.width, pixmap.height), pixmap)
+        image_data = f.read()
+        image_stream = io.BytesIO(image_data)
+        image = Image.open(image_stream)
+        pixmap = fitz.Pixmap(image.tobytes(), image.size, fitz.csRGB)
+        pdf_writer.insert_image(fitz.Rect(0, 0, pixmap.width, pixmap.height), pixmap=pixmap)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
@@ -614,8 +608,6 @@ def plot_coll(keyward, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-
-
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
