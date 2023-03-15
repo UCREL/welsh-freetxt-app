@@ -557,12 +557,12 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the network illistartion
 
-from PIL import Image
-
-
 import io
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
 import fitz
-
+import streamlit as st
 
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -586,28 +586,31 @@ def plot_coll(keyward, collocs, expander, tab):
     # create PDF document
     pdf_buffer = io.BytesIO()
 
-    doc = fitz.open()
-
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
         image_data = f.read()
+        image = fitz.Pixmap(fitz.csRGB, image_data)
+        pdf_doc = fitz.open()
+        pdf_page = pdf_doc.new_page()
         pixmap = fitz.Pixmap(image_data, 0)
-        page = doc.newPage(width=pixmap.width, height=pixmap.height)
-        page.showPixmap(rect=pixmap.rect, pixmap=pixmap)
-        page.clean()
-        pixmap = None
+        pixmap = pixmap.fit(pdf_page.rect)
+        pixmap.xref = pdf_page.number
+        pdf_page.insert_hmupix(pixmap)
+        pdf_doc.save(pdf_buffer)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
     for word, freq in collocs:
         text += f'{word}: {freq}\n'
-    page = doc.newPage()
-    page.insertText(fitz.Point(0, 0), text)
-    page.clean()
+    with fitz.open(stream=text) as text_doc:
+        text_bytes = text_doc.convert_to_pdf()
+        text_doc_bytes = io.BytesIO(text_bytes)
+        text_doc_reader = fitz.open(stream=text_doc_bytes.read(), filetype="pdf")
+        text_doc_page = text_doc_reader[0]
+        pdf_doc.insert_pdf(text_doc_page)
 
-    # save PDF document to buffer
-    doc.save(pdf_buffer)
+    # write PDF document to buffer
     pdf_buffer.seek(0)
 
     # add download button for PDF document
