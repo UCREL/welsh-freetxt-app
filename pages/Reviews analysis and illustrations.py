@@ -556,25 +556,13 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-import io
-import streamlit as st
+
 from PIL import Image
-import networkx as nx
-import pandas as pd
-import matplotlib.pyplot as plt
-import fitz
+
 
 import io
 import fitz
-import networkx as nx
-import matplotlib.pyplot as plt
-import pandas as pd
-import streamlit as st
 
-@st.cache
-def get_collocations(keyward, corpus, n=10):
-    # code for getting collocations
-    return collocs
 
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
