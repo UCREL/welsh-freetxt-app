@@ -603,7 +603,7 @@ def plot_coll(keyword, collocs, expander, tab):
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
 
     # Add the plot image to the PDF file
-    pdf.image(pil_image, x=10, y=30, w=180)
+    pdf.image('img/FreeTxt_logo.png', x=10, y=30, w=180)
 
     # Download the PDF file
     st.download_button(
