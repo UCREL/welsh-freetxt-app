@@ -558,7 +558,7 @@ def plot_collocation(keyword, collocs,expander,tab):
 ########the network illistartion
 
 import io
-import PyPDF2
+import fitz
 
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -581,22 +581,23 @@ def plot_coll(keyward, collocs, expander, tab):
 
     # create PDF document
     pdf_buffer = io.BytesIO()
-    pdf_writer = PyPDF2.PdfWriter()
+    pdf_writer = fitz.Document()
 
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
-        image = PyPDF2.PdfReader(f)
-        pdf_writer.addPage(image.getPage(0))
+        image = fitz.Pixmap(f.read())
+        rect = fitz.Rect(0, 0, image.width, image.height)
+        pdf_writer.insert_image(rect, pixmap=image)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
     for word, freq in collocs:
         text += f'{word}: {freq}\n'
-    pdf_writer.addPage(PyPDF2.pdf.PageObject.createFromString(text))
+    pdf_writer.insert_text(rect, text)
 
     # write PDF document to buffer
-    pdf_writer.write(pdf_buffer)
+    pdf_writer.save(pdf_buffer)
     pdf_buffer.seek(0)
 
     # add download button for PDF document
@@ -605,6 +606,7 @@ def plot_coll(keyward, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 
