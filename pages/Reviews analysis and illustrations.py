@@ -584,11 +584,11 @@ def plot_coll(keyword, collocs, expander, tab):
 
     # Save the plot to an image
     #img_file = io.BytesIO()
-    plt.savefig('img_file', format='png', dpi=300)
+    plt.savefig('img_file.png', format='png', dpi=300)
     #img_file.seek(0)
 
     # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file')
+    pil_image = Image.open('img_file.png')
 
     with tab:
         with expander:
@@ -604,7 +604,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     # Add the plot image to the PDF file
     pdf.image('img/FreeTxt_logo.png', x=10, y=30, w=180)
-    pdf.image('img_file', x=10, y=30, w=180)
+    pdf.image('img_file.png', x=10, y=30, w=180)
     # Download the PDF file
     st.download_button(
         "Download Report",
