@@ -127,7 +127,16 @@ class html:
         Func.close()
 
 
-
+########### Class to Genrate PDf formate report
+class PDF(FPDF):
+	def header(self):
+		self.image('img/FreeTxt_logo.png',10,8,25)
+		self.set_font('hevetica','B',20)
+		self.cell(0,10,'Title, border=False, ln=1, align = 'C')
+		self.ln(20)
+		
+		
+		
 class Analysis:
     def __init__(self, reviews):
         self.reviews = reviews
@@ -595,7 +604,7 @@ def plot_coll(keyword, collocs, expander, tab):
             st.pyplot()
 
     # Create the PDF file
-    pdf = FPDF(orientation="P", unit="mm", format="A4")
+    pdf = PDF(orientation="P", unit="mm", format="A4")
     pdf.add_page()
 
     pdf.set_font("Times", "B", 18)
