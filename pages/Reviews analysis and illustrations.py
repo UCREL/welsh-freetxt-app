@@ -577,6 +577,7 @@ def plot_coll(keyward, collocs, expander, tab):
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
+
     with tab:
         with expander:
             st.pyplot()
