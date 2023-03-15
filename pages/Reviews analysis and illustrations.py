@@ -560,6 +560,7 @@ def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyward] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
