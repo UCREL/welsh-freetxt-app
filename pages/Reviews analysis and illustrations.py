@@ -564,7 +564,8 @@ def plot_coll(keyward, collocs, expander, tab):
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    node_size = [count * 100 for count in counts]  # specify the node size based on frequency
+    # Set the node sizes based on the freq column
+    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
     pos = nx.spring_layout(G, weight='draw_weight')
     nx.draw(G, width=top_collocs_df.freq, node_size=node_size, pos=pos, with_labels=True)
     with tab:
