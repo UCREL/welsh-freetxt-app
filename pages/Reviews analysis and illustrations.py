@@ -584,7 +584,7 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-
+    image= plt.savefig('figure.png')
 
     pdf = FPDF()  # pdf object
     pdf = FPDF(orientation="P", unit="mm", format="A4")
@@ -593,7 +593,7 @@ def plot_coll(keyword, collocs, expander, tab):
     pdf.set_font("Times", "B", 18)
     pdf.set_xy(10.0, 20)
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
-
+    pdf.image(image, x=120, y=50, w=pdf.w/2.0, h=pdf.h/2.0)
     st.download_button(
     "Download Report",
           data=pdf.output(dest='S').encode('latin-1'),
