@@ -570,6 +570,7 @@ def plot_coll(keyward, collocs, expander, tab):
     nx.draw(G, width=top_collocs_df['freq'], node_size=node_sizes, pos=pos, with_labels=True)
     with tab:
         with expander:
+            st.write("Number of edges:", G.number_of_edges())
             st.pyplot()
     
 
