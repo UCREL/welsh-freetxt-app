@@ -557,48 +557,22 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the network illistartion
 
-import networkx as nx
 import matplotlib.pyplot as plt
-import pandas as pd
-import streamlit as st
+import matplotlib.cm as cm
 
 def plot_coll(keyward, collocs, expander, tab):
-    # Create a pandas dataframe from the list of collocations
+    words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
-    
-    # Add a 'source' column with the keyword
-    top_collocs_df['source'] = keyward
-    
-    # Create a networkx graph from the dataframe
+    top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    
-    # Get the maximum frequency to use for scaling node sizes and edge colors
-    max_freq = top_collocs_df['freq'].max()
-    
-    # Set the node sizes based on the freq column
-    node_sizes = [2000 * freq / max_freq for freq in top_collocs_df['freq']]
-    
-    # Set the node colors
-    node_colors = ['gray' if node == keyward else 'blue' for node in G.nodes()]
-    
-    # Set the edge colors based on the freq column
-    edge_colors = [freq / max_freq for freq in top_collocs_df['freq']]
-    
-    # Set the positions of the nodes using a circular layout
-    pos = nx.circular_layout(G)
-    #node_size=node_sizes,
-    # Draw the graph with node sizes and edge widths based on frequency
-    nx.draw(G, width=top_collocs_df['freq'],  node_color=node_colors, edge_color=edge_colors, pos=pos, with_labels=True)
-    
-    # Add a colorbar for the edge colors
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=0, vmax=max_freq))
-    sm._A = []
-    plt.colorbar(sm)
-    
+    node_size = [count * 100 for count in counts]  # specify the node size based on frequency
+    cmap = cm.get_cmap('viridis')  # choose the colormap
+    node_color = [cmap((count - min(counts)) / (max(counts) - min(counts))) for count in counts]  # calculate the node color based on frequency
+    pos = nx.spring_layout(G, weight='draw_weight')
+    nx.draw(G, width=top_collocs_df.freq, node_size=node_size, node_color=node_color, pos=pos, with_labels=True)
     with tab:
         with expander:
-            st.pyplot()
-
+            plt.show()
 
 
 
