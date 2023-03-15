@@ -561,8 +561,8 @@ def plot_collocation(keyword, collocs,expander,tab):
 def plot_coll(keyward, collocs,expander,tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    n = top_collocs_df['freq'][0:30].max()
-    color_dict = get_colordict('RdYlBu_r',n ,1)
+    #n = top_collocs_df['freq'][0:30].max()
+    #color_dict = get_colordict('RdYlBu_r',n ,1)
     counts = list(top_collocs_df['freq'][0:30])
     top_collocs_df.insert(1, 'source', keyward)
     G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
