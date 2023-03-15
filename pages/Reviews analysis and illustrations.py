@@ -581,7 +581,7 @@ def plot_coll(keyward, collocs, expander, tab):
 
     # create PDF document
     pdf_buffer = io.BytesIO()
-    pdf_writer = PyPDF2.PdfFileWriter()
+    pdf_writer = PyPDF2.PdfWriter()
 
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
