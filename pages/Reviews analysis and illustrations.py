@@ -605,8 +605,7 @@ def plot_coll(keyword, collocs, expander, tab):
     # Display the download button for the PDF file
     st.download_button(label='Download PDF', data=download_pdf(), file_name=f"collocations_{keyword}.pdf", mime='application/pdf')
 
-# Test the function with sample data
-sample_collocs = [('word1', 10), ('word2', 8), ('word3', 5
+
 
 
 
