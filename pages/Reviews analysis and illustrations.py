@@ -567,14 +567,14 @@ def plot_coll(keyward, collocs, expander, tab):
 
     pos = nx.circular_layout(G)
 
-    node_colors = ['r' if node == keyward else 'b' for node in G.nodes()]
-    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
+    node_colors = ['gray' if node == keyward else 'blue' for node in G.nodes()]
 
     nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
-
+    
     with tab:
         with expander:
             st.pyplot()
+
 
 
     
