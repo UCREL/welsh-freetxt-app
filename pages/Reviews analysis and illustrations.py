@@ -628,7 +628,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     pdf.image('img_file.png', x=10, y=30, w=180)
     pdf.output('pdf_2.pdf')
-    with open("dummy.pdf", "rb") as pdf_file:
+    with open("pdf_2.pdf", "rb") as pdf_file:
         PDFbyte = pdf_file.read()
     
    # Download the PDF file
