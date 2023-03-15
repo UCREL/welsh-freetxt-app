@@ -564,6 +564,18 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import fitz
 
+import io
+import fitz
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
+import streamlit as st
+
+@st.cache
+def get_collocations(keyward, corpus, n=10):
+    # code for getting collocations
+    return collocs
+
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -585,29 +597,29 @@ def plot_coll(keyward, collocs, expander, tab):
 
     # create PDF document
     pdf_buffer = io.BytesIO()
-    pdf_doc = fitz.open()
+
+    doc = fitz.open()
 
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
-        image = Image.open(f)
-        image_data = io.BytesIO()
-        image.save(image_data, format='PNG')
-        image_data = image_data.getvalue()
+        image_data = f.read()
         pixmap = fitz.Pixmap(image_data, 0)
-        rect = fitz.Rect(0, 0, pixmap.width, pixmap.height)
-        page = pdf_doc.newPage(width=pixmap.width, height=pixmap.height)
-        page.insertImage(rect, pixmap=pixmap)
+        page = doc.newPage(width=pixmap.width, height=pixmap.height)
+        page.showPixmap(rect=pixmap.rect, pixmap=pixmap)
+        page.clean()
         pixmap = None
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
     for word, freq in collocs:
         text += f'{word}: {freq}\n'
-    pdf_doc.insertPage(0, text)
+    page = doc.newPage()
+    page.insertText(fitz.Point(0, 0), text)
+    page.clean()
 
-    # write PDF document to buffer
-    pdf_doc.save(pdf_buffer)
+    # save PDF document to buffer
+    doc.save(pdf_buffer)
     pdf_buffer.seek(0)
 
     # add download button for PDF document
@@ -616,6 +628,7 @@ def plot_coll(keyward, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
