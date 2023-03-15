@@ -606,36 +606,34 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-    # Create the PDF file
+# Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
 	
 # get total page numbers
     pdf.alias_nb_pages()
 
 # Set auto page break
-    pdf.set_auto_page_break(auto = True, margin = 15)
+    pdf.set_auto_page_break(auto=True, margin=15)
     pdf.add_page()
-
 
 # specify font
     pdf.set_font('helvetica', 'BIU', 16)
-
     pdf.set_font('times', '', 12)
 
-    
-
-    
     pdf.set_xy(10.0, 20)
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
 
-    # Add the plot image to the PDF file
-    pdf.image('img/FreeTxt_logo.png', x=10, y=30, w=180)
+# Add the plot image to the PDF file
+
     pdf.image('img_file.png', x=10, y=30, w=180)
-    # Download the PDF file
+
+# Download the PDF file
     st.download_button(
         "Download Report",
-        data=pdf.output("Output.pdf"),
-    )
+         data=pdf.output(dest='S').encode('latin-1'),
+         file_name="Output.pdf",
+     )
+
 
 
  #-------------------------- N-gram Generator ---------------------------
