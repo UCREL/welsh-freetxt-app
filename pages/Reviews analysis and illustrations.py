@@ -556,8 +556,10 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-import base64
-import io
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
 
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -579,30 +581,29 @@ def plot_coll(keyword, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
-    
-    
+    # Convert the plot and text to a PDF file
+    pdf_bytes = BytesIO()
+    with canvas.Canvas(pdf_bytes, pagesize=letter) as c:
+        c.drawString(1 * inch, 10.5 * inch, f"Collocations for '{keyword}':")
+        c.drawString(1 * inch, 10 * inch, ' '.join(words))
+        plt.savefig(pdf_bytes, format='png')
+        plt.clf()
+    pdf_bytes.seek(0)
 
-    # Display a download link for the file
-    with tab:
-        with expander:
-            st.pyplot()
-            # Convert plot to PNG image
-    # Convert plot to PNG image and encode as Base64
-            img = io.BytesIO()
-            plt.savefig(img, format='png')
-            img.seek(0)
-            img_b64 = base64.b64encode(img.getvalue()).decode()
+    # Define a function to provide a download button for the PDF file
+    def download_pdf():
+        # Set the filename for the PDF file
+        filename = f"collocations_{keyword}.pdf"
+        # Set the content of the response as the PDF file
+        response = pdf_bytes.getvalue()
+        # Display a download button for the PDF file
+        return response
 
-    # Add Base64-encoded image as a separate column in the CSV file
-            top_collocs_df['image'] = img_b64
+    # Display the download button for the PDF file
+    st.download_button(label='Download PDF', data=download_pdf(), file_name=f"collocations_{keyword}.pdf", mime='application/pdf')
 
-    # Convert DataFrame to CSV and write to file
-            text = top_collocs_df.to_csv(index=False)
-
-    with open(f'{keyword}_plot_and_text.txt', 'w') as f:
-            f.write(text)
-            href = f'<a href="data:file/txt;base64,{base64.b64encode(text.encode()).decode()}" download="{keyword}_plot_and_text.txt">Download plot and text</a>'
-            st.markdown(href, unsafe_allow_html=True)
+# Test the function with sample data
+sample_collocs = [('word1', 10), ('word2', 8), ('word3', 5
 
 
 
