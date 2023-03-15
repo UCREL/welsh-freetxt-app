@@ -556,16 +556,6 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-import streamlit as st
-import numpy as np
-import pandas as pd
-import networkx as nx
-import matplotlib.pyplot as plt
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
-import canvas
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -585,32 +575,10 @@ def plot_coll(keyword, collocs, expander, tab):
     sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
+
     with tab:
         with expander:
             st.pyplot()
-
-    # Convert the plot and text to a PDF file
-    pdf_bytes = BytesIO()
-    with canvas.Canvas(pdf_bytes, pagesize=letter) as c:
-        c.drawString(1 * inch, 10.5 * inch, f"Collocations for '{keyword}':")
-        c.drawString(1 * inch, 10 * inch, ' '.join(words))
-        plt.savefig(pdf_bytes, format='png')
-        plt.clf()
-    pdf_bytes.seek(0)
-
-    # Define a function to provide a download button for the PDF file
-    def download_pdf():
-        # Set the filename for the PDF file
-        filename = f"collocations_{keyword}.pdf"
-        # Set the content of the response as the PDF file
-        response = pdf_bytes.getvalue()
-        # Display a download button for the PDF file
-        return response
-
-    # Display the download button for the PDF file
-    st.download_button(label='Download PDF', data=download_pdf(), file_name=f"collocations_{keyword}.pdf", mime='application/pdf')
-
-
 
 
 
