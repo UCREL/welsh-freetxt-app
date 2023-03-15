@@ -563,16 +563,20 @@ def plot_coll(keyward, collocs, expander, tab):
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = top_collocs_df['freq'].max()
+    counts = list(top_collocs_df['freq'][0:30])
 
     # Set the node sizes based on the freq column
     node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
-
+    
     # Set the edge colors based on the freq column
     edge_colors = [freq / n for freq in top_collocs_df['freq']]
 
     pos = nx.circular_layout(G)
     #node_size=node_sizes,
-    nx.draw(G, width=top_collocs_df.freq,  pos=pos, with_labels=True, node_color='gray', edge_color=edge_colors, cmap='Reds')
+    colors = [color_dict[freq] for freq in top_collocs_df['freq']]
+    nx.draw(G, width=top_collocs_df.freq, node_size=node_sizes, pos=pos, with_labels=True, edge_color=colors)
+
+    #nx.draw(G, width=top_collocs_df.freq,  pos=pos, with_labels=True, node_color='gray', edge_color=edge_colors, cmap='Reds')
     plt.colorbar()
 
     with tab:
