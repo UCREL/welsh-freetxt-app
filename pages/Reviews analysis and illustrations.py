@@ -592,8 +592,8 @@ def plot_coll(keyword, collocs, expander, tab):
             plt.clf()
 
             # Convert plot and text to bytes and write to file
-           text = top_collocs_df.to_csv(index=False)
-           with open(f'{keyword}_plot_and_text.txt', 'wb') as f:
+            text = top_collocs_df.to_csv(index=False)
+            with open(f'{keyword}_plot_and_text.txt', 'wb') as f:
                    f.write(img.getvalue())
                    f.write(text.encode())
             href = f'<a href="data:file/txt;base64,{base64.b64encode(text.encode()).decode()}" download="{keyword}_plot_and_text.txt">Download plot and text</a>'
