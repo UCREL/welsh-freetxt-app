@@ -569,7 +569,8 @@ def plot_coll(keyward, collocs, expander, tab):
     cmap = cm.get_cmap('viridis')  # choose the colormap
     node_color = [cmap((count - min(counts)) / (max(counts) - min(counts))) for count in counts]  # calculate the node color based on frequency
     pos = nx.spring_layout(G, weight='draw_weight')
-    nx.draw(G, width=top_collocs_df.freq, node_size=node_size, node_color=node_color, pos=pos, with_labels=True)
+	#node_size=node_size,
+    nx.draw(G, width=top_collocs_df.freq,  node_color=node_color, pos=pos, with_labels=True)
     with tab:
         with expander:
             plt.show()
