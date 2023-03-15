@@ -568,8 +568,8 @@ def plot_coll(keyward, collocs, expander, tab):
     node_colors = [plt.cm.Blues(freq/n) if node == keyward else 'gray' for node, freq in zip(G.nodes(), top_collocs_df['freq'])]
 
     node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
- #, node_size=node_sizes
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
+ #, node_size=node_sizes,node_color=node_colors
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True)
 
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
