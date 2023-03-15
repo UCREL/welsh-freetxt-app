@@ -569,7 +569,7 @@ def plot_coll(keyward, collocs, expander, tab):
 
     node_sizes = [2000 * count / n for count in counts]
 
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes)
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
 
     sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
