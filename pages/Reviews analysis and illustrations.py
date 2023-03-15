@@ -579,7 +579,7 @@ def plot_coll(keyword, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
-
+    
     
 
     # Display a download link for the file
@@ -587,15 +587,20 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
             # Convert plot to PNG image
+    # Convert plot to PNG image and encode as Base64
             img = io.BytesIO()
             plt.savefig(img, format='png')
-            plt.clf()
+            img.seek(0)
+            img_b64 = base64.b64encode(img.getvalue()).decode()
 
-            # Convert plot and text to bytes and write to file
+    # Add Base64-encoded image as a separate column in the CSV file
+            top_collocs_df['image'] = img_b64
+
+    # Convert DataFrame to CSV and write to file
             text = top_collocs_df.to_csv(index=False)
-            with open(f'{keyword}_plot_and_text.txt', 'wb') as f:
-                   f.write(img.getvalue())
-                   f.write(text.encode())
+
+    with open(f'{keyword}_plot_and_text.txt', 'w') as f:
+        f.write(text)
             href = f'<a href="data:file/txt;base64,{base64.b64encode(text.encode()).decode()}" download="{keyword}_plot_and_text.txt">Download plot and text</a>'
             st.markdown(href, unsafe_allow_html=True)
 
