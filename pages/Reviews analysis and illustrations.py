@@ -600,7 +600,7 @@ def plot_coll(keyword, collocs, expander, tab):
             text = top_collocs_df.to_csv(index=False)
 
     with open(f'{keyword}_plot_and_text.txt', 'w') as f:
-        f.write(text)
+            f.write(text)
             href = f'<a href="data:file/txt;base64,{base64.b64encode(text.encode()).decode()}" download="{keyword}_plot_and_text.txt">Download plot and text</a>'
             st.markdown(href, unsafe_allow_html=True)
 
