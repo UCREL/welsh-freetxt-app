@@ -567,6 +567,8 @@ def plot_coll(keyward, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     node_size = [count * 100 for count in counts]  # specify the node size based on frequency
     cmap = cm.get_cmap('viridis')  # choose the colormap
+    counts = list(top_collocs_df['freq'][0:30])
+
     node_color = [cmap((count - min(counts)) / (max(counts) - min(counts))) for count in counts]  # calculate the node color based on frequency
     pos = nx.spring_layout(G, weight='draw_weight')
 	#node_size=node_size,
