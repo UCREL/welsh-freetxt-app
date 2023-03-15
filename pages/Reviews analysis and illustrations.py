@@ -556,9 +556,13 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
+from io import BytesIO
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
 from reportlab.pdfgen import canvas
 from PIL import Image
-import numpy as np
+import streamlit as st
 
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -583,32 +587,31 @@ def plot_coll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-            # create a buffer to hold the image data
-            buffer = io.BytesIO()
-            
-            # save the plot to the buffer
-            plt.savefig(buffer, format='png')
-            
-            # read the buffer contents into a PIL image object
-            buffer.seek(0)
-            image = Image.open(buffer)
-            
-            # convert the image to a numpy array
-            image_array = np.array(image)
-            
-            # create a canvas for the PDF document
-            pdf_buffer = io.BytesIO()
-            pdf_canvas = canvas.Canvas(pdf_buffer)
-            
-            # draw the image on the canvas and save the PDF
-            pdf_canvas.drawImage(ImageReader(Image.fromarray(image_array)), 0, 0, image.width, image.height)
-            pdf_canvas.save()
-            
-            # add download button for PDF document
-            st.download_button(label='Download PDF', data=pdf_buffer.getvalue(), file_name='network_graph.pdf', mime='application/pdf')
 
-            # display the plot
-            st.image(image, use_column_width=True)
+    # create PDF document
+    buffer = BytesIO()
+    pdf_canvas = canvas.Canvas(buffer)
+
+    # add network graph to PDF document
+    plt.savefig('network_graph.png', bbox_inches='tight')
+    image = Image.open('network_graph.png')
+    pdf_canvas.drawImage(image, 0, 0, image.width, image.height)
+    pdf_canvas.showPage()
+
+    # add text to PDF document
+    text = f'Top collocations for "{keyword}"\n\n'
+    for word, freq in collocs:
+        text += f'{word}: {freq}\n'
+    pdf_canvas.drawString(100, 100, text)
+
+    # save PDF document to buffer
+    pdf_canvas.save()
+    buffer.seek(0)
+
+    # add download button for PDF document
+    st.download_button(label='Download PDF', data=buffer, file_name='network_graph.pdf', mime='application/pdf')
+
+
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
