@@ -556,18 +556,14 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-
-import matplotlib.pyplot as plt
-
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
-    # set position of source node to the left side
-    pos = {node: (1 if node == keyward else 2, i) for i, node in enumerate(G.nodes)}
+    pos = nx.circular_layout(G)
 
     node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
@@ -582,13 +578,6 @@ def plot_coll(keyward, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-
-
-
-
- 
-
-
 
 
 
