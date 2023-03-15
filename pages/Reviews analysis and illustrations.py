@@ -558,28 +558,28 @@ def plot_collocation(keyword, collocs,expander,tab):
 ########the network illistartion
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
-    st.write(words)
-    st.write(counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = top_collocs_df['freq'].max()
+    n = max(counts)
 
     pos = nx.circular_layout(G)
 
-    node_colors = [plt.cm.Blues(freq/n) if node == keyward else 'gray' for node, freq in zip(G.nodes(), top_collocs_df['freq'])]
+    node_colors = ['blue' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
-    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
- #, node_size=node_sizes,node_color=node_colors
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True)
+    node_sizes = [2000 * count / n for count in counts]
 
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes)
+
+    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
 
     with tab:
         with expander:
             st.pyplot()
+
+ 
 
 
 
