@@ -566,8 +566,8 @@ def plot_coll(keyward, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
-    # set position of source node to the right side
-    pos = {node: (2 if node == keyward else 1, i) for i, node in enumerate(G.nodes)}
+    # set position of source node to the left side
+    pos = {node: (1 if node == keyward else 2, i) for i, node in enumerate(G.nodes)}
 
     node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
@@ -582,6 +582,7 @@ def plot_coll(keyward, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 
