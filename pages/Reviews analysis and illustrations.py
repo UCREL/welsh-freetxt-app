@@ -688,7 +688,7 @@ def plot_kwic(data, key):
                       )
                 data = grid_response['data']
                 selected = grid_response['selected_rows'] 
-                df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+                df = pd.DataFrame(selected) 
                 #st.write(df)
 		
             expander = st.expander('Collocation')
@@ -759,12 +759,41 @@ def plot_kwic_txt(df):
         #keyword_analysis = tab6.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
             with st.expander('Keyword in context'):
-                kwic_instances_df = pd.DataFrame(kwic_instances,
+                                kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
-                kwic_instances_df.style.set_properties(column='Left context', align = 'right')
-           
+                kwic_instances_df.style.hide_index()
                 
-                st.dataframe(kwic_instances_df,use_container_width=True)
+          
+		   #### interactive dataframe
+                gb = GridOptionsBuilder.from_dataframe(kwic_instances_df)
+              
+                gb.configure_column("Left context", cellClass ='text-right', headerClass= 'ag-header-cell-text' )
+		
+                gb.configure_column("Keyword", cellClass ='text-center', cellStyle= {
+                   'color': 'red', 
+                   'font-weight': 'bold'  })
+                gb.configure_column("Right context", cellClass ='text-left')
+                gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
+                gb.configure_side_bar() #Add a sidebar
+                gb.configure_selection('multiple', use_checkbox=True, groupSelectsChildren="Group checkbox select children") #Enable multi-row selection
+                gridOptions = gb.build()
+
+                grid_response = AgGrid(
+                kwic_instances_df,
+                gridOptions=gridOptions,
+                   data_return_mode='AS_INPUT', 
+                   update_mode='MODEL_CHANGED', 
+                   fit_columns_on_grid_load=False,
+    
+                   enable_enterprise_modules=True,
+		   key='select_grid',
+                   height=350, width= '100%',
+                   columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS,
+                     reload_data=True
+                      )
+                data = grid_response['data']
+                selected = grid_response['selected_rows'] 
+                df = pd.DataFrame(selected)
             expander = st.expander('collocation')
             with expander: #Could you replace with NLTK concordance later?
             # keyword = st.text_input('Enter a keyword:','staff')
