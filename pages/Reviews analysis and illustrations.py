@@ -557,23 +557,22 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the network illistartion
 
-import io
-import networkx as nx
-import matplotlib.pyplot as plt
-import pandas as pd
-import fitz
-import streamlit as st
+   import io
+from reportlab.pdfgen import canvas
+from PIL import Image
+import numpy as np
 
-def plot_coll(keyward, collocs, expander, tab):
+def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
-    top_collocs_df.insert(1, 'source', keyward)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
     pos = nx.circular_layout(G)
 
-    node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
@@ -583,43 +582,35 @@ def plot_coll(keyward, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
-    # create PDF document
-    pdf_buffer = io.BytesIO()
-
-    # add network graph to PDF document
-    plt.savefig('network_graph.png', bbox_inches='tight')
-    with open('network_graph.png', 'rb') as f:
-        image_data = f.read()
-        image = fitz.Pixmap(fitz.csRGB, image_data)
-        pdf_doc = fitz.open()
-        pdf_page = pdf_doc.new_page()
-        pixmap = fitz.Pixmap(image_data, 0)
-        pixmap = pixmap.fit(pdf_page.rect)
-        pixmap.xref = pdf_page.number
-        pdf_page.insert_hmupix(pixmap)
-        pdf_doc.save(pdf_buffer)
-
-    # add text to PDF document
-    text = f'Top collocations for "{keyward}"\n\n'
-    for word, freq in collocs:
-        text += f'{word}: {freq}\n'
-    with fitz.open(stream=text) as text_doc:
-        text_bytes = text_doc.convert_to_pdf()
-        text_doc_bytes = io.BytesIO(text_bytes)
-        text_doc_reader = fitz.open(stream=text_doc_bytes.read(), filetype="pdf")
-        text_doc_page = text_doc_reader[0]
-        pdf_doc.insert_pdf(text_doc_page)
-
-    # write PDF document to buffer
-    pdf_buffer.seek(0)
-
-    # add download button for PDF document
-    st.download_button(label='Download PDF', data=pdf_buffer, file_name='network_graph.pdf', mime='application/pdf')
-
     with tab:
         with expander:
-            st.pyplot()
+	    st.pyplot()
+            # create a buffer to hold the image data
+            buffer = io.BytesIO()
+            
+            # save the plot to the buffer
+            plt.savefig(buffer, format='png')
+            
+            # read the buffer contents into a PIL image object
+            buffer.seek(0)
+            image = Image.open(buffer)
+            
+            # convert the image to a numpy array
+            image_array = np.array(image)
+            
+            # create a canvas for the PDF document
+            pdf_buffer = io.BytesIO()
+            pdf_canvas = canvas.Canvas(pdf_buffer)
+            
+            # draw the image on the canvas and save the PDF
+            pdf_canvas.drawImage(ImageReader(Image.fromarray(image_array)), 0, 0, image.width, image.height)
+            pdf_canvas.save()
+            
+            # add download button for PDF document
+            st.download_button(label='Download PDF', data=pdf_buffer.getvalue(), file_name='network_graph.pdf', mime='application/pdf')
 
+            # display the plot
+            st.image(image, use_column_width=True)
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
