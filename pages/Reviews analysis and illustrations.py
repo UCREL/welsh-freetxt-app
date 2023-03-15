@@ -604,7 +604,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     # Add the plot image to the PDF file
     pdf.image('img/FreeTxt_logo.png', x=10, y=30, w=180)
-    pdf.image(pil_image, x=10, y=30, w=180)
+    pdf.image('img_file', x=10, y=30, w=180)
     # Download the PDF file
     st.download_button(
         "Download Report",
