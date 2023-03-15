@@ -33,6 +33,9 @@ import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
+
+from fpdf import FPDF
+
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 from dateutil import parser
@@ -565,11 +568,6 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-import streamlit as st
-from fpdf import FPDF
-import base64
-import io
-from PIL import Image
 
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
