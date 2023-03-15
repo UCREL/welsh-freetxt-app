@@ -558,6 +558,8 @@ def plot_collocation(keyword, collocs,expander,tab):
 ########the network illistartion
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
+    st.write(words)
+    st.write(counts)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
