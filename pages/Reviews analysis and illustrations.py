@@ -557,7 +557,6 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the network illistartion
 
-	
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -567,18 +566,16 @@ def plot_coll(keyward, collocs, expander, tab):
 
     pos = nx.circular_layout(G)
 
-    node_colors = ['blue' if node == keyward else 'gray' for node in G.nodes()]
-
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
+    # Set the node sizes based on the freq column
+    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
     
+    # Draw the network with updated node and edge properties
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_size=node_sizes, node_color='gray', edge_color='black')
+
     with tab:
         with expander:
             st.pyplot()
 
-
-
-
-    
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
