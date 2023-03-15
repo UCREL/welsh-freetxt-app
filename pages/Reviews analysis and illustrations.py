@@ -556,6 +556,10 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
+import streamlit as st
+from fpdf import FPDF
+import base64
+
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -581,6 +585,20 @@ def plot_coll(keyword, collocs, expander, tab):
             st.pyplot()
 
 
+
+    pdf = FPDF()  # pdf object
+    pdf = FPDF(orientation="P", unit="mm", format="A4")
+    pdf.add_page()
+
+    pdf.set_font("Times", "B", 18)
+    pdf.set_xy(10.0, 20)
+    pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
+
+    st.download_button(
+    "Download Report",
+          data=pdf.output(dest='S').encode('latin-1'),
+       file_name="Output.pdf",
+       )
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
