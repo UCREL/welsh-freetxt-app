@@ -560,6 +560,9 @@ import streamlit as st
 from fpdf import FPDF
 import base64
 
+
+import io
+
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -580,25 +583,33 @@ def plot_coll(keyword, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
+    # Save the plot to an image
+    img_file = io.BytesIO()
+    plt.savefig(img_file, format='png', dpi=300)
+    img_file.seek(0)
+
     with tab:
         with expander:
-            st.pyplot()
+            st.image(img_file, caption='Plot', use_column_width=True)
 
-    image= plt.savefig('figure.png')
-
-    pdf = FPDF()  # pdf object
+    # Create the PDF file
     pdf = FPDF(orientation="P", unit="mm", format="A4")
     pdf.add_page()
 
     pdf.set_font("Times", "B", 18)
     pdf.set_xy(10.0, 20)
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
-    pdf.image(image, x=120, y=50, w=pdf.w/2.0, h=pdf.h/2.0)
+
+    # Add the plot image to the PDF file
+    pdf.image(img_file, x=10, y=30, w=180)
+
+    # Download the PDF file
     st.download_button(
-    "Download Report",
-          data=pdf.output(dest='S').encode('latin-1'),
-       file_name="Output.pdf",
-       )
+        "Download Report",
+        data=pdf.output(dest='S').encode('latin-1'),
+        file_name="Output.pdf",
+    )
+
 
  #-------------------------- N-gram Generator ---------------------------
 def gen_ngram(text, _ngrams=2, topn=10):
