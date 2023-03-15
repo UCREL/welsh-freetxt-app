@@ -555,30 +555,28 @@ def plot_collocation(keyword, collocs,expander,tab):
             st.pyplot()
 
 
-########the treemap illistartion
+########the network illistartion
 
-def plot_coll(keyward, collocs,expander,tab):
+def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
-    
-    #tab3.write(words, counts)
-    
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    
-  #  fig = px.treemap(top_collocs_df, title='Treemap chart',
-   #              path=[ px.Constant(keyward),'freq', 'word'], color='freq', color_continuous_scale=px.colors.sequential.GnBu, )
-  #  fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
-  #with tab:
-   #     with expander:
-            
-           # st.set_option('deprecation.showPyplotGlobalUse', False)
-           # st.plotly_chart(fig,use_container_width=True)
-######the network 
     n = top_collocs_df['freq'][0:30].max()
     color_dict = get_colordict('RdYlBu_r',n ,1)
     counts = list(top_collocs_df['freq'][0:30])
     top_collocs_df.insert(1, 'source', keyward)
-    G= nx.from_pandas_edgelist(top_collocs_df, source = 'source', target= 'word', edge_attr='freq')
-    nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight'), with_labels=True) 
+    G= nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    
+    # Set the node sizes based on the freq column
+    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
+    
+    # Draw the graph with node sizes and edge widths based on frequency
+    pos = nx.spring_layout(G, weight='draw_weight')
+    nx.draw(G, pos=pos, with_labels=True, node_size=node_sizes, width=top_collocs_df['freq'], edge_color='gray', node_color='b')
+    
+    # Add a colorbar for the node sizes
+    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm._A = []
+    plt.colorbar(sm)
     with tab:
         with expander:
             st.pyplot()
