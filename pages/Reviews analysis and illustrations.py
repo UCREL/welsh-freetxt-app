@@ -559,9 +559,8 @@ def plot_collocation(keyword, collocs,expander,tab):
 import streamlit as st
 from fpdf import FPDF
 import base64
-
-
 import io
+from PIL import Image
 
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -588,9 +587,12 @@ def plot_coll(keyword, collocs, expander, tab):
     plt.savefig(img_file, format='png', dpi=300)
     img_file.seek(0)
 
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open(img_file)
+
     with tab:
         with expander:
-            st.image(img_file, caption='Plot', use_column_width=True)
+            st.image(pil_image, caption='Plot', use_column_width=True)
 
     # Create the PDF file
     pdf = FPDF(orientation="P", unit="mm", format="A4")
@@ -601,7 +603,7 @@ def plot_coll(keyword, collocs, expander, tab):
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
 
     # Add the plot image to the PDF file
-    pdf.image(img_file, x=10, y=30, w=180)
+    pdf.image(pil_image, x=10, y=30, w=180)
 
     # Download the PDF file
     st.download_button(
