@@ -581,25 +581,25 @@ def plot_coll(keyward, collocs, expander, tab):
 
     # create PDF document
     pdf_buffer = io.BytesIO()
-    pdf_writer = fitz.Document()
+    doc = fitz.open()
 
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
-    with open('network_graph.png', 'rb') as f:
-        image_data = f.read()
-        image_stream = io.BytesIO(image_data)
-        image = Image.open(image_stream)
-        pixmap = fitz.Pixmap(image.tobytes(), image.size, fitz.csRGB)
-        pdf_writer.insert_image(fitz.Rect(0, 0, pixmap.width, pixmap.height), pixmap=pixmap)
+    image = Image.open('network_graph.png')
+    image_data = image.convert('RGBA').tobytes('raw', 'RGBA')
+    pixmap = fitz.Pixmap(image_data, image.size, fitz.csRGB)
+    page = doc.newPage(width=image.width, height=image.height)
+    page.insertImage(page.rect, pixmap=pixmap)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
     for word, freq in collocs:
         text += f'{word}: {freq}\n'
-    pdf_writer.insert_page(0, text)
+    page = doc.newPage()
+    page.insertText(fitz.Point(0, 0), text)
 
     # write PDF document to buffer
-    pdf_buffer.write(pdf_writer.save())
+    doc.save(pdf_buffer)
     pdf_buffer.seek(0)
 
     # add download button for PDF document
