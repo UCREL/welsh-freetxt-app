@@ -571,7 +571,7 @@ def plot_coll(keyward, collocs,expander,tab):
 	
     # Draw the graph with node sizes and edge widths based on frequency
     pos = nx.spring_layout(G, weight='draw_weight')
-    nx.draw(G, pos=pos, with_labels=True, node_size=node_sizes, width=top_collocs_df['freq'], edge_color='gray', node_color='b')
+    nx.draw(G, pos=pos, with_labels=True, node_size=node_sizes, width=top_collocs_df['freq'])
 
     #nx.draw(G,width=top_collocs_df.freq, pos=nx.spring_layout(G, weight='draw_weight’), node_size=node_sizes, with_labels=True) 
     with tab:
