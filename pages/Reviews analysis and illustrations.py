@@ -583,16 +583,16 @@ def plot_coll(keyword, collocs, expander, tab):
     plt.colorbar(sm)
 
     # Save the plot to an image
-    img_file = io.BytesIO()
+    #img_file = io.BytesIO()
     plt.savefig(img_file, format='png', dpi=300)
-    img_file.seek(0)
+    #img_file.seek(0)
 
     # Convert the image file to a PIL Image object
     pil_image = Image.open(img_file)
 
     with tab:
         with expander:
-            st.image(pil_image, caption='Plot', use_column_width=True)
+            st.pyplot()
 
     # Create the PDF file
     pdf = FPDF(orientation="P", unit="mm", format="A4")
