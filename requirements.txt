@@ -24,3 +24,4 @@ python-gettext
 ucrel_api
 python-dateutil
 pymupdf
+reportlab
