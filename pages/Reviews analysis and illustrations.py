@@ -579,6 +579,7 @@ def plot_coll(keyword, collocs, expander, tab):
     sm._A = []
     plt.colorbar(sm)
 
+
     # Convert plot to PNG image
     img = io.BytesIO()
     plt.savefig(img, format='png')
