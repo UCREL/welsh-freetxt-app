@@ -603,9 +603,23 @@ def plot_coll(keyword, collocs, expander, tab):
 
     # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
+	
+# get total page numbers
+    pdf.alias_nb_pages()
+
+# Set auto page break
+    pdf.set_auto_page_break(auto = True, margin = 15)
     pdf.add_page()
 
-    pdf.set_font("Times", "B", 18)
+
+# specify font
+    pdf.set_font('helvetica', 'BIU', 16)
+
+    pdf.set_font('times', '', 12)
+
+    
+
+    
     pdf.set_xy(10.0, 20)
     pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
 
