@@ -592,7 +592,8 @@ def plot_coll(keyward, collocs, expander, tab):
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
         image = Image.open(f)
-        image_data = image.convert('RGB').tobytes('png')
+	image_data = image.convert('RGB').tobytes('PNG')
+        
         pixmap = fitz.Pixmap(io.BytesIO(image_data))
         page = pdf_writer.new_page(width=pixmap.width, height=pixmap.height)
         page.insert_image(fitz.Rect(0, 0, pixmap.width, pixmap.height), pixmap)
