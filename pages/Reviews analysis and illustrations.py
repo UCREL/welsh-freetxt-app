@@ -582,7 +582,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     with tab:
         with expander:
-	    st.pyplot()
+            st.pyplot()
             # create a buffer to hold the image data
             buffer = io.BytesIO()
             
