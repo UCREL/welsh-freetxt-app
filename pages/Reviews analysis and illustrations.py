@@ -586,9 +586,9 @@ def plot_coll(keyward, collocs, expander, tab):
     
     # Set the positions of the nodes using a circular layout
     pos = nx.circular_layout(G)
-    
+    #node_size=node_sizes,
     # Draw the graph with node sizes and edge widths based on frequency
-    nx.draw(G, width=top_collocs_df['freq'], node_size=node_sizes, node_color=node_colors, edge_color=edge_colors, pos=pos, with_labels=True)
+    nx.draw(G, width=top_collocs_df['freq'],  node_color=node_colors, edge_color=edge_colors, pos=pos, with_labels=True)
     
     # Add a colorbar for the edge colors
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=0, vmax=max_freq))
