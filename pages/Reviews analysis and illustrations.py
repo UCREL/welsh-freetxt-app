@@ -556,28 +556,28 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
-
-    pos = nx.circular_layout(G)
-
-    node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
-
-    node_sizes = [2000 * count / n for count in counts]
-
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes)
-
-    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
-    sm._A = []
-    plt.colorbar(sm)
-
+    node_size = [count * 100 for count in counts]  # specify the node size based on frequency
+    cmap = cm.get_cmap('viridis')  # choose the colormap
+    node_color = [cmap((count - min(counts)) / (max(counts) - min(counts))) for count in counts]  # calculate the node color based on frequency
+    pos = {}
+    # place the source node at the center
+    pos[keyward] = (0, 0)
+    # place the other nodes on the right side of the plot
+    for i, word in enumerate(words):
+        pos[word] = (2, i)
+    nx.draw(G, width=top_collocs_df.freq, node_size=node_size, node_color=node_color, pos=pos, with_labels=True)
     with tab:
         with expander:
-            st.pyplot()
+            plt.show()
+
 
  
 
