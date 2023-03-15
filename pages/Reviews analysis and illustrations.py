@@ -586,7 +586,7 @@ def plot_coll(keyward, collocs, expander, tab):
     # add network graph to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
     with open('network_graph.png', 'rb') as f:
-        image = PyPDF2.PdfFileReader(f)
+        image = PyPDF2.PdfReader(f)
         pdf_writer.addPage(image.getPage(0))
 
     # add text to PDF document
