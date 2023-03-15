@@ -556,13 +556,9 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-from io import BytesIO
-import pandas as pd
-import networkx as nx
-import matplotlib.pyplot as plt
 from reportlab.pdfgen import canvas
-from PIL import Image
-import streamlit as st
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.utils import ImageReader
 
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -589,14 +585,14 @@ def plot_coll(keyword, collocs, expander, tab):
             st.pyplot()
 
     # create PDF document
-    buffer = BytesIO()
-    pdf_canvas = canvas.Canvas(buffer)
+    pdf_buffer = io.BytesIO()
+    pdf_canvas = canvas.Canvas(pdf_buffer, pagesize=letter)
 
-    # add network graph to PDF document
+    # add image to PDF document
     plt.savefig('network_graph.png', bbox_inches='tight')
-    image = Image.open('network_graph.png')
-    pdf_canvas.drawImage(image, 0, 0, image.width, image.height)
-    pdf_canvas.showPage()
+    with open('network_graph.png', 'rb') as f:
+        image_data = f.read()
+        pdf_canvas.drawImage(ImageReader(image_data), 0, 0)
 
     # add text to PDF document
     text = f'Top collocations for "{keyword}"\n\n'
@@ -606,10 +602,10 @@ def plot_coll(keyword, collocs, expander, tab):
 
     # save PDF document to buffer
     pdf_canvas.save()
-    buffer.seek(0)
+    pdf_buffer.seek(0)
 
     # add download button for PDF document
-    st.download_button(label='Download PDF', data=buffer, file_name='network_graph.pdf', mime='application/pdf')
+    st.download_button(label='Download PDF', data=pdf_buffer, file_name='network_graph.pdf', mime='application/pdf')
 
 
 
