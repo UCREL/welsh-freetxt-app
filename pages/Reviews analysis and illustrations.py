@@ -570,8 +570,8 @@ def plot_coll(keyward, collocs, expander, tab):
 
     pos = nx.circular_layout(G)
 
-    nx.draw(G, width=top_collocs_df.freq, node_size=node_sizes, pos=pos, with_labels=True)
-    st.write(nx)
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True)
+    
     with tab:
         with expander:
             st.pyplot()
