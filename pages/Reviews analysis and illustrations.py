@@ -565,16 +565,17 @@ def plot_coll(keyward, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = top_collocs_df['freq'].max()
 
-    # Set the node sizes based on the freq column
-    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
-
     pos = nx.circular_layout(G)
 
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True)
-    
+    node_colors = ['r' if node == keyward else 'b' for node in G.nodes()]
+    node_sizes = [2000 * freq / n for freq in top_collocs_df['freq']]
+
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
+
     with tab:
         with expander:
             st.pyplot()
+
 
     
 
