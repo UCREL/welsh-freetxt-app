@@ -759,8 +759,8 @@ def plot_kwic_txt(df):
         #keyword_analysis = tab6.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
             with st.expander('Keyword in context'):
-                                kwic_instances_df = pd.DataFrame(kwic_instances,
-                    columns =['Left context', 'Keyword', 'Right context'])
+                kwic_instances_df = pd.DataFrame(kwic_instances,
+                columns =['Left context', 'Keyword', 'Right context'])
                 kwic_instances_df.style.hide_index()
                 
           
