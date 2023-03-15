@@ -565,13 +565,13 @@ def plot_coll(keyward, collocs, expander, tab):
 
     pos = nx.circular_layout(G)
 
-    node_colors = ['gray' if node == keyward else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyward else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes)
 
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
 
