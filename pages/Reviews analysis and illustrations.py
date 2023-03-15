@@ -606,6 +606,7 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
+
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
 	
@@ -626,14 +627,16 @@ def plot_coll(keyword, collocs, expander, tab):
 # Add the plot image to the PDF file
 
     pdf.image('img_file.png', x=10, y=30, w=180)
-
-# Download the PDF file
+    pdf.output('pdf_2.pdf')
+    with open("dummy.pdf", "rb") as pdf_file:
+        PDFbyte = pdf_file.read()
+    
+   # Download the PDF file
     st.download_button(
         "Download Report",
-         data=pdf.output(),
+         data=pdf.PDFbyte,
          file_name="Output.pdf",
      )
-
 
 
  #-------------------------- N-gram Generator ---------------------------
