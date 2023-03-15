@@ -557,25 +557,24 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 ########the network illistartion
 
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyward)
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    node_size = [count * 100 for count in counts]  # specify the node size based on frequency
-    cmap = cm.get_cmap('viridis')  # choose the colormap
-    counts = list(top_collocs_df['freq'][0:30])
+    n = top_collocs_df['freq'].max()
 
-    node_color = [cmap((count - min(counts)) / (max(counts) - min(counts))) for count in counts]  # calculate the node color based on frequency
-    pos = nx.spring_layout(G, weight='draw_weight')
-	#node_size=node_size,
-    nx.draw(G, width=top_collocs_df.freq,  node_color=node_color, pos=pos, with_labels=True)
+    pos = nx.circular_layout(G)
+
+    node_colors = ['blue' if node == keyward else 'gray' for node in G.nodes()]
+
+    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors)
+    
     with tab:
         with expander:
-            plt.show()
+            st.pyplot()
+
+
 
 
 
