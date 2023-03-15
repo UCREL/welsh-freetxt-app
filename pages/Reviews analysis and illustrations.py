@@ -588,7 +588,7 @@ def plot_coll(keyward, collocs, expander, tab):
     with open('network_graph.png', 'rb') as f:
         image = fitz.Pixmap(f.read())
         rect = fitz.Rect(0, 0, image.width, image.height)
-        pdf_writer.insert_image(rect, pixmap=image)
+        pdf_writer.draw_image(rect, pixmap=image)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
