@@ -560,6 +560,13 @@ def plot_collocation(keyword, collocs,expander,tab):
 import io
 import fitz
 
+import io
+import networkx as nx
+import matplotlib.pyplot as plt
+import pandas as pd
+import streamlit as st
+import fitz
+
 def plot_coll(keyward, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -581,23 +588,21 @@ def plot_coll(keyward, collocs, expander, tab):
 
     # create PDF document
     pdf_buffer = io.BytesIO()
-    pdf_writer = fitz.Document()
-
-    # add network graph to PDF document
-    plt.savefig('network_graph.png', bbox_inches='tight')
-    with open('network_graph.png', 'rb') as f:
-        image = fitz.Pixmap(f.read())
-        rect = fitz.Rect(0, 0, image.width, image.height)
-        pdf_writer.draw_image(rect, pixmap=image)
+    doc = fitz.open()
+    page = doc.new_page()
+    mat = fitz.Matrix(2, 2)  # double the size of the image
+    image_file = 'network_graph.png'
+    pixmap = fitz.Pixmap(image_file)
+    page.draw_image(rect=pixmap.rect, pixmap=pixmap, matrix=mat)
 
     # add text to PDF document
     text = f'Top collocations for "{keyward}"\n\n'
     for word, freq in collocs:
         text += f'{word}: {freq}\n'
-    pdf_writer.insert_text(rect, text)
+    page.insert_text(text)
 
-    # write PDF document to buffer
-    pdf_writer.save(pdf_buffer)
+    # save the document to buffer
+    doc.save(pdf_buffer)
     pdf_buffer.seek(0)
 
     # add download button for PDF document
