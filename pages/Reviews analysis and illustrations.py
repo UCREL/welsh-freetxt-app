@@ -556,10 +556,6 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.utils import ImageReader
-
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -583,30 +579,6 @@ def plot_coll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-
-    # create PDF document
-    pdf_buffer = io.BytesIO()
-    pdf_canvas = canvas.Canvas(pdf_buffer, pagesize=letter)
-
-    # add image to PDF document
-    plt.savefig('network_graph.png', bbox_inches='tight')
-    with open('network_graph.png', 'rb') as f:
-        image_data = f.read()
-        pdf_canvas.drawImage(ImageReader(image_data), 0, 0)
-
-    # add text to PDF document
-    text = f'Top collocations for "{keyword}"\n\n'
-    for word, freq in collocs:
-        text += f'{word}: {freq}\n'
-    pdf_canvas.drawString(100, 100, text)
-
-    # save PDF document to buffer
-    pdf_canvas.save()
-    pdf_buffer.seek(0)
-
-    # add download button for PDF document
-    st.download_button(label='Download PDF', data=pdf_buffer, file_name='network_graph.pdf', mime='application/pdf')
-
 
 
  #-------------------------- N-gram Generator ---------------------------
