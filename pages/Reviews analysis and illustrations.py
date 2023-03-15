@@ -634,7 +634,7 @@ def plot_coll(keyword, collocs, expander, tab):
     # Download the PDF file
     st.download_button(
         "Download Report",
-        data=pdf.output(dest='S'),
+        data=pdf.output(dest='S').encode('latin-1'),
         file_name="Output.pdf",
     )
 
