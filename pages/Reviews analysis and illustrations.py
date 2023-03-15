@@ -9,7 +9,7 @@ import spacy
 from spacy.tokens import Doc
 from spacy.vocab import Vocab
 import nltk
-
+import io
 import matplotlib.pyplot as plt
 import seaborn as sns
 import networkx as nx
@@ -556,8 +556,6 @@ def plot_collocation(keyword, collocs,expander,tab):
 
 
 ########the network illistartion
-
-   import io
 from reportlab.pdfgen import canvas
 from PIL import Image
 import numpy as np
