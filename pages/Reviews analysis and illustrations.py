@@ -622,7 +622,7 @@ def plot_coll(keyword, collocs, expander, tab):
     pdf.set_font('times', '', 12)
 
     pdf.set_xy(10.0, 20)
-    pdf.cell(w=75.0, h=5.0, align="L", txt=f"the collocation of {keyword}")
+    pdf.cell(w=75.0, h=5.0, align="L", txt=f"The collocation of the word {keyword}")
 
 # Add the plot image to the PDF file
 
