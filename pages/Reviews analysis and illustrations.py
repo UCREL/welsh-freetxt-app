@@ -141,7 +141,7 @@ class PDF(FPDF):
         # Padding
         self.cell(80)
         # Title
-        self.cell(30, 10, 'Collocation report', border=True, ln=1, align='C')
+        self.cell(30, 10, 'Collocation report', ln=1, align='C')
         # Line break
         self.ln(20)		
 		
