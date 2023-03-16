@@ -141,7 +141,7 @@ class PDF(FPDF):
         # Padding
         self.cell(80)
         # Title
-        self.cell(30, 10, 'Title', border=True, ln=1, align='C')
+        self.cell(30, 10, 'Collocation report', border=True, ln=1, align='C')
         # Line break
         self.ln(20)		
 		
@@ -622,7 +622,7 @@ def plot_coll(keyword, collocs, expander, tab):
     pdf.set_font('times', '', 12)
 
     pdf.set_xy(10.0, 20)
-    pdf.cell(w=75.0, h=5.0, align="L", txt="This is my sample text")
+    pdf.cell(w=75.0, h=5.0, align="L", txt=f"the collocation of {keyword}")
 
 # Add the plot image to the PDF file
 
