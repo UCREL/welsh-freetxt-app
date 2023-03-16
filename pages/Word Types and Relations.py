@@ -185,7 +185,7 @@ if lang_detected == 'cy':
     		f.write(response.text)
 	
 	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
-	cy_tagged['USAS'] = cy_tagged['USAS'].values().tolist()
+	cy_tagged['USAS'] = cy_tagged['USAS'].values().to_string()
 	st.dataframe(cy_tagged,use_container_width=True)
 
 	
