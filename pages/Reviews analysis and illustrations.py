@@ -417,7 +417,7 @@ def Pymsas_tags(text):
         merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
         merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-        st.dataframe(tagged_tokens_df,use_container_width=True)
+        st.dataframe(merged_df,use_container_width=True)
 
 
     
