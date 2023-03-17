@@ -385,7 +385,7 @@ def select_columns(data, key):
 #################Get the PyMusas tags ################
 def Pymsas_tags(text):
     with open('cy_tagged.txt','w') as f:
-    	f.write(response.text)
+    	f.write(text)
     if lang_detected == 'cy':
         files = {
    	 'type': (None, 'rest'),
