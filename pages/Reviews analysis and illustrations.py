@@ -420,7 +420,7 @@ def Pymsas_tags(text):
         #merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
         st.dataframe(tagged_tokens_df,use_container_width=True)
         for token in output_doc:
-		st.write(token._.pymusas_tags)
+              st.write(token._.pymusas_tags)
 
     
 ###to upload image
