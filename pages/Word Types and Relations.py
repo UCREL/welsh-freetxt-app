@@ -182,7 +182,7 @@ if lang_detected == 'cy':
     		f.write(response.text)
 	
 	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
-	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split(',').str[0].str.replace('[\[\]]', '', regex=True)
+	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split(',').str[0].str.replace('[\[\]"\']', '', regex=True)
 	# Merge the two dataframes on the 'USAS Tags' column
 	merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
 
