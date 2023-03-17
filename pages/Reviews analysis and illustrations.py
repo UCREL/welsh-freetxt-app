@@ -500,7 +500,7 @@ def get_wordcloud (data, key):
         elif cloud_type == 'Numbers':
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
         elif cloud_type == '':
-		Pymsas_tags(input_data)
+             Pymsas_tags(input_data)
         else: 
             pass
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
