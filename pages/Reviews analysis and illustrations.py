@@ -499,7 +499,7 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
         elif cloud_type == 'Numbers':
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
-        elif cloud_type == '':
+        elif cloud_type == 'Semantic Tags':
              Pymsas_tags(input_data)
         else: 
             pass
