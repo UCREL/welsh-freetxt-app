@@ -505,7 +505,7 @@ def get_wordcloud (data, key):
         elif cloud_type == 'Semantic Tags':
             tags = Pymsas_tags(input_data)
             tags = tags.astype(str)
-            wordcloud = wc.generate(tags)
+            wordcloud = wc.generate(' '.join(tags))
 
             
         else: 
