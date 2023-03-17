@@ -403,7 +403,7 @@ def Pymsas_tags(text):
         merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
         merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-        st.dataframe(merged_df, use_container_width=True)
+        
     elif lang_detected == 'en':
         nlp = spacy.load('en_core_web_sm-3.2.0')	
         english_tagger_pipeline = spacy.load('en_dual_none_contextual')
@@ -417,7 +417,7 @@ def Pymsas_tags(text):
         merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
         merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-        st.dataframe(merged_df,use_container_width=True)
+     return(merged_df['USAS Tags'])
 
 
     
@@ -503,7 +503,11 @@ def get_wordcloud (data, key):
         elif cloud_type == 'Numbers':
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
         elif cloud_type == 'Semantic Tags':
-             Pymsas_tags(input_data)
+            tags = Pymsas_tags(input_data)
+            tags = tags.astype(str)
+            wordcloud = wc.generate(tags)
+
+            
         else: 
             pass
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
