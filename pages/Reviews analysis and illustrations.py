@@ -383,6 +383,8 @@ def select_columns(data, key):
 
 
 #################Get the PyMusas tags ################
+###read the PYmusas list
+pymusaslist = pd.read_csv('data/Pymusas-list.txt', names= ['USAS Tags','Equivalent Tag'])
 def Pymsas_tags(text):
     with open('cy_tagged.txt','w') as f:
     	f.write(text)
