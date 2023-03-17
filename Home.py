@@ -154,12 +154,12 @@ with st.container():
     with left_column:
         data_url_2 = read_gif("img/semantic.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" src="data:image/gif;base64,{data_url_2} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Word_Types_and_Relations"><img width="500" height="500" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
 
     with right_column:
-        st.subheader(_("[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)"))
+        st.subheader(_("[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Word_Types_and_Relations)"))
         st.write(_('This feature uses the PyMUSAS pipeline on Spacy to generate and display POS (CyTag) tags as well as semantic (USAS) tags. It currently works on the Ucrel-freetxt-VM as setting up Docker on the Streamlit cloud is a bit complex'))
 
         text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
