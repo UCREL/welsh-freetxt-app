@@ -194,7 +194,7 @@ if lang_detected == 'cy':
 # Display the final dataframe
 	st.dataframe(merged_df, use_container_width=True)
 	
-	
+	st.dataframe(pymusaslist)
 		
 
         
