@@ -187,7 +187,7 @@ if lang_detected == 'cy':
 	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
 	merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
 	st.dataframe(merged_df, use_container_width=True)
-	st.dataframe(pymusaslist)
+	
 		
 
         
