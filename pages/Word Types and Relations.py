@@ -156,14 +156,11 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 						''')
 
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
-#text = preprocess_punc(text)
-#with open ('img/data.txt', "w") as f:
- # 		f.write(text)
+###read the PYmusas list
+pymusaslist = pd.read_csv('data/Pymusas-list.txt', columns= ['USAS Tags','Equivalent Tag'])
 
-#text = "The Nile is a major north-flowing river in Northeastern Africa."
-#data = pd.DataFrame(pd.read_csv('img/data.txt',names=[0]))
-#data.to_csv('img/nn.txt')
-#st.dataframe(data)
+
+
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
@@ -186,8 +183,17 @@ if lang_detected == 'cy':
 	
 	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
 	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split(',').str[0].str.replace('[\[\]]', '', regex=True)
-	st.dataframe(cy_tagged,use_container_width=True)
+	# Merge the two dataframes on the 'USAS Tags' column
+        merged_df = pd.merge(cy_tagged, equivalent_tags_df, on='USAS Tags', how='left')
 
+        # Replace values in 'USAS Tags' column with corresponding values from 'Equivalent Tag' column
+        merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
+
+# Drop the 'Equivalent Tag' column
+        merged_df = merged_df.drop(columns='Equivalent Tag')
+
+# Display the final dataframe
+        st.dataframe(merged_df, use_container_width=True)
 	
 	
 		
