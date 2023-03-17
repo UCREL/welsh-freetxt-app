@@ -381,6 +381,42 @@ def select_columns(data, key):
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
+
+#################Get the PyMusas tags ################
+def Pymsas_tags(text):
+    with open('cy_tagged.txt','w') as f:
+    	f.write(response.text)
+    if lang_detected == 'cy':
+	files = {
+   	 'type': (None, 'rest'),
+    	'style': (None, 'tab'),
+    	'lang': (None, 'cy'),
+    	'text': text,
+		}
+	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
+	data = response.text
+	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
+	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split(',').str[0].str.replace('[\[\]"\']', '', regex=True)
+	merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
+	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
+	merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+	st.dataframe(merged_df, use_container_width=True)
+    elif lang_detected == 'en':
+	nlp = spacy.load('en_core_web_sm-3.2.0')	
+	english_tagger_pipeline = spacy.load('en_dual_none_contextual')
+	nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
+	output_doc = nlp(text)		
+	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+	tagged_tokens = []
+	for token in output_doc:
+		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
+	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+	merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
+	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
+	merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+	st.dataframe(tagged_tokens_df,use_container_width=True)
+
+
     
 ###to upload image
 def load_image(image_file):
@@ -442,7 +478,7 @@ def get_wordcloud (data, key):
         
             
         cloud_type = tab2.selectbox('Choose Cloud category:',
-            ['All words', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
+            ['All words','Semantic Tags', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
             wordcloud = wc.generate(input_data)        
         elif cloud_type == 'Bigrams':
@@ -463,6 +499,8 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "ADV"]))
         elif cloud_type == 'Numbers':
             wordcloud = wc.generate_from_frequencies(Counter([token.text for token in doc if token.pos_ == "NUM"]))
+	elif cloud_type == '':
+		Pymsas_tags(input_data)
         else: 
             pass
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
