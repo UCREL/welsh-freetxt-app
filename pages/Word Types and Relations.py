@@ -189,8 +189,7 @@ if lang_detected == 'cy':
         # Replace values in 'USAS Tags' column with corresponding values from 'Equivalent Tag' column
 	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
 
-# Drop the 'Equivalent Tag' column
-	merged_df = merged_df.drop(columns='Equivalent Tag')
+
 
 # Display the final dataframe
 	st.dataframe(merged_df, use_container_width=True)
