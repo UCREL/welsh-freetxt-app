@@ -184,16 +184,16 @@ if lang_detected == 'cy':
 	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
 	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split(',').str[0].str.replace('[\[\]]', '', regex=True)
 	# Merge the two dataframes on the 'USAS Tags' column
-        merged_df = pd.merge(cy_tagged, equivalent_tags_df, on='USAS Tags', how='left')
+	merged_df = pd.merge(cy_tagged, equivalent_tags_df, on='USAS Tags', how='left')
 
         # Replace values in 'USAS Tags' column with corresponding values from 'Equivalent Tag' column
-        merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
+	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
 
 # Drop the 'Equivalent Tag' column
-        merged_df = merged_df.drop(columns='Equivalent Tag')
+	merged_df = merged_df.drop(columns='Equivalent Tag')
 
 # Display the final dataframe
-        st.dataframe(merged_df, use_container_width=True)
+	st.dataframe(merged_df, use_container_width=True)
 	
 	
 		
