@@ -414,9 +414,9 @@ def Pymsas_tags(text):
         for token in output_doc:
              tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
         tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-        merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
-        merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
-        merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+        #merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
+        #merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
+        #merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
         st.dataframe(tagged_tokens_df,use_container_width=True)
 
 
