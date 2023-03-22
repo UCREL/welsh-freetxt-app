@@ -29,5 +29,4 @@ canvas
 fpdf2
 polyglot
 pyicu
-pycld2
-morfessor
+
