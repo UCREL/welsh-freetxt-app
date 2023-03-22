@@ -29,7 +29,7 @@ canvas
 fpdf2
 polyglot
 wheel>=0.23.0
-icu4c
+python3-icu
 
 
 
