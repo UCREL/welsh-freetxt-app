@@ -18,33 +18,31 @@ msgstr ""
 
 #: Home.py:110
 msgid "[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations)"
-msgstr "[Dadansoddiad adolygiadau a darluniau](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations)"
+msgstr "[Dadansoddi a darlunio adolygiadau](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_&_illustrations)"
 
 #: Home.py:111
 msgid "This is one of the key features of the tool and has three core components: a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at."
-msgstr "Dyma un o nodweddion allweddol yr offeryn ac mae ganddo dair cydran graidd: a. Data View: Mae hyn yn galluogi'r defnyddiwr i ddangos a delweddu'r colofnau dewisiedig o'r ffeil data y dymunant edrych arni."
-
+msgstr "Dyma un o brif nodweddion yr offeryn ac mae tair cydran iddo: a. Golwg Data: Mae hyn yn caniatáu i'r defnyddiwr arddangos a delweddu'r colofnau a ddewiswyd o'r ffeil ddata maen nhw eisiau edrych arni."
 #: Home.py:132
 msgid "[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Positive_and_Negative_reviews)"
 msgstr "[Adolygiadau Cadarnhaol a Negyddol]( https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Positive_and_Negative_reviews)"
 
 #: Home.py:133
 msgid "This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output"
-msgstr "Mae'r nodwedd hon yn perfformio dosbarthiad sentiment ar adolygiadau o golofn(au) dethol ac yn dangos siart cylch i ddelweddu'r allbwn"
-
+msgstr "Mae'r nodwedd hon yn dosbarthu adolygiadau o'r golofn (colofnau) a ddewiswyd o ran sentiment ac yn arddangos siart cylch er mwyn delweddu'r allbwn"
 #: Home.py:142
 msgid "[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Generate_a_summary)"
-msgstr "[Cynhyrchu_a_crynodeb]( https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Generate_a_summary)"
+msgstr "[Creu crynodeb]( https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Generate_a_summary)"
 
 #: Home.py:143
 msgid "This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns."
-msgstr "Mae'r teclyn hwn, a addaswyd o'r prosiect Crynhoi Cymraeg, yn cynhyrchu crynodeb echdynnu sylfaenol o'r testun adolygu o'r colofnau a ddewiswyd."
+msgstr "Mae'r offeryn hwn a addaswyd o'r prosiect Creu Crynodebau yn creu crynodeb echdynnol sylfaenol o destun yr adolygiad o'r colofnau a ddewiswyd."
 
 #: Home.py:162
 msgid "[Word_Types_and_Relations](https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)"
-msgstr "[Word_Types_and_Perthynas]( https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)"
+msgstr "[Mathau o Eiriau a Chysylltiadau]( https://ucrel-welsh-freetxt-app-home-i3gq4l.streamlit.app/Word_Types_and_Relations)"
 
 #: Home.py:163
 msgid "This feature uses the PyMUSAS pipeline on Spacy to generate and display POS (CyTag) tags as well as semantic (USAS) tags. It currently works on the Ucrel-freetxt-VM as setting up Docker on the Streamlit cloud is a bit complex"
-msgstr "Mae'n gweithio ar yr Ucrel-freetxt-VM ar hyn o bryd gan fod gosod Docker ar y cwmwl Streamlit ychydig yn gymhleth"
+msgstr "Mae'r nodwedd hon yn defnyddio'r biblinell PyMUSAS ar Spacy i greu ac arddangos tagiau Rhan Ymadrodd (CyTag) yn ogystal â thagiau semantig (USAS). Ar hyn o bryd mae'n gweithio ar Ucrel-freetxt-VM gan fod gosod Docker ar gwmwl Streamlit braidd yn gymhleth"
 
