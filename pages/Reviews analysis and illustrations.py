@@ -628,7 +628,7 @@ def plot_coll(keyword, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
-    pos = nx.circular_layout(G)
+    pos = nx.spring_layout(G)
 
     node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
