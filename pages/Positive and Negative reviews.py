@@ -189,43 +189,25 @@ downloader.download("TASK:sentiment2")
 # --------------------Sentiments-----------------------
 
 #---Polarity score
+
 def get_sentiment(polarity):
     return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
         0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
         ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
-#---Subjectivity score
-def get_subjectivity(subjectivity):
-    return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
-#---Subjectivity distribution
-@st.cache
-def get_subjectivity_distribution(scores, sentiment_class):
-    count = Counter([b for _, _, a, _, b in scores if a == sentiment_class])
-    return count['OBJECTIVE'], count['SUBJECTIVE']
 
-def process_sentiments(text):
-    all_reviews = text.split('\n')
-    sentiment_scores = []
-    sentiments_list = []
-    #subjectivity_list = []
-    
-    for review in all_reviews:
+def get_text_sentiments(reviews):
+    results = []
+    for review in reviews:
         text = Text(review)
-        polarity = text.polarity
-        #subjectivity = text.subjectivity
-        sentiment_class = get_sentiment(polarity)
-        #subjectivity_category = get_subjectivity(subjectivity)
-        sentiments_list.append(sentiment_class)
-        #subjectivity_list.append(subjectivity_category)
-        #, subjectivity, subjectivity_category
-        sentiment_scores.append((review, polarity, sentiment_class))
-        
-    very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
-    positive = get_subjectivity_distribution(sentiment_scores,'Positive')
-    neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
-    negative = get_subjectivity_distribution(sentiment_scores,'Negative')
-    very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
-    
-    return sentiment_scores, (very_positive, positive, neutral, negative, very_negative)
+        polarity = sum([w.polarity for w in text.words if isinstance(w.polarity, float)])
+        num_words = len([w for w in text.words if isinstance(w.polarity, float)])
+        avg_polarity = polarity / num_words if num_words > 0 else 0
+        sentiment = get_sentiment(avg_polarity)
+        results.append((review, avg_polarity, sentiment))
+    return results
+
+
+
    
 
   
@@ -289,9 +271,9 @@ if status:
                     tab1, tab2 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter'])
                     with tab1:
                         
-                        input_text = ' '.join([' '.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
+                        input_text = '/n'.join(['/n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         
-                        text = process_sentiments(input_text)
+                        text = get_text_sentiments(input_text)
                         if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                            plot_sentiments(text[1], fine_grained=False)
                         else:
