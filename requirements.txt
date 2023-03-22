@@ -27,5 +27,5 @@ pymupdf
 reportlab
 canvas
 fpdf2
-polyglot
+
 
