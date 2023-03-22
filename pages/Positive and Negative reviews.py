@@ -179,7 +179,7 @@ def select_columns(data, key):
 import polyglot
 from polyglot.text import Text
 text = Text("The movie was really good.")
-
+from polyglot download sentiment2.en
 for w in text.words:
     st.write(w)
     st.write(w.polarity)
