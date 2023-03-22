@@ -184,7 +184,7 @@ downloader.download("TASK:sentiment2")
 #st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
 #for w in text.words:
    # st.write("{:<16}{:>2}".format(w, w.polarity))
-polyglot download en:SENTIMENT    
+  
 
 # --------------------Sentiments-----------------------
 
