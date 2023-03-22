@@ -209,8 +209,13 @@ def get_text_sentiments(reviews):
 
 ###########Bert
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
+st.write("Loading tokenizer...")
 tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+
+st.write("Loading model...")
 model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+
+print("Model loaded.")
 
 text = "This is a positive sentence."
 inputs = tokenizer.encode_plus(
