@@ -29,7 +29,6 @@ canvas
 fpdf2
 polyglot
 wheel>=0.23.0
-pkg-config
 PyICU
 
 
