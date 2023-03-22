@@ -181,7 +181,8 @@ from polyglot.text import Text
 text = Text("The movie was really good."
 
 for w in text.words:
-    st.write(w, w.polarity)
+    st.write(w)
+    st.write(w.polarity)
 # --------------------Sentiments-----------------------
 
 #---Polarity score
