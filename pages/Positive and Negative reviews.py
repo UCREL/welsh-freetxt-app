@@ -178,57 +178,56 @@ def select_columns(data, key):
 
 import polyglot
 from polyglot.text import Text
-text = Text("The movie was really good.")
+#text = Text("The movie was really good.")
 from polyglot.downloader import downloader
 downloader.download("TASK:sentiment2")
 #st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
 #for w in text.words:
    # st.write("{:<16}{:>2}".format(w, w.polarity))
+    
+
+from collections import Counter
 # --------------------Sentiments-----------------------
 
 #---Polarity score
 def get_sentiment(polarity):
-  return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
-    0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
-    ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
-
+    return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
+        0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
+        ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
 #---Subjectivity score
 def get_subjectivity(subjectivity):
-  return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
+    return 'SUBJECTIVE' if subjectivity > 0.5 else 'OBJECTIVE'
 #---Subjectivity distribution
 @st.cache
 def get_subjectivity_distribution(scores, sentiment_class):
-  count = Counter([b for _, _, a, _, b in scores if a==sentiment_class])
-  return count['OBJECTIVE'], count['SUBJECTIVE']
+    count = Counter([b for _, _, a, _, b in scores if a == sentiment_class])
+    return count['OBJECTIVE'], count['SUBJECTIVE']
 
-def plotfunc(pct, data):
-  absolute = int(np.round(pct/100.*np.sum([sum(d) for d in data])))
-  return "{:.1f}%\n({:d} reviews)".format(pct, absolute)
-# ---------------------
 def process_sentiments(text):
-  # all_reviews = sent_tokenize(text)
-  all_reviews = text.split('\n')
-  # -------------------
-  sentiment_scores = []
-  # -------------------
-  sentiments_list = []
-  subjectivity_list = []
+    all_reviews = text.split('\n')
+    sentiment_scores = []
+    sentiments_list = []
+    subjectivity_list = []
+    
+    for review in all_reviews:
+        text = Text(review)
+        polarity = text.polarity
+        subjectivity = text.subjectivity
+        sentiment_class = get_sentiment(polarity)
+        subjectivity_category = get_subjectivity(subjectivity)
+        sentiments_list.append(sentiment_class)
+        subjectivity_list.append(subjectivity_category)
+        sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
+        
+    very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
+    positive = get_subjectivity_distribution(sentiment_scores,'Positive')
+    neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
+    negative = get_subjectivity_distribution(sentiment_scores,'Negative')
+    very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
+    
+    return sentiment_scores, (very_positive, positive, neutral, negative, very_negative)
+   
 
-  #-------------------
-  for review in all_reviews:
-    blob = TextBlob(review)
-    polarity, subjectivity = blob.sentiment
-    sentiment_class, subjectivity_category = get_sentiment(polarity), get_subjectivity(subjectivity)
-    sentiments_list.append(sentiment_class)
-    subjectivity_list.append(subjectivity_category)
-    sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
-  # -------------------
-  very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
-  positive = get_subjectivity_distribution(sentiment_scores,'Positive')
-  neutral = get_subjectivity_distribution(sentiment_scores,'Neutral')
-  negative = get_subjectivity_distribution(sentiment_scores,'Negative')
-  very_negative = get_subjectivity_distribution(sentiment_scores,'Very Negative')
-  return sentiment_scores, (very_positive, positive, neutral, negative, very_negative)
   
 # ---------------------
 def plot_sentiments(data, fine_grained=True):
