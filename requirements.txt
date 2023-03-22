@@ -36,3 +36,4 @@ morfessor>=2.0.2a1
 numpy>=1.6.1
 PyICU==2.4.2
 pyicu
+transformers
