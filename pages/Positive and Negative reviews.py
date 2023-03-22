@@ -182,7 +182,7 @@ text = Text("The movie was really good.")
 
 for w in text.words:
     st.write(w)
-    st.write(w.polarity)
+    #st.write(w.polarity)
 # --------------------Sentiments-----------------------
 
 #---Polarity score
