@@ -178,7 +178,7 @@ def select_columns(data, key):
 
 import polyglot
 from polyglot.text import Text
-text = Text("The movie was really good."
+text = Text("The movie was really good.")
 
 for w in text.words:
     st.write(w)
