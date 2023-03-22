@@ -34,3 +34,4 @@ six>=1.7.3
 futures>=2.1.6
 morfessor>=2.0.2a1
 numpy>=1.6.1
+PyICU>=1.8
