@@ -28,7 +28,7 @@ reportlab
 canvas
 fpdf2
 polyglot
-python3-icu
+
 
 
 
