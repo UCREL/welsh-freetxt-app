@@ -206,16 +206,16 @@ def process_sentiments(text):
     all_reviews = text.split('\n')
     sentiment_scores = []
     sentiments_list = []
-    subjectivity_list = []
+    #subjectivity_list = []
     
     for review in all_reviews:
         text = Text(review)
         polarity = text.polarity
-        subjectivity = text.subjectivity
+        #subjectivity = text.subjectivity
         sentiment_class = get_sentiment(polarity)
-        subjectivity_category = get_subjectivity(subjectivity)
+        #subjectivity_category = get_subjectivity(subjectivity)
         sentiments_list.append(sentiment_class)
-        subjectivity_list.append(subjectivity_category)
+        #subjectivity_list.append(subjectivity_category)
         sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
         
     very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
