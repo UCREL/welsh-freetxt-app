@@ -177,7 +177,8 @@ def select_columns(data, key):
 
 
 
-
+from polyglot.downloader import downloader
+st.write(downloader.supported_languages_table("sentiment2", 3))
 # --------------------Sentiments-----------------------
 
 #---Polarity score
