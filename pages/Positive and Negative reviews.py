@@ -42,6 +42,7 @@ import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 
+
 import scattertext as tt
 import spacy
 from pprint import pprint
@@ -206,7 +207,25 @@ def get_text_sentiments(reviews):
         results.append((review, avg_polarity, sentiment))
     return results
 
+###########Bert
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
+tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
+text = "This is a positive sentence."
+inputs = tokenizer.encode_plus(
+    text,
+    add_special_tokens=True,
+    return_attention_mask=True,
+    return_tensors="pt"
+)
+outputs = model(**inputs)
+scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
+sentiment_index = scores.argmax()
+sentiment_label = sentiment_labels[sentiment_index]
+
+st.write(f"The sentiment of '{text}' is '{sentiment_label}' with a score of {scores[sentiment_index]:.2f}.")
 
    
 
@@ -273,15 +292,15 @@ if status:
                         
                         input_text = '/n'.join(['/n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         
-                        text = get_text_sentiments(input_text)
-                        if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
-                           plot_sentiments(text[1], fine_grained=False)
-                        else:
-                           plot_sentiments(text[1])
-                        num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
-                        df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-                        df = df[['Review','Polarity', 'Sentiment']]
-                        df.index = np.arange(1, len(df) + 1)
+                       # text = get_text_sentiments(input_text)
+                        #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
+                         #  plot_sentiments(text[1], fine_grained=False)
+                        #else:
+                         #  plot_sentiments(text[1])
+                       # num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
+                       # df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
+                       # df = df[['Review','Polarity', 'Sentiment']]
+                       # df.index = np.arange(1, len(df) + 1)
                     with tab2:
                           #### interactive dataframe
                          gb = GridOptionsBuilder.from_dataframe(df)
