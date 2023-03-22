@@ -216,7 +216,8 @@ def process_sentiments(text):
         #subjectivity_category = get_subjectivity(subjectivity)
         sentiments_list.append(sentiment_class)
         #subjectivity_list.append(subjectivity_category)
-        sentiment_scores.append((review, polarity, sentiment_class, subjectivity, subjectivity_category))
+        #, subjectivity, subjectivity_category
+        sentiment_scores.append((review, polarity, sentiment_class))
         
     very_positive = get_subjectivity_distribution(sentiment_scores,'Very Positive')
     positive = get_subjectivity_distribution(sentiment_scores,'Positive')
