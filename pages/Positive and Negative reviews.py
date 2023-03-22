@@ -265,7 +265,8 @@ elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
 else: pass
 status, data = input_data
 
-
+from polyglot.downloader import downloader
+st.write(downloader.supported_languages_table("sentiment2", 3))
     
 if status:
         option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
