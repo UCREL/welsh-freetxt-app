@@ -209,28 +209,48 @@ def get_text_sentiments(reviews):
 
 ###########Bert
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
-st.write("Loading tokenizer...")
-tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
-st.write("Loading model...")
-model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+def preprocess_text(text):
+    # remove URLs, mentions, and hashtags
+    text = re.sub(r"http\S+|@\S+|#\S+", "", text)
 
-print("Model loaded.")
+    # remove punctuation and convert to lowercase
+    text = re.sub(f"[{re.escape(''.join(PUNCS))}]", "", text.lower())
 
-text = "This is a positive sentence."
-inputs = tokenizer.encode_plus(
-    text,
-    add_special_tokens=True,
-    return_attention_mask=True,
-    return_tensors="pt"
-)
-outputs = model(**inputs)
-scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
-sentiment_index = scores.argmax()
-sentiment_label = sentiment_labels[sentiment_index]
+    # remove stopwords
+    text = " ".join(word for word in text.split() if word not in STOPWORDS)
 
-st.write(f"The sentiment of '{text}' is '{sentiment_label}' with a score of {scores[sentiment_index]:.2f}.")
+    return text
+
+def analyze_sentiment(input_text):
+    # load tokenizer and model
+    tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+    model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
+
+    # preprocess input text and split into reviews
+    reviews = input_text.split("\n")
+
+    # predict sentiment for each review
+    sentiments = []
+    for review in reviews:
+        review = preprocess_text(review)
+        if review:
+            inputs = tokenizer.encode_plus(
+                review,
+                add_special_tokens=True,
+                return_attention_mask=True,
+                return_tensors="pt"
+            )
+            outputs = model(**inputs)
+            scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+            sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
+            sentiment_index = scores.argmax()
+            sentiment_label = sentiment_labels[sentiment_index]
+            sentiment_score = scores[sentiment_index]
+            sentiments.append((review, sentiment_label, sentiment_score))
+
+    return sentiments
+
 
    
 
@@ -296,7 +316,10 @@ if status:
                     with tab1:
                         
                         input_text = '/n'.join(['/n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
-                        
+                        sentiments = analyze_sentiment(input_text)
+
+                        for review, sentiment, score in sentiments:
+                            st.write(f"Review: {review}\nSentiment: {sentiment}\nScore: {score:.2f}\n")
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
