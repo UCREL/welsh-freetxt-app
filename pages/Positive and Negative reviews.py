@@ -180,6 +180,7 @@ import polyglot
 from polyglot.text import Text
 text = Text("The movie was really good.")
 from polyglot.downloader import downloader
+downloader.download("TASK:sentiment2")
 for w in text.words:
     st.write(w)
     st.write(w.polarity)
