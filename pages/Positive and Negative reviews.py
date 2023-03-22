@@ -186,7 +186,6 @@ downloader.download("TASK:sentiment2")
    # st.write("{:<16}{:>2}".format(w, w.polarity))
     
 
-from collections import Counter
 # --------------------Sentiments-----------------------
 
 #---Polarity score
