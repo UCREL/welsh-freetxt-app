@@ -85,7 +85,7 @@ try:
   _ = localizator.gettext 
 except:
     pass
-st.markdown("# FreeTxt Text Analysis")
+st.markdown (_("# FreeTxt Text Analysis"))
 
         
 add_logo("img/FreeTxt_logo.png") 
