@@ -243,7 +243,7 @@ def analyze_sentiment(input_text):
             )
             outputs = model(**inputs)
             scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-            sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
+            sentiment_labels = ['Very negative', 'negative', 'neutral', 'positive', 'Very positive']
             sentiment_index = scores.argmax()
             sentiment_label = sentiment_labels[sentiment_index]
             sentiment_score = scores[sentiment_index]
