@@ -318,8 +318,9 @@ if status:
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         sentiments = analyze_sentiment(input_text)
 
-                        for review, sentiment, score in sentiments:
-                            st.write(f"Review: {review}\nSentiment: {sentiment}\nScore: {score:.2f}\n")
+                    
+                        analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
+                        st.dataframe(analysis)
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
