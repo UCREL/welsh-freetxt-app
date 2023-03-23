@@ -228,7 +228,7 @@ def analyze_sentiment(input_text):
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
     # preprocess input text and split into reviews
-    reviews = input_text.to_list()
+    reviews = input_text
 
     # predict sentiment for each review
     sentiments = []
