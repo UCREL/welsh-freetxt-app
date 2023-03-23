@@ -225,7 +225,7 @@ def analyze_sentiment(input_text, num_classes=3):
             )
             outputs = model(**inputs)
             scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-            sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
+            sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
             sentiment_index = scores.argmax()
             sentiment_label = sentiment_labels[sentiment_index]
             sentiment_score = scores[sentiment_index]
@@ -334,9 +334,10 @@ if status:
 
                     
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
-                        st.dataframe(analysis)
+                        
                         plot_sentiment(analysis)
                         plot_sentiment_pie(analysis)
+                        st.dataframe(analysis)
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
