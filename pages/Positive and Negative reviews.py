@@ -251,7 +251,40 @@ def analyze_sentiment(input_text):
 
     return sentiments
 
+#####
+import plotly.graph_objs as go
+import plotly.io as pio
 
+def plot_sentiment(df):
+    # count the number of reviews in each sentiment label
+    counts = df['Sentiment Label'].value_counts()
+
+    # create the bar chart
+    data = [
+        go.Bar(
+            x=counts.index,
+            y=counts.values,
+            text=counts.values,
+            textposition='auto',
+            marker=dict(color='rgb(63, 81, 181)')
+        )
+    ]
+
+    # set the layout
+    layout = go.Layout(
+        title='Sentiment Analysis Results',
+        xaxis=dict(title='Sentiment Label'),
+        yaxis=dict(title='Number of Reviews'),
+        plot_bgcolor='white',
+        font=dict(family='Arial, sans-serif', size=14, color='black'),
+        margin=dict(l=50, r=50, t=80, b=50)
+    )
+
+    # create the figure
+    fig = go.Figure(data=data, layout=layout)
+
+    # show the plot
+    pio.show(fig)
    
 
   
@@ -321,6 +354,7 @@ if status:
                     
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                         st.dataframe(analysis)
+                        plot_sentiment(analysis)
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
