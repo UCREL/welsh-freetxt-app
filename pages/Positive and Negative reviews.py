@@ -337,7 +337,7 @@ if status:
                         
                         plot_sentiment(analysis)
                         plot_sentiment_pie(analysis)
-                        st.dataframe(analysis)
+                        st.dataframe(analysis, use_container_width= True )
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
