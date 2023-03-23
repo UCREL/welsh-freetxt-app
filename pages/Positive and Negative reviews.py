@@ -269,6 +269,7 @@ def plot_sentiment(df):
     st.plotly_chart(fig)
    
 def plot_sentiment_pie(df):
+
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -296,18 +297,8 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # define the callback function to filter the data frame
-    def filter_dataframe(trace, points, state):
-        selected_labels = [point['label'] for point in points]
-        if selected_labels:
-            filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-            st.write(filtered_df)
-
-    # add the callback function to the figure
-    fig.on_click(filter_dataframe)
-
-    # show the plot
     st.plotly_chart(fig)
+
 
 
 
