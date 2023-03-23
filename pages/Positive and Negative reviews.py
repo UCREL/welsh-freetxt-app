@@ -225,16 +225,9 @@ def analyze_sentiment(input_text, num_classes=3):
             )
             outputs = model(**inputs)
             scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-            if num_classes == 3:
-                labels = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
-            elif num_classes == 5:
-                labels = {0: 'Very Negative', 1: 'Negative', 2: 'Neutral', 3: 'Positive', 4: 'Very Positive'}
-            else:
-                raise ValueError("Invalid number of classes. Must be either 3 or 5.")
-            
-            #sentiment_labels = ['Very negative', 'negative', 'neutral', 'positive', 'Very positive']
+            sentiment_labels = ['negative', 'somewhat negative', 'neutral', 'somewhat positive', 'positive']
             sentiment_index = scores.argmax()
-            sentiment_label = labels[sentiment_index]
+            sentiment_label = sentiment_labels[sentiment_index]
             sentiment_score = scores[sentiment_index]
             sentiments.append((review, sentiment_label, sentiment_score))
 
