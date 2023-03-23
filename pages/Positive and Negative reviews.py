@@ -315,7 +315,7 @@ if status:
                     tab1, tab2 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter'])
                     with tab1:
                         
-                        input_text = ' '.join([' '.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
+                        input_text = '/n'.join(['/n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         sentiments = analyze_sentiment(input_text)
 
                         for review, sentiment, score in sentiments:
