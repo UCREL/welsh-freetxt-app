@@ -284,7 +284,7 @@ def plot_sentiment(df):
     fig = go.Figure(data=data, layout=layout)
 
     # show the plot
-    pio.show(fig)
+     st.plotly_chart(fig)
    
 
   
