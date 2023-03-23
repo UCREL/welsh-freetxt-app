@@ -268,10 +268,10 @@ def plot_sentiment(df):
     # show the plot
     st.plotly_chart(fig)
    
-
+import plotly.graph_objs as go
+import plotly.io as pio
 
 def plot_sentiment_pie(df):
-
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -284,7 +284,8 @@ def plot_sentiment_pie(df):
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)']),
+            name='Sentiment Label'
         )
     ]
 
@@ -293,13 +294,56 @@ def plot_sentiment_pie(df):
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
-        margin=dict(l=50, r=50, t=80, b=50)
+        margin=dict(l=50, r=50, t=80, b=50),
+        updatemenus=[{
+            'buttons': [
+                {
+                    'args': [
+                        {'visible': [True, False, False]},
+                        {'title': 'Positive Sentiment'}
+                    ],
+                    'label': 'Positive',
+                    'method': 'update'
+                },
+                {
+                    'args': [
+                        {'visible': [False, True, False]},
+                        {'title': 'Neutral Sentiment'}
+                    ],
+                    'label': 'Neutral',
+                    'method': 'update'
+                },
+                {
+                    'args': [
+                        {'visible': [False, False, True]},
+                        {'title': 'Negative Sentiment'}
+                    ],
+                    'label': 'Negative',
+                    'method': 'update'
+                },
+                {
+                    'args': [
+                        {'visible': [True, True, True]},
+                        {'title': 'Sentiment Analysis Results'}
+                    ],
+                    'label': 'All',
+                    'method': 'update'
+                }
+            ],
+            'direction': 'down',
+            'showactive': True,
+            'x': 0.1,
+            'y': 1.15
+        }]
     )
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
+    # show the plot
     st.plotly_chart(fig)
+
+
 
 
 
