@@ -187,25 +187,7 @@ downloader.download("TASK:sentiment2")
    # st.write("{:<16}{:>2}".format(w, w.polarity))
   
 
-# --------------------Sentiments-----------------------
-
-#---Polarity score
-
-def get_sentiment(polarity):
-    return 'Very Positive' if polarity >= 0.5 else 'Positive' if (
-        0.5 > polarity > 0.0) else 'Negative' if (0.0 > polarity >= -0.5
-        ) else 'Very Negative' if -0.5 > polarity else 'Neutral'
-
-def get_text_sentiments(reviews):
-    results = []
-    for review in reviews:
-        text = Text(review)
-        polarity = sum([w.polarity for w in text.words if isinstance(w.polarity, float)])
-        num_words = len([w for w in text.words if isinstance(w.polarity, float)])
-        avg_polarity = polarity / num_words if num_words > 0 else 0
-        sentiment = get_sentiment(avg_polarity)
-        results.append((review, avg_polarity, sentiment))
-    return results
+# --------------------Sentiments----------------------
 
 ###########Bert
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
@@ -222,7 +204,7 @@ def preprocess_text(text):
 
     return text
 
-def analyze_sentiment(input_text):
+def analyze_sentiment(input_text, num_classes=3):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
@@ -243,9 +225,16 @@ def analyze_sentiment(input_text):
             )
             outputs = model(**inputs)
             scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-            sentiment_labels = ['Very negative', 'negative', 'neutral', 'positive', 'Very positive']
+            if num_classes == 3:
+                labels = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
+            elif num_classes == 5:
+                labels = {0: 'Very Negative', 1: 'Negative', 2: 'Neutral', 3: 'Positive', 4: 'Very Positive'}
+            else:
+                raise ValueError("Invalid number of classes. Must be either 3 or 5.")
+            
+            #sentiment_labels = ['Very negative', 'negative', 'neutral', 'positive', 'Very positive']
             sentiment_index = scores.argmax()
-            sentiment_label = sentiment_labels[sentiment_index]
+            sentiment_label = labels[sentiment_index]
             sentiment_score = scores[sentiment_index]
             sentiments.append((review, sentiment_label, sentiment_score))
 
@@ -319,39 +308,6 @@ def plot_sentiment_pie(df):
     # show the plot
     st.plotly_chart(fig)
 
-  
-# ---------------------
-def plot_sentiments(data, fine_grained=True):
-  fig, ax = plt.subplots(figsize=(5,5))
-  size = 0.7 
-  cmap = plt.get_cmap("tab20c")
-
-  if not fine_grained:
-    new_pos = tuple(map(lambda x, y: x + y, data[0], data[1]))
-    new_neg = tuple(map(lambda x, y: x + y, data[3], data[4]))
-    data = new_pos, data[2], new_neg
-    color_code = [8, 3, 4]
-    labels = ["Positive", "Neutral", "Negative"]
-  else:
-    color_code =  [8, 10, 3, 5, 4]
-    labels = ["Very Positive", "Positive", "Neutral", "Negative", "Very Negative"]
-
-  vals = np.array(data)
-  outer_colors =  cmap(np.array(color_code)) # cmap(np.arange(5))
-  # inner_colors = cmap(np.arange(10)) # cmap(np.array([1, 2, 3, 4, 5, 6, 7,8, 9, 10]))
-
-  wedges, texts, autotexts = ax.pie(vals.sum(axis=1), radius=1,
-        autopct=lambda pct: plotfunc(pct, data),
-        colors=outer_colors, wedgeprops=dict(width=size, edgecolor='w'),
-        pctdistance=0.60, textprops=dict(color="w", weight="bold", size=8))
-
-  # ax.set_title("Sentiment Chart")
-  
-  ax.legend(wedges, labels, title="Sentiment classes", title_fontsize='small', loc="center left", fontsize=8,
-            bbox_to_anchor=(1, 0, 0.5, 1))
-
-  st.set_option('deprecation.showPyplotGlobalUse', False)
-  st.pyplot()
 
 
 st.markdown('''🎲 Sentiment Analyzer''')
@@ -364,7 +320,7 @@ status, data = input_data
 
     
 if status:
-        option = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
+        num_classes = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
         # With tabbed multiselect
         filenames = list(data.keys())
         #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
