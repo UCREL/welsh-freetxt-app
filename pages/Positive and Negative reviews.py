@@ -287,6 +287,38 @@ def plot_sentiment(df):
     st.plotly_chart(fig)
    
 
+
+def plot_sentiment_pie(df):
+    # count the number of reviews in each sentiment label
+    counts = df['Sentiment Label'].value_counts()
+
+    # calculate the proportions
+    proportions = counts / counts.sum()
+
+    # create the pie chart
+    data = [
+        go.Pie(
+            labels=proportions.index,
+            values=proportions.values,
+            hole=0.4,
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
+        )
+    ]
+
+    # set the layout
+    layout = go.Layout(
+        title='Sentiment Analysis Results',
+        plot_bgcolor='white',
+        font=dict(family='Arial, sans-serif', size=14, color='black'),
+        margin=dict(l=50, r=50, t=80, b=50)
+    )
+
+    # create the figure
+    fig = go.Figure(data=data, layout=layout)
+
+    # show the plot
+    st.plotly_chart(fig)
+
   
 # ---------------------
 def plot_sentiments(data, fine_grained=True):
@@ -355,6 +387,7 @@ if status:
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                         st.dataframe(analysis)
                         plot_sentiment(analysis)
+                        plot_sentiment_pie(analysis)
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
                          #  plot_sentiments(text[1], fine_grained=False)
