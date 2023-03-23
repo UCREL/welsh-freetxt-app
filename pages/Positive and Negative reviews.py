@@ -296,26 +296,17 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # create the callback function for on_click event
-    def filter_dataframe(fig, event_data):
-        if not event_data:
-            # reset the data to the original dataframe
-            st.dataframe(df)
-            return
+    # define the callback function to filter the data frame
+    def filter_dataframe(trace, points, state):
+        selected_labels = [point['label'] for point in points]
+        if selected_labels:
+            filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
+            st.write(filtered_df)
 
-        # get the selected labels from the clicked point
-        selected_labels = [point['label'] for point in event_data['points']]
-
-        # filter the dataframe based on the selected labels
-        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-
-        # show the filtered dataframe
-        st.dataframe(filtered_df)
-
-    # add the on_click event handler to the figure
+    # add the callback function to the figure
     fig.on_click(filter_dataframe)
 
-
+    # show the plot
     st.plotly_chart(fig)
 
 
