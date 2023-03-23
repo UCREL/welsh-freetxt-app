@@ -268,7 +268,7 @@ def plot_sentiment(df):
     # show the plot
     st.plotly_chart(fig)
    
-def plot_sentiment(df):
+def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
