@@ -282,6 +282,9 @@ from ipywidgets import Output, VBox
 
 
 def plot_sentiment_pie(df):
+
+
+
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -307,50 +310,7 @@ def plot_sentiment_pie(df):
     )
 
     # create the figure
-   
-    fig = go.FigureWidget(data=data, layout=layout)
-
-    # add an event handler to capture the selected data points
-    def filter_dataframe(trace, points, state):
-        selected_labels = [point['label'] for point in points]
-        subset_df = df[df['Sentiment Label'].isin(selected_labels)]
-        fig.data[1].cells.values = [subset_df[col] for col in subset_df.columns]
-    
-    fig.add_trace(go.Table(
-        header=dict(values=list(df.columns), fill_color='paleturquoise', align='left'),
-        cells=dict(values=[df[col] for col in df.columns], fill_color='lavender', align='left')
-    ))
-    
-    fig.update_layout(
-        updatemenus=[
-            dict(
-                type="buttons",
-                direction="right",
-                active=0,
-                buttons=list([
-                    dict(label="Clear Filter",
-                         method="update",
-                         args=[{"cells.values": [df[col] for col in df.columns]}]),
-                ]),
-                x=0.8,
-                y=1.2
-            )
-        ]
-    )
-
-    # show the plot
-    fig.update_traces(
-        textposition='inside',
-        textinfo='label+percent',
-        hovertemplate="%{label}: %{value} (%{percent:.2%})"
-    )
-    fig.update_layout(margin=dict(l=20, r=20, t=80, b=20))
-    fig.update_layout(clickmode='event+select')
-
-    fig.data[0].on_click(filter_dataframe)
-
-
-    # show the plot
+    fig = go.Figure(data=data, layout=layout)
     st.plotly_chart(fig)
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -362,6 +322,7 @@ def plot_sentiment_pie(df):
             file_name='Sentiment_analysis_pie.html',
             mime='text/html'
         )
+
 
 
     
