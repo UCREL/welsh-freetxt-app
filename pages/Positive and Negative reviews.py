@@ -311,6 +311,16 @@ def plot_sentiment_pie(df):
 
     # show the plot
     st.plotly_chart(fig)
+    buffer = io.StringIO()
+    fig.write_html(buffer, include_plotlyjs='cdn')
+    html_bytes = buffer.getvalue().encode()
+
+    st.download_button(
+            label='Download Pie Chart',
+            data=html_bytes,
+            file_name='Sentiment_analysis_pie.html',
+            mime='text/html'
+        )
 
 def filter_dataframe(trace, points, selector):
     selected_points = [p for p in points if p['curveNumber'] == 0]
@@ -322,18 +332,7 @@ def filter_dataframe(trace, points, selector):
     else:
         st.plotly_chart(ff.create_table(df))
     
-    # show the plot
-    st.plotly_chart(fig)
-    buffer = io.StringIO()
-    fig.write_html(buffer, include_plotlyjs='cdn')
-    html_bytes = buffer.getvalue().encode()
-
-    st.download_button(
-            label='Download Pie Chart',
-            data=html_bytes,
-            file_name='Sentiment_analysis_pie.html',
-            mime='text/html'
-        )
+  
 
     
     
