@@ -307,7 +307,7 @@ def plot_sentiment_pie(df):
     fig = go.Figure(data=data, layout=layout)
 
     # add an event handler to capture the selected data points
-    fig.add_event_handler('plotly_selected', filter_dataframe)
+    fig.data[0].on_click('plotly_selected', filter_dataframe)
 
     # show the plot
     st.plotly_chart(fig)
