@@ -311,13 +311,13 @@ def plot_sentiment_pie(df):
             selected_labels = [point['label'] for point in points['points']]
             if len(selected_labels) > 0:
                 filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-                st.write(filtered_df)
+                st.dataframe(filtered_df)
 
     
         # create the figure
     fig = go.Figure(data=data, layout=layout)
     fig.data[0].on_click(filter_dataframe)
-   
+    
     # show the plot
     st.plotly_chart(fig)
     buffer = io.StringIO()
@@ -367,7 +367,7 @@ if status:
                         
                         plot_sentiment(analysis)
                         plot_sentiment_pie(analysis)
-                        st.dataframe(analysis, use_container_width= True)
+                        #st.dataframe(analysis, use_container_width= True)
                         
                        # text = get_text_sentiments(input_text)
                         #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
