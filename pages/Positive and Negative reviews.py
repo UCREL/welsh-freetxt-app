@@ -277,7 +277,7 @@ def plot_sentiment(df):
             file_name='Sentiment_analysis_bar.html',
             mime='text/html'
         )
-   
+
 
 def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
@@ -308,6 +308,9 @@ def plot_sentiment_pie(df):
     fig = go.Figure(data=data, layout=layout)
 
     # add an event handler to capture the selected data points
+    fig.on_click(filter_dataframe)
+
+    # show the plot
     selected_points = st.plotly_chart(fig)
     if selected_points:
         selected_labels = [point['label'] for point in selected_points['points']]
@@ -316,6 +319,17 @@ def plot_sentiment_pie(df):
     
     # show the plot
     pio.show(fig)
+    
+def filter_dataframe(trace, points, selector):
+    selected_points = [p for p in points if p['curveNumber'] == 0]
+    if selected_points:
+        selected_indices = [p['pointIndex'] for p in selected_points]
+        selected_labels = df.iloc[selected_indices]['Sentiment Label'].tolist()
+        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
+        st.write(filtered_df)
+    else:
+        st.write(df)
+
 
     
     buffer = io.StringIO()
