@@ -278,6 +278,8 @@ def plot_sentiment(df):
             mime='text/html'
         )
 
+from ipywidgets import Output, VBox
+
 
 def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
@@ -305,7 +307,8 @@ def plot_sentiment_pie(df):
     )
 
     # create the figure
-    fig = go.Figure(data=data, layout=layout)
+   
+    fig = go.FigureWidget(data=data, layout=layout)
 
     # add an event handler to capture the selected data points
     def filter_dataframe(trace, points, state):
