@@ -302,18 +302,12 @@ def plot_sentiment_pie(df):
     from pathlib import Path
 
     if st.button('Download Graph'):
-    # get the path to the Downloads folder
-        downloads_path = str(Path.home() / "Downloads")
-    # create the Downloads folder if it doesn't exist
-        Path(downloads_path).mkdir(parents=True, exist_ok=True)
-    # set the file name
-        filename = 'sentiment_analysis_results.html'
-    # set the full file path
-        filepath = Path(downloads_path) / filename
-    # save the file
-        pio.write_html(fig, file=str(filepath), auto_open=True)
-    # show a success message
-        st.success('Graph downloaded!')
+        mybuff = StringIO()
+        fig.write_html(mybuff, include_plotlyjs='cdn')
+        mybuff = BytesIO(mybuff.getvalue().encode())
+        b64 = base64.b64encode(mybuff.read()).decode()
+        href = f'<a href="data:text/html;charset=utf-8;base64, {b64}" download="plot.html">Download plot</a>'
+        st.markdown(href, unsafe_allow_html=True)
 
 
 
