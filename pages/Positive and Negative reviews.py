@@ -306,7 +306,18 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    st.plotly_chart(fig)
+
+    # add an event handler to capture the selected data points
+    selected_points = st.plotly_chart(fig)
+    if selected_points:
+        selected_labels = [point['label'] for point in selected_points['points']]
+        subset_df = df[df['Sentiment Label'].isin(selected_labels)]
+        st.write(subset_df)
+    
+    # show the plot
+    pio.show(fig)
+
+    
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
