@@ -298,16 +298,18 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
     st.plotly_chart(fig)
-       # add a download button
-    from pathlib import Path
+    buffer = io.StringIO()
+    fig.write_html(buffer, include_plotlyjs='cdn')
+    html_bytes = buffer.getvalue().encode()
 
-    if st.button('Download Graph'):
-        mybuff = StringIO()
-        fig.write_html(mybuff, include_plotlyjs='cdn')
-        mybuff = BytesIO(mybuff.getvalue().encode())
-        b64 = base64.b64encode(mybuff.read()).decode()
-        href = f'<a href="data:text/html;charset=utf-8;base64, {b64}" download="plot.html">Download plot</a>'
-        st.markdown(href, unsafe_allow_html=True)
+    st.download_button(
+            label='Download HTML',
+            data=html_bytes,
+            file_name='stuff.html',
+            mime='text/html'
+        )
+
+
 
 
 
