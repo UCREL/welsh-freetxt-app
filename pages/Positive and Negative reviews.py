@@ -314,7 +314,7 @@ def plot_sentiment_pie(df):
                 filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
                 st.write(filtered_df)
 
-    fig = go.FigureWidget(fig.data, fig.layout)
+    
 
     fig.data[0].on_click(filter_dataframe)
     # show the plot
