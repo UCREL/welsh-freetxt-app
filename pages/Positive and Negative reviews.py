@@ -278,7 +278,6 @@ def plot_sentiment(df):
             mime='text/html'
         )
 
-from ipywidgets import Output, VBox
 
 
 def plot_sentiment_pie(df):
@@ -323,12 +322,7 @@ def plot_sentiment_pie(df):
             mime='text/html'
         )
 
-
-
-    
-  
-
-    
+   
     
 st.markdown('''🎲 Sentiment Analyzer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2]))
