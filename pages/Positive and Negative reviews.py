@@ -268,14 +268,8 @@ def plot_sentiment(df):
     # show the plot
     st.plotly_chart(fig)
    
-def plot_sentiment_pie(df):
 
-import streamlit as st
-import plotly.graph_objects as go
-import pandas as pd
 
-# load sample data
-df = pd.read_csv('sample_data.csv')
 
 def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
