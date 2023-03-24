@@ -277,7 +277,7 @@ def plot_sentiment(df):
             file_name='Sentiment_analysis_bar.html',
             mime='text/html'
         )
-
+import plotly.figure_factory as ff
 def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
@@ -303,20 +303,24 @@ def plot_sentiment_pie(df):
         margin=dict(l=50, r=50, t=80, b=50)
     )
 
-
-
-    # add an event handler to filter the dataframe based on selected sentiment label
-    def filter_dataframe(trace, points, state):
-        if hasattr(points, 'points'):
-            selected_labels = [point['label'] for point in points['points']]
-            if len(selected_labels) > 0:
-                filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-                st.dataframe(filtered_df)
-
-    
-        # create the figure
+    # create the figure
     fig = go.Figure(data=data, layout=layout)
-    fig.data[0].on_click(filter_dataframe)
+
+    # add an event handler to capture the selected data points
+    fig.add_event_handler('plotly_selected', filter_dataframe)
+
+    # show the plot
+    st.plotly_chart(fig)
+
+def filter_dataframe(trace, points, selector):
+    selected_points = [p for p in points if p['curveNumber'] == 0]
+    if selected_points:
+        selected_indices = [p['pointIndex'] for p in selected_points]
+        selected_labels = df.iloc[selected_indices]['Sentiment Label'].tolist()
+        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
+        st.plotly_chart(ff.create_table(filtered_df))
+    else:
+        st.plotly_chart(ff.create_table(df))
     
     # show the plot
     st.plotly_chart(fig)
