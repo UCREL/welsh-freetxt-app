@@ -40,3 +40,4 @@ transformers
 torch
 requests
 regex
+streamlit-plotly-events
