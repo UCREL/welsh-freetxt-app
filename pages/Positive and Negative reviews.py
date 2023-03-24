@@ -300,7 +300,9 @@ def plot_sentiment_pie(df):
 
     st.plotly_chart(fig)
 
-
+    if st.button('Download pie chart'):
+        pio.write_html(fig, file='Sentiment_piechart.html', auto_open=True)
+        st.success('Graph downloaded!')
   
 
 
