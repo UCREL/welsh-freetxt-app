@@ -278,22 +278,7 @@ def plot_sentiment(df):
             mime='text/html'
         )
 
-
-import plotly.graph_objs as go
-import plotly.io as pio
-
-def filter_dataframe(trace, points, selector):
-    selected_points = [p for p in points if p['curveNumber'] == 0]
-    if selected_points:
-        selected_indices = [p['pointIndex'] for p in selected_points]
-        selected_labels = df.iloc[selected_indices]['Sentiment Label'].tolist()
-        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-        st.write(filtered_df)
-    else:
-        st.write(df)
-
-
-def plot_sentiment(df):
+def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -321,20 +306,13 @@ def plot_sentiment(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # add an event handler to filter the dataframe based on selected sentiment label
-    def filter_dataframe(trace, points, state):
-        if hasattr(points, 'points'):
-            selected_labels = [point['label'] for point in points['points']]
-            if len(selected_labels) > 0:
-                filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-                st.write(filtered_df)
+    # add an event handler to capture the selected data points
+    selected_points = st.plotly_chart(fig)
+    if selected_points:
+        selected_labels = [point['label'] for point in selected_points['points']]
+        subset_df = df[df['Sentiment Label'].isin(selected_labels)]
+        st.write(subset_df)
 
-    fig.on_click(filter_dataframe)
-
-    # show the plot
-    st.plotly_chart(fig)
-
-   
 
     # show the plot
     st.plotly_chart(fig)
