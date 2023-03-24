@@ -297,15 +297,8 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-
+    st.write(os.getcwd())
     st.plotly_chart(fig)
-
-# Allow the user to download the graph as an interactive HTML file
-    if st.button('Download Graph'):
-        filepath = os.path.join(os.getcwd(), 'my_plot.html')  # Set the file path
-        pio.write_html(fig, file=filepath, auto_open=True)
-        st.success('Graph downloaded!')
-  
 
 
 
