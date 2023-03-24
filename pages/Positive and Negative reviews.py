@@ -304,6 +304,8 @@ def plot_sentiment_pie(df):
     if st.button('Download Graph'):
     # get the path to the Downloads folder
         downloads_path = str(Path.home() / "Downloads")
+    # create the Downloads folder if it doesn't exist
+        Path(downloads_path).mkdir(parents=True, exist_ok=True)
     # set the file name
         filename = 'sentiment_analysis_results.html'
     # set the full file path
