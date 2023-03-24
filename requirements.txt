@@ -41,5 +41,3 @@ torch
 requests
 regex
 streamlit-plotly-events
-ipywidgets
-ipykernel
