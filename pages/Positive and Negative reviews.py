@@ -236,7 +236,15 @@ def analyze_sentiment(input_text, num_classes=3):
 #####
 import plotly.graph_objs as go
 import plotly.io as pio
-
+def filter_dataframe(trace, points, selector):
+    selected_points = [p for p in points if p['curveNumber'] == 0]
+    if selected_points:
+        selected_indices = [p['pointIndex'] for p in selected_points]
+        selected_labels = df.iloc[selected_indices]['Sentiment Label'].tolist()
+        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
+        st.plotly_chart(ff.create_table(filtered_df))
+    else:
+        st.plotly_chart(ff.create_table(df))
 def plot_sentiment(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
@@ -322,15 +330,7 @@ def plot_sentiment_pie(df):
             mime='text/html'
         )
 
-def filter_dataframe(trace, points, selector):
-    selected_points = [p for p in points if p['curveNumber'] == 0]
-    if selected_points:
-        selected_indices = [p['pointIndex'] for p in selected_points]
-        selected_labels = df.iloc[selected_indices]['Sentiment Label'].tolist()
-        filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
-        st.plotly_chart(ff.create_table(filtered_df))
-    else:
-        st.plotly_chart(ff.create_table(df))
+
     
   
 
