@@ -270,6 +270,14 @@ def plot_sentiment(df):
    
 def plot_sentiment_pie(df):
 
+import streamlit as st
+import plotly.graph_objects as go
+import pandas as pd
+
+# load sample data
+df = pd.read_csv('sample_data.csv')
+
+def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -297,6 +305,38 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
+    # create the interactive legend
+    fig.update_traces(
+        hoverinfo='label+percent',
+        textinfo='label+value',
+        textfont=dict(size=16),
+        marker=dict(line=dict(color='#000000', width=1))
+    )
+    fig.update_layout(
+        legend=dict(
+            orientation='h',
+            yanchor='bottom',
+            y=1.02,
+            xanchor='right',
+            x=1
+        )
+    )
+
+    # display the pie chart
+    st.plotly_chart(fig, use_container_width=True)
+
+    # create the selection dropdown
+    selected_labels = st.sidebar.multiselect('Select sentiment labels', list(proportions.index))
+
+    # filter the dataframe based on the selected labels
+    if selected_labels:
+        subset_df = df[df['Sentiment Label'].isin(selected_labels)]
+    else:
+        subset_df = df
+
+    # display the subset of the dataframe
+    st.write('Subset of the dataframe:')
+    st.write(subset_df)
     st.plotly_chart(fig)
 
 
