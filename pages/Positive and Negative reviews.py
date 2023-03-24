@@ -306,12 +306,20 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # add an event handler to capture the selected data points
-    selected_points = st.plotly_chart(fig)
-    if selected_points:
-        selected_labels = [point['label'] for point in selected_points['points']]
-        subset_df = df[df['Sentiment Label'].isin(selected_labels)]
-        st.write(subset_df)
+    # add an event handler to filter the dataframe based on selected sentiment label
+    def filter_dataframe(trace, points, state):
+        if hasattr(points, 'points'):
+            selected_labels = [point['label'] for point in points['points']]
+            if len(selected_labels) > 0:
+                filtered_df = df[df['Sentiment Label'].isin(selected_labels)]
+                st.write(filtered_df)
+
+    fig = go.FigureWidget(fig.data, fig.layout)
+
+    fig.data[0].on_click(filter_dataframe)
+    # show the plot
+    st.plotly_chart(fig)
+
 
 
     # show the plot
