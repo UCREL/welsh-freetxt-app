@@ -267,6 +267,16 @@ def plot_sentiment(df):
 
     # show the plot
     st.plotly_chart(fig)
+    buffer = io.StringIO()
+    fig.write_html(buffer, include_plotlyjs='cdn')
+    html_bytes = buffer.getvalue().encode()
+
+    st.download_button(
+            label='Download Bar Chart',
+            data=html_bytes,
+            file_name='Sentiment_analysis_bar.html',
+            mime='text/html'
+        )
    
 
 def plot_sentiment_pie(df):
@@ -303,9 +313,9 @@ def plot_sentiment_pie(df):
     html_bytes = buffer.getvalue().encode()
 
     st.download_button(
-            label='Download HTML',
+            label='Download Pie Chart',
             data=html_bytes,
-            file_name='stuff.html',
+            file_name='Sentiment_analysis_pie.html',
             mime='text/html'
         )
 
