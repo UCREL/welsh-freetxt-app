@@ -303,8 +303,7 @@ def plot_sentiment_pie(df):
         margin=dict(l=50, r=50, t=80, b=50)
     )
 
-    # create the figure
-    fig = go.Figure(data=data, layout=layout)
+
 
     # add an event handler to filter the dataframe based on selected sentiment label
     def filter_dataframe(trace, points, state):
@@ -315,13 +314,10 @@ def plot_sentiment_pie(df):
                 st.write(filtered_df)
 
     
-
+        # create the figure
+    fig = go.Figure(data=data, layout=layout)
     fig.data[0].on_click(filter_dataframe)
-    # show the plot
-    st.plotly_chart(fig)
-
-
-
+   
     # show the plot
     st.plotly_chart(fig)
     buffer = io.StringIO()
