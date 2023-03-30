@@ -315,18 +315,18 @@ def plot_sentiment_pie(df):
     fig = go.Figure(data=data, layout=layout)
 
         # create the event based on clicking a slice of the pie chart
-    event = plotly_events(fig, events=['legendclick'], override_width='100%')
+    selected_points = plotly_events(fig, click_event=False, hover_event=True)
 
     # display the dataframe subset based on the selected slice of the pie chart
-    if event:
-        sentiment_label = event['points'][0]['label']
+    if selected_points:
+        sentiment_label = selected_points['points'][0]['label']
         st.write(f"Selected Sentiment Label: {sentiment_label}")
         subset_df = df[df['Sentiment Label'] == sentiment_label]
         st.write(subset_df)
 
     # render the plotly figure and the event details
     st.plotly_chart(fig, use_container_width=True)
-    st.write(event)
+    st.write(selected_points)
 
 
    
