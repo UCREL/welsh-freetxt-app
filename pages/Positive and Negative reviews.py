@@ -322,8 +322,8 @@ def plot_sentiment_pie(df):
     fig.update_layout(layout)
     
 
-    # create the event based on clicking a slice of the pie chart
-    event = plotly_events(fig, events=['click'])
+     # create the event based on clicking a slice of the pie chart
+    event = plotly_events(fig, override_width='100%', override_height='100%')
 
     # display the dataframe subset based on the selected slice of the pie chart
     if event:
