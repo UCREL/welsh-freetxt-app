@@ -293,7 +293,7 @@ def plot_sentiment_pie(df):
     # calculate the proportions
     proportions = counts / counts.sum()
 
-        # create the pie chart
+    # create the pie chart
     data = [
         go.Pie(
             labels=proportions.index,
@@ -311,14 +311,11 @@ def plot_sentiment_pie(df):
         margin=dict(l=50, r=50, t=80, b=50)
     )
 
-
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    
-
-     # create the event based on clicking a slice of the pie chart
-    event = plotly_events(fig, override_width='100%', override_height='100%')
+    # create the event based on clicking a slice of the pie chart
+    event = plotly_events(fig, events=['click'], override_width='100%', override_height='100%')
 
     # display the dataframe subset based on the selected slice of the pie chart
     if event:
@@ -330,6 +327,7 @@ def plot_sentiment_pie(df):
     # render the plotly figure and the event details
     st.plotly_chart(fig, use_container_width=True)
     st.write(event)
+
 
 
 
