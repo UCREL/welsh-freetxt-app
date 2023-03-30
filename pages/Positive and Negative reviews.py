@@ -320,12 +320,13 @@ def plot_sentiment_pie(df):
     )
 
     fig.update_layout(layout)
+    
 
     # create the event based on clicking a slice of the pie chart
-    event = plotly_events(fig, click=True, double_click=False, select=False, hover=False)
+    event = plotly_events(fig, events=['click'])
 
     # display the dataframe subset based on the selected slice of the pie chart
-    if event is not None:
+    if event:
         sentiment_label = proportions.index[event['points'][0]['pointIndex']]
         st.write(f"Selected Sentiment Label: {sentiment_label}")
         subset_df = df[df['Sentiment Label'] == sentiment_label]
