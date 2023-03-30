@@ -312,7 +312,9 @@ def plot_sentiment_pie(df):
     )
 
 
-    fig.update_layout(layout)
+    # create the figure
+    fig = go.Figure(data=data, layout=layout)
+
     
 
      # create the event based on clicking a slice of the pie chart
