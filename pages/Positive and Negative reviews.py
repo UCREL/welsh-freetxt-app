@@ -281,6 +281,10 @@ def plot_sentiment(df):
 
 
 
+
+from streamlit_plotly_events import plotly_events
+
+
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -290,36 +294,48 @@ def plot_sentiment_pie(df):
     proportions = counts / counts.sum()
 
     # create the pie chart
-    data = [
+    fig = go.Figure(
         go.Pie(
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)']),
+            hoverinfo='label+value+percent',  # display extra info on hover
+            textinfo='label+value',  # display label and value in each pie slice
         )
-    ]
+    )
 
     # set the layout
     layout = go.Layout(
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
-        margin=dict(l=50, r=50, t=80, b=50)
+        margin=dict(l=50, r=50, t=80, b=50),
+        legend=dict(
+            orientation='h',  # horizontal legend
+            y=1.2,  # move legend above plot
+            xanchor='center',
+            font=dict(family='Arial, sans-serif', size=12, color='black'),
+        ),
     )
 
-    # create the figure
-    fig = go.Figure(data=data, layout=layout)
-    st.plotly_chart(fig)
-    buffer = io.StringIO()
-    fig.write_html(buffer, include_plotlyjs='cdn')
-    html_bytes = buffer.getvalue().encode()
+    fig.update_layout(layout)
 
-    st.download_button(
-            label='Download Pie Chart',
-            data=html_bytes,
-            file_name='Sentiment_analysis_pie.html',
-            mime='text/html'
-        )
+    # create the event based on clicking a slice of the pie chart
+    event = plotly_events(fig, click=True, double_click=False, select=False, hover=False)
+
+    # display the dataframe subset based on the selected slice of the pie chart
+    if event is not None:
+        sentiment_label = proportions.index[event['points'][0]['pointIndex']]
+        st.write(f"Selected Sentiment Label: {sentiment_label}")
+        subset_df = df[df['Sentiment Label'] == sentiment_label]
+        st.write(subset_df)
+
+    # render the plotly figure and the event details
+    st.plotly_chart(fig, use_container_width=True)
+    st.write(event)
+
+
 
    
     
