@@ -279,10 +279,7 @@ def plot_sentiment(df):
         )
 
 
-import plotly.graph_objs as go
-import io
-import pandas as pd
-import streamlit as st
+
 
 def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
@@ -324,7 +321,7 @@ def plot_sentiment_pie(df):
 
     # add interactive legend to figure
     for i, label in enumerate(proportions.index.tolist()):
-        fig.data[0].visible[i] = True  # set all traces to be visible by default
+        #fig.data[0].visible[i] = True  # set all traces to be visible by default
 
         # create button for each label
         button = dict(label=label, method='update',
