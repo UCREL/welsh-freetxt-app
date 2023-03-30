@@ -319,9 +319,11 @@ def plot_sentiment_pie(df):
 
     # display the dataframe subset based on the selected slice of the pie chart
     if event:
-        sentiment_label = proportions.index[event['click']['points'][0]['pointIndex']]
+        sentiment_label = proportions.index[event['points'][0]['pointIndex']]
         st.write(f"Selected Sentiment Label: {sentiment_label}")
         subset_df = df[df['Sentiment Label'] == sentiment_label]
+        counts = subset_df['Sentiment Label'].value_counts()
+        proportions = counts / counts.sum()
         st.write(subset_df)
 
     # render the plotly figure and the event details
