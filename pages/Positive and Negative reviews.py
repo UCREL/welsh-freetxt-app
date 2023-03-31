@@ -313,7 +313,8 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    st.plotly_chart(fig)
+    selected_points= st.plotly_chart(fig)
+    st.write(selected_points)
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
