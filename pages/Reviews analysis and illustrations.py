@@ -648,7 +648,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color='black', edge_cmap=plt.cm.Blues, edge_vmin=min(top_collocs_df['freq']), edge_vmax=max(top_collocs_df['freq']))
 
-    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
 
