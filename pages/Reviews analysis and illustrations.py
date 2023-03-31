@@ -630,7 +630,7 @@ def plot_collocation(keyword, collocs,expander,tab):
             st.pyplot()
 
 
-def plot_coll(keyword, collocs, expander, tab):
+def plot_colllllll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -667,6 +667,43 @@ def plot_coll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
+def plot_coll(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    pos = nx.spring_layout(G, seed=42)
+
+    edge_widths = [count / n for count in top_collocs_df['freq']]
+    edge_lengths = [1 - count / n for count in top_collocs_df['freq']]
+
+    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
+    node_sizes = [2000 * count / n for count in counts]
+
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, 
+            edge_color='black', connectionstyle='arc3, rad = 0.1', alpha=0.7, arrowsize=20,
+            node_shape='s', linewidths=0.5, font_weight='bold')
+
+    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm._A = []
+    plt.colorbar(sm)
+
+    # Save the plot to an image
+    #img_file = io.BytesIO()
+    plt.savefig('img_file.png', format='png', dpi=300)
+    #img_file.seek(0)
+
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
+
+    with tab:
+        with expander:
+            st.image(pil_image)  
+
 
 
 
