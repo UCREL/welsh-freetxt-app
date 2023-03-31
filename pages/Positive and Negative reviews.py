@@ -283,13 +283,12 @@ def plot_sentiment(df):
 
 
 from streamlit_plotly_events import plotly_events
+
 def on_legend_click(trace, points, state):
     if state:
         print(f"{trace.name} selected")
     else:
         print(f"{trace.name} unselected")
-
-
 
 def plot_sentiment_pie(df):
 
