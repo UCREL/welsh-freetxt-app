@@ -284,39 +284,6 @@ def plot_sentiment(df):
 
 from streamlit_plotly_events import plotly_events
 
-import streamlit as st
-import plotly.graph_objects as go
-import pandas as pd
-import io
-
-def plotly_events(fig, select_event=False, deselect_event=False):
-    """
-    This function takes a plotly figure object and returns the selected data points
-    as a list of dictionaries.
-
-    If select_event is True, the function returns the selected points.
-
-    If deselect_event is True, the function returns the deselected points.
-    """
-    # create an empty list to store the selected points
-    selected_points = []
-
-    # define the callback function
-    def update_selected_points(trace, points, selector):
-        if select_event:
-            # append the selected points to the list
-            selected_points.extend(points.point_inds)
-        if deselect_event:
-            # remove the deselected points from the list
-            for ind in points.point_inds:
-                if ind in selected_points:
-                    selected_points.remove(ind)
-
-    # add the callback function to each trace in the figure
-    fig.for_each_trace(lambda trace: trace.on_click(update_selected_points))
-
-    return selected_points
-
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -331,8 +298,7 @@ def plot_sentiment_pie(df):
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)']),
-            customdata=[trace.name]*len(proportions.index)
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
         )
     ]
 
@@ -341,31 +307,26 @@ def plot_sentiment_pie(df):
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
-        margin=dict(l=50, r=50, t=80, b=50),
-        showlegend=True
+        margin=dict(l=50, r=50, t=80, b=50)
     )
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-
-    # add on_legend_click callback function to each trace in the figure
-    fig.for_each_trace(lambda trace: trace.on_legend_click(on_legend_click))
-
-    # get the selected points from the pie chart
-    selected_points = plotly_events(fig, select_event=True, deselect_event=True)
-
+    selected_points = plotly_events(fig, select_event=True)
+    
     if selected_points:
         # filter the dataframe based on the selected point
-        sentiment_labels = [proportions.index[i] for i in selected_points]
-        df = df[df['Sentiment Label'].isin(sentiment_labels)]
-        st.dataframe(df,use_container_width=True)
-
+        point_number = selected_points[0]['pointNumber']
+        sentiment_label = proportions.index[point_number]
+        df = df[df['Sentiment Label'] == sentiment_label]
+        st.dataframe(df,use_container_width = True)
+    
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    fig.update_traces(labels=proportions.index, values=proportions.values, customdata=[trace.name]*len(proportions.index))
+    #fig.update_traces(labels=proportions.index, values=proportions.values)
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -377,21 +338,6 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
-
-def on_legend_click(trace, legend_item):
-    """
-    This function takes a plotly trace object and a legend item and toggles the visibility
-    of the trace based on whether the legend item has been clicked or not.
-    """
-    # get the visibility of the trace
-    visible = trace.visible
-
-    # toggle the visibility of the trace
-    if visible == True:
-        trace.visible = False
-    else:
-        trace.visible = True
-
 
 
 
