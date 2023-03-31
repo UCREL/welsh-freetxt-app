@@ -285,8 +285,15 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 import streamlit as st
-import plotly.graph_objects as go
-import pandas as pd
+import plotly.graph_objs as go
+import json
+
+def on_legend_click(trace, points, state):
+    if points:
+        legend_item = points[0]['curveNumber']
+        state['selected_traces'].append(legend_item)
+    else:
+        state['selected_traces'] = []
 
 def plot_sentiment_pie(df):
 
@@ -302,8 +309,7 @@ def plot_sentiment_pie(df):
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)']),
-            customdata=[proportions.index]*len(proportions.index)
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
         )
     ]
 
@@ -317,40 +323,62 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-
-    # set up the legend click event
-    def on_legend_click(trace, points, state):
-        # get the currently selected trace
-        current_trace = points.trace_index
-
-        # get the current state of the traces
-        current_state = state.get(current_trace, True)
-
-        # set the new state of the selected trace
-        state[current_trace] = not current_state
-
-        # set the visibility of all the traces based on their state
-        for i, trace in enumerate(fig.data):
-            if i in state and not state[i]:
-                trace.visible = False
-            else:
-                trace.visible = True
-
-    # set up the legend click handler for each trace
-    fig.for_each_trace(lambda trace: trace.on_legend_click(on_legend_click))
-
-    selected_points = plotly_events(fig, select_event=True)
-
-    if selected_points:
-        # filter the dataframe based on the selected point
-        point_number = selected_points[0]['pointNumber']
-        sentiment_label = proportions.index[point_number]
-        df = df[df['Sentiment Label'] == sentiment_label]
-        st.dataframe(df,use_container_width = True)
     
-    # update the counts and proportions based on the filtered dataframe
-    counts = df['Sentiment Label'].value_counts()
-    proportions = counts / counts.sum()
+    # add customdata to the trace
+    fig.update_traces(customdata=[trace.name for trace in fig.data])
+
+    # create the state variable for selected traces
+    state = {'selected_traces': []}
+
+    # create the JavaScript function to handle legend click events
+    js_function = f"""
+        <script>
+        var fig_obj = {json.dumps(fig.to_dict())};
+        var state = {json.dumps(state)};
+        var plot_div = document.getElementById("{fig.to_dict()['id']}");
+        plot_div.on('plotly_legendclick', function(data){{
+            var update = {{}};
+            var trace_index = data.curveNumber;
+            var trace = fig_obj.data[trace_index];
+            var selected_traces = state.selected_traces;
+            if (selected_traces.includes(trace_index)) {{
+                selected_traces = selected_traces.filter(i => i !== trace_index);
+            }} else {{
+                selected_traces.push(trace_index);
+            }}
+            update['data'] = [];
+            for (var i = 0; i < fig_obj.data.length; i++) {{
+                var trace = fig_obj.data[i];
+                var new_trace = {{}};
+                for (var key in trace) {{
+                    if (key !== 'customdata' && key !== 'hovertemplate') {{
+                        new_trace[key] = trace[key];
+                    }}
+                }}
+                new_trace['hovertemplate'] = trace['hovertemplate'].replace(/<br>Trace name: [^<]*<br>/, '');
+                if (selected_traces.includes(i)) {{
+                    update['data'].push(new_trace);
+                }}
+            }}
+            state.selected_traces = selected_traces;
+            Plotly.react(plot_div, update, {{'transition': {{'duration': 0}}}});
+        }});
+        </script>
+    """
+    
+    # add the JavaScript function to the app using st.html
+    st.html(js_function)
+
+    # display the figure
+    st.plotly_chart(fig)
+
+        # filter the dataframe based on the selected traces
+    selected_traces = state['selected_traces']
+    if selected_traces:
+        selected_names = [fig.data[i].name for i in selected_traces]
+        filtered_df = df[df['Sentiment Label'].isin(selected_names)]
+        st.subheader(f"Selected Sentiment Labels: {', '.join(selected_names)}")
+        st.dataframe(filtered_df)
 
     # update the pie chart data
     fig.update_traces(labels=proportions.index, values=proportions.values, customdata=[proportions.index]*len(proportions.index))
