@@ -339,7 +339,9 @@ def plot_sentiment_pie(df):
     if 'selectedData' in st.session_state:
         selected_points = st.session_state.selectedData.get('points', None)
         sentiment_label = st.session_state.selectedData.get('label', None)
-
+        # create the figure
+    fig = go.Figure(data=data, layout=layout)
+    selected_points = plotly_events(fig, select_event=True)
     # filter the dataframe based on the selected point or sentiment label
     if selected_points:
         point_number = selected_points[0]['pointNumber']
@@ -349,9 +351,7 @@ def plot_sentiment_pie(df):
     elif sentiment_label:
         df = df[df['Sentiment Label'] == sentiment_label]
         st.dataframe(df, use_container_width=True)
-    # create the figure
-    fig = go.Figure(data=data, layout=layout)
-    #selected_points = plotly_events(fig, select_event=True)
+
 
     
 
