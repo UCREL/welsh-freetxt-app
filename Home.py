@@ -76,10 +76,15 @@ st.set_page_config(
         'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
          'About': '''## The FreeTxt tool
-         FreeTxt was developed as part of an AHRC funded collaborative \n
-         ‘FreeTxt: supporting bilingual free-text survey and questionnaire data analysis’ \n\r
-         research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1). \n\r
-         The team included PI - Dawn Knight; CIs - Paul Rayson, Mo El-Haj; RAs - Ignatius Ezeani, Nouran Khallaf and Steve Morris. \n\r
+         FreeTxt was developed as part of an AHRC funded collaborative \n\r
+        ‘FreeTxt: supporting bilingual free-text survey  \n\r
+        and questionnaire data analysis’ \n\r
+         research project involving colleagues from  \n\r
+         Cardiff University and Lancaster University (Grant Number AH/W004844/1). \n\r
+         The team included PI - Dawn Knight;  \n\r
+         CIs - Paul Rayson, Mo El-Haj; \n\r 
+         RAs - Ignatius Ezeani, 
+         Nouran Khallaf and Steve Morris. \n\r
          The Project Advisory Group included representatives from \n\r
          National Trust Wales, Cadw, National Museum Wales, \n\r
          CBAC | WJEC and National Centre for Learning Welsh.
