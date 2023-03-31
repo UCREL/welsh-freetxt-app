@@ -350,7 +350,7 @@ def plot_sentiment_pie(df):
         textfont_size=18,
         textfont_color='white',
         hovertemplate='%{label}',
-        legenditem=dict(click='toggleothers'),
+        legendrank=dict(click='toggleothers'),
         insidetextfont=dict(color='white'),
         marker=dict(line=dict(color='#000000', width=2))
     )
