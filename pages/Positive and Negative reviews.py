@@ -326,7 +326,7 @@ def plot_sentiment_pie(df):
 
     # render the plotly figure and the event details
     st.plotly_chart(fig, use_container_width=True)
-    st.write(selected_points)
+    #st.write(selected_points)
 
 
    
