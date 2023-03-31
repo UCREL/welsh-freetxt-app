@@ -285,6 +285,33 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 
+import streamlit as st
+import pandas as pd
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+
+
+def plotly_events(fig, select_event=False):
+    # enable multiple events
+    fig = fig.for_each_trace(
+        lambda trace: trace.update(
+            customdata=[trace.name]*len(trace.x)
+        ) if (isinstance(trace, go.Pie) and select_event) else ()
+    )
+
+    def callback(trace, points, state):
+        return points.point_inds
+
+    # define the event
+    fig = fig.on('plotly_selected', callback)
+
+    # display the figure
+    st.plotly_chart(fig, use_container_width=True)
+
+    # retrieve the selected points
+    return fig.selected_data
+
+
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -294,61 +321,37 @@ def plot_sentiment_pie(df):
     proportions = counts / counts.sum()
 
     # create the pie chart
-    data = [
+    fig = go.Figure(
         go.Pie(
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
             marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
         )
-    ]
+    )
 
     # set the layout
-    layout = go.Layout(
+    fig.update_layout(
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
         margin=dict(l=50, r=50, t=80, b=50)
     )
 
-    # create the figure
-    fig = go.Figure(data=data, layout=layout)
+    # filter the dataframe based on the selected legend
+    selected_legends = plotly_events(fig, select_event=True)
+    if selected_legends:
+        selected_legends = [legend['name'] for legend in selected_legends]
+        df = df[df['Sentiment Label'].isin(selected_legends)]
+        st.dataframe(df, use_container_width=True)
 
-    # add the event listener for the pie chart
-    fig.update_traces(
-        hoverinfo='text+value',
-        texttemplate='%{label}: %{value:.2f}%',
-        textposition='inside',
-        textfont=dict(size=16),
-        insidetextorientation='radial'
-    )
-
-    fig.update_layout(
-        hoverlabel=dict(font=dict(size=16))
-    )
-
-    # add the event listeners for selecting a pie slice and for legend click
-    fig.update_layout(
-        clickmode='event+select',
-        legend=dict(itemclick='toggleothers')
-    )
-
-    # get the selected point and sentiment label
-    selected_points = None
-    sentiment_label = None
-    if 'selectedData' in st.session_state:
-        selected_points = st.session_state.selectedData.get('points', None)
-        sentiment_label = st.session_state.selectedData.get('label', None)
-
-    # filter the dataframe based on the selected point or sentiment label
+    # filter the dataframe based on the selected point
+    selected_points = plotly_events(fig, select_event=True)
     if selected_points:
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
-    elif sentiment_label:
-        df = df[df['Sentiment Label'] == sentiment_label]
-
-    st.dataframe(df, use_container_width=True)
+        st.dataframe(df, use_container_width=True)
 
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
@@ -357,6 +360,10 @@ def plot_sentiment_pie(df):
     # update the pie chart data
     fig.update_traces(labels=proportions.index, values=proportions.values)
 
+    # display the figure
+    st.plotly_chart(fig, use_container_width=True)
+
+    # create and display the download button
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
@@ -367,7 +374,6 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
-
 
 
 
