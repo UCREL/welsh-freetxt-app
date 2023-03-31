@@ -640,20 +640,20 @@ def plot_coll(keyword, collocs, expander, tab):
     # Define positions of nodes
     pos = {keyword: (0, 0)}
     for i, word in enumerate(words):
+        freq = top_collocs_df[top_collocs_df['word'] == word]['freq'].iloc[0]
+        dist_from_center = 1.0 / freq
         angle = 2 * math.pi * i / len(words)
-        x, y = math.cos(angle), math.sin(angle)
+        x, y = dist_from_center * math.cos(angle), dist_from_center * math.sin(angle)
         pos[word] = (x, y)
 
-    # Scale edge lengths based on inverse frequency
-    edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
-    max_length = max(edge_lengths)
-    edge_lengths = [length / max_length for length in edge_lengths]
-
     # Draw graph
+    edge_widths = [freq for freq in top_collocs_df['freq']]
+    max_width = max(edge_widths)
+    edge_widths = [width / max_width for width in edge_widths]
     node_sizes = [2000 * count / max(counts) for count in counts]
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-    nx.draw(G,width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color='gray')
-# width=edge_lengths
+    nx.draw(G, width=edge_widths, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color='gray')
+
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
@@ -667,6 +667,7 @@ def plot_coll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 
