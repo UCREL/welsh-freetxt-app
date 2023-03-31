@@ -283,6 +283,12 @@ def plot_sentiment(df):
 
 
 from streamlit_plotly_events import plotly_events
+def on_legend_click(trace, points, state):
+    if state:
+        print(f"{trace.name} selected")
+    else:
+        print(f"{trace.name} unselected")
+
 
 
 def plot_sentiment_pie(df):
@@ -341,6 +347,7 @@ def plot_sentiment_pie(df):
         sentiment_label = st.session_state.selectedData.get('label', None)
         # create the figure
     fig = go.Figure(data=data, layout=layout)
+    fig.for_each_trace(lambda trace: trace.on_legend_click(on_legend_click))
     selected_points = plotly_events(fig, select_event=True)
     # filter the dataframe based on the selected point or sentiment label
     if selected_points:
