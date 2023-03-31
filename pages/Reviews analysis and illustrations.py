@@ -693,7 +693,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
     edge_widths = [2/ freq for freq in top_collocs_df['freq']]
     edge_colors = top_collocs_df['freq']
 
-    fig = plt.figure(figsize=(6, 7)) # adjust figure size as needed
+    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
     ax = fig.add_subplot(111)
     ax.set_aspect('equal')
     ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
