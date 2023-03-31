@@ -76,9 +76,8 @@ st.set_page_config(
         'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
         'About': '''## The FreeTxt tool 
-         ## FreeTxt was developed as part of an AHRC funded collaborative
-         
-         FreeTxt supporting bilingual free-text survey  
+         FreeTxt was developed as part of an AHRC funded collaborative
+    FreeTxt supporting bilingual free-text survey  
          and questionnaire data analysis
          research project involving colleagues from
          Cardiff University and Lancaster University (Grant Number AH/W004844/1). 
