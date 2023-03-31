@@ -285,12 +285,6 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 
-import streamlit as st
-import pandas as pd
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
-
-
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -357,7 +351,7 @@ def plot_sentiment_pie(df):
         st.dataframe(df, use_container_width=True)
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    selected_points = plotly_events(fig, select_event=True)
+    #selected_points = plotly_events(fig, select_event=True)
 
     
 
