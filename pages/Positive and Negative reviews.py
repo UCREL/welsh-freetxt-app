@@ -322,12 +322,12 @@ def plot_sentiment_pie(df):
     # create the event based on clicking a legend item
     event = plotly_events(fig, override_width='100%', override_height='100%')
 
-    # display the dataframe subset based on the selected legend item
-   # display the dataframe subset based on the selected legend item
+
     if event:
-        selected_points = event['selectedPoints']
+        # get the selected sentiment label from the event
+        selected_points = event.get('data', [])
         if selected_points:
-            sentiment_label = selected_points[0]['label']
+            sentiment_label = selected_points[0].get('label')
             st.write(f"Selected Sentiment Label: {sentiment_label}")
             subset_df = df[df['Sentiment Label'] == sentiment_label]
             st.write(subset_df)
@@ -335,7 +335,6 @@ def plot_sentiment_pie(df):
     # render the plotly figure and the event details
     st.plotly_chart(fig, use_container_width=True)
     st.write(event)
-
 
 
 
