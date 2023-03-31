@@ -683,7 +683,7 @@ def plot_coll(keyword, collocs, expander, tab):
         avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
 
         # Set the position of the node based on the average frequency
-        offset = 0.8 / avg_freq # shorter lines for higher frequency edges
+        offset = 1.2 / avg_freq # shorter lines for higher frequency edges
         pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
 
     # Draw the network
@@ -707,17 +707,13 @@ def plot_coll(keyword, collocs, expander, tab):
     # Save the plot to an image
     plt.savefig('img_file.png', format='png', dpi=300)
 
-    # Convert the image file to a PIL Image object
+     # Convert the image file to a PIL Image object
     pil_image = Image.open('img_file.png')
-
-    # Scale node positions to create more space between nodes
-    pos_values = np.array(list(pos.values()))
-    pos_values *= 2
-    pos = dict(zip(G.nodes(), pos_values))
 
     with tab:
         with expander:
-            st.pyplot()    
+            st.pyplot()
+
 
 
 
