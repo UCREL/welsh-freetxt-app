@@ -630,7 +630,7 @@ def plot_collocation(keyword, collocs,expander,tab):
             st.pyplot()
 
 
-def plot_coll(keyword, collocs, expander, tab):
+def plot_colll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -669,6 +669,48 @@ def plot_coll(keyword, collocs, expander, tab):
             st.pyplot()
 
 
+def plot_coll(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Calculate node positions based on edge frequencies
+    pos = {}
+    for node in G.nodes():
+        # Calculate the average frequency of the edges for this node
+        edges = G.edges(node, data=True)
+        avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
+
+        # Set the position of the node based on the average frequency
+        offset = 0.5 / avg_freq # shorter lines for higher frequency edges
+        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
+
+    # Draw the network
+    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
+    node_sizes = [2000 * count / n for count in counts]
+    edge_widths = [1 / freq for freq in top_collocs_df['freq']]
+    edge_colors = top_collocs_df['freq']
+
+    fig = plt.figure(figsize=(8, 8)) # adjust figure size as needed
+    ax = fig.add_subplot(111)
+    ax.set_aspect('equal')
+    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
+    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
+
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
+
+    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm._A = []
+    plt.colorbar(sm)
+
+    # Save the plot to an image
+    plt.savefig('img_file.png', format='png', dpi=300)
+
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img
 
 
 
