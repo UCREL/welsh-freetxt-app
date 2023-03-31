@@ -289,7 +289,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import streamlit as st
 from streamlit_plotly_events import plotly_events
-
+from streamlit_plotly_events import plotly_click
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
