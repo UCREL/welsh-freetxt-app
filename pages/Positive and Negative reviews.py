@@ -285,13 +285,8 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 
-import streamlit as st
-import plotly.graph_objs as go
-import io
-from streamlit_plotly_events import plotly_events
-
-
 def plot_sentiment_pie(df):
+
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -318,17 +313,17 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-
-    
-    event = plotly_events(fig, click=True, debounce=1000)
-
-    if event:
-        sentiment_label = event['points'][0]['label']
-        st.write(f"You clicked on the '{sentiment_label}' sentiment label")
-    
     st.plotly_chart(fig)
+    buffer = io.StringIO()
+    fig.write_html(buffer, include_plotlyjs='cdn')
+    html_bytes = buffer.getvalue().encode()
 
-
+    st.download_button(
+            label='Download Pie Chart',
+            data=html_bytes,
+            file_name='Sentiment_analysis_pie.html',
+            mime='text/html'
+        )
 
    
     
