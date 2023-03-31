@@ -351,13 +351,15 @@ def plot_sentiment_pie(df):
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
+        st.dataframe(df, use_container_width=True)
     elif sentiment_label:
         df = df[df['Sentiment Label'] == sentiment_label]
+        st.dataframe(df, use_container_width=True)
     # create the figure
     fig = go.Figure(data=data, layout=layout)
     selected_points = plotly_events(fig, select_event=True)
 
-    st.dataframe(df, use_container_width=True)
+    
 
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
