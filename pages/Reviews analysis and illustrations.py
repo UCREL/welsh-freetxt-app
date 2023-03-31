@@ -630,8 +630,6 @@ def plot_collocation(keyword, collocs,expander,tab):
             st.pyplot()
 
 
-########the network illistartion
-
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -640,13 +638,15 @@ def plot_coll(keyword, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
-    pos = nx.spring_layout(G)
+    pos = nx.kamada_kawai_layout(G)
 
     node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
-    nx.draw(G, width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes)
+    edge_lengths = [1 / freq for freq in top_collocs_df['freq']]
+
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=3, edge_color='black', edge_cmap=plt.cm.Blues, edge_vmin=min(top_collocs_df['freq']), edge_vmax=max(top_collocs_df['freq']), edge_vmin=0, edge_vmax=n, edge_scale=2, edge_lengths=edge_lengths)
 
     sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
@@ -663,6 +663,7 @@ def plot_coll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 # Create the PDF file
