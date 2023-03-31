@@ -320,7 +320,7 @@ def plot_sentiment_pie(df):
     fig = go.Figure(data=data, layout=layout)
 
     # create the event based on clicking a legend item
-    event = plotly_events(fig, override_width='100%', override_height='100%', debounce=1000)
+    event = plotly_events(fig, override_width='100%', override_height='100%')
 
     # display the dataframe subset based on the selected legend item
     if event:
