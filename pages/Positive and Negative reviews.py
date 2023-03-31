@@ -352,7 +352,7 @@ def plot_sentiment_pie(df):
         df = df[df['Sentiment Label'] == sentiment_label]
         st.dataframe(df, use_container_width=True)
 
-
+    st.write(sentiment_label)
     
 
     # update the counts and proportions based on the filtered dataframe
@@ -360,7 +360,7 @@ def plot_sentiment_pie(df):
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    fig.update_traces(labels=proportions.index, values=proportions.values)
+    #fig.update_traces(labels=proportions.index, values=proportions.values)
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
