@@ -285,13 +285,13 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 
-import pandas as pd
-import plotly.graph_objs as go
 import streamlit as st
+import plotly.graph_objs as go
+import io
 from streamlit_plotly_events import plotly_events
-from streamlit_plotly_events import plotly_click
-def plot_sentiment_pie(df):
 
+
+def plot_sentiment_pie(df):
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -318,19 +318,29 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-  # create the event based on clicking a slice of the pie chart
-    click_data = plotly_click(fig)
 
-    # display the dataframe subset based on the selected slice of the pie chart
-    if click_data:
-        sentiment_label = click_data['points'][0]['label']
-        st.write(f"Selected Sentiment Label: {sentiment_label}")
-        subset_df = df[df['Sentiment Label'] == sentiment_label]
-        st.write(subset_df)
+    # set up plotly click event
+    event = plotly_events(fig, click=True)
 
-    # render the plotly figure and the event details
-    st.plotly_chart(fig, use_container_width=True)
-    st.write(click_data)
+    # check for click event and print clicked point
+    if event:
+        x, y = event['points'][0]['x'], event['points'][0]['y']
+        st.write(f"Clicked on point ({x}, {y})")
+
+    # display plotly chart
+    st.plotly_chart(fig)
+
+    # download button
+    buffer = io.StringIO()
+    fig.write_html(buffer, include_plotlyjs='cdn')
+    html_bytes = buffer.getvalue().encode()
+    st.download_button(
+        label='Download Pie Chart',
+        data=html_bytes,
+        file_name='Sentiment_analysis_pie.html',
+        mime='text/html'
+    )
+
 
 
 
