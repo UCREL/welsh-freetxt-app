@@ -650,7 +650,7 @@ def plot_coll(keyword, collocs, expander, tab):
         pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
 
     # Draw the network
-    node_colors = ['gray' if node == keyword else plt.cm.blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
     node_sizes = [2000 * count / n for count in counts]
     edge_widths = [1 / freq for freq in top_collocs_df['freq']]
     edge_colors = top_collocs_df['freq']
