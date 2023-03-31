@@ -320,7 +320,7 @@ def plot_sentiment_pie(df):
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
-        st.write(df)
+        st.dataframe(df,use_container_width = True)
     
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
