@@ -667,7 +667,6 @@ def plot_colll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -685,7 +684,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
         # Set the position of the node based on the average frequency
         offset = 0.8 / avg_freq # shorter lines for higher frequency edges
-        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset*np.random.uniform(-1, 1))
+        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
@@ -711,9 +710,15 @@ def plot_coll(keyword, collocs, expander, tab):
     # Convert the image file to a PIL Image object
     pil_image = Image.open('img_file.png')
 
+    # Scale node positions to create more space between nodes
+    pos_values = np.array(list(pos.values()))
+    pos_values *= 2
+    pos = dict(zip(G.nodes(), pos_values))
+
     with tab:
         with expander:
-            st.pyplot()
+            st.pyplot()    
+
 
 
 
