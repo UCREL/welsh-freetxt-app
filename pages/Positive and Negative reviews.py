@@ -284,11 +284,9 @@ def plot_sentiment(df):
 
 from streamlit_plotly_events import plotly_events
 
-def on_legend_click(trace, points, state):
-    if state:
-        print(f"{trace.name} selected")
-    else:
-        print(f"{trace.name} unselected")
+import streamlit as st
+import plotly.graph_objects as go
+import pandas as pd
 
 def plot_sentiment_pie(df):
 
@@ -304,7 +302,8 @@ def plot_sentiment_pie(df):
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
+            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)']),
+            customdata=[proportions.index]*len(proportions.index)
         )
     ]
 
@@ -319,54 +318,42 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # add the event listener for the pie chart
-    fig.update_traces(
-        hoverinfo='text+value',
-        texttemplate='%{label}: %{value:.2f}%',
-        textposition='inside',
-        textfont=dict(size=16),
-        insidetextorientation='radial'
-    )
+    # set up the legend click event
+    def on_legend_click(trace, points, state):
+        # get the currently selected trace
+        current_trace = points.trace_index
 
-    fig.update_layout(
-        hoverlabel=dict(font=dict(size=16))
-    )
+        # get the current state of the traces
+        current_state = state.get(current_trace, True)
 
-    # add the event listeners for selecting a pie slice and for legend click
-    fig.update_layout(
-        clickmode='event+select',
-        legend=dict(itemclick='toggleothers')
-    )
+        # set the new state of the selected trace
+        state[current_trace] = not current_state
 
-    # get the selected point and sentiment label
-    selected_points = None
-    sentiment_label = None
-    if 'selectedData' in st.session_state:
-        selected_points = st.session_state.selectedData.get('points', None)
-        sentiment_label = st.session_state.selectedData.get('label', None)
-        # create the figure
-    fig = go.Figure(data=data, layout=layout)
+        # set the visibility of all the traces based on their state
+        for i, trace in enumerate(fig.data):
+            if i in state and not state[i]:
+                trace.visible = False
+            else:
+                trace.visible = True
+
+    # set up the legend click handler for each trace
     fig.for_each_trace(lambda trace: trace.on_legend_click(on_legend_click))
+
     selected_points = plotly_events(fig, select_event=True)
-    # filter the dataframe based on the selected point or sentiment label
+
     if selected_points:
+        # filter the dataframe based on the selected point
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
-        st.dataframe(df, use_container_width=True)
-    elif sentiment_label:
-        df = df[df['Sentiment Label'] == sentiment_label]
-        st.dataframe(df, use_container_width=True)
-
-    st.write(sentiment_label)
+        st.dataframe(df,use_container_width = True)
     
-
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    #fig.update_traces(labels=proportions.index, values=proportions.values)
+    fig.update_traces(labels=proportions.index, values=proportions.values, customdata=[proportions.index]*len(proportions.index))
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -378,6 +365,7 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
+
 
 
 
