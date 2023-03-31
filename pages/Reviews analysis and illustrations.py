@@ -708,12 +708,13 @@ def plot_coll(keyword, collocs, expander, tab):
     # Save the plot to an image
     plt.savefig('img_file.png', format='png', dpi=300)
 
-     # Convert the image file to a PIL Image object
+    # Convert the image file to a PIL Image object
     pil_image = Image.open('img_file.png')
 
     with tab:
         with expander:
             st.pyplot()
+
 
 
 
