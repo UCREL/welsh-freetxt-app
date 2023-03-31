@@ -374,8 +374,9 @@ if status:
                     
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                         
-                        plot_sentiment(analysis)
+                        
                         plot_sentiment_pie(analysis)
+                        plot_sentiment(analysis)
                         #st.dataframe(analysis, use_container_width= True)
                         
                        # text = get_text_sentiments(input_text)
