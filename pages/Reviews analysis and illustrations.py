@@ -630,7 +630,7 @@ def plot_collocation(keyword, collocs,expander,tab):
             st.pyplot()
 
 
-def plot_colll(keyword, collocs, expander, tab):
+def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -667,7 +667,7 @@ def plot_colll(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-def plot_coll(keyword, collocs, expander, tab):
+def plot_coll_2(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -692,7 +692,7 @@ def plot_coll(keyword, collocs, expander, tab):
     edge_widths = [2/ freq for freq in top_collocs_df['freq']]
     edge_colors = top_collocs_df['freq']
 
-    fig = plt.figure(figsize=(6, 6)) # adjust figure size as needed
+    fig = plt.figure(figsize=(7, 7)) # adjust figure size as needed
     ax = fig.add_subplot(111)
     ax.set_aspect('equal')
     ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
@@ -906,6 +906,7 @@ def plot_kwic(data, key):
 		
                 plot_collocation(keyword, collocs,expander,tab3)
                 plot_coll(keyword, collocs,expander,tab3)
+		plot_coll_2(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
