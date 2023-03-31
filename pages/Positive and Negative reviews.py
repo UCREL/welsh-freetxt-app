@@ -397,7 +397,7 @@ if status:
                          gridOptions = gb.build()
 
                          grid_response = AgGrid(
-                              df,
+                              analysis,
                               gridOptions=gridOptions,
                                data_return_mode='AS_INPUT', 
                             update_mode='MODEL_CHANGED', 
