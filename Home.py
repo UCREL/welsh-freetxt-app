@@ -181,7 +181,7 @@ with st.container():
 
 # ---- HIDE STREAMLIT STYLE ----
 #hide_st_style = """
-            <style>
+          #  <style>
             #MainMenu {visibility: hidden;}
         #    footer {visibility: hidden;}
          #   #header {visibility: hidden;}
