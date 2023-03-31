@@ -668,13 +668,6 @@ def plot_colll(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-
-import streamlit as st
-import pandas as pd
-import networkx as nx
-import numpy as np
-import matplotlib.pyplot as plt
-
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -691,8 +684,8 @@ def plot_coll(keyword, collocs, expander, tab):
         avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
 
         # Set the position of the node based on the average frequency
-        offset = 0.5 / avg_freq # shorter lines for higher frequency edges
-        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
+        angle = np.pi * 2 * np.random.random()
+        pos[node] = (np.cos(angle) * avg_freq, np.sin(angle) * avg_freq)
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
@@ -700,7 +693,7 @@ def plot_coll(keyword, collocs, expander, tab):
     edge_widths = [1 / freq for freq in top_collocs_df['freq']]
     edge_colors = top_collocs_df['freq']
 
-    fig = plt.figure(figsize=(8, 8)) # adjust figure size as needed
+    fig = plt.figure(figsize=(6, 6)) # adjust figure size as needed
     ax = fig.add_subplot(111)
     ax.set_aspect('equal')
     ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
@@ -720,8 +713,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     with tab:
         with expander:
-            st.pyplot(fig)
-
+            st.pyplot()
 
 
 
