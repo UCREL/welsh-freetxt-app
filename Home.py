@@ -75,8 +75,8 @@ st.set_page_config(
      menu_items={
         'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
-         'About': '''## The FreeTxt tool
-         FreeTxt was developed as part of an AHRC funded collaborative 
+        'About': '''## The FreeTxt tool
+         FreeTxt was developed as part of an AHRC funded collaborative.
          FreeTxt supporting bilingual free-text survey  
          and questionnaire data analysis
          research project involving colleagues from
@@ -87,7 +87,6 @@ st.set_page_config(
          The Project Advisory Group included representatives from 
          National Trust Wales, Cadw, National Museum Wales,
          CBAC | WJEC and National Centre for Learning Welsh.
-         
          '''
      }
  )
