@@ -75,7 +75,10 @@ st.set_page_config(
      menu_items={
         'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
-         'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses'''
+         'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses 
+         FreeTxt was developed as part of an AHRC funded collaborative ‘FreeTxt: supporting bilingual free-text survey and questionnaire data analysis’ research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1). The team included PI - Dawn Knight; CIs - Paul Rayson, Mo El-Haj; RAs - Ignatius Ezeani, Nouran Khallaf and Steve Morris. The Project Advisory Group included representatives from National Trust Wales, Cadw, National Museum Wales, CBAC | WJEC and National Centre for Learning Welsh.
+         
+         '''
      }
  )
 language = st.sidebar.selectbox('', ['en', 'cy'])
