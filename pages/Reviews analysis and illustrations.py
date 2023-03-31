@@ -640,7 +640,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     pos = nx.kamada_kawai_layout(G)
 
-    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
