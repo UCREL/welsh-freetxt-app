@@ -646,7 +646,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     edge_lengths = [1 / freq for freq in top_collocs_df['freq']]
 
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=3, edge_color='black', edge_cmap=plt.cm.Blues, edge_vmin=min(top_collocs_df['freq']), edge_vmax=max(top_collocs_df['freq']), edge_vmin=0, edge_vmax=n, edge_scale=2, edge_lengths=edge_lengths)
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=3, edge_color='black', edge_cmap=plt.cm.Blues, edge_vmin=min(top_collocs_df['freq']), edge_vmax=max(top_collocs_df['freq']), edge_scale=2, edge_lengths=edge_lengths)
 
     sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
