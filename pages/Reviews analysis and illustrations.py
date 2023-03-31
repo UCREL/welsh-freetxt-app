@@ -637,31 +637,23 @@ def plot_coll(keyword, collocs, expander, tab):
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
 
-    # set positions of nodes based on frequency
-    sorted_counts = sorted(counts, reverse=True)
-    pos = {}
-    center = np.array([0.5, 0.5])
-    for i, count in enumerate(sorted_counts):
-        theta = i / len(sorted_counts) * 2 * np.pi
-        radius = count / sorted_counts[0] * 0.4 + 0.1
-        x = center[0] + radius * np.cos(theta)
-        y = center[1] + radius * np.sin(theta)
-        pos[words[counts.index(count)]] = np.array([x, y])
+    # Define positions of nodes
+    pos = {keyword: (0, 0)}
+    for i, word in enumerate(words):
+        angle = 2 * math.pi * i / len(words)
+        x, y = math.cos(angle), math.sin(angle)
+        pos[word] = (x, y)
 
-    # draw nodes
-    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+    # Scale edge lengths based on frequency
+    edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
+    max_length = max(edge_lengths)
+    edge_lengths = [length / max_length for length in edge_lengths]
+
+    # Draw graph
     node_sizes = [2000 * count / max(counts) for count in counts]
-    nx.draw_networkx_nodes(G, pos=pos, node_color=node_colors, node_size=node_sizes)
+    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_lengths, edge_color='gray')
 
-    # draw edges
-    edge_widths = [freq / max(counts) * 10 for freq in top_collocs_df['freq']]
-    nx.draw_networkx_edges(G, pos=pos, width=edge_widths)
-
-    # draw labels
-    label_pos = {k: (v[0], v[1] + 0.05) for k, v in pos.items()}
-    nx.draw_networkx_labels(G, pos=label_pos)
-
-    # colorbar
     sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
