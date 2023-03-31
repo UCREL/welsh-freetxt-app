@@ -669,6 +669,12 @@ def plot_colll(keyword, collocs, expander, tab):
             st.pyplot()
 
 
+import streamlit as st
+import pandas as pd
+import networkx as nx
+import numpy as np
+import matplotlib.pyplot as plt
+
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -685,8 +691,8 @@ def plot_coll(keyword, collocs, expander, tab):
         avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
 
         # Set the position of the node based on the average frequency
-        angle = np.pi * 2 * np.random.random()
-        pos[node] = (np.cos(angle) * avg_freq, np.sin(angle) * avg_freq)
+        offset = 0.5 / avg_freq # shorter lines for higher frequency edges
+        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Reds(count / n) for node, count in zip(G.nodes(), counts)]
@@ -714,7 +720,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
     with tab:
         with expander:
-            st.pyplot()
+            st.pyplot(fig)
 
 
 
