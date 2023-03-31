@@ -644,17 +644,17 @@ def plot_coll(keyword, collocs, expander, tab):
         x, y = math.cos(angle), math.sin(angle)
         pos[word] = (x, y)
 
-    # Scale edge lengths based on frequency
+    # Scale edge lengths based on inverse frequency
     edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
     max_length = max(edge_lengths)
     edge_lengths = [length / max_length for length in edge_lengths]
 
     # Draw graph
     node_sizes = [2000 * count / max(counts) for count in counts]
-    node_colors = ['gray' if node == keyword else plt.cm.Reds(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
     nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_lengths, edge_color='gray')
 
-    sm = plt.cm.ScalarMappable(cmap='Reds', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
 
