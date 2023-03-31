@@ -291,27 +291,6 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 
 
-def plotly_events(fig, select_event=False):
-    # enable multiple events
-    fig = fig.for_each_trace(
-        lambda trace: trace.update(
-            customdata=[trace.name]*len(trace.x)
-        ) if (isinstance(trace, go.Pie) and select_event) else ()
-    )
-
-    def callback(trace, points, state):
-        return points.point_inds
-
-    # define the event
-    fig = fig.on('plotly_selected', callback)
-
-    # display the figure
-    st.plotly_chart(fig, use_container_width=True)
-
-    # retrieve the selected points
-    return fig.selected_data
-
-
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -325,7 +304,6 @@ def plot_sentiment_pie(df):
         go.Pie(
             labels=proportions.index,
             values=proportions.values,
-            customdata=[proportions.index]*len(proportions.index), # add custom data for legend filtering
             hole=0.4,
             marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
         )
@@ -341,34 +319,52 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    
-    # add legend click event to filter dataframe
+
+    # add the event listener for the pie chart
     fig.update_traces(
-        hoverinfo='text',
-        texttemplate='%{label}',
+        hoverinfo='text+value',
+        texttemplate='%{label}: %{value:.2f}%',
         textposition='inside',
-        textfont_size=18,
-        textfont_color='white',
-        hovertemplate='%{label}',
-        legendrank=dict(click='toggleothers'),
-        insidetextfont=dict(color='white'),
-        marker=dict(line=dict(color='#000000', width=2))
+        textfont=dict(size=16),
+        insidetextorientation='radial'
     )
 
-    selected_points = plotly_events(fig, select_event=True)
-    
+    fig.update_layout(
+        hoverlabel=dict(font=dict(size=16))
+    )
+
+    # add the event listeners for selecting a pie slice and for legend click
+    fig.update_layout(
+        clickmode='event+select',
+        legend=dict(itemclick='toggleothers')
+    )
+
+    # get the selected point and sentiment label
+    selected_points = None
+    sentiment_label = None
+    if 'selectedData' in st.session_state:
+        selected_points = st.session_state.selectedData.get('points', None)
+        sentiment_label = st.session_state.selectedData.get('label', None)
+
+    # filter the dataframe based on the selected point or sentiment label
     if selected_points:
-        # filter the dataframe based on the selected point
-        selected_label = selected_points[0]['label']
-        df = df[df['Sentiment Label'] == selected_label]
-        st.dataframe(df, use_container_width=True)
-    
+        point_number = selected_points[0]['pointNumber']
+        sentiment_label = proportions.index[point_number]
+        df = df[df['Sentiment Label'] == sentiment_label]
+    elif sentiment_label:
+        df = df[df['Sentiment Label'] == sentiment_label]
+    # create the figure
+    fig = go.Figure(data=data, layout=layout)
+    selected_points = plotly_events(fig, select_event=True)
+
+    st.dataframe(df, use_container_width=True)
+
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    fig.update_traces(labels=proportions.index, values=proportions.values, customdata=[proportions.index]*len(proportions.index))
+    fig.update_traces(labels=proportions.index, values=proportions.values)
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -382,7 +378,7 @@ def plot_sentiment_pie(df):
     )
 
 
-   
+
     
 st.markdown('''🎲 Sentiment Analyzer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2]))
