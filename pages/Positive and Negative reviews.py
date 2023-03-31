@@ -285,6 +285,11 @@ def plot_sentiment(df):
 from streamlit_plotly_events import plotly_events
 
 
+import pandas as pd
+import plotly.graph_objs as go
+import streamlit as st
+from streamlit_plotly_events import plotly_events
+
 def plot_sentiment_pie(df):
 
     # count the number of reviews in each sentiment label
@@ -314,19 +319,21 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-        # create the event based on clicking a slice of the pie chart
-    selected_points = plotly_events(fig, click_event=False, hover_event=True)
+    # create the event based on clicking a legend item
+    event = plotly_events(fig, override_width='100%', override_height='100%', debounce=1000)
 
-    # display the dataframe subset based on the selected slice of the pie chart
-    if selected_points:
-        sentiment_label = selected_points['points'][0]['label']
-        st.write(f"Selected Sentiment Label: {sentiment_label}")
-        subset_df = df[df['Sentiment Label'] == sentiment_label]
-        st.write(subset_df)
+    # display the dataframe subset based on the selected legend item
+    if event:
+        if 'event' in event:
+            if event['event'] == 'legendclick':
+                selected_label = event['points'][0]['label']
+                st.write(f"Selected Sentiment Label: {selected_label}")
+                subset_df = df[df['Sentiment Label'] == selected_label]
+                st.write(subset_df)
 
     # render the plotly figure and the event details
     st.plotly_chart(fig, use_container_width=True)
-    #st.write(selected_points)
+    st.write(event)
 
 
    
