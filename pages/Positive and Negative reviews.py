@@ -321,49 +321,55 @@ def plot_sentiment_pie(df):
     proportions = counts / counts.sum()
 
     # create the pie chart
-    fig = go.Figure(
+    data = [
         go.Pie(
             labels=proportions.index,
             values=proportions.values,
+            customdata=[proportions.index]*len(proportions.index), # add custom data for legend filtering
             hole=0.4,
             marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
         )
-    )
+    ]
 
     # set the layout
-    fig.update_layout(
+    layout = go.Layout(
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
         margin=dict(l=50, r=50, t=80, b=50)
     )
 
-    # filter the dataframe based on the selected legend
-    selected_legends = plotly_events(fig, select_event=True)
-    if selected_legends:
-        selected_legends = [legend['name'] for legend in selected_legends]
-        df = df[df['Sentiment Label'].isin(selected_legends)]
-        st.dataframe(df, use_container_width=True)
+    # create the figure
+    fig = go.Figure(data=data, layout=layout)
+    
+    # add legend click event to filter dataframe
+    fig.update_traces(
+        hoverinfo='text',
+        texttemplate='%{label}',
+        textposition='inside',
+        textfont_size=18,
+        textfont_color='white',
+        hovertemplate='%{label}',
+        legenditem=dict(click='toggleothers'),
+        insidetextfont=dict(color='white'),
+        marker=dict(line=dict(color='#000000', width=2))
+    )
 
-    # filter the dataframe based on the selected point
     selected_points = plotly_events(fig, select_event=True)
+    
     if selected_points:
-        point_number = selected_points[0]['pointNumber']
-        sentiment_label = proportions.index[point_number]
-        df = df[df['Sentiment Label'] == sentiment_label]
+        # filter the dataframe based on the selected point
+        selected_label = selected_points[0]['label']
+        df = df[df['Sentiment Label'] == selected_label]
         st.dataframe(df, use_container_width=True)
-
+    
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    fig.update_traces(labels=proportions.index, values=proportions.values)
+    fig.update_traces(labels=proportions.index, values=proportions.values, customdata=[proportions.index]*len(proportions.index))
 
-    # display the figure
-    st.plotly_chart(fig, use_container_width=True)
-
-    # create and display the download button
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
@@ -374,8 +380,6 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
-
-
 
 
    
