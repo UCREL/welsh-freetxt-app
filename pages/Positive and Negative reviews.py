@@ -319,28 +319,14 @@ def plot_sentiment_pie(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
 
-    # set up plotly click event
-    event = plotly_events(fig, click=True)
+    
+    event = plotly_events(fig, click=True, debounce=1000)
 
-    # check for click event and print clicked point
     if event:
-        x, y = event['points'][0]['x'], event['points'][0]['y']
-        st.write(f"Clicked on point ({x}, {y})")
-
-    # display plotly chart
+        sentiment_label = event['points'][0]['label']
+        st.write(f"You clicked on the '{sentiment_label}' sentiment label")
+    
     st.plotly_chart(fig)
-
-    # download button
-    buffer = io.StringIO()
-    fig.write_html(buffer, include_plotlyjs='cdn')
-    html_bytes = buffer.getvalue().encode()
-    st.download_button(
-        label='Download Pie Chart',
-        data=html_bytes,
-        file_name='Sentiment_analysis_pie.html',
-        mime='text/html'
-    )
-
 
 
 
