@@ -665,7 +665,6 @@ def plot_coll(keyword, collocs, expander, tab):
             st.pyplot()
 
 
-
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
 	
