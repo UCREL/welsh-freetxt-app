@@ -685,7 +685,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
         # Set the position of the node based on the average frequency
         offset = 0.8 / avg_freq # shorter lines for higher frequency edges
-        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
+        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset*np.random.uniform(-1, 1))
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
