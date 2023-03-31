@@ -313,21 +313,49 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    selected_points = plotly_events(fig, select_event=True)
-    
+
+    # add the event listener for the pie chart
+    fig.update_traces(
+        hoverinfo='text+value',
+        texttemplate='%{label}: %{value:.2f}%',
+        textposition='inside',
+        textfont=dict(size=16),
+        insidetextorientation='radial'
+    )
+
+    fig.update_layout(
+        hoverlabel=dict(font=dict(size=16))
+    )
+
+    # add the event listeners for selecting a pie slice and for legend click
+    fig.update_layout(
+        clickmode='event+select',
+        legend=dict(itemclick='toggleothers')
+    )
+
+    # get the selected point and sentiment label
+    selected_points = None
+    sentiment_label = None
+    if 'selectedData' in st.session_state:
+        selected_points = st.session_state.selectedData.get('points', None)
+        sentiment_label = st.session_state.selectedData.get('label', None)
+
+    # filter the dataframe based on the selected point or sentiment label
     if selected_points:
-        # filter the dataframe based on the selected point
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
-        st.dataframe(df,use_container_width = True)
-    
+    elif sentiment_label:
+        df = df[df['Sentiment Label'] == sentiment_label]
+
+    st.dataframe(df, use_container_width=True)
+
     # update the counts and proportions based on the filtered dataframe
     counts = df['Sentiment Label'].value_counts()
     proportions = counts / counts.sum()
 
     # update the pie chart data
-    #fig.update_traces(labels=proportions.index, values=proportions.values)
+    fig.update_traces(labels=proportions.index, values=proportions.values)
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -339,6 +367,9 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
+
+
+
 
 
    
