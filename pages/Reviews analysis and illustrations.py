@@ -638,15 +638,23 @@ def plot_coll(keyword, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
-    pos = nx.kamada_kawai_layout(G)
+    pos = {}
+    for node in G.nodes():
+        # Calculate the average frequency of the edges for this node
+        edges = G.edges(node, data=True)
+        avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
+
+        # Set the position of the node based on the average frequency
+        pos[node] = (np.cos(avg_freq*np.pi), np.sin(avg_freq*np.pi))
 
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
 
     node_sizes = [2000 * count / n for count in counts]
 
     edge_widths = [1 / freq for freq in top_collocs_df['freq']]
+    edge_colors = top_collocs_df['freq']
 
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color='black', edge_cmap=plt.cm.Blues, edge_vmin=min(top_collocs_df['freq']), edge_vmax=max(top_collocs_df['freq']))
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues)
 
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
