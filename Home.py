@@ -68,14 +68,14 @@ def add_logo(png_file):
 
 # ----------------
 st.set_page_config(
-     page_title='Welsh Free Text Tool',
+     page_title='Welsh FreeTxt Tool',
      page_icon='🌐',
      layout="wide",
      initial_sidebar_state="expanded",
      menu_items={
         'Get Help': "https://ucrel.lancs.ac.uk/freetxt/",
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
-         'About': '''## The FreeTxt tool supports bilingual (English and Welsh) free text data analysis of surveys and questionnaire responses 
+         'About': '''## The FreeTxt tool
          FreeTxt was developed as part of an AHRC funded collaborative \n
          ‘FreeTxt: supporting bilingual free-text survey and questionnaire data analysis’ \n\r
          research project involving colleagues from Cardiff University and Lancaster University (Grant Number AH/W004844/1). \n\r
