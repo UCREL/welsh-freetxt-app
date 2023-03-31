@@ -652,7 +652,7 @@ def plot_coll(keyword, collocs, expander, tab):
     # Draw graph
     node_sizes = [2000 * count / max(counts) for count in counts]
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_lengths, edge_color='gray')
+    nx.draw(G,width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_lengths, edge_color='gray')
 
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
