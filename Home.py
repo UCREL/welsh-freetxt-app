@@ -77,7 +77,7 @@ st.set_page_config(
         'Report a bug': "https://github.com/UCREL/welsh-freetxt-app/issues",
         'About': '''## The FreeTxt tool 
          
-         FreeTxt was developed as part of an AHRC funded collaborative
+         
          FreeTxt supporting bilingual free-text survey  
          and questionnaire data analysis
          research project involving colleagues from
