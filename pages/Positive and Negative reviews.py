@@ -313,18 +313,32 @@ def plot_sentiment_pie(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
-    selected_points= plotly_events(fig,select_event =True)
-    st.write(selected_points)
+    selected_points = plotly_events(fig, select_event=True)
+    
+    if selected_points:
+        # filter the dataframe based on the selected point
+        point_number = selected_points[0]['pointNumber']
+        sentiment_label = proportions.index[point_number]
+        df = df[df['Sentiment Label'] == sentiment_label]
+    
+    # update the counts and proportions based on the filtered dataframe
+    counts = df['Sentiment Label'].value_counts()
+    proportions = counts / counts.sum()
+
+    # update the pie chart data
+    fig.update_traces(labels=proportions.index, values=proportions.values)
+
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
 
     st.download_button(
-            label='Download Pie Chart',
-            data=html_bytes,
-            file_name='Sentiment_analysis_pie.html',
-            mime='text/html'
-        )
+        label='Download Pie Chart',
+        data=html_bytes,
+        file_name='Sentiment_analysis_pie.html',
+        mime='text/html'
+    )
+
 
    
     
