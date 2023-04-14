@@ -220,7 +220,7 @@ st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
 st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
 st.write("Sentiment: ", sentiment)
  
-from polyglot.text import Text
+
 
 # Create a Polyglot Text object
 text = Text("Mae'r tywydd yn braf heddiw. Mae'r glaw yn glaer.")
@@ -231,8 +231,17 @@ text.language = "cy"
 # Get the sentiment polarity of the text
 sentiment_polarity = text.polarity
 
-# Print the sentiment polarity
-st.write("Sentiment polarity:", sentiment_polarity)
+# Convert the sentiment polarity to a sentiment label
+if sentiment_polarity > 0.2:
+    sentiment_label = "positive"
+elif sentiment_polarity < -0.2:
+    sentiment_label = "negative"
+else:
+    sentiment_label = "neutral"
+
+# Print the sentiment label
+st.write("Sentiment label:", sentiment_label)
+
 
 
 
