@@ -41,7 +41,7 @@ import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
-
+from polyglot.text import Text
 
 import scattertext as tt
 import spacy
