@@ -291,39 +291,33 @@ def analyze_sentiment_welsh(input_text):
     # preprocess input text and split into reviews
     reviews = input_text.split("\n")
 
-    sentiments = []
-    text_sentimnet=[]
+    text_sentiment = []
     for review in reviews:
         review = preprocess_text(review)
         if review:
             text = Text(review, hint_language_code='cy')
+
+            # calculate sentiment polarity per word
+            sentiment_polarity_per_word = []
             for word in text.words:
                 word_sentiment_polarity = word.polarity
                 sentiment_polarity_per_word.append(word_sentiment_polarity)
 
-            #overall_sentiment_polarity = sum(sentiment_polarity_per_word)
+            # calculate overall sentiment polarity
+            overall_sentiment_polarity = sum(sentiment_polarity_per_word)
 
-    # Classify sentiment based on a threshold
-           # if overall_sentiment_polarity > 0.2:
-          #      sentiment = "Positive"
-           # elif overall_sentiment_polarity < -0.2:
-          #      sentiment = "Negative"
-         #   else:
-          #      sentiment = "Neutral"
-    
-                    
-          #  sentiments.append((review, sentiment, overall_sentiment_polarity))
-            sentiment_polarity = text.polarity
-
-# Convert the sentiment polarity to a sentiment label
-            if sentiment_polarity > 0.2:
-                sentiment_label = "positive"
-            elif sentiment_polarity < -0.2:
-                sentiment_label = "negative"
+            # classify sentiment based on a threshold
+            if overall_sentiment_polarity > 0.2:
+                sentiment = "positive"
+            elif overall_sentiment_polarity < -0.2:
+                sentiment = "negative"
             else:
-                sentiment_label = "neutral"
-            text_sentimnet.append((review, sentiment_label, sentiment_polarity))
-    return  text_sentimnet
+                sentiment = "neutral"
+
+            text_sentiment.append((review, sentiment, overall_sentiment_polarity))
+
+    return text_sentiment
+
 
 
 # --------------------Sentiments----------------------
