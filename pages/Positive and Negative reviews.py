@@ -220,21 +220,20 @@ st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
 st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
 st.write("Sentiment: ", sentiment)
  
-from polyglot.detect import Detector
 from polyglot.text import Text
 
-# Create a Polyglot object
-polyglot_obj = Text("")
+# Create a Polyglot Text object
+text = Text("Mae'r tywydd yn braf heddiw. Mae'r glaw yn glaer.")
 
-# Set the language of the tweets to Welsh
-polyglot_obj.language = "cy"
+# Set the language of the text to Welsh
+text.language = "cy"
 
-# Get the sentiment of the tweets
-sentiments = polyglot_obj.analyze_sentiment(["Mae'r tywydd yn braf heddiw", "Mae'r glaw yn glaer"])
+# Get the sentiment polarity of the text
+sentiment_polarity = text.polarity
 
-# Print the sentiments
-for sentiment in sentiments:
-    st.write(sentiment)
+# Print the sentiment polarity
+print("Sentiment polarity:", sentiment_polarity)
+
 
 
 # --------------------Sentiments----------------------
