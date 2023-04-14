@@ -197,7 +197,29 @@ downloader.download("TASK:sentiment2")
 st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
 for w in text.words:
     st.write("{:<16}{:>2}".format(w, w.polarity))
-  
+from polyglot.text import Text
+
+text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
+sentiment_polarity_per_word = []
+
+for word in text.words:
+    word_sentiment_polarity = word.polarity
+    sentiment_polarity_per_word.append(word_sentiment_polarity)
+
+overall_sentiment_polarity = sum(sentiment_polarity_per_word)
+
+# Classify sentiment based on a threshold
+if overall_sentiment_polarity > 0.2:
+    sentiment = "Positive"
+elif overall_sentiment_polarity < -0.2:
+    sentiment = "Negative"
+else:
+    sentiment = "Neutral"
+
+print("Sentiment polarity per word: ", sentiment_polarity_per_word)
+print("Overall sentiment polarity: ", overall_sentiment_polarity)
+print("Sentiment: ", sentiment)
+ 
 
 # --------------------Sentiments----------------------
 
