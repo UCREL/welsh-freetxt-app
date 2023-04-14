@@ -244,9 +244,9 @@ elif overall_sentiment_polarity < -0.2:
 else:
     sentiment = "Neutral"
 
-st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
-st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
-st.write("Sentiment: ", sentiment)
+#st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
+#st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
+#st.write("Sentiment: ", sentiment)
  
 
 
@@ -268,18 +268,9 @@ else:
     sentiment_label = "neutral"
 
 # Print the sentiment label
-st.write("Sentiment label:", sentiment_label)
+#st.write("Sentiment label:", sentiment_label)
 
-st.write("Sentiment polarity:", sentiment_polarity)
-
-import re
-from polyglot.detect import Detector
-from polyglot.text import Text
-from nltk.corpus import stopwords
-
-# download stopwords for nltk
-nltk.download('stopwords')
-STOPWORDS = set(stopwords.words('english'))
+#st.write("Sentiment polarity:", sentiment_polarity)
 
 # define function to preprocess text
 def preprocess_text(text):
