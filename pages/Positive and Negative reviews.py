@@ -300,7 +300,7 @@ def analyze_sentiment_welsh(input_text):
     # preprocess input text and split into reviews
     reviews = input_text.split("\n")
 
-    sentiment_polarity_per_word = []
+    sentiments = []
     for review in reviews:
         review = preprocess_text(review)
         if review:
