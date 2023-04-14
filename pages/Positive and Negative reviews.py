@@ -202,7 +202,13 @@ def detect_language(df):
                 detected_languages.append(lang)
             except Exception as e:
                 print(f"Error detecting language: {e}")
-    return detected_languages
+
+    # Count the number of occurrences of each language
+    lang_counts = pd.Series(detected_languages).value_counts()
+
+    # Determine the most common language in the DataFrame
+    most_common_lang = lang_counts.index[0]
+    returen most_common_lang
 
 
 # --------------------Sentiments----------------------
