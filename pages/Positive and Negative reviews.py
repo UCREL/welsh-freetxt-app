@@ -220,27 +220,22 @@ st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
 st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
 st.write("Sentiment: ", sentiment)
  
-text = Text("I love the new iPhone, but the battery life is terrible.")
+import polyglot
 
-# Get entities in the text
-entities = text.entities
+# Create a Polyglot object
+polyglot = Polyglot()
 
-for entity in entities:
-    entity_sentiment_polarity = []
-    for word in entity.words:
-        word_sentiment_polarity = word.polarity
-        entity_sentiment_polarity.append(word_sentiment_polarity)
-    
-    # Calculate average sentiment polarity for the entity
-    avg_sentiment_polarity = sum(entity_sentiment_polarity) / len(entity_sentiment_polarity)
-    
-    # Scale sentiment polarity to a range of 0-1
-    normalized_sentiment = (avg_sentiment_polarity + 1) / 2
-    
-    # Print entity, average sentiment polarity, and normalized sentiment
-    st.write("Entity: ", entity)
-    st.write("Average sentiment polarity: ", avg_sentiment_polarity)
-    st.write("Normalized sentiment: ", normalized_sentiment)
+# Set the language of the tweets to Welsh
+polyglot.set_lang("cy")
+
+# Get the sentiment of the tweets
+sentiments = polyglot.analyze_sentiment(["Mae'r tywydd yn braf heddiw", "Mae'r glaw yn glaer"])
+
+# Print the sentiments
+for sentiment in sentiments:
+    st.write(sentiment)
+
+
 
 # --------------------Sentiments----------------------
 
