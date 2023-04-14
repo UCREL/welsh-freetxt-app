@@ -191,7 +191,7 @@ def select_columns(data, key):
 
 import polyglot
 from polyglot.text import Text
-text = Text("The movie was really good.")
+text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
 from polyglot.downloader import downloader
 downloader.download("TASK:sentiment2")
 st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
