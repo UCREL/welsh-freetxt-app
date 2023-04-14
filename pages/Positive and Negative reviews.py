@@ -455,16 +455,20 @@ if status:
                     with tab1:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
-                        sentiments = analyze_sentiment(input_text)
                         
+                        language = detect_language(input_text)
+                        st.write(language)
+                        if language == 'English':
+                            sentiments = analyze_sentiment(input_text)
+                            analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
+                       
+                        elif language == 'Welsh':
                     
-                        analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
+                            plot_sentiment_pie(analysis)
+                            plot_sentiment(analysis)
                         # Detect the language of all columns in the DataFrame
-                        languages = detect_language(analysis)
-                        st.write(languages)
                         
-                        plot_sentiment_pie(analysis)
-                        plot_sentiment(analysis)
+                            
                         #st.dataframe(analysis, use_container_width= True)
                         
                        # text = get_text_sentiments(input_text)
