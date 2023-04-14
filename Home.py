@@ -134,7 +134,7 @@ with st.container():
     with left_column:
         st.subheader(_("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-6pshxm.streamlit.app/Reviews_analysis_and_illustrations)"))
         st.write(_('''This is one of the key features of the tool and has three core components: a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at.
-                   b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type 
+                   b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type. 
 c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text'''))
 
        
