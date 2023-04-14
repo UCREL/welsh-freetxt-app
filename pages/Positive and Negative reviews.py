@@ -232,7 +232,7 @@ text.language = "cy"
 sentiment_polarity = text.polarity
 
 # Print the sentiment polarity
-print("Sentiment polarity:", sentiment_polarity)
+st.write("Sentiment polarity:", sentiment_polarity)
 
 
 
