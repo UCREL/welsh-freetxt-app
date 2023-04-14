@@ -456,7 +456,7 @@ if status:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         
-                        language = detect_language(input_text)
+                        language = detect_language(df)
                         st.write(language)
                         if language == 'English':
                             sentiments = analyze_sentiment(input_text)
