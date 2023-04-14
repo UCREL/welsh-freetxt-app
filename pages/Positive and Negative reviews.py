@@ -301,18 +301,18 @@ def analyze_sentiment_welsh(input_text):
                 word_sentiment_polarity = word.polarity
                 sentiment_polarity_per_word.append(word_sentiment_polarity)
 
-            overall_sentiment_polarity = sum(sentiment_polarity_per_word)
+            #overall_sentiment_polarity = sum(sentiment_polarity_per_word)
 
     # Classify sentiment based on a threshold
-            if overall_sentiment_polarity > 0.2:
-                sentiment = "Positive"
-            elif overall_sentiment_polarity < -0.2:
-                sentiment = "Negative"
-            else:
-                sentiment = "Neutral"
+           # if overall_sentiment_polarity > 0.2:
+          #      sentiment = "Positive"
+           # elif overall_sentiment_polarity < -0.2:
+          #      sentiment = "Negative"
+         #   else:
+          #      sentiment = "Neutral"
     
                     
-            sentiments.append((review, sentiment, overall_sentiment_polarity))
+          #  sentiments.append((review, sentiment, overall_sentiment_polarity))
             sentiment_polarity = text.polarity
 
 # Convert the sentiment polarity to a sentiment label
