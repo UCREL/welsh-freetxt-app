@@ -223,7 +223,7 @@ st.write("Sentiment: ", sentiment)
 import polyglot
 
 # Create a Polyglot object
-polyglot = Polyglot()
+polyglot = polyglot()
 
 # Set the language of the tweets to Welsh
 polyglot.set_lang("cy")
