@@ -212,76 +212,14 @@ def detect_language(df):
     return most_common_lang
 
 
-# --------------------Sentiments----------------------
-
-###########Ployglot Welsh
-
-
-import polyglot
-from polyglot.text import Text
-text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
-from polyglot.downloader import downloader
-downloader.download("TASK:sentiment2")
-#st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
-#for w in text.words:
-  #  st.write("{:<16}{:>2}".format(w, w.polarity))
-#from polyglot.text import Text
-
-text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
-sentiment_polarity_per_word = []
-
-for word in text.words:
-    word_sentiment_polarity = word.polarity
-    sentiment_polarity_per_word.append(word_sentiment_polarity)
-
-overall_sentiment_polarity = sum(sentiment_polarity_per_word)
-
-# Classify sentiment based on a threshold
-if overall_sentiment_polarity > 0.2:
-    sentiment = "Positive"
-elif overall_sentiment_polarity < -0.2:
-    sentiment = "Negative"
-else:
-    sentiment = "Neutral"
-
-st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
-st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
-st.write("Sentiment: ", sentiment)
- 
-
-
-# Create a Polyglot Text object
-text = Text("Mae'r tywydd yn braf heddiw. Mae'r glaw yn glaer.")
-
-# Set the language of the text to Welsh
-text.language = "cy"
-
-# Get the sentiment polarity of the text
-sentiment_polarity = text.polarity
-
-# Convert the sentiment polarity to a sentiment label
-if sentiment_polarity > 0.2:
-    sentiment_label = "positive"
-elif sentiment_polarity < -0.2:
-    sentiment_label = "negative"
-else:
-    sentiment_label = "neutral"
-
-# Print the sentiment label
-st.write("Sentiment label:", sentiment_label)
-
-st.write("Sentiment polarity:", sentiment_polarity)
-
 import re
 from polyglot.detect import Detector
 from polyglot.text import Text
-from nltk.corpus import stopwords
+import streamlit as st
 
-# download stopwords for nltk
-nltk.download('stopwords')
-STOPWORDS = set(stopwords.words('english'))
+PUNCS = set('''!()[]{};:'",<>./?@#$%^&*_~''')
+STOPWORDS = set(Text("en").stop_words)
 
-# define function to preprocess text
 def preprocess_text(text):
     # remove URLs, mentions, and hashtags
     text = re.sub(r"http\S+|@\S+|#\S+", "", text)
@@ -294,92 +232,73 @@ def preprocess_text(text):
 
     return text
 
-# define function to analyze sentiment using Polyglot for Welsh language
 @st.cache(allow_output_mutation=True)
-def analyze_sentiment_welsh(input_text):
+def analyze_sentiment(input_text):
     # preprocess input text and split into reviews
-    reviews = input_text.split("\n")
-
-    sentiments = []
-    text_sentimnet=[]
-    for review in reviews:
-        review = preprocess_text(review)
-        if review:
-            text = Text(review, hint_language_code='cy')
-            for word in text.words:
-                word_sentiment_polarity = word.polarity
-                sentiment_polarity_per_word.append(word_sentiment_polarity)
-
-            overall_sentiment_polarity = sum(sentiment_polarity_per_word)
-
-    # Classify sentiment based on a threshold
-            if overall_sentiment_polarity > 0.2:
-                sentiment = "Positive"
-            elif overall_sentiment_polarity < -0.2:
-                sentiment = "Negative"
-            else:
-                sentiment = "Neutral"
+    reviews = [preprocess_text(review) for review in input_text.split("\n") if preprocess_text(review)]
     
-                    
-            sentiments.append((review, sentiment, overall_sentiment_polarity))
-            sentiment_polarity = text.polarity
+    # check if reviews is not empty
+    if not reviews:
+        return []
 
-# Convert the sentiment polarity to a sentiment label
-            if sentiment_polarity > 0.2:
-                sentiment_label = "positive"
-            elif sentiment_polarity < -0.2:
-                sentiment_label = "negative"
-            else:
-                sentiment_label = "neutral"
-            text_sentimnet.append((review, sentiment_label, sentiment_polarity))
-    return sentiments, text_sentimnet
+    # detect language of the input text
+    lang = Detector(input_text, quiet=True).language.code
+    
+    # analyze sentiment using Polyglot for Welsh and BERT for other languages
+    if lang == "cy":
+        sentiments = analyze_sentiment_welsh(reviews)
+    else:
+        sentiments = analyze_sentiment_bert(reviews)
 
+    return sentiments
 
-# --------------------Sentiments----------------------
+def analyze_sentiment_welsh(reviews):
+    from polyglot.text import Text
 
-###########Bert English
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
+    # Set the language of the tweets to Welsh
+    Text.default_language = "cy"
 
-def preprocess_text(text):
-    # remove URLs, mentions, and hashtags
-    text = re.sub(r"http\S+|@\S+|#\S+", "", text)
+    # Get the sentiment of the tweets
+    sentiments = []
+    for review in reviews:
+        text = Text(review)
+        polarity = text.polarity
+        if polarity > 0.0:
+            label = "Positive"
+        elif polarity < 0.0:
+            label = "Negative"
+        else:
+            label = "Neutral"
+        sentiments.append((review, label, polarity))
 
-    # remove punctuation and convert to lowercase
-    text = re.sub(f"[{re.escape(''.join(PUNCS))}]", "", text.lower())
+    return sentiments
 
-    # remove stopwords
-    text = " ".join(word for word in text.split() if word not in STOPWORDS)
+def analyze_sentiment_bert(reviews):
+    from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-    return text
-@st.cache(allow_output_mutation=True)
-def analyze_sentiment(input_text, num_classes=3):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
-    # preprocess input text and split into reviews
-    reviews = input_text.split("\n")
-
     # predict sentiment for each review
     sentiments = []
     for review in reviews:
-        review = preprocess_text(review)
-        if review:
-            inputs = tokenizer.encode_plus(
-                review,
-                add_special_tokens=True,
-                return_attention_mask=True,
-                return_tensors="pt"
-            )
-            outputs = model(**inputs)
-            scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-            sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
-            sentiment_index = scores.argmax()
-            sentiment_label = sentiment_labels[sentiment_index]
-            sentiment_score = scores[sentiment_index]
-            sentiments.append((review, sentiment_label, sentiment_score))
+        inputs = tokenizer.encode_plus(
+            review,
+            add_special_tokens=True,
+            return_attention_mask=True,
+            return_tensors="pt"
+        )
+        outputs = model(**inputs)
+        scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+        sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
+        sentiment_index = scores.argmax()
+        sentiment_label = sentiment_labels[sentiment_index]
+        sentiment_score = scores[sentiment_index]
+        sentiments.append((review, sentiment_label, sentiment_score))
 
     return sentiments
+
 
 #####
 import plotly.graph_objs as go
@@ -517,18 +436,14 @@ if status:
                     with tab1:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
-                        
+                        analyze_sentiment(input_text)
                         language = detect_language(df)
-                        st.write(language)
-                        if language == 'English':
-                            sentiments = analyze_sentiment(input_text)
-                            analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
+                      
+                        analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                        
-                        elif language == 'Welsh':
-                            sentiments= analyze_sentiment_welsh(input_text)
-                            st.write(sentiments)
-                            plot_sentiment_pie(analysis)
-                            plot_sentiment(analysis)
+                        
+                        plot_sentiment_pie(analysis)
+                        plot_sentiment(analysis)
                         # Detect the language of all columns in the DataFrame
                         
                             
