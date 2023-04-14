@@ -217,8 +217,7 @@ from polyglot.detect import Detector
 from polyglot.text import Text
 import streamlit as st
 
-PUNCS = set('''!()[]{};:'",<>./?@#$%^&*_~''')
-STOPWORDS = set(Text("en").stop_words)
+
 
 def preprocess_text(text):
     # remove URLs, mentions, and hashtags
