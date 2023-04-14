@@ -301,6 +301,7 @@ def analyze_sentiment_welsh(input_text):
     reviews = input_text.split("\n")
 
     sentiments = []
+    text_sentimnet=[]
     for review in reviews:
         review = preprocess_text(review)
         if review:
@@ -321,8 +322,18 @@ def analyze_sentiment_welsh(input_text):
     
                     
             sentiments.append((review, sentiment, overall_sentiment_polarity))
+     sentiment_polarity = text.polarity
 
-    return sentiments
+# Convert the sentiment polarity to a sentiment label
+    if sentiment_polarity > 0.2:
+        sentiment_label = "positive"
+    elif sentiment_polarity < -0.2:
+        sentiment_label = "negative"
+    else:
+        sentiment_label = "neutral"
+    text_sentimnet.append((review, sentiment_label, sentiment_polarity))
+    return sentiments, text_sentimnet
+
 
 # --------------------Sentiments----------------------
 
