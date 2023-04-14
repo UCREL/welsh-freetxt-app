@@ -323,7 +323,7 @@ def analyze_sentiment_welsh(input_text):
             else:
                 sentiment_label = "neutral"
             text_sentimnet.append((review, sentiment_label, sentiment_polarity))
-    return sentiments, text_sentimnet
+    return  text_sentimnet
 
 
 # --------------------Sentiments----------------------
@@ -520,7 +520,8 @@ if status:
                             plot_sentiment(analysis)
                        
                         elif language == 'Welsh':
-
+                            sentiments = analyze_sentiment_welsh(input_text)
+                            analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
                         # Detect the language of all columns in the DataFrame
