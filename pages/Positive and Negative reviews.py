@@ -320,7 +320,7 @@ def analyze_sentiment_welsh(input_text):
                 sentiment = "Neutral"
     
                     
-            sentiments.append((review, sentiment, polarity))
+            sentiments.append((review, sentiment, overall_sentiment_polarity))
 
     return sentiments
 
