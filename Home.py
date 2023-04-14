@@ -87,7 +87,7 @@ st.set_page_config(
     The Project Advisory Group included representatives from 
     National Trust Wales, Cadw, National Museum Wales,
     CBAC | WJEC and National Centre for Learning Welsh.
-       
+    -------------------------------------------------------   
     Datblygwyd TestunRhydd fel rhan o brosiect ymchwil 
     cydweithredol a gyllidwyd gan yr AHRC 
     ‘TestunRhydd: yn cefnogi dadansoddi data arolygon testun 
