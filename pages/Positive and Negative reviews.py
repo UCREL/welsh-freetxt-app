@@ -322,7 +322,7 @@ def analyze_sentiment_welsh(input_text):
     
                     
             sentiments.append((review, sentiment, overall_sentiment_polarity))
-     sentiment_polarity = text.polarity
+    sentiment_polarity = text.polarity
 
 # Convert the sentiment polarity to a sentiment label
     if sentiment_polarity > 0.2:
