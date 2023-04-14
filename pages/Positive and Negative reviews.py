@@ -300,22 +300,27 @@ def analyze_sentiment_welsh(input_text):
     # preprocess input text and split into reviews
     reviews = input_text.split("\n")
 
-    # predict sentiment for each review
-    sentiments = []
+    sentiment_polarity_per_word = []
     for review in reviews:
         review = preprocess_text(review)
         if review:
-            lang = Detector(review).language.code
-            if lang == 'cy':
-                text = Text(review, hint_language_code='cy')
-                polarity = text.polarity
-                if polarity > 0:
-                    sentiment_label = 'Positive'
-                elif polarity < 0:
-                    sentiment_label = 'Negative'
-                else:
-                    sentiment_label = 'Neutral'
-                sentiments.append((review, sentiment_label, polarity))
+            text = Text(review, hint_language_code='cy')
+            for word in text.words:
+                word_sentiment_polarity = word.polarity
+                sentiment_polarity_per_word.append(word_sentiment_polarity)
+
+            overall_sentiment_polarity = sum(sentiment_polarity_per_word)
+
+    # Classify sentiment based on a threshold
+            if overall_sentiment_polarity > 0.2:
+                sentiment = "Positive"
+            elif overall_sentiment_polarity < -0.2:
+                sentiment = "Negative"
+            else:
+                sentiment = "Neutral"
+    
+                    
+            sentiments.append((review, sentiment, polarity))
 
     return sentiments
 
