@@ -272,6 +272,52 @@ st.write("Sentiment label:", sentiment_label)
 
 st.write("Sentiment polarity:", sentiment_polarity)
 
+import re
+from polyglot.detect import Detector
+from polyglot.text import Text
+from nltk.corpus import stopwords
+
+# download stopwords for nltk
+nltk.download('stopwords')
+STOPWORDS = set(stopwords.words('english'))
+
+# define function to preprocess text
+def preprocess_text(text):
+    # remove URLs, mentions, and hashtags
+    text = re.sub(r"http\S+|@\S+|#\S+", "", text)
+
+    # remove punctuation and convert to lowercase
+    text = re.sub(f"[{re.escape(''.join(PUNCS))}]", "", text.lower())
+
+    # remove stopwords
+    text = " ".join(word for word in text.split() if word not in STOPWORDS)
+
+    return text
+
+# define function to analyze sentiment using Polyglot for Welsh language
+@st.cache(allow_output_mutation=True)
+def analyze_sentiment_welsh(input_text):
+    # preprocess input text and split into reviews
+    reviews = input_text.split("\n")
+
+    # predict sentiment for each review
+    sentiments = []
+    for review in reviews:
+        review = preprocess_text(review)
+        if review:
+            lang = Detector(review).language.code
+            if lang == 'cy':
+                text = Text(review, hint_language_code='cy')
+                polarity = text.polarity
+                if polarity > 0:
+                    sentiment_label = 'Positive'
+                elif polarity < 0:
+                    sentiment_label = 'Negative'
+                else:
+                    sentiment_label = 'Neutral'
+                sentiments.append((review, sentiment_label, polarity))
+
+    return sentiments
 
 # --------------------Sentiments----------------------
 
@@ -463,7 +509,8 @@ if status:
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                        
                         elif language == 'Welsh':
-                    
+                            sentiments= analyze_sentiment_welsh(input_text)
+                            st.write(sentiments)
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
                         # Detect the language of all columns in the DataFrame
