@@ -272,29 +272,33 @@ def analyze_sentiment_welsh(reviews):
 
     return sentiments
 
-def analyze_sentiment_bert(reviews):
-    from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
+def analyze_sentiment_bert(input_text, num_classes=3):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
 
+    # preprocess input text and split into reviews
+    reviews = input_text.split("\n")
+
     # predict sentiment for each review
     sentiments = []
     for review in reviews:
-        inputs = tokenizer.encode_plus(
-            review,
-            add_special_tokens=True,
-            return_attention_mask=True,
-            return_tensors="pt"
-        )
-        outputs = model(**inputs)
-        scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
-        sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
-        sentiment_index = scores.argmax()
-        sentiment_label = sentiment_labels[sentiment_index]
-        sentiment_score = scores[sentiment_index]
-        sentiments.append((review, sentiment_label, sentiment_score))
+        review = preprocess_text(review)
+        if review:
+            inputs = tokenizer.encode_plus(
+                review,
+                add_special_tokens=True,
+                return_attention_mask=True,
+                return_tensors="pt"
+            )
+            outputs = model(**inputs)
+            scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+            sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
+            sentiment_index = scores.argmax()
+            sentiment_label = sentiment_labels[sentiment_index]
+            sentiment_score = scores[sentiment_index]
+            sentiments.append((review, sentiment_label, sentiment_score))
 
     return sentiments
 
