@@ -189,7 +189,19 @@ def select_columns(data, key):
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 from polyglot.detect import Detector
-
+# Define a function to detect the language of all columns in a DataFrame
+def detect_language(df):
+    # Loop through all columns in the DataFrame
+    languages = []
+    for col in df.columns:
+        # Loop through all rows in the column
+        for text in df[col]:
+            # Use Polyglot's Detector to detect the language of the text
+            lang = Detector(text).language.name
+            languages.append(lang)
+            # Only check the language of the first text in the column
+            break
+    return languages
 
 
 # --------------------Sentiments----------------------
@@ -439,11 +451,8 @@ if status:
                         
                     
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
-                        # Detect the language of each text in the DataFrame
-                        languages = []
-                        for text in df["text"]:
-                            lang = Detector(text).language.name
-                            languages.append(lang)
+                        # Detect the language of all columns in the DataFrame
+                        languages = detect_language(analysis)
                         st.write(languages)
                         
                         plot_sentiment_pie(analysis)
