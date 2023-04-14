@@ -188,6 +188,14 @@ def select_columns(data, key):
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
+from polyglot.detect import Detector
+
+
+
+# --------------------Sentiments----------------------
+
+###########Ployglot Welsh
+
 
 import polyglot
 from polyglot.text import Text
@@ -247,7 +255,7 @@ st.write("Sentiment polarity:", sentiment_polarity)
 
 # --------------------Sentiments----------------------
 
-###########Bert
+###########Bert English
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 def preprocess_text(text):
@@ -428,10 +436,15 @@ if status:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         sentiments = analyze_sentiment(input_text)
-
+                        
                     
                         analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
-                        
+                        # Detect the language of each text in the DataFrame
+                        languages = []
+                        for text in df["text"]:
+                            lang = Detector(text).language.name
+                            languages.append(lang)
+                        st.write(languages)
                         
                         plot_sentiment_pie(analysis)
                         plot_sentiment(analysis)
