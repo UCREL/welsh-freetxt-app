@@ -208,6 +208,7 @@ def detect_language(df):
 
     # Determine the most common language in the DataFrame
     most_common_lang = lang_counts.index[0]
+    
     returen most_common_lang
 
 
