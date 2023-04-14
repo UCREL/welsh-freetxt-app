@@ -242,7 +242,7 @@ else:
 # Print the sentiment label
 st.write("Sentiment label:", sentiment_label)
 
-
+st.write("Sentiment polarity:", sentiment_polarity)
 
 
 # --------------------Sentiments----------------------
