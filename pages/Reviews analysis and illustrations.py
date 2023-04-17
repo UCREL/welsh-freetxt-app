@@ -486,7 +486,7 @@ def get_wordcloud (data, key):
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
     tab2.write(word_freq)
-    df = word_freq[['Word','Frequency','Reference Frequency']].values.tolist()
+    df = word_freq[['Word','freq','f_Reference']].values.tolist()
     
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
@@ -582,8 +582,8 @@ def calculate_measures(df, measure):
     # Calculate the KENESS and log-likelihood measures for each word
     values = []
     for index, row in df.iterrows():
-        observed_freq = row['Frequency']
-        expected_freq = row['Reference Frequency'] * total_words / ref_words
+        observed_freq = row['freq']
+        expected_freq = row['f_Reference'] * total_words / ref_words
         if measure == 'KENESS':
             value = math.log(observed_freq / expected_freq) / math.log(2)
         elif measure == 'Log-Likelihood':
