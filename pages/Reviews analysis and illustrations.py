@@ -522,9 +522,16 @@ def get_wordcloud (data, key):
             tab2.write('keness')
             # Calculate the selected measure for each word
             df = calculate_measures(df)
-
            # Generate the wordcloud
-            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
+           # Choose whether to use KENESS or Log-Likelihood
+            measure_column = 'KENESS'  # Change to 'Log-Likelihood' if desired
+
+# Create a dictionary mapping words to their measure values
+            word_measures = dict(zip(df['word'], df[measure_column]))
+
+# Generate a word cloud from the word_measures dictionary
+            wordcloud = WordCloud(width=800, height=800, background_color='white').generate_from_frequencies(word_measures)
+
 
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
