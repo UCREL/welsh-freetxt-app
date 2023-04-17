@@ -594,8 +594,8 @@ def calculate_measures(df, measure):
     keness_values = []
     log_likelihood_values = []
     for index, row in df.iterrows():
-        observed_freq = row['FREQUENCY_COLUMN_NAME']
-        expected_freq = row['REF_FREQ_COLUMN_NAME'] * total_words / ref_words
+        observed_freq = row['freq']
+        expected_freq = row['f_Reference'] * total_words / ref_words
         keness = math.log(observed_freq / expected_freq) / math.log(2)
         log_likelihood = 2 * (observed_freq * math.log(observed_freq / expected_freq) +
                               (total_words - observed_freq) * math.log((total_words - observed_freq) / (total_words - expected_freq)))
