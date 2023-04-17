@@ -573,8 +573,12 @@ def get_wordcloud (data, key):
 ####load the Bnc Frequency list
 def calculate_measures(df, measure):
 
+    # Convert the frequency column to an integer data type
+    df['freq'] = df['freq'].astype(int)
 
-    total_words = df['freq'].values.sum()
+    # Calculate the total number of words in the text
+    total_words = df['freq'].sum()
+    
 
     # Calculate the total number of words in the reference corpus
     ref_words = 968267
