@@ -463,7 +463,7 @@ def get_wordcloud (data, key):
     tab2.markdown('''    
     ☁️ Word Cloud
     ''')
-    
+    y','Reference Frequency']].values.tolist()
     layout = tab2.columns([7, 1, 4])
     cloud_columns = layout[0].multiselect(
         'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
@@ -478,7 +478,21 @@ def get_wordcloud (data, key):
     
     image_mask_2 = {'cloud':'img/cloud.png','Welsh Flag': 'img/welsh_flag.png', 'Sherlock Holmes': 'img/holmes_silhouette.png', 'national-trust':'img/national-trust-logo-black-on-white-silhouette.webp','Cadw':'img/cadw-clip.jpeg','Rectangle': None,'Tweet':'img/tweet.png','circle':'img/circle.png', 'Cadw2':'img/CadwLogo.png'}
     
-   
+   # Calculate the total number of words in the text
+    Bnc_corpus=pd.read_csv('keness/Bnc.csv')
+    #### Get the frequency list of the requested data using NLTK
+    words = nltk.tokenize.word_tokenize(input_data)
+    fdist1 = nltk.FreqDist(words)
+    filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
+    column1 = list(filtered_word_freq.keys())
+    column2= list(filtered_word_freq.values())
+    word_freq = pd.DataFrame()
+    word_freq['word']= column1
+    word_freq['freq']= column2
+    s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
+    word_freq = word_freq.merge(s, how='inner', on='word')
+    #tab2.write(word_freq)
+    df = word_freq[['Word','Frequenc
     
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
@@ -505,11 +519,24 @@ def get_wordcloud (data, key):
         ).generate_from_text(input_data)
         
         
-            
+        # Allow the user to select the measure to use
+	#measure = tab2.selectbox("Select a measure:", options=["Frequency","KENESS", "Log-Likelihood"])    
         cloud_type = tab2.selectbox('Choose Cloud category:',
             ['All words','Semantic Tags', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
-            wordcloud = wc.generate(input_data)        
+            wordcloud = wc.generate(input_data)
+            tab2.write('keness')
+            # Calculate the selected measure for each word
+            df = calculate_measures(df, measure)
+
+           # Generate the wordcloud
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('Word')[measure])
+
+            # Display the wordcloud
+            plt.figure(figsize=(12, 8))
+            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.axis('off')
+            st.pyplot()
         elif cloud_type == 'Bigrams':
             wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
         elif cloud_type == 'Trigrams':
@@ -550,28 +577,31 @@ def get_wordcloud (data, key):
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
-    Bnc_corpus=pd.read_csv('keness/Bnc.csv')
-    #### Get the frequency list of the requested data using NLTK
-    words = nltk.tokenize.word_tokenize(input_data)
-    fdist1 = nltk.FreqDist(words)
-    filtered_word_freq = dict((word, freq) for word, freq in fdist1.items() if not word.isdigit())
-    column1 = list(filtered_word_freq.keys())
-    column2= list(filtered_word_freq.values())
-    word_freq = pd.DataFrame()
-    word_freq['word']= column1
-    word_freq['freq']= column2
-    s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
-    word_freq = word_freq.merge(s, how='inner', on='word')
-    tab2.write(word_freq)
-    
-    freq = word_freq[['word','freq','f_Reference']].values.tolist()
-    ff = [tuple(r) for r in freq]
-    ff = list(ff)
-#.apply(tuple, axis=1).tolist()
-    #tab2.write(ff)
-	
-    #ll = keness.run(ff,len(words),968267)
-    tab2.write(ff)
+def calculate_measures(df, measure):
+
+
+    total_words = df['Frequency'].sum()
+
+    # Calculate the total number of words in the reference corpus
+    ref_words = 968267
+
+    # Calculate the KENESS and log-likelihood measures for each word
+    values = []
+    for index, row in df.iterrows():
+        observed_freq = row['Frequency']
+        expected_freq = row['Reference Frequency'] * total_words / ref_words
+        if measure == 'KENESS':
+            value = math.log(observed_freq / expected_freq) / math.log(2)
+        elif measure == 'Log-Likelihood':
+            value = 2 * (observed_freq * math.log(observed_freq / expected_freq) +
+                          (total_words - observed_freq) * math.log((total_words - observed_freq) / (total_words - expected_freq)))
+        values.append(value)
+
+    # Add the measure values to the dataframe
+    df[measure] = values
+
+    return df
+
 
 # ---------------Checkbox options------------------
 def checkbox_container(data):
