@@ -521,23 +521,18 @@ def get_wordcloud (data, key):
             wordcloud_1 = wc.generate(input_data)
             tab2.write('keness')
             # Calculate the selected measure for each word
-            df = calculate_measures(df)
-           # Generate the wordcloud
-           # Choose whether to use KENESS or Log-Likelihood
-            measure_column = 'KENESS'  # Change to 'Log-Likelihood' if desired
+            df = calculate_measures(df,'KENESS')
+            
+# Generate the wordcloud
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('Word')['KENESS'])
 
-# Create a dictionary mapping words to their measure values
-            word_measures = dict(zip(df['word'], df[measure_column]))
-
-# Generate a word cloud from the word_measures dictionary
-            wordcloud = WordCloud(width=800, height=800, background_color='white').generate_from_frequencies(word_measures)
-
-
-            # Display the wordcloud
+# Display the wordcloud
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
             st.pyplot()
+
+
             wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
             tab2.write('Log-Likelihood')
             # Display the wordcloud
@@ -585,7 +580,7 @@ def get_wordcloud (data, key):
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
-def calculate_measures(df):
+def calculate_measures(df,measure):
 
     # Convert the frequency column to an integer data type
     df['freq'] = df['freq'].astype(int)
@@ -596,23 +591,21 @@ def calculate_measures(df):
 
     # Calculate the total number of words in the reference corpus
     ref_words = 968267
-
-# Calculate the KENESS and log-likelihood measures for each word
-    keness_values = []
-    log_likelihood_values = []
+   # Calculate the KENESS and log-likelihood measures for each word
+    values = []
     for index, row in df.iterrows():
-        observed_freq = row['freq']
-        expected_freq = row['f_Reference'] * total_words / ref_words
-        keness = math.log(observed_freq / expected_freq) / math.log(2)
-        log_likelihood = 2 * (observed_freq * math.log(observed_freq / expected_freq) +
-                              (total_words - observed_freq) * math.log((total_words - observed_freq) / (total_words - expected_freq)))
-        keness_values.append(keness)
-        log_likelihood_values.append(log_likelihood)
+        observed_freq = row['Frequency']
+        expected_freq = row['Reference Frequency'] * total_words / ref_words
+        if measure == 'KENESS':
+            value = math.log(observed_freq / expected_freq) / math.log(2)
+        elif measure == 'Log-Likelihood':
+            value = 2 * (observed_freq * math.log(observed_freq / expected_freq) +
+                          (total_words - observed_freq) * math.log((total_words - observed_freq) / (total_words - expected_freq)))
+        values.append(value)
 
-    # Add the KENESS and log-likelihood values to the dataframe
-    df['KENESS'] = keness_values
-    df['Log-Likelihood'] = log_likelihood_values
-    st.write(df)
+    # Add the measure values to the dataframe
+    df[measure] = values
+
     return df
 
 
