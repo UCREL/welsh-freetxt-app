@@ -486,7 +486,7 @@ def get_wordcloud (data, key):
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
     tab2.write(word_freq)
-    df = word_freq[['Word','freq','f_Reference']].values.tolist()
+    df = word_freq[['word','freq','f_Reference']].values.tolist()
     
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
