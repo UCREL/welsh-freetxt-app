@@ -521,7 +521,7 @@ def get_wordcloud (data, key):
             wordcloud_1 = wc.generate(input_data)
             tab2.write('keness')
             # Calculate the selected measure for each word
-            df = calculate_measures(df, 'KENESS')
+            df = calculate_measures(df)
 
            # Generate the wordcloud
             wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
@@ -578,7 +578,7 @@ def get_wordcloud (data, key):
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
-def calculate_measures(df, measure):
+def calculate_measures(df):
 
     # Convert the frequency column to an integer data type
     df['freq'] = df['freq'].astype(int)
