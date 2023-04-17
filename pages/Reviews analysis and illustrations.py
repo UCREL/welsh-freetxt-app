@@ -605,7 +605,7 @@ def calculate_measures(df, measure):
     # Add the KENESS and log-likelihood values to the dataframe
     df['KENESS'] = keness_values
     df['Log-Likelihood'] = log_likelihood_values
-    st.writr(df)
+    st.write(df)
     return df
 
 
