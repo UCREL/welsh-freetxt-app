@@ -518,24 +518,24 @@ def get_wordcloud (data, key):
         cloud_type = tab2.selectbox('Choose Cloud category:',
             ['All words','Semantic Tags', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
-            wordcloud = wc.generate(input_data)
+            wordcloud_1 = wc.generate(input_data)
             tab2.write('keness')
             # Calculate the selected measure for each word
             df = calculate_measures(df, 'KENESS')
 
            # Generate the wordcloud
-            wordcloud_2 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
 
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
-            plt.imshow(wordcloud_2, interpolation='bilinear')
+            plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
             st.pyplot()
-            wordcloud_3 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
             tab2.write('Log-Likelihood')
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
-            plt.imshow(wordcloud_3, interpolation='bilinear')
+            plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
             st.pyplot()
         elif cloud_type == 'Bigrams':
@@ -567,7 +567,7 @@ def get_wordcloud (data, key):
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
-        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+        plt.imshow(wordcloud_1.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
