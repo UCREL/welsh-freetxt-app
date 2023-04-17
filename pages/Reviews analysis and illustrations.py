@@ -521,7 +521,7 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate(input_data)
             tab2.write('keness')
             # Calculate the selected measure for each word
-            df = calculate_measures(df, measure)
+            df = calculate_measures(df, 'KENESS')
 
            # Generate the wordcloud
             wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('Word')[measure])
