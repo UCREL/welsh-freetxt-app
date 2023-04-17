@@ -574,7 +574,7 @@ def get_wordcloud (data, key):
 def calculate_measures(df, measure):
 
 
-    total_words = df['Frequency'].sum()
+    total_words = df['freq'].sum()
 
     # Calculate the total number of words in the reference corpus
     ref_words = 968267
