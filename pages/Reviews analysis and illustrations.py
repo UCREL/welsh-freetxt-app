@@ -463,7 +463,7 @@ def get_wordcloud (data, key):
     tab2.markdown('''    
     ☁️ Word Cloud
     ''')
-    y','Reference Frequency']].values.tolist()
+    
     layout = tab2.columns([7, 1, 4])
     cloud_columns = layout[0].multiselect(
         'Which column do you wish to view the word cloud from?', data.columns, list(data.columns), help='Select free text columns to view the word cloud', key=f"{key}_cloud_multiselect")
@@ -492,7 +492,7 @@ def get_wordcloud (data, key):
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
     #tab2.write(word_freq)
-    df = word_freq[['Word','Frequenc
+    df = word_freq[['Word','Frequency','Reference Frequency']].values.tolist()
     
     #tab2.subheader("upload mask Image")
     #image_file = tab2.file_uploader("Upload Images", type=["png","jpg","jpeg"])
