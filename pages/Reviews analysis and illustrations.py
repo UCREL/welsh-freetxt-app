@@ -535,11 +535,11 @@ def get_wordcloud (data, key):
             df = calculate_measures(df,'Log-Likelihood')
             
             # Generate the wordcloud
-            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
+            wordcloud_2 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
 
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
-            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.imshow(wordcloud_2, interpolation='bilinear')
             plt.axis('off')
             st.pyplot()
 
