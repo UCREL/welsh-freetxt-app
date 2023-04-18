@@ -530,7 +530,7 @@ def get_wordcloud (data, key):
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
-            tab2.write('keness')
+            
             tab2.pyplot()
 
 
