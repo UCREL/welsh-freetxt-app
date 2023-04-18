@@ -485,7 +485,7 @@ def get_wordcloud (data, key):
     word_freq['freq']= column2
     s = Bnc_corpus.loc[Bnc_corpus['word'].isin(column1)]
     word_freq = word_freq.merge(s, how='inner', on='word')
-    tab2.write(word_freq)
+    #tab2.write(word_freq)
     df = word_freq[['word','freq','f_Reference']]
     
     #tab2.subheader("upload mask Image")
@@ -519,7 +519,7 @@ def get_wordcloud (data, key):
             ['All words','Semantic Tags', 'Bigrams', 'Trigrams', '4-grams', 'Nouns', 'Proper nouns', 'Verbs', 'Adjectives', 'Adverbs', 'Numbers'], key= f"{key}_cloud_select")
         if cloud_type == 'All words':
             wordcloud_1 = wc.generate(input_data)
-            tab2.write('keness')
+            
             # Calculate the selected measure for each word
             df = calculate_measures(df,'KENESS')
             
@@ -530,7 +530,8 @@ def get_wordcloud (data, key):
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
-            st.pyplot()
+	    tab2.write('keness')
+            tab2.pyplot()
 
 
         elif cloud_type == 'Bigrams':
