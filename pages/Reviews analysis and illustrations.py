@@ -598,7 +598,7 @@ def calculate_measures(df,measure):
 
     # Add the measure values to the dataframe
     df[measure] = values
-    st.write(df)
+    #st.write(df)
     return df
 
 
