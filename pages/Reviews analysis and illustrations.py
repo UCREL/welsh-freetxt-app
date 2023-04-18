@@ -523,15 +523,14 @@ def get_wordcloud (data, key):
             # Calculate the selected measure for each word
             df = calculate_measures(df,'KENESS')
             
-# Generate the wordcloud
+            # Generate the wordcloud
             wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
 
-# Display the wordcloud
+            # Display the wordcloud
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
-            
-            tab2.pyplot()
+            st.pyplot()
 
 
         elif cloud_type == 'Bigrams':
@@ -599,7 +598,7 @@ def calculate_measures(df,measure):
 
     # Add the measure values to the dataframe
     df[measure] = values
-
+    st.write(df)
     return df
 
 
