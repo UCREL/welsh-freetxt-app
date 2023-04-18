@@ -533,13 +533,6 @@ def get_wordcloud (data, key):
             st.pyplot()
 
 
-            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
-            tab2.write('Log-Likelihood')
-            # Display the wordcloud
-            plt.figure(figsize=(12, 8))
-            plt.imshow(wordcloud, interpolation='bilinear')
-            plt.axis('off')
-            st.pyplot()
         elif cloud_type == 'Bigrams':
             wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
         elif cloud_type == 'Trigrams':
