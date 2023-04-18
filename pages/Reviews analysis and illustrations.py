@@ -531,7 +531,17 @@ def get_wordcloud (data, key):
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis('off')
             st.pyplot()
+            # Calculate the selected measure for each word
+            df = calculate_measures(df,'Log-Likelihood')
+            
+            # Generate the wordcloud
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
 
+            # Display the wordcloud
+            plt.figure(figsize=(12, 8))
+            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.axis('off')
+            st.pyplot()
 
         elif cloud_type == 'Bigrams':
             wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
