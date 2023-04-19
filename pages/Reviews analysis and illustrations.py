@@ -862,7 +862,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     for link in G.edges(data=True):
        d3_data["links"].append({"source": link[0], "target": link[1], "value": link[2]["freq"]})
 
-    print(d3_data)  
+    st.write(d3_data)  
     # Convert the JSON object to a string and insert it into the HTML template
     html_template = """
     <html>
@@ -870,9 +870,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
             <title>D3.js Network Visualization</title>
             <script src="https://d3js.org/d3.v6.min.js"></script>
             <style>
-                #chart svg {
-                    height: 100%;
-                }
+                
                 .node {
                     stroke: #fff;
                     stroke-width: 1.5px;
