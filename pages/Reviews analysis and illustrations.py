@@ -724,7 +724,7 @@ def plot_coll_3(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 	
-def plot_coll_2(keyword, collocs, expander, tab):
+def plot_coll_4(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -770,6 +770,70 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+	
+def plot_coll_2(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Calculate node positions based on edge frequencies
+    pos = {}
+    for node in G.nodes():
+        # Calculate the average frequency of the edges for this node
+        edges = G.edges(node, data=True)
+        avg_freq = sum([data['freq'] for _, _, data in edges]) / len(edges)
+
+        # Set the position of the node based on the average frequency
+        offset = 0.25 / avg_freq # shorter lines for higher frequency edges
+        pos[node] = (np.cos(avg_freq*np.pi) + np.random.normal(0, 0.05), np.sin(avg_freq*np.pi) + np.random.normal(0, 0.05) + offset)
+
+    # Draw the network
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_sizes = [2000 * count / n for count in counts]
+    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
+    edge_colors = top_collocs_df['freq']
+
+    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
+    ax = fig.add_subplot(111)
+    ax.set_aspect('equal')
+    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
+    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
+
+    # Draw nodes and edges separately to allow for custom edge styling
+    node_collection = nx.draw_networkx_nodes(G, pos=pos, node_color=node_colors, node_size=node_sizes, alpha=0.8, ax=ax)
+    edge_collection = nx.draw_networkx_edges(G, pos=pos, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, alpha=0.8, ax=ax)
+
+    # Add labels to nodes
+    node_labels = {node: node.capitalize() for node in G.nodes()}
+    nx.draw_networkx_labels(G, pos=pos, labels=node_labels, font_size=12, font_weight='bold', font_color='black', ax=ax)
+
+    # Set edge colors based on frequency
+    edge_colors = [data['freq'] for _, _, data in G.edges(data=True)]
+    norm = plt.Normalize(vmin=min(edge_colors), vmax=max(edge_colors))
+    edge_collection.set_cmap(plt.cm.Blues)
+    edge_collection.set_norm(norm)
+    edge_collection.set_edgecolor('gray')
+    edge_collection.set_alpha(0.8)
+
+    # Add colorbar for edge frequencies
+    cax = fig.add_axes([0.95, 0.2, 0.03, 0.6])
+    cbar = plt.colorbar(edge_collection, cax=cax)
+    cbar.ax.tick_params(labelsize=12)
+    cbar.set_label('Frequency', fontsize=14)
+
+    # Save the plot to an image
+    plt.savefig('img_file.png', format='png', dpi=300)
+
+     # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
+
+    with tab:
+        with expander:
+            st.pyplot()
+
 	
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
