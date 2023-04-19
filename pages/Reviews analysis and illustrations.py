@@ -810,7 +810,9 @@ def plot_coll_2(keyword, collocs, expander, tab):
     ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
 
     nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
-
+    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
+    plt.box(False)
+    plt.axis('off')
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
