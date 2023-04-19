@@ -41,5 +41,4 @@ torch
 requests
 regex
 streamlit-plotly-events
-chord
-pyecharts
+graphviz
