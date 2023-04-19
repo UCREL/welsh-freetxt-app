@@ -856,8 +856,9 @@ def plot_coll_5(keyword, collocs, expander, tab):
     nodes = [{'id': keyword, 'color': 'gray', 'size': 2000}]
     links = []
     for node in G.nodes():
-        if node != keyword:
-            nodes.append({'id': node, 'color': 'blue', 'size': 2000 * counts[words.index(node)] / n})
+        if node != keyword:  
+            nodes.append({'id': node, 'color': 'blue', 'size': int(2000 * counts[words.index(node)] / n)})
+
             links.append({'source': keyword, 'target': node, 'value': top_collocs_df[top_collocs_df['word'] == node]['freq'].iloc[0]})
 
     data = {'nodes': nodes, 'links': links}
