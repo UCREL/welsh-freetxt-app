@@ -793,15 +793,12 @@ def plot_coll_3(keyword, collocs, expander, tab):
     # Draw graph
     node_sizes = [2000 * count / max(counts) for count in counts]
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-    nx.draw(G,width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color='gray')
-# width=edge_lengths
+    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color=edge_colors, width=edge_lengths)
+
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
     plt.colorbar(sm)
-
-    # Set the color of the text to black
-    for text in plt.gca().get_texts():
-        text.set_color('black')
 
     # Save the plot to an image
     plt.savefig('img_file.png', format='png', dpi=300)
@@ -811,7 +808,8 @@ def plot_coll_3(keyword, collocs, expander, tab):
 
     with tab:
         with expander:
-            st.image(pil_image)
+            st.image(pil_image, caption='Keyword: '+keyword, use_column_width=True)
+
 
 
 
