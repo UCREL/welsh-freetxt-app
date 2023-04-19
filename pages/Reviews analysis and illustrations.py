@@ -987,7 +987,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
 """
 
 # Render the HTML template and display it
-    html_output = html_template.format(json_data=json.dumps(json_data))
+    html_output = html_template.format(d3_data=json.dumps(d3_data))
     with tab:
         with expander:
              display(HTML(html_output))
