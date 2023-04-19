@@ -1124,7 +1124,7 @@ def plot_kwic(data, key):
                 #plot_collocation(keyword, collocs,expander,tab3)
                 #plot_coll(keyword, collocs,expander,tab3)
                 plot_coll_2(keyword, collocs,expander,tab3)
-                plot_coll_5(keyword, collocs,expander,tab3)
+                #plot_coll_5(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
