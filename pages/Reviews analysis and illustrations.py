@@ -861,7 +861,11 @@ def plot_coll_5(keyword, collocs, expander, tab):
 
             links.append({'source': keyword, 'target': node, 'value': top_collocs_df[top_collocs_df['word'] == node]['freq'].iloc[0]})
 
-    data = {'nodes': nodes, 'links': links}
+# Convert the links to a format that can be serialized to JSON
+    links_json = [{'source': link['source'], 'target': link['target'], 'value': int(link['value'])} for link in links]
+
+    data = {'nodes': nodes, 'links': links_json}
+    
 
     # Create a JSON string for the data
     #json_data = json.dumps(data)
