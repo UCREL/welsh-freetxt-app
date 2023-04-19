@@ -781,12 +781,13 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
+    scaling_factor =2
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
             dist = 1 - (freq / n)
             angle = 2 * math.pi * random.random()
-            x, y = dist * math.cos(angle), dist * math.sin(angle)
+            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
             pos[word] = (x, y)
 
     # Draw the network
