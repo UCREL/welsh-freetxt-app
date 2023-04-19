@@ -883,7 +883,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     d3_code = f"""
 <script>
     const nodes = {json.dumps(nodes)};
-    const links = {json.dumps(links)};
+    const links = {json.dumps(links_json)};
     const width = {width};
     const height = {height};
 
