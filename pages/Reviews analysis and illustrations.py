@@ -853,14 +853,16 @@ def plot_coll_5(keyword, collocs, expander, tab):
                 x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
             pos[word] = (x, y)
     
-    # Create a JSON object with the network data
+# Create a JSON object with the network data
     d3_data = {"nodes": [], "links": []}
     for node in G.nodes():
-        node_size = 2000 * counts[words.index(node)] / n
-        node_color = "green" if node == most_frequent_word else "gray" if node == keyword else plt.cm.Blues(counts[words.index(node)] / n)
-        d3_data["nodes"].append({"id": node, "size": node_size, "color": node_color})
+       node_size = 2000 * counts[words.index(node)] / n
+       node_color = "green" if node == most_frequent_word else "gray" if node == keyword else plt.cm.Blues(counts[words.index(node)] / n)
+       d3_data["nodes"].append({"id": node, "size": node_size, "color": node_color})
     for link in G.edges(data=True):
-        d3_data["links"].append({"source": link[0], "target": link[1], "value": link[2]["freq"]})
+       d3_data["links"].append({"source": link[0], "target": link[1], "value": link[2]["freq"]})
+
+    print(d3_data)  
     # Convert the JSON object to a string and insert it into the HTML template
     html_template = """
     <html>
