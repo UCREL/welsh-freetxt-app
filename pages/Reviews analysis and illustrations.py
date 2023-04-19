@@ -848,61 +848,45 @@ def plot_coll_5(keyword, collocs, expander, tab):
             dist = 1 - (freq / n)
             angle = 2 * math.pi * random.random()
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
-
+            
             # Adjust the position of the most frequent word if it overlaps with the keyword
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
-
+                
                 x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-
+            
             pos[word] = (x, y)
+    
+    # Draw the network
+    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_sizes = [1000 * count / n for count in counts]  # adjust node size by dividing all sizes by a constant factor
+    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
+    edge_colors = top_collocs_df['freq']
 
-    # Create edge traces
-    edge_traces = []
-    for index, row in top_collocs_df.iterrows():
-        source = row['source']
-        target = row['word']
-        freq = row['freq']
-        edge_traces.append(go.Scatter(
-            x=[pos[source][0], pos[target][0]],
-            y=[pos[source][1], pos[target][1]],
-            mode='lines',
-            line=dict(width=2/freq, color='blue'),
-            hoverinfo='none'
-        ))
+    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
+    ax = fig.add_subplot(111)
+    ax.set_aspect('equal')
+    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
+    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
 
-    # Create node traces
-    node_traces = []
-    for node, count in zip(G.nodes(), counts):
-        color = 'green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n)
-        size = 2000 * count / n
-        node_traces.append(go.Scatter(
-            x=[pos[node][0]],
-            y=[pos[node][1]],
-            mode='markers',
-            marker=dict(size=size, color=color),
-            text=node,
-            hoverinfo='text'
-        ))
+    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
+    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
+    plt.box(False)
+    plt.axis('off')
+    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm._A = []
+    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
 
-    # Set layout
-    layout = go.Layout(
-        title='Collocations for "{}"'.format(keyword),
-        title_font_size=16,
-        title_font_family='Arial',
-        margin=dict(l=0, r=0, t=50, b=0),
-        xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        hovermode='closest',
-        showlegend=False
-    )
+    # Save the plot to an image
+    plt.savefig('img_file.png', format='png', dpi=300)
 
-    # Create figure
-    fig = go.Figure(data=edge_traces + node_traces, layout=layout)
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
 
     with tab:
         with expander:
-            st.plotly_chart(fig)
+            st.image(pil_image)
+
 
 	
 def plot_coll(keyword, collocs, expander, tab):
