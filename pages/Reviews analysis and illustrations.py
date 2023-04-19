@@ -833,7 +833,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
     width=600
-    hight= 600
+    height= 600
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
     scaling_factor = 1.2
