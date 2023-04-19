@@ -888,7 +888,7 @@ def get_graph_html(keyword, collocs):
               .attr("height", height);
               
   var simulation = d3.forceSimulation(nodes)
-                     .force("link", d3.forceLink(links).id(function(d) { return d.word; }))
+                     .force("link", d3.forceLink(links).id(function(d) {return d.word; }))
                      .force("charge", d3.forceManyBody().strength(-200))
                      .force("center", d3.forceCenter(width / 2, height / 2));
                      
