@@ -445,7 +445,7 @@ def Pymsas_tags(text):
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
         merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
         tags_to_remove = ['Unmatched', 'Grammatical bin', 'Pronouns', 'Period']
-        merged_df['USAS Tags'] = merged_df['USAS Tags'].apply(lambda x: ' '.join([tag for tag in x.split() if tag not in tags_to_remove]))
+        merged_df = merged_df[~merged_df['USAS Tags'].str.contains('|'.join(tags_to_remove))]
 
     return(merged_df['USAS Tags'])
 
