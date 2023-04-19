@@ -787,11 +787,13 @@ def plot_coll_2(keyword, collocs, expander, tab):
             # Calculate the distance from the keyword
             dist = 1 - (freq / n)
             angle = 2 * math.pi * random.random()
-            if freq == max(counts):
-                scaling_factor = 1.4 # increase scaling factor for most frequent word
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+            
+            # Adjust the position of the most frequent word if it overlaps with the keyword
+            if dist == 0 and freq == max(counts):
+                x, y = scaling_factor * math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+            
             pos[word] = (x, y)
-            scaling_factor = 1.2 # reset scaling factor for other words
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
