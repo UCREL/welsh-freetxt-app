@@ -797,7 +797,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
             pos[word] = (x, y)
 
     # Draw the network
-    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
     node_sizes = [2000 * count / n for count in counts]
     edge_widths = [2/ freq for freq in top_collocs_df['freq']]
     edge_colors = top_collocs_df['freq']
