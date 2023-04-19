@@ -789,20 +789,13 @@ def plot_coll_3(keyword, collocs, expander, tab):
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
 
-    # Define positions of nodes
-    pos = nx.spring_layout(G)
-
-    # Scale edge lengths based on inverse frequency
-    edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
-    max_length = max(edge_lengths)
-    edge_lengths = [length / max_length for length in edge_lengths]
+    # Define positions of nodes using force-directed graph layout
+    pos = nx.spring_layout(G, k=0.15, iterations=50)
 
     # Draw graph
-    node_sizes = [2000 * count / max(counts) for count in counts]
-    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
-
     fig = go.Figure()
+
+    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
 
     for edge in G.edges():
         fig.add_trace(go.Scatter(x=[pos[edge[0]][0],pos[edge[1]][0]],
@@ -811,12 +804,13 @@ def plot_coll_3(keyword, collocs, expander, tab):
                          line=dict(width=2, color=edge_colors[G.edges()[edge]['freq']]),
                          hoverinfo='none'))
 
-    for node in G.nodes():
-        fig.add_trace(go.Scatter(x=[pos[node][0]], y=[pos[node][1]],
-                                  mode='markers',
-                                  marker=dict(size=node_sizes[G.nodes()[node]['freq']],
-                                              color=node_colors[node]),
-                                  text=node, hoverinfo='text'))
+    node_sizes = [2000 * count / max(counts) for count in counts]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+
+    fig.add_trace(go.Scatter(x=[pos[node][0] for node in G.nodes()], y=[pos[node][1] for node in G.nodes()],
+                              mode='markers',
+                              marker=dict(size=node_sizes, color=node_colors),
+                              text=list(G.nodes()), hoverinfo='text'))
 
     fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=10, b=10))
     fig.update_xaxes(showticklabels=False)
@@ -832,7 +826,6 @@ def plot_coll_3(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.image(pil_image)
-
 
 
 
