@@ -832,7 +832,8 @@ def plot_coll_5(keyword, collocs, expander, tab):
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
-
+    width=600
+    hight= 600
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
     scaling_factor = 1.2
