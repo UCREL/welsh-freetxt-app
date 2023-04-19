@@ -781,7 +781,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
-    scaling_factor = 1.1
+    scaling_factor = 1.3
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
