@@ -828,7 +828,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
 import json
 
-def plot_coll_2(keyword, collocs, expander, tab):
+def plot_coll_5(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -1212,7 +1212,7 @@ def plot_kwic(data, key):
                 #plot_collocation(keyword, collocs,expander,tab3)
                 #plot_coll(keyword, collocs,expander,tab3)
                 plot_coll_2(keyword, collocs,expander,tab3)
-                #plot_coll_5(keyword, collocs,expander,tab3)
+                plot_coll_5(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
