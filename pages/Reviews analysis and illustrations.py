@@ -867,7 +867,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     data = {'nodes': nodes, 'links': links}
 
     # Write JSON data to a file
-    with open('graph_data.json', 'w') as f:
+    with open('temp/graph_data.json', 'w') as f:
         json.dump(data, f)
     
 
@@ -884,7 +884,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     <body>
         <div id="graph"></div>
         <script>
-            d3.json('graph_data.json').then(function(data) {
+            d3.json('temp/graph_data.json').then(function(data) {
                 var svg = d3.select('#graph')
                     .append('svg')
                     .attr('width', 600)
