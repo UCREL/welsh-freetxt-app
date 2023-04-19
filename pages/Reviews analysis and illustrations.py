@@ -534,7 +534,7 @@ def get_wordcloud (data, key):
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud_1, interpolation='bilinear')
             plt.axis('off')
-            st.pyplot()
+            tab2.pyplot()
             # Calculate the selected measure for each word
             df = calculate_measures(df,'Log-Likelihood')
             
@@ -545,7 +545,7 @@ def get_wordcloud (data, key):
             plt.figure(figsize=(12, 8))
             plt.imshow(wordcloud_2, interpolation='bilinear')
             plt.axis('off')
-            st.pyplot()
+            tab2.pyplot()
 
         elif cloud_type == 'Bigrams':
             wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
@@ -772,6 +772,66 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 
 
+import pandas as pd
+import networkx as nx
+import matplotlib.pyplot as plt
+import json
+import math
+import streamlit as st
+from PIL import Image
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+
+def plot_coll_3(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+
+    # Define positions of nodes
+    pos = nx.spring_layout(G)
+
+    # Scale edge lengths based on inverse frequency
+    edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
+    max_length = max(edge_lengths)
+    edge_lengths = [length / max_length for length in edge_lengths]
+
+    # Draw graph
+    node_sizes = [2000 * count / max(counts) for count in counts]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
+
+    fig = go.Figure()
+
+    for edge in G.edges():
+        fig.add_trace(go.Scatter(x=[pos[edge[0]][0],pos[edge[1]][0]],
+                         y=[pos[edge[0]][1],pos[edge[1]][1]],
+                         mode='lines',
+                         line=dict(width=2, color=edge_colors[G.edges()[edge]['freq']]),
+                         hoverinfo='none'))
+
+    for node in G.nodes():
+        fig.add_trace(go.Scatter(x=[pos[node][0]], y=[pos[node][1]],
+                                  mode='markers',
+                                  marker=dict(size=node_sizes[G.nodes()[node]['freq']],
+                                              color=node_colors[node]),
+                                  text=node, hoverinfo='text'))
+
+    fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=10, b=10))
+    fig.update_xaxes(showticklabels=False)
+    fig.update_yaxes(showticklabels=False)
+    fig.update_layout(height=500, width=500)
+
+    # Save the plot to an image
+    fig.write_image('img_file.png', format='png', width=500, height=500, scale=3)
+
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
+
+    with tab:
+        with expander:
+            st.image(pil_image)
 
 
 
@@ -963,7 +1023,7 @@ def plot_kwic(data, key):
 		
                 plot_collocation(keyword, collocs,expander,tab3)
                 plot_coll(keyword, collocs,expander,tab3)
-                #plot_coll_2(keyword, collocs,expander,tab3)
+                plot_coll_3(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
