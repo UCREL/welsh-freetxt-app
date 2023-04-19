@@ -773,59 +773,49 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
 
 import pandas as pd
-import networkx as nx
-import matplotlib.pyplot as plt
-import json
-import math
+import numpy as np
 import streamlit as st
+import altair as alt
 from PIL import Image
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
+from chord import Chord
 
 def plot_coll_3(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    matrix = np.zeros((len(words), len(words)))
+    for i, w1 in enumerate(words):
+        for j, w2 in enumerate(words):
+            if i != j:
+                count = top_collocs_df[(top_collocs_df['word'] == w1) & (top_collocs_df['word'] == w2)]['freq'].sum()
+                matrix[i, j] = count
+    matrix = pd.DataFrame(matrix, index=words, columns=words)
 
-    # Define positions of nodes using force-directed graph layout
-    pos = nx.spring_layout(G, k=0.15, iterations=50)
+    # Create Chord diagram
+    chart = Chord(matrix)
 
-    # Draw graph
-    fig = go.Figure()
+    # Customize Chord diagram
+    chart.colors = 'set3'
+    chart.color_scale = alt.Scale(scheme='set3')
+    chart.tooltip_font_size = 16
+    chart.label_font_size = 16
+    chart.padding = 0.02
+    chart.width = 500
+    chart.height = 500
+    chart.font_size_legend = 16
 
-    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
-
-    for edge in G.edges():
-        fig.add_trace(go.Scatter(x=[pos[edge[0]][0],pos[edge[1]][0]],
-                         y=[pos[edge[0]][1],pos[edge[1]][1]],
-                         mode='lines',
-                         line=dict(width=2, color=edge_colors[G.edges()[edge]['freq']]),
-                         hoverinfo='none'))
-
-    node_sizes = [2000 * count / max(counts) for count in counts]
-    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-
-    fig.add_trace(go.Scatter(x=[pos[node][0] for node in G.nodes()], y=[pos[node][1] for node in G.nodes()],
-                              mode='markers',
-                              marker=dict(size=node_sizes, color=node_colors),
-                              text=list(G.nodes()), hoverinfo='text'))
-
-    fig.update_layout(showlegend=False, margin=dict(l=10, r=10, t=10, b=10))
-    fig.update_xaxes(showticklabels=False)
-    fig.update_yaxes(showticklabels=False)
-    fig.update_layout(height=500, width=500)
-
-    # Save the plot to an image
-    fig.write_image('img_file.png', format='png', width=500, height=500, scale=3)
+    # Save Chord diagram to image
+    chart.to_file('img_file.png', format='png')
 
     # Convert the image file to a PIL Image object
     pil_image = Image.open('img_file.png')
 
+    # Display the image in Streamlit
     with tab:
         with expander:
             st.image(pil_image)
+
+
 
 
 
