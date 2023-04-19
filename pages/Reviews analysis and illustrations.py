@@ -870,7 +870,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
             <title>D3.js Network Visualization</title>
             <script src="https://d3js.org/d3.v6.min.js"></script>
             <style>
-                #chart svg {width: 100%;
+                #chart svg {
                     height: 100%;
                 }
                 .node {
