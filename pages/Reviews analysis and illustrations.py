@@ -825,16 +825,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-
-import streamlit as st
-import pandas as pd
-import networkx as nx
-import math
-import random
-import json
-
-# Define the HTML and JavaScript code for the graph
-def plot_coll_5(keyword, collocs):
+def plot_coll_2(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -845,93 +836,57 @@ def plot_coll_5(keyword, collocs):
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
     scaling_factor = 1.2
-     # Define the most frequent word
-    most_frequent_word = None
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
             dist = 1 - (freq / n)
             angle = 2 * math.pi * random.random()
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
-            
+
             # Adjust the position of the most frequent word if it overlaps with the keyword
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
-                
+
                 x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-            
+
             pos[word] = (x, y)
-    
-    # Define the graph data
-    nodes = [{'id': keyword, 'group': 1}]
-    for i, node in enumerate(G.nodes()):
+
+    # Prepare the data for the D3.js graph
+    nodes = [{'id': keyword, 'color': 'gray', 'size': 2000}]
+    links = []
+    for node in G.nodes():
         if node != keyword:
-            nodes.append({'id': node, 'group': 2})
+            nodes.append({'id': node, 'color': 'blue', 'size': 2000 * counts[words.index(node)] / n})
+            links.append({'source': keyword, 'target': node, 'value': top_collocs_df[top_collocs_df['word'] == node]['freq'].iloc[0]})
 
-    links = [{'source': keyword, 'target': word, 'value': freq} for word, freq in top_collocs_df[['word', 'freq']].values]
+    data = {'nodes': nodes, 'links': links}
 
-    # Convert the data to JSON format
-    nodes_json = json.dumps(nodes)
-    links_json = json.dumps(links)
-    # Define the HTML and JavaScript code for the graph
-    html = f"""
-<div id="graph-container" style="width: 100%; height: 500px;"></div>
+    # Create a JSON string for the data
+    json_data = json.dumps(data)
+    # Create the HTML code for the D3.js graph
+     html_template = f"""
+<div id="plot_div">
+    <svg width="{width}" height="{height}"></svg>
+</div>
+"""
+
+# Display the HTML code
+    st.write(html_template)
+
+# Render the D3.js code in the HTML template
+    d3_code = f"""
 <script>
-  // Define the graph data
-  var nodes = {json.dumps(words)};
-  var links = {json.dumps(top_collocs_df.to_dict('records'))};
-  
-  // Define the D3.js code to create the graph
-  var width = document.getElementById("graph-container").offsetWidth;
-  var height = document.getElementById("graph-container").offsetHeight;
-  
-  var svg = d3.select("#graph-container").append("svg")
-              .attr("width", width)
-              .attr("height", height);
-              
-  var simulation = d3.forceSimulation(nodes)
-                     .force("link", d3.forceLink(links).id(function(d) {return d.word; }))
-                     .force("charge", d3.forceManyBody().strength(-200))
-                     .force("center", d3.forceCenter(width / 2, height / 2));
-                     
-  var link = svg.append("g")
-                .attr("stroke", "#999")
-                .attr("stroke-opacity", 0.6)
-                .selectAll("line")
-                .data(links)
-                .join("line")
-                .attr("stroke-width", function(d) { return 2/d.freq; });
+    const nodes = {json.dumps(nodes)};
+    const links = {json.dumps(links)};
+    const width = {width};
+    const height = {height};
 
-  var node = svg.append("g")
-                .attr("stroke", "#fff")
-                .attr("stroke-width", 1.5)
-                .selectAll("circle")
-                .data(nodes)
-                .join("circle")
-                .attr("r", function(d) { return 20 * d.freq / n; })
-                .attr("fill", function(d) { return d.word == most_frequent_word ? "green" : d.word == keyword ? "gray" : colorScale(d.freq); })
-                .call(drag(simulation));
-
-  node.append("title")
-      .text(function(d) { return d.word; });
-
-  simulation.on("tick", function() {
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-  });
-
-  // Define any necessary event listeners and handlers
-  // ...
+    {d3js_code}
 </script>
 """
 
-# Add the graph to the Streamlit app
-    st.write(html)
+# Display the D3.js code
+    st.write(d3_code, unsafe_allow_html=True)
 
 	
 def plot_coll(keyword, collocs, expander, tab):
