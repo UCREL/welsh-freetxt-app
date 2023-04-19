@@ -826,16 +826,17 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 
 
-import json
+from pyvis.network import Network
+
+import math
+import random
+
 
 def plot_coll_5(keyword, collocs, expander, tab):
-    width = 600
-    height = 600
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
     # Calculate node positions based on edge frequencies
@@ -852,139 +853,42 @@ def plot_coll_5(keyword, collocs, expander, tab):
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
                 
-                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-            
-            pos[word] = (x, y)
-    
-    # Generate JSON data for the graph
-    nodes = [{'id': keyword, 'group': 1}]
-    links = []
-    for i, (word, freq) in enumerate(zip(words, counts)):
-        if word != keyword:
-            nodes.append({'id': word, 'group': 2})
-            links.append({'source': 0, 'target': i+1, 'value': freq})
-    
-    d3_data = {'nodes': nodes, 'links': links}
+                x, y = scaling_factor*math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+                pos[word] = (x, y)
 
-    # Write JSON data to a file
-    with open('graph_data.json', 'w') as f:
-        f.write('data')
-        #json.dump(data, f)
-        st.write(f)
+      # Create the network object
+    net = Network(height='800px', width='800px', notebook=True)
 
-    
-    # Embed the graph in a web page using D3.js
-    html_template = '''
-    <html>
-    <head>
-        <script src="https://d3js.org/d3.v6.min.js"></script>
-    </head>
-    <body>
-        <div id="graph"></div>
-        <script>
-            d3.json('graph_data.json').then(function(data) {
-                var svg = d3.select('#graph')
-                    .append('svg')
-                    .attr('width', 600)
-                    .attr('height', 600);
+# Add nodes to the network
+    node_colors = {'green': most_frequent_word, 'gray': keyword}
+    for word, count in zip(words, counts):
+       if word == keyword:
+           continue
+       color = plt.cm.Blues(count / n)
+       net.add_node(word, color=color, size=2000 * count / n)
 
-                var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+      # Add edges to the network
+    for row in top_collocs_df.itertuples():
+         net.add_edge(row.source, row.word, value=row.freq)
 
-
-var svg = d3.select('#graph').append("svg")
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-var link = svg.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(links)
-    .enter().append("line")
-    .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
-
-var node = svg.append("g")
-    .attr("class", "nodes")
-    .selectAll("circle")
-    .data(nodes)
-    .enter().append("circle")
-    .attr("r", function(d) { return d.size; })
-    .attr("fill", function(d) { return color(d.group); })
-    .call(drag(simulation));
-
-var label = svg.append("g")
-    .attr("class", "labels")
-    .selectAll("text")
-    .data(nodes)
-    .enter().append("text")
-    .text(function(d) { return d.id; })
-    .attr('x', 6)
-    .attr('y', 3);
-
-node.append("title")
-    .text(function(d) { return d.id; });
-
-simulation
-    .nodes(nodes)
-    .on("tick", ticked);
-
-simulation.force("link")
-    .links(links);
-
-function ticked() {
-    link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-    node
-        .attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
-
-    label
-        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-}
-
-function drag(simulation) {
-
-    function dragstarted(d) {
-        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
+# Show the network
+    net.show_buttons(filter_=['physics'])
+    net.set_options("""
+var options = {
+  "nodes": {
+    "font": {
+      "size": 12
     }
-
-    function dragged(d) {
-        d.fx = d3.event.x;
-        d.fy = d3.event.y;
-    }
-
-    function dragended(d) {
-        if (!d3.event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-    }
-
-    return d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
   }
-            
-        </script>
-    </body>
-</html>
-'''
-    html_output = html_template.format(d3_data=json.dumps(d3_data))
+}
+""")
+    net.show('network.html')
+
     with tab:
         with expander:
-             display(HTML(html_output))
-
-
-    
+            HtmlFile = open('network.html', 'r', encoding='utf-8')
+            source_code = HtmlFile.read() 
+            components.html(source_code, height=800, width=800)
 
 
 	
