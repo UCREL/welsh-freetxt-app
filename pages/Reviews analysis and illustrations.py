@@ -832,63 +832,42 @@ import math
 import random
 
 
-def plot_coll_5(keyword, collocs, expander, tab):
+from pyvis.network import Network
+import pandas as pd
+import matplotlib.pyplot as plt
+import math
+import random
+from PIL import Image
+import streamlit as st
+
+def plot_coll_2(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     n = max(counts)
 
-    # Calculate node positions based on edge frequencies
-    pos = {keyword: (0, 0)}
-    scaling_factor = 1.2
+    # Create the network
+    net = Network(width='100%', height='400px')
+    net.add_node(keyword, color='gray', size=20)
+
+    # Add all the nodes to the network
     for word, freq in zip(words, counts):
         if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle = 2 * math.pi * random.random()
-            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
-            
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-                
-                x, y = scaling_factor*math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-                pos[word] = (x, y)
+            net.add_node(word, color='blue', size=freq/n*20)
 
-      # Create the network object
-    net = Network(height='800px', width='800px', notebook=True)
+    # Add the edges to the network
+    for index, row in top_collocs_df.iterrows():
+        net.add_edge(row.source, row.word, value=row.freq)
 
-# Add nodes to the network
-    node_colors = {'green': most_frequent_word, 'gray': keyword}
-    for word, count in zip(words, counts):
-       if word == keyword:
-           continue
-       color = plt.cm.Blues(count / n)
-       net.add_node(word, color=color, size=2000 * count / n)
-
-      # Add edges to the network
-    for row in top_collocs_df.itertuples():
-         net.add_edge(row.source, row.word, value=row.freq)
-
-# Show the network
-    net.show_buttons(filter_=['physics'])
-    net.set_options("""
-var options = {
-  "nodes": {
-    "font": {
-      "size": 12
-    }
-  }
-}
-""")
-    net.show('network.html')
-
+    # Show the network
     with tab:
         with expander:
-            HtmlFile = open('network.html', 'r', encoding='utf-8')
-            source_code = HtmlFile.read() 
-            components.html(source_code, height=800, width=800)
+            net.show('mygraph.html')
+            html_file = open("mygraph.html", 'r', encoding='utf-8')
+            source_code = html_file.read()
+            components.html(source_code, height=500)
+
 
 
 	
