@@ -979,7 +979,7 @@ function drag(simulation) {
 </html>
 '''
 	# Render the HTML template and display it
-    html_output = html_template.format(data=json.dumps(data))
+    html_output = html_template
     with tab:
         with expander:
              display(HTML(html_output))
