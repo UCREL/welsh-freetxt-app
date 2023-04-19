@@ -887,84 +887,24 @@ def plot_coll_5(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image)
 
-import plotly.graph_objs as go
-import pandas as pd
-import math
-import random
+from d3_collocations import d3_collocations
 
-def plot_coll_6(keyword, collocs, expander, tab, node_size=2000):
+def plot_coll_6(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword]
 
-    # Calculate node positions based on edge frequencies
-    pos = {keyword: (0, 0)}
-    scaling_factor = 1.2
-    for word, freq in zip(words, counts):
-        if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle = 2 * math.pi * random.random()
-            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+    collocations_data = {
+        "keyword": keyword,
+        "collocations": top_collocs_df.to_dict(orient="records"),
+    }
 
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-
-                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-
-            pos[word] = (x, y)
-
-    # Create edge traces
-    edge_traces = []
-    for index, row in top_collocs_df.iterrows():
-        source = row['source']
-        target = row['word']
-        freq = row['freq']
-        edge_traces.append(go.Scatter(
-            x=[pos[source][0], pos[target][0]],
-            y=[pos[source][1], pos[target][1]],
-            mode='lines',
-            line=dict(width=2/freq, color='white'),
-            hoverinfo='none'
-        ))
-
-    # Create node traces
-    node_traces = []
-    for node, count in zip(G.nodes(), counts):
-        color = 'green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n)
-        size = node_size * count / n
-        node_traces.append(go.Scatter(
-            x=[pos[node][0]],
-            y=[pos[node][1]],
-            mode='markers',
-            marker=dict(size=size, color=color),
-            text=node,
-            hoverinfo='text'
-        ))
-
-    # Set layout
-    layout = go.Layout(
-        title='Collocations for "{}"'.format(keyword),
-        title_font_size=16,
-        title_font_family='Arial',
-        margin=dict(l=0, r=0, t=50, b=0),
-        xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
-        hovermode='closest',
-        showlegend=False
-    )
-
-    # Create figure
-    fig = go.Figure(data=edge_traces + node_traces, layout=layout)
-
+    
     with tab:
         with expander:
-            st.plotly_chart(fig)
-
+           d3_collocations(collocations_data)    
+   
 	
 def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
