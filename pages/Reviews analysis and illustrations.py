@@ -770,35 +770,49 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-
-from pyecharts import options as opts
-from pyecharts.charts import Chord
-import pandas as pd
-
+	
 def plot_coll3(keyword, collocs, expander, tab):
-    nodes = [keyword] + [c[0] for c in collocs]
-    links = [(keyword, c[0], c[1]) for c in collocs]
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
 
-    c = (
-        Chord()
-        .add(
-            nodes=nodes,
-            links=links,
-            source_radius=1.1,
-            target_radius=1.1,
-            chord_style_opts=opts.ChordStyleOpts(color_opacity=0.7),
-            label_opts=opts.LabelOpts(font_size=12, color="#000000"),
-        )
-        .set_global_opts(
-            title_opts=opts.TitleOpts(title="Chord Diagram for Collocations of '{}'".format(keyword)),
-            legend_opts=opts.LegendOpts(is_show=False),
-        )
-    )
+    # Define positions of nodes
+    pos = {keyword: (0, 0)}
+    for i, word in enumerate(words):
+        angle = 2 * math.pi * i / len(words)
+        x, y = math.cos(angle), math.sin(angle)
+        pos[word] = (x, y)
 
-    # Render the plot
+    # Scale edge lengths based on inverse frequency
+    edge_lengths = [1.0 / freq for freq in top_collocs_df['freq']]
+    max_length = max(edge_lengths)
+    edge_lengths = [length / max_length for length in edge_lengths]
+
+    # Draw graph
+    node_sizes = [2000 * count / max(counts) for count in counts]
+    node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
+    nx.draw(G,width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color='gray', alpha=0.8, font_size=10, font_weight='bold', font_color='white')
+    # width=edge_lengths
+
+    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
+    plt.box(False)
+    plt.axis('off')
+
+    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
+    sm._A = []
+    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
+
+    # Save the plot to an image
+    plt.savefig('img_file.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
+
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
+
     with tab:
         with expander:
-            c.render_notebook()
+            st.image(pil_image, use_column_width=True)
 
 
 
