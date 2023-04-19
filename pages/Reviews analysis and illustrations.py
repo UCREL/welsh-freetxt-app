@@ -864,7 +864,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
             nodes.append({'id': word, 'group': 2})
             links.append({'source': 0, 'target': i+1, 'value': freq})
     
-    data = {'nodes': nodes, 'links': links}
+    d3_data = {'nodes': nodes, 'links': links}
 
     # Write JSON data to a file
     with open('graph_data.json', 'w') as f:
