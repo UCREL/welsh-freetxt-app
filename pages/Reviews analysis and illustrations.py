@@ -781,7 +781,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
-    scaling_factor = 1.3
+    scaling_factor = 1.2
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
@@ -792,7 +792,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
             # Adjust the position of the most frequent word if it overlaps with the keyword
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
-                scaling_factor =1
+                scaling_factor =1.5
                 x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
             
             pos[word] = (x, y)
