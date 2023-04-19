@@ -826,10 +826,9 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 
 
-from IPython.core.display import display, HTML
 import json
 
-def plot_coll_5(keyword, collocs, expander, tab):
+def plot_coll_2(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -850,151 +849,135 @@ def plot_coll_5(keyword, collocs, expander, tab):
             # Adjust the position of the most frequent word if it overlaps with the keyword
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
+                
                 x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+            
             pos[word] = (x, y)
     
-# Create a JSON object with the network data
-    d3_data = {"nodes": [], "links": []}
-    for node in G.nodes():
-       node_size = 2000 * counts[words.index(node)] / n
-       node_color = "green" if node == most_frequent_word else "gray" if node == keyword else plt.cm.Blues(counts[words.index(node)] / n)
-       d3_data["nodes"].append({"id": node, "size": node_size, "color": node_color})
-    for link in G.edges(data=True):
-       d3_data["links"].append({"source": link[0], "target": link[1], "value": link[2]["freq"]})
+    # Generate JSON data for the graph
+    nodes = [{'id': keyword, 'group': 1}]
+    links = []
+    for i, (word, freq) in enumerate(zip(words, counts)):
+        if word != keyword:
+            nodes.append({'id': word, 'group': 2})
+            links.append({'source': 0, 'target': i+1, 'value': freq})
+    
+    data = {'nodes': nodes, 'links': links}
 
-    st.write(d3_data)  
-    # Convert the JSON object to a string and insert it into the HTML template
-    html_template = """
+    # Write JSON data to a file
+    with open('graph_data.json', 'w') as f:
+        json.dump(data, f)
+
+    # Embed the graph in a web page using D3.js
+    html = '''
     <html>
-        <head>
-            <title>D3.js Network Visualization</title>
-            <script src="https://d3js.org/d3.v6.min.js"></script>
-            <style>
-                 #chart svg {
-                width: 100%;
-                height: 100%;
-                  }
-                .node {
-                    stroke: #fff;
-                    stroke-width: 1.5px;
-                }
-                .link {
-                    stroke: #999;
-                    stroke-opacity: 0.6;
-                }
-            </style>
-        </head>
-        <body>
-            <div id="chart"></div>
-            <script>
-                var data = {}
-                var width = window.innerWidth * 0.8;
-                var height = window.innerHeight * 0.8;
-                
-                var svg = d3.select("#chart")
-                    .append("svg")
-                    .attr("width", width)
-                    .attr("height", height);
-                    
-                var simulation = d3.forceSimulation(data.nodes)
-                    .force("link", d3.forceLink(data.links).id(function(d) { return d.id; }).distance(function(d) { return 50/d.value; }))
-                    .force("charge", d3.forceManyBody().strength(-100))
-                    .force("center", d3.forceCenter(width / 2, height / 2));
-                    
-                var link = svg.append("g")
-                    .attr("class", "links")
-                    .selectAll("line")
-                    .data(data.links)
-                    .enter()
-                    .append("line")
-                    .attr("class", "link");
-                    
-                var node = svg.append("g")
-                    .attr("class", "nodes")
-                    .selectAll("circle")
-                    .data(data.nodes)
-                    .enter()
-                    .append("circle")
-                    .attr("r", function(d) { return Math.sqrt(d.value) * 3; })
-                    .attr("fill", function(d) { return color(d.group); })
-                    .attr("class", "node")
-                    .on("mouseover", mouseover)
-                    .on("mousemove", function(event) {
-                        tooltip
-                            .style("left", event.pageX + "px")
-                            .style("top", event.pageY + "px");
-                    })
-                    .on("mouseleave", mouseleave)
-                    .call(drag(simulation));
-                    
-                node.append("title")
-                    .text(function(d) { return d.id; });
-                    
-                simulation.on("tick", function() {
-                    link
-                        .attr("x1", function(d) { return d.source.x; })
-                        .attr("y1", function(d) { return d.source.y; })
-                        .attr("x2", function(d) { return d.target.x; })
-                        .attr("y2", function(d) { return d.target.y; });
-                        
-                    node
-                        .attr("cx", function(d) { return d.x; })
-                        .attr("cy", function(d) { return d.y; });
-                });
-                
-                function drag(simulation) {
-                    function dragstarted(event, d) {
-                        if (!event.active) simulation.alphaTarget(0.3).restart();
-                        d.fx = d.x;
-                        d.fy = d.y;
-                    }
-                    
-                    function dragged(event, d) {
-                        d.fx = event.x;
-                        d.fy = event.y;
-                    }
-                    
-                    function dragended(event, d) {
-                        if (!event.active) simulation.alphaTarget(0);
-                        d.fx = null;
-                        d.fy = null;
-                    }
-                    
-                    return d3.drag()
-		    on("start", dragstarted)
-                    .on("drag", dragged)
-                   .on("end", dragended);
-                      }
-		                  function mouseover(event, d) {
-                tooltip
-                    .transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip
-                    .html(d.id)
-                    .style("left", (event.pageX + 10) + "px")
-                    .style("top", (event.pageY - 28) + "px");
-            }
-            
-            function mouseleave(event, d) {
-                tooltip
-                    .transition()
-                    .duration(500)
-                    .style("opacity", 0);
-            }
+    <head>
+        <script src="https://d3js.org/d3.v6.min.js"></script>
+    </head>
+    <body>
+        <div id="graph"></div>
+        <script>
+            d3.json('graph_data.json').then(function(data) {
+                var svg = d3.select('#graph')
+                    .append('svg')
+                    .attr('width', 600)
+                    .attr('height', 600);
+
+                var simulation = d3.forceSimulation()
+    .force("link", d3.forceLink().id(function(d) { return d.id; }))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2));
+
+var svg = d3.select("#graph").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+var link = svg.append("g")
+    .attr("class", "links")
+    .selectAll("line")
+    .data(links)
+    .enter().append("line")
+    .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+var node = svg.append("g")
+    .attr("class", "nodes")
+    .selectAll("circle")
+    .data(nodes)
+    .enter().append("circle")
+    .attr("r", function(d) { return d.size; })
+    .attr("fill", function(d) { return color(d.group); })
+    .call(drag(simulation));
+
+var label = svg.append("g")
+    .attr("class", "labels")
+    .selectAll("text")
+    .data(nodes)
+    .enter().append("text")
+    .text(function(d) { return d.id; })
+    .attr('x', 6)
+    .attr('y', 3);
+
+node.append("title")
+    .text(function(d) { return d.id; });
+
+simulation
+    .nodes(nodes)
+    .on("tick", ticked);
+
+simulation.force("link")
+    .links(links);
+
+function ticked() {
+    link
+        .attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
+
+    node
+        .attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+
+    label
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+}
+
+function drag(simulation) {
+
+    function dragstarted(d) {
+        if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x;
+        d.fy = d.y;
+    }
+
+    function dragged(d) {
+        d.fx = d3.event.x;
+        d.fy = d3.event.y;
+    }
+
+    function dragended(d) {
+        if (!d3.event.active) simulation.alphaTarget(0);
+        d.fx = null;
+        d.fy = null;
+    }
+
+    return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+  }
             
         </script>
     </body>
 </html>
-"""
-
-# Render the HTML template and display it
+'''
+	# Render the HTML template and display it
     html_output = html_template.format(d3_data=json.dumps(d3_data))
     with tab:
         with expander:
              display(HTML(html_output))
 
-                       
+
 
     
 
