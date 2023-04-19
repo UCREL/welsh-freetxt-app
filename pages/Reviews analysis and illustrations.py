@@ -781,14 +781,17 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
-    scaling_factor =1.2
+    scaling_factor = 1.2
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
             dist = 1 - (freq / n)
             angle = 2 * math.pi * random.random()
+            if freq == max(counts):
+                scaling_factor = 1.4 # increase scaling factor for most frequent word
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
             pos[word] = (x, y)
+            scaling_factor = 1.2 # reset scaling factor for other words
 
     # Draw the network
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
@@ -817,6 +820,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 
