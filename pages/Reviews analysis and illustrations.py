@@ -869,7 +869,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
         json.dump(data, f)
 
     # Embed the graph in a web page using D3.js
-    html = '''
+    html_template = '''
     <html>
     <head>
         <script src="https://d3js.org/d3.v6.min.js"></script>
