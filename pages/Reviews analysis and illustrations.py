@@ -771,7 +771,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 	
-def plot_coll_3(keyword, collocs, expander, tab):
+def plot_coll(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -793,23 +793,26 @@ def plot_coll_3(keyword, collocs, expander, tab):
     # Draw graph
     node_sizes = [2000 * count / max(counts) for count in counts]
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / max(counts)) for node, count in zip(G.nodes(), counts)]
-    edge_colors = ['gray' if source == keyword else plt.cm.Blues(freq / max(collocs, key=lambda x:x[1])[1]) for source, _, freq in top_collocs_df.itertuples(index=False)]
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color=edge_colors, width=edge_lengths)
+    nx.draw(G,width=top_collocs_df.freq, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, edge_color='gray', alpha=0.8, font_size=10, font_weight='bold', font_color='black')
+    # width=edge_lengths
+
+    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
+    plt.box(False)
+    plt.axis('off')
 
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
-    plt.colorbar(sm)
+    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
 
     # Save the plot to an image
-    plt.savefig('img_file.png', format='png', dpi=300)
+    plt.savefig('img_file.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
 
     # Convert the image file to a PIL Image object
     pil_image = Image.open('img_file.png')
 
     with tab:
         with expander:
-            st.image(pil_image, caption='Keyword: '+keyword, use_column_width=True)
-
+            st.image(pil_image, use_column_width=True)
 
 
 
