@@ -865,6 +865,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     json_data = json.dumps(data)
 
     # Create the HTML code for the D3.js graph
+ # Create the HTML code for the D3.js graph
     html_code = f'''
     <div id="graph-container-{keyword}" style="position: relative; width: 100%; height: 500px;"></div>
     <script src="https://d3js.org/d3.v7.min.js"></script>
@@ -873,14 +874,16 @@ def plot_coll_5(keyword, collocs, expander, tab):
     const graphContainer = document.getElementById("graph-container-{keyword}");
     const graphData = {json_data};
 
-    const graph = {
-        nodes: graphData.nodes.map(n => Object.assign({}, n)),
-        links: graphData.links.map(l => Object.assign({}, l))
-    };
+    const graph = {{
+        nodes: graphData.nodes.map(n => Object.assign({{}}, n)),
+        links: graphData.links.map(l => Object.assign({{}}, l))
+    }};
 
-    const renderer = new graphviz.Renderer(graphContainer, {height: 500});
+    const renderer = new graphviz.Renderer(graphContainer, {{height: 500}});
     renderer.initialize().then(() => renderer.render(graph));
-    </script> '''
+    </script>
+    '''
+
     
 
     # Display the HTML code
