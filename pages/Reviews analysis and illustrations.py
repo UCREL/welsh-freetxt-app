@@ -826,7 +826,11 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-import json
+import plotly.graph_objs as go
+import pandas as pd
+import math
+import random
+
 def plot_coll_5(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -834,8 +838,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
-    width=600
-    height= 600
+
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
     scaling_factor = 1.2
@@ -854,47 +857,52 @@ def plot_coll_5(keyword, collocs, expander, tab):
 
             pos[word] = (x, y)
 
-    # Prepare the data for the D3.js graph
-    nodes = [{'id': keyword, 'color': 'gray', 'size': 2000}]
-    links = []
-    for node in G.nodes():
-        if node != keyword:  
-            nodes.append({'id': node, 'color': 'blue', 'size': int(2000 * counts[words.index(node)] / n)})
+    # Create edge traces
+    edge_traces = []
+    for index, row in top_collocs_df.iterrows():
+        source = row['source']
+        target = row['word']
+        freq = row['freq']
+        edge_traces.append(go.Scatter(
+            x=[pos[source][0], pos[target][0]],
+            y=[pos[source][1], pos[target][1]],
+            mode='lines',
+            line=dict(width=2/freq, color='blue'),
+            hoverinfo='none'
+        ))
 
-            links.append({'source': keyword, 'target': node, 'value': top_collocs_df[top_collocs_df['word'] == node]['freq'].iloc[0]})
+    # Create node traces
+    node_traces = []
+    for node, count in zip(G.nodes(), counts):
+        color = 'green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n)
+        size = 2000 * count / n
+        node_traces.append(go.Scatter(
+            x=[pos[node][0]],
+            y=[pos[node][1]],
+            mode='markers',
+            marker=dict(size=size, color=color),
+            text=node,
+            hoverinfo='text'
+        ))
 
-# Convert the links to a format that can be serialized to JSON
-    links_json = [{'source': link['source'], 'target': link['target'], 'value': int(link['value'])} for link in links]
+    # Set layout
+    layout = go.Layout(
+        title='Collocations for "{}"'.format(keyword),
+        title_font_size=16,
+        title_font_family='Arial',
+        margin=dict(l=0, r=0, t=50, b=0),
+        xaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
+        yaxis=dict(showgrid=False, showticklabels=False, zeroline=False),
+        hovermode='closest',
+        showlegend=False
+    )
 
-    data = {'nodes': nodes, 'links': links_json}
-    
+    # Create figure
+    fig = go.Figure(data=edge_traces + node_traces, layout=layout)
 
-    # Create a JSON string for the data
-    #json_data = json.dumps(data)
-    # Create the HTML code for the D3.js graph
-    html_template = f"""
-<div id="plot_div">
-    <svg width="{width}" height="{height}"></svg>
-</div>
-"""
-
-# Display the HTML code
-    st.write(html_template)
-
-# Render the D3.js code in the HTML template
-    d3_code = f"""
-<script>
-    const nodes = {json.dumps(nodes)};
-    const links = {json.dumps(links_json)};
-    const width = {width};
-    const height = {height};
-
-    {d3js_code}
-</script>
-"""
-
-# Display the D3.js code
-    st.write(d3_code, unsafe_allow_html=True)
+    with tab:
+        with expander:
+            st.plotly_chart(fig)
 
 	
 def plot_coll(keyword, collocs, expander, tab):
@@ -1126,7 +1134,7 @@ def plot_kwic(data, key):
                 #plot_collocation(keyword, collocs,expander,tab3)
                 #plot_coll(keyword, collocs,expander,tab3)
                 plot_coll_2(keyword, collocs,expander,tab3)
-                #plot_coll_5(keyword, collocs,expander,tab3)
+                plot_coll_5(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
