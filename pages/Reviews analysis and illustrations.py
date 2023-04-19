@@ -864,7 +864,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
     # Create a JSON string for the data
     json_data = json.dumps(data)
     # Create the HTML code for the D3.js graph
-     html_template = f"""
+    html_template = f"""
 <div id="plot_div">
     <svg width="{width}" height="{height}"></svg>
 </div>
