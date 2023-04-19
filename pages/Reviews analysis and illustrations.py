@@ -829,6 +829,8 @@ def plot_coll_2(keyword, collocs, expander, tab):
 import json
 
 def plot_coll_5(keyword, collocs, expander, tab):
+    width = 600
+    height = 600
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -888,9 +890,11 @@ def plot_coll_5(keyword, collocs, expander, tab):
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2));
 
-var svg = d3.select("#graph").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+
+var svg = d3.select('#graph').append("svg")
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height);
 
 var link = svg.append("g")
     .attr("class", "links")
