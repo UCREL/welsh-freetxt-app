@@ -869,7 +869,12 @@ def plot_coll_5(keyword, collocs, expander, tab):
     # Write JSON data to a file
     with open('graph_data.json', 'w') as f:
         json.dump(data, f)
+    
 
+    html_code = "<h1>Hello, World!</h1>"
+
+# Display the HTML code as rendered HTML
+    st.write(html_code, unsafe_allow_html=True)
     # Embed the graph in a web page using D3.js
     html_template = '''
     <html>
