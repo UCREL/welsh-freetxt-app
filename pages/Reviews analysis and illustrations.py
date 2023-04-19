@@ -845,6 +845,8 @@ def get_graph_html(keyword, collocs):
     # Calculate node positions based on edge frequencies
     pos = {keyword: (0, 0)}
     scaling_factor = 1.2
+     # Define the most frequent word
+    most_frequent_word = None
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
