@@ -825,7 +825,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-from IPython.core.display import HTML
+
 import json
 from IPython.display import display, HTML
 def plot_coll_5(keyword, collocs, expander, tab):
