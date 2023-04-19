@@ -869,7 +869,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
     # Write JSON data to a file
     with open('graph_data.json', 'w') as f:
         json.dump(data, f)
-    	st.write(json.dump(data, f))
+        st.write(json.dump(data, f))
 
     
     # Embed the graph in a web page using D3.js
