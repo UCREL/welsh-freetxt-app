@@ -928,7 +928,7 @@ def plot_coll_6(keyword, collocs, expander, tab, node_size=2000):
             x=[pos[source][0], pos[target][0]],
             y=[pos[source][1], pos[target][1]],
             mode='lines',
-            line=dict(width=2/freq, color='blue'),
+            line=dict(width=2/freq, color='white'),
             hoverinfo='none'
         ))
 
