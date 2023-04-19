@@ -826,19 +826,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 
 
-from pyvis.network import Network
-
-import math
-import random
-
-
-from pyvis.network import Network
-import pandas as pd
-import matplotlib.pyplot as plt
-import math
-import random
-from PIL import Image
-import streamlit as st
+from IPython.core.display import HTML
 
 def plot_coll_5(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -847,26 +835,125 @@ def plot_coll_5(keyword, collocs, expander, tab):
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     n = max(counts)
 
-    # Create the network
-    net = Network(width='100%', height='400px')
-    net.add_node(keyword, color='gray', size=20)
-
-    # Add all the nodes to the network
+    # Calculate node positions based on edge frequencies
+    pos = {keyword: (0, 0)}
+    scaling_factor = 1.2
     for word, freq in zip(words, counts):
         if word != keyword:
-            net.add_node(word, color='blue', size=freq/n*20)
+            # Calculate the distance from the keyword
+            dist = 1 - (freq / n)
+            angle = 2 * math.pi * random.random()
+            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+            
+            # Adjust the position of the most frequent word if it overlaps with the keyword
+            if dist == 0 and freq == max(counts):
+                most_frequent_word = word
+                
+                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+            
+            pos[word] = (x, y)
+    
+    # Define the HTML and JavaScript code for the graph
+    # Define the HTML and JavaScript code for the graph
+    html = f"""
+<div id="graph-container" style="width: 100%; height: 500px;"></div>
+<script>
+  // Define the graph data
+  var nodes = {json.dumps(words)};
+  var links = {json.dumps(top_collocs_df.to_dict('records'))};
+  
+  // Define the D3.js code to create the graph
+  var svg = d3.select('#graph-container').append('svg')
+              .attr('width', '100%')
+              .attr('height', '100%');
+              
+  var simulation = d3.forceSimulation(nodes)
+                     .force('link', d3.forceLink(links).id(d => d.word))
+                     .force('charge', d3.forceManyBody())
+                     .force('center', d3.forceCenter())
+                     .on('tick', ticked);
 
-    # Add the edges to the network
-    for index, row in top_collocs_df.iterrows():
-        net.add_edge(row.source, row.word, value=row.freq)
+  var link = svg.selectAll('.link')
+                .data(links)
+                .enter().append('line')
+                .attr('class', 'link')
+                .attr('stroke-width', d => 2 / d.freq);
 
-    # Show the network
-    with tab:
-        with expander:
-            net.show('mygraph.html')
-            html_file = open("mygraph.html", 'r', encoding='utf-8')
-            source_code = html_file.read()
-            components.html(source_code, height=500)
+  var node = svg.selectAll('.node')
+                .data(nodes)
+                .enter().append('circle')
+                .attr('class', 'node')
+                .attr('r', d => 20 * d.freq / n)
+                .attr('fill', d => d.word == most_frequent_word ? 'green' : d.word == keyword ? 'gray' : colorScale(d.freq))
+                .call(drag(simulation));
+
+  var label = svg.selectAll('.label')
+                 .data(nodes)
+                 .enter().append('text')
+                 .attr('class', 'label')
+                 .text(d => d.word)
+                 .attr('dx', 25)
+                 .attr('dy', 4);
+
+  function ticked() {
+    link.attr('x1', d => d.source.x)
+        .attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x)
+        .attr('y2', d => d.target.y);
+
+    node.attr('cx', d => d.x)
+        .attr('cy', d => d.y);
+
+    label.attr('x', d => d.x)
+         .attr('y', d => d.y);
+  }
+
+  function drag(simulation) {
+    function dragstarted(d) {
+      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x;
+      d.fy = d.y;
+    }
+
+    function dragged(d) {
+      d.fx = d3.event.x;
+      d.fy = d3.event.y;
+    }
+
+    function dragended(d) {
+      if (!d3.event.active) simulation.alphaTarget(0);
+      d.fx = null;
+      d.fy = null;
+    }
+
+    return d3.drag()
+             .on('start', dragstarted)
+             .on('drag', dragged)
+             .on('end', dragended);
+  }
+
+  // Define any necessary event listeners and handlers
+  // ...
+</script>
+"""
+
+    
+
+    # Render the HTML and JavaScript code in Streamlit
+    st.write(HTML(html))
+
+    # Add any necessary CSS styles
+    st.write("""
+        <style>
+            /* Define the CSS styles for the graph and UI elements */
+            #graph-container {
+              /* ... */
+            }
+            
+            /* ... */
+        </style>
+    """)
+
 
 
 
