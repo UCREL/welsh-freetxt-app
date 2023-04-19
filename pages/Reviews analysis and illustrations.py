@@ -825,6 +825,68 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
+from IPython.core.display import HTML
+import json
+
+def plot_coll_5(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Calculate node positions based on edge frequencies
+    pos = {keyword: (0, 0)}
+    scaling_factor = 1.2
+    for word, freq in zip(words, counts):
+        if word != keyword:
+            # Calculate the distance from the keyword
+            dist = 1 - (freq / n)
+            angle = 2 * math.pi * random.random()
+            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+            
+            # Adjust the position of the most frequent word if it overlaps with the keyword
+            if dist == 0 and freq == max(counts):
+                most_frequent_word = word
+                
+                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+            
+            pos[word] = (x, y)
+
+    # Create the JSON data for the graph
+    nodes = [{'id': keyword, 'color': 'green', 'size': 2000}] + [{'id': word, 'color': 'gray', 'size': 2000 * count / n} for word, count in zip(words, counts) if word != keyword]
+    edges = [{'source': keyword, 'target': row['word'], 'size': row['freq']} for i, row in top_collocs_df.iterrows()]
+
+    data = {
+        'nodes': nodes,
+        'links': edges
+    }
+    json_data = json.dumps(data)
+
+    # Create the HTML code for the D3.js graph
+    html_code = f'''
+    <div id="graph-container-{keyword}" style="position: relative; width: 100%; height: 500px;"></div>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@observablehq/graphviz@0.2.2/dist/graphviz.min.js"></script>
+    <script>
+    const graphContainer = document.getElementById("graph-container-{keyword}");
+    const graphData = {json_data};
+
+    const graph = {
+        nodes: graphData.nodes.map(n => Object.assign({}, n)),
+        links: graphData.links.map(l => Object.assign({}, l))
+    };
+
+    const renderer = new graphviz.Renderer(graphContainer, {height: 500});
+    renderer.initialize().then(() => renderer.render(graph));
+    </script>
+    '''
+
+    # Display the HTML code
+    with tab:
+        with expander:
+            display(HTML(html_code))
 
 
 
@@ -1058,6 +1120,7 @@ def plot_kwic(data, key):
                 plot_collocation(keyword, collocs,expander,tab3)
                 plot_coll(keyword, collocs,expander,tab3)
                 plot_coll_2(keyword, collocs,expander,tab3)
+                plot_coll_5(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
