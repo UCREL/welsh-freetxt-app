@@ -827,7 +827,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
 from IPython.core.display import HTML
 import json
-
+from IPython.display import display, HTML
 def plot_coll_5(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
