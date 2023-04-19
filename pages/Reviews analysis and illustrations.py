@@ -771,49 +771,35 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 
-
+from pyecharts import options as opts
+from pyecharts.charts import Chord
 import pandas as pd
-import numpy as np
-import streamlit as st
-import altair as alt
-from PIL import Image
-from chord import Chord
 
-def plot_coll_3(keyword, collocs, expander, tab):
-    words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    matrix = np.zeros((len(words), len(words)))
-    for i, w1 in enumerate(words):
-        for j, w2 in enumerate(words):
-            if i != j:
-                count = top_collocs_df[(top_collocs_df['word'] == w1) & (top_collocs_df['word'] == w2)]['freq'].sum()
-                matrix[i, j] = count
-    matrix = pd.DataFrame(matrix, index=words, columns=words)
+def plot_coll3(keyword, collocs, expander, tab):
+    nodes = [keyword] + [c[0] for c in collocs]
+    links = [(keyword, c[0], c[1]) for c in collocs]
 
-    # Create Chord diagram
-    chart = Chord(matrix)
+    c = (
+        Chord()
+        .add(
+            nodes=nodes,
+            links=links,
+            source_radius=1.1,
+            target_radius=1.1,
+            chord_style_opts=opts.ChordStyleOpts(color_opacity=0.7),
+            label_opts=opts.LabelOpts(font_size=12, color="#000000"),
+        )
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="Chord Diagram for Collocations of '{}'".format(keyword)),
+            legend_opts=opts.LegendOpts(is_show=False),
+        )
+    )
 
-    # Customize Chord diagram
-    chart.colors = 'set3'
-    chart.color_scale = alt.Scale(scheme='set3')
-    chart.tooltip_font_size = 16
-    chart.label_font_size = 16
-    chart.padding = 0.02
-    chart.width = 500
-    chart.height = 500
-    chart.font_size_legend = 16
-
-    # Save Chord diagram to image
-    chart.to_file('img_file.png', format='png')
-
-    # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
-
-    # Display the image in Streamlit
+    # Render the plot
     with tab:
         with expander:
-            st.image(pil_image)
+            c.render_notebook()
+
 
 
 
