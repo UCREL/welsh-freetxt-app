@@ -887,7 +887,7 @@ def plot_coll_5(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image)
 
-from d3_collocations import d3_collocations
+from d3_collocations import render_d3_collocations
 
 def plot_coll_6(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
