@@ -813,7 +813,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
 
     sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
     sm._A = []
-    plt.colorbar(sm)
+    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
 
     # Save the plot to an image
     plt.savefig('img_file.png', format='png', dpi=300)
