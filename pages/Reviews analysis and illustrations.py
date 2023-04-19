@@ -771,25 +771,25 @@ def plot_coll_4(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 	
-import networkx as nx
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-from PIL import Image
-import streamlit as st
-
 def plot_coll_2(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
 
-    # Use the Kamada-Kawai layout algorithm to adjust node positions
-    pos = nx.kamada_kawai_layout(G)
+    # Calculate node positions based on edge frequencies
+    pos = {keyword: (0, 0)}
+    for word, freq in zip(words, counts):
+        if word != keyword:
+            # Calculate the distance from the keyword
+            dist = 1 - (freq / n)
+            angle = 2 * math.pi * random.random()
+            x, y = dist * math.cos(angle), dist * math.sin(angle)
+            pos[word] = (x, y)
 
     # Draw the network
-    n = max(counts)
     node_colors = ['gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
     node_sizes = [2000 * count / n for count in counts]
     edge_widths = [2/ freq for freq in top_collocs_df['freq']]
@@ -816,6 +816,7 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+
 
 
 	
