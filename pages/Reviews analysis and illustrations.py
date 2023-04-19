@@ -790,9 +790,9 @@ def plot_coll_2(keyword, collocs, expander, tab):
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
             
             # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
+            #if dist == 0 and freq == max(counts):
                 #scaling_factor =0.5
-                x, y =  math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+             #   x, y =  math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
             
             pos[word] = (x, y)
 
