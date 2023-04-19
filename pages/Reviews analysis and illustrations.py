@@ -834,7 +834,7 @@ import random
 import json
 
 # Define the HTML and JavaScript code for the graph
-def get_graph_html(keyword, collocs):
+def plot_coll_5(keyword, collocs):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
