@@ -826,13 +826,20 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 
 
-from IPython.core.display import HTML
+import streamlit as st
+import pandas as pd
+import networkx as nx
+import math
+import random
+import json
 
-def plot_coll_5(keyword, collocs, expander, tab):
+# Define the HTML and JavaScript code for the graph
+def get_graph_html(keyword, collocs):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
     top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
     # Calculate node positions based on edge frequencies
@@ -853,7 +860,17 @@ def plot_coll_5(keyword, collocs, expander, tab):
             
             pos[word] = (x, y)
     
-    # Define the HTML and JavaScript code for the graph
+    # Define the graph data
+    nodes = [{'id': keyword, 'group': 1}]
+    for i, node in enumerate(G.nodes()):
+        if node != keyword:
+            nodes.append({'id': node, 'group': 2})
+
+    links = [{'source': keyword, 'target': word, 'value': freq} for word, freq in top_collocs_df[['word', 'freq']].values]
+
+    # Convert the data to JSON format
+    nodes_json = json.dumps(nodes)
+    links_json = json.dumps(links)
     # Define the HTML and JavaScript code for the graph
     html = f"""
 <div id="graph-container" style="width: 100%; height: 500px;"></div>
@@ -863,99 +880,56 @@ def plot_coll_5(keyword, collocs, expander, tab):
   var links = {json.dumps(top_collocs_df.to_dict('records'))};
   
   // Define the D3.js code to create the graph
-  var svg = d3.select('#graph-container').append('svg')
-              .attr('width', '100%')
-              .attr('height', '100%');
+  var width = document.getElementById("graph-container").offsetWidth;
+  var height = document.getElementById("graph-container").offsetHeight;
+  
+  var svg = d3.select("#graph-container").append("svg")
+              .attr("width", width)
+              .attr("height", height);
               
   var simulation = d3.forceSimulation(nodes)
-                     .force('link', d3.forceLink(links).id(d => d.word))
-                     .force('charge', d3.forceManyBody())
-                     .force('center', d3.forceCenter())
-                     .on('tick', ticked);
-
-  var link = svg.selectAll('.link')
+                     .force("link", d3.forceLink(links).id(function(d) { return d.word; }))
+                     .force("charge", d3.forceManyBody().strength(-200))
+                     .force("center", d3.forceCenter(width / 2, height / 2));
+                     
+  var link = svg.append("g")
+                .attr("stroke", "#999")
+                .attr("stroke-opacity", 0.6)
+                .selectAll("line")
                 .data(links)
-                .enter().append('line')
-                .attr('class', 'link')
-                .attr('stroke-width', d => 2 / d.freq);
+                .join("line")
+                .attr("stroke-width", function(d) { return 2/d.freq; });
 
-  var node = svg.selectAll('.node')
+  var node = svg.append("g")
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1.5)
+                .selectAll("circle")
                 .data(nodes)
-                .enter().append('circle')
-                .attr('class', 'node')
-                .attr('r', d => 20 * d.freq / n)
-                .attr('fill', d => d.word == most_frequent_word ? 'green' : d.word == keyword ? 'gray' : colorScale(d.freq))
+                .join("circle")
+                .attr("r", function(d) { return 20 * d.freq / n; })
+                .attr("fill", function(d) { return d.word == most_frequent_word ? "green" : d.word == keyword ? "gray" : colorScale(d.freq); })
                 .call(drag(simulation));
 
-  var label = svg.selectAll('.label')
-                 .data(nodes)
-                 .enter().append('text')
-                 .attr('class', 'label')
-                 .text(d => d.word)
-                 .attr('dx', 25)
-                 .attr('dy', 4);
+  node.append("title")
+      .text(function(d) { return d.word; });
 
-  function ticked() {
-    link.attr('x1', d => d.source.x)
-        .attr('y1', d => d.source.y)
-        .attr('x2', d => d.target.x)
-        .attr('y2', d => d.target.y);
+  simulation.on("tick", function() {
+    link.attr("x1", function(d) { return d.source.x; })
+        .attr("y1", function(d) { return d.source.y; })
+        .attr("x2", function(d) { return d.target.x; })
+        .attr("y2", function(d) { return d.target.y; });
 
-    node.attr('cx', d => d.x)
-        .attr('cy', d => d.y);
-
-    label.attr('x', d => d.x)
-         .attr('y', d => d.y);
-  }
-
-  function drag(simulation) {
-    function dragstarted(d) {
-      if (!d3.event.active) simulation.alphaTarget(0.3).restart();
-      d.fx = d.x;
-      d.fy = d.y;
-    }
-
-    function dragged(d) {
-      d.fx = d3.event.x;
-      d.fy = d3.event.y;
-    }
-
-    function dragended(d) {
-      if (!d3.event.active) simulation.alphaTarget(0);
-      d.fx = null;
-      d.fy = null;
-    }
-
-    return d3.drag()
-             .on('start', dragstarted)
-             .on('drag', dragged)
-             .on('end', dragended);
-  }
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+  });
 
   // Define any necessary event listeners and handlers
   // ...
 </script>
 """
 
-    
-
-    # Render the HTML and JavaScript code in Streamlit
-    st.write(HTML(html))
-
-    # Add any necessary CSS styles
-    st.write("""
-        <style>
-            /* Define the CSS styles for the graph and UI elements */
-            #graph-container {
-              /* ... */
-            }
-            
-            /* ... */
-        </style>
-    """)
-
-
-
+# Add the graph to the Streamlit app
+    st.write(html)
 
 	
 def plot_coll(keyword, collocs, expander, tab):
