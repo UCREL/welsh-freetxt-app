@@ -44,4 +44,4 @@ streamlit-plotly-events
 graphviz
 pyvis
 pygsp
-mpl_toolkits
+
