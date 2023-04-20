@@ -1036,14 +1036,14 @@ def plot_coll_7(keyword, collocs, expander, tab):
          plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
 
     # Convert the plot to an image
-        buf = io.BytesIO()
-        plt.savefig(buf, format='png', dpi=300, bbox_inches='tight', pad_inches=0)
-        buf.seek(0)
+         buf = io.BytesIO()
+         plt.savefig(buf, format='png', dpi=300, bbox_inches='tight', pad_inches=0)
+         buf.seek(0)
     
     # Display the image using Streamlit
-        img = Image.open(buf)
-        st.image(img, caption=f"Frame {i+1}", use_column_width=True)
-        time.sleep(0.5)
+         img = Image.open(buf)
+         st.image(img, caption=f"Frame {i+1}", use_column_width=True)
+         time.sleep(0.5)
 
        
 
