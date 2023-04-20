@@ -952,7 +952,12 @@ def plot_coll(keyword, collocs, expander, tab):
 import plotly.express as px
 import plotly.graph_objs as go
 
-def plot_coll_7(keyword, collocs, expander, tab):
+import plotly.express as px
+import plotly.graph_objs as go
+
+def plot_coll_3(keyword, collocs, expander, tab):
+    # Only show the 10 main collocates
+    collocs = collocs[:10]
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -981,7 +986,11 @@ def plot_coll_7(keyword, collocs, expander, tab):
             edges.append(dict(type='scatter3d', x=[0, x], y=[0, y], z=[0, 0], mode='lines', line=dict(color='black', width=1)))
     
     fig = go.Figure(data=nodes+edges)
-    fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
+    fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'), 
+                      legend=dict(title="Words", items=[
+                          dict(label="Keyword", symbol=dict(type="circle", color='red', size=10)),
+                          dict(label=most_frequent_word, symbol=dict(type="square", color='blue', size=10))
+                      ]))
 
     with tab:
         with expander:
