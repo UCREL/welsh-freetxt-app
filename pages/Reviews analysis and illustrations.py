@@ -952,8 +952,6 @@ def plot_coll(keyword, collocs, expander, tab):
 import plotly.express as px
 import plotly.graph_objs as go
 
-import plotly.express as px
-import plotly.graph_objs as go
 
 def plot_coll_7(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
@@ -967,7 +965,7 @@ def plot_coll_7(keyword, collocs, expander, tab):
     edges = []
     n = max(counts)
 
-    nodes.append(dict(type='scatter3d', x=[0], y=[0], z=[0], mode='markers', marker=dict(size=10, color='red', line=dict(color='black', width=1)), text=keyword))
+    nodes.append(dict(type='scatter3d', x=[0], y=[0], z=[0], mode='markers', marker=dict(size=10, color='red', line=dict(color='black', width=1)), name=keyword))
     
     for word, freq in zip(words, counts):
         if word != keyword:
@@ -982,19 +980,21 @@ def plot_coll_7(keyword, collocs, expander, tab):
                 
                 x, y = dist * math.cos(angle + math.pi), dist * math.sin(angle + math.pi)
             
-            nodes.append(dict(type='scatter3d', x=[x], y=[y], z=[0], mode='markers', marker=dict(size=10, color='blue', line=dict(color='black', width=1)), text=word))
+            nodes.append(dict(type='scatter3d', x=[x], y=[y], z=[0], mode='markers', marker=dict(size=10, color='blue', line=dict(color='black', width=1)), name=word))
             edges.append(dict(type='scatter3d', x=[0, x], y=[0, y], z=[0, 0], mode='lines', line=dict(color='black', width=1)))
     
     fig = go.Figure(data=nodes+edges)
     fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'), 
+                      showlegend=True,
                       legend=dict(title="Words", items=[
-                          dict(label="Keyword", symbol=dict(type="circle", color='red', size=10)),
-                          dict(label=most_frequent_word, symbol=dict(type="square", color='blue', size=10))
+                          dict(label="Keyword", marker=dict(color='red', size=10, symbol='circle')),
+                          dict(label=most_frequent_word, marker=dict(color='blue', size=10, symbol='square'))
                       ]))
 
     with tab:
         with expander:
             st.plotly_chart(fig)
+
 
 
 
