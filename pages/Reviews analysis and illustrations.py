@@ -951,7 +951,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
 
 from pyvis.network import Network
-from networkx.algorithms.community import LFR_benchmark_graph
+from networkx.generators.community import LFR_benchmark_graph
 from networkx.drawing.nx_agraph import graphviz_layout
 from networkx.drawing.layout import force_atlas2_layout
 def plot_coll_7(keyword, collocs, expander, tab):
