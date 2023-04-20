@@ -916,7 +916,7 @@ def plot_coll_6(keyword, collocs, expander, tab):
         "keyword": keyword,
         "collocations": top_collocs_df.to_dict(orient="records"),
     }
-
+    st.write(collocations_data )
     with tab:
         with expander:
             components.html(render_d3_collocations(collocations_data), height=800, width=800)
