@@ -950,11 +950,10 @@ def plot_coll(keyword, collocs, expander, tab):
             st.image(pil_image, use_column_width=True)
 
 
-from pyvis.network import Network
-from networkx.generators.community import LFR_benchmark_graph
-from networkx.drawing.nx_agraph import graphviz_layout
-from pygsp.layout import force_atlas2_layout
-def plot_coll_7(keyword, collocs, expander, tab):
+from mpl_toolkits.mplot3d import Axes3D
+from networkx.layout import force_atlas2_layout
+
+def plot_coll_3(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -963,7 +962,7 @@ def plot_coll_7(keyword, collocs, expander, tab):
     n = max(counts)
 
     # Calculate node positions using the ForceAtlas2 algorithm
-    pos = forceatlas2_layout(G, iterations=2000, pos=None, node_masses=None, outbound_attraction_distribution=False, lin_log_mode=False, prevent_overlapping=False, edge_weight_influence=1.0, jitter_tolerance=1.0, barnes_hut_optimize=True, barnes_hut_theta=0.5, scaling_ratio=2.0, strong_gravity_mode=False, gravity=1.0, scaling=False, verbose=False, strength=1.0)
+    pos = force_atlas2_layout(G, iterations=2000)
 
     # Draw the network
     node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
@@ -1004,10 +1003,6 @@ def plot_coll_7(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.image(pil_image)
-
-
-
-       
 
 
 # Create the PDF file
