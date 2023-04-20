@@ -955,7 +955,7 @@ import plotly.graph_objs as go
 import plotly.express as px
 import plotly.graph_objs as go
 
-def plot_coll_3(keyword, collocs, expander, tab):
+def plot_coll_7(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
     collocs = collocs[:10]
     words, counts = zip(*collocs)
