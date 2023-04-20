@@ -27,8 +27,13 @@
             .attr("width", width)
             .attr("height", height);
 
-        const links = collocationsData.collocations.map(d => Object.create(d));
-        const nodes = Array.from(new Set(links.flatMap(l => [l.source, l.word])), word => Object.create({word}));
+        const links = collocationsData.collocations.map(d => ({
+            source: collocationsData.keyword,
+            target: d.word,
+            freq: d.freq
+        }));
+
+        const nodes = Array.from(new Set(links.flatMap(l => [l.source, l.target])), word => ({word}));
 
         const simulation = d3.forceSimulation(nodes)
             .force("link", d3.forceLink(links).id(d => d.word).distance(100))
@@ -48,7 +53,10 @@
             .selectAll("circle")
             .data(nodes)
             .join("circle")
-            .attr("r", d => Math.sqrt(d.freq) * 5)
+            .attr("r", d => {
+                const link = links.find(l => l.target === d.word);
+                return link ? Math.sqrt(link.freq) * 5 : 10;
+            })
             .attr("fill", d => d.word === collocationsData.keyword ? "green" : "gray")
             .call(drag(simulation));
 
@@ -92,4 +100,3 @@
         }
     </script>
 </body>
-</html>
