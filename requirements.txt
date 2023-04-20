@@ -43,3 +43,4 @@ regex
 streamlit-plotly-events
 graphviz
 pyvis
+pygsp
