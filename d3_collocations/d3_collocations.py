@@ -25,5 +25,5 @@ def render_d3_collocations(collocations_data):
         </script>
     """
 
-    return components.html(index_html_content, height=800, width=800)
+    return index_html_content
 
