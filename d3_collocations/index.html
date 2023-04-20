@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- collocations_data_placeholder -->
 <html>
 <head>
     <meta charset="utf-8">
@@ -94,5 +95,14 @@
 }
 
     </script>
+    <script>
+    // Extract and parse input data from Streamlit
+    const placeholder = document.querySelector("<!-- collocations_data_placeholder -->");
+    const inputData = JSON.parse(placeholder.textContent);
+    const keyword = inputData.keyword;
+    const collocations = inputData.collocations;
+    // ...
+</script>
+
 </body>
 </html>
