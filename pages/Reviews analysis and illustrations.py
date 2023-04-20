@@ -951,9 +951,10 @@ def plot_coll(keyword, collocs, expander, tab):
 
 import plotly.express as px
 import plotly.graph_objs as go
+import random
+import math
 
-
-def plot_coll_8(keyword, collocs, expander, tab):
+def plot_coll_7(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
     collocs = collocs[:10]
     words, counts = zip(*collocs)
@@ -978,9 +979,14 @@ def plot_coll_8(keyword, collocs, expander, tab):
             if dist == 0 and freq == max(counts):
                 most_frequent_word = word
                 
-                x, y = dist * math.cos(angle + math.pi), dist * math.sin(angle + math.pi)
+                x, y = dist * 2 * math.cos(angle + math.pi), dist * 2 * math.sin(angle + math.pi)
             
-            nodes.append(dict(type='scatter3d', x=[x], y=[y], z=[0], mode='markers', marker=dict(size=10, color='blue', line=dict(color='black', width=1)), name=word))
+            if word == most_frequent_word:
+                color = 'orange'
+            else:
+                color = 'blue'
+            
+            nodes.append(dict(type='scatter3d', x=[x], y=[y], z=[0], mode='markers', marker=dict(size=10, color=color, line=dict(color='black', width=1)), name=word))
             edges.append(dict(type='scatter3d', x=[0, x], y=[0, y], z=[0, 0], mode='lines', line=dict(color='black', width=1)))
     
     fig = go.Figure(data=nodes+edges)
@@ -992,10 +998,8 @@ def plot_coll_8(keyword, collocs, expander, tab):
             st.plotly_chart(fig)
 
 
-import random
-import math
 
-def plot_coll_7(keyword, collocs, expander, tab):
+def plot_coll_8(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
     collocs = collocs[:10]
     words, counts = zip(*collocs)
