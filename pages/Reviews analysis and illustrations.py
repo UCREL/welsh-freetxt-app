@@ -950,41 +950,58 @@ def plot_coll(keyword, collocs, expander, tab):
             st.image(pil_image, use_column_width=True)
 
 from pyvis.network import Network
-import pandas as pd
-import numpy as np
 
-def plot_coll_7(keyword, collocs, expander, tab):
-    # Create the graph
-    G = Network(notebook=True, width="100%", height="800px", bgcolor="#222222", font_color="white")
+def plot_coll_3(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
 
-    # Extract node labels and frequencies from the collocations
-    nodes = [keyword]
-    node_freqs = [1]
-    for colloc in collocs:
-        if colloc[0] != keyword:
-            nodes.append(colloc[0])
-            node_freqs.append(colloc[1])
+    # Calculate node positions using the ForceAtlas2 algorithm
+    pos = forceatlas2_layout(G, iterations=2000, pos=None, node_masses=None, outbound_attraction_distribution=False, lin_log_mode=False, prevent_overlapping=False, edge_weight_influence=1.0, jitter_tolerance=1.0, barnes_hut_optimize=True, barnes_hut_theta=0.5, scaling_ratio=2.0, strong_gravity_mode=False, gravity=1.0, scaling=False, verbose=False, strength=1.0)
 
-    # Add nodes and edges to the graph
-    for node, freq in zip(nodes, node_freqs):
-        G.add_node(node, label=node, value=freq, color=plt.cm.Blues(freq/np.max(node_freqs)))
+    # Draw the network
+    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
+    node_sizes = [2000 * count / n for count in counts]
+    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
+    edge_colors = top_collocs_df['freq']
 
-    for colloc in collocs:
-        if colloc[0] != keyword:
-            G.add_edge(keyword, colloc[0], value=colloc[1], color=plt.cm.Blues(colloc[1]/np.max(node_freqs)))
+    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_aspect('equal')
+    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
+    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
+    ax.set_zlim(-1.2, 1.2) # adjust z-axis limits as needed
 
-    # Set the positions of the nodes
-    G.barnes_hut(gravitational_strength=-1000, spring_length=500, spring_strength=0.001)
+    for edge in G.edges():
+        source = edge[0]
+        target = edge[1]
+        x = [pos[source][0], pos[target][0]]
+        y = [pos[source][1], pos[target][1]]
+        z = [pos[source][2], pos[target][2]]
+        ax.plot(x, y, z, '-', color='gray', linewidth=edge_widths.pop(0))
 
-    # Create a 3D network visualization
-    camera = dict(eye=dict(x=-1.5, y=-1.5, z=1.5))
-    G.show("graph.html", notebook_display=False, template="none", layout="sphere", physics_enabled=True, camera=camera)
+    xs, ys, zs = zip(*[pos[n] for n in G.nodes()])
+    ax.scatter(xs, ys, zs, c=node_colors, s=node_sizes, edgecolors='k', linewidths=0.5, alpha=0.8)
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
+    ax.view_init(azim=30)
+
+    # Save the plot to an image
+    plt.savefig('img_file.png', format='png', dpi=300)
+
+    # Convert the image file to a PIL Image object
+    pil_image = Image.open('img_file.png')
 
     with tab:
         with expander:
-            # Display the 3D network visualization
-            with open("graph.html", "r") as f:
-                components.html(f.read(), width=1000, height=1000)
+            st.image(pil_image)
+
 
 
        
