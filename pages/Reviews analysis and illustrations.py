@@ -949,64 +949,8 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image, use_column_width=True)
 
-def plot_coll_7(keyword, collocs, expander, tab):
-    words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    top_collocs_df.insert(1, 'source', keyword)
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
 
-    # Calculate node positions based on edge frequencies
-    pos = {keyword: (0, 0, 0)}
-    scaling_factor = 1.2
-    for word, freq in zip(words, counts):
-        if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle1 = 2 * math.pi * random.random()
-            angle2 = 2 * math.pi * random.random()
-            x, y, z = dist * scaling_factor * math.cos(angle1), dist * scaling_factor * math.sin(angle1), dist * scaling_factor * math.sin(angle2)
-            
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-                
-                x, y, z = scaling_factor* math.cos(angle1 + math.pi), scaling_factor * math.sin(angle1 + math.pi), scaling_factor * math.sin(angle2 + math.pi)
-            
-            pos[word] = (x, y, z)
-    
-    # Draw the network
-    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
-    node_sizes = [2000 * count / n for count in counts]
-    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
-    edge_colors = top_collocs_df['freq']
 
-    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
-    ax = fig.add_subplot(111, projection='3d')
-    ax.set_aspect('equal')
-    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
-    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
-    ax.set_zlim(-1.2, 1.2) # adjust z-axis limits as needed
-
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
-    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
-    plt.box(False)
-    plt.axis('off')
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
-    sm._A = []
-    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
-
-    # Save the plot to an image
-    plt.savefig('img_file.png', format='png', dpi=300)
-
-    # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
-
-    with tab:
-        with expander:
-            st.pyplot()
-            st.image(pil_image, use_column_width=True)
 
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
