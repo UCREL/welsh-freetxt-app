@@ -10,9 +10,20 @@ def render_d3_collocations(collocations_data):
 
     # Convert collocations_data to a JSON string
     collocations_data_json = json.dumps(collocations_data)
-    
-    # Replace the collocations_data_placeholder with the actual data
-    index_html_content = index_html_content.replace("<!--collocations_data_placeholder-->", json.dumps(collocations_data))
 
-    # Return the HTML content as a string
-    return index_html_content
+    # Insert collocations_data_json variable into index_html_content
+    index_html_content = index_html_content.replace(
+        "<!-- collocations_data_placeholder -->",
+        collocations_data_json
+    )
+
+    # Insert JavaScript code that uses collocationsData variable
+    index_html_content += f"""
+        <script>
+            const collocationsData = {collocations_data_json};
+            // D3.js code here to create the visualization using collocationsData
+        </script>
+    """
+
+    return components.html(index_html_content, height=800, width=800)
+
