@@ -953,6 +953,9 @@ import plotly.express as px
 import plotly.graph_objs as go
 
 
+import plotly.express as px
+import plotly.graph_objs as go
+
 def plot_coll_7(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
     collocs = collocs[:10]
@@ -985,11 +988,7 @@ def plot_coll_7(keyword, collocs, expander, tab):
     
     fig = go.Figure(data=nodes+edges)
     fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'), 
-                      showlegend=True,
-                      legend=dict(title="Words", items=[
-                          dict(label="Keyword", marker=dict(color='red', size=10, symbol='circle')),
-                          dict(label=most_frequent_word, marker=dict(color='blue', size=10, symbol='square'))
-                      ]))
+                      showlegend=True)
 
     with tab:
         with expander:
