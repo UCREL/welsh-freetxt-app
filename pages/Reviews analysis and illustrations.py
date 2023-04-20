@@ -950,60 +950,6 @@ def plot_coll(keyword, collocs, expander, tab):
             st.image(pil_image, use_column_width=True)
 
 
-from mpl_toolkits.mplot3d import Axes3D
-from networkx.layout import force_atlas2_layout
-
-def plot_coll_7(keyword, collocs, expander, tab):
-    words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    top_collocs_df.insert(1, 'source', keyword)
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
-
-    # Calculate node positions using the ForceAtlas2 algorithm
-    pos = force_atlas2_layout(G, iterations=2000)
-
-    # Draw the network
-    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
-    node_sizes = [2000 * count / n for count in counts]
-    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
-    edge_colors = top_collocs_df['freq']
-
-    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
-    ax = fig.add_subplot(111, projection='3d')
-    ax.set_aspect('equal')
-    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
-    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
-    ax.set_zlim(-1.2, 1.2) # adjust z-axis limits as needed
-
-    for edge in G.edges():
-        source = edge[0]
-        target = edge[1]
-        x = [pos[source][0], pos[target][0]]
-        y = [pos[source][1], pos[target][1]]
-        z = [pos[source][2], pos[target][2]]
-        ax.plot(x, y, z, '-', color='gray', linewidth=edge_widths.pop(0))
-
-    xs, ys, zs = zip(*[pos[n] for n in G.nodes()])
-    ax.scatter(xs, ys, zs, c=node_colors, s=node_sizes, edgecolors='k', linewidths=0.5, alpha=0.8)
-
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    ax.set_title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
-    ax.view_init(azim=30)
-
-    # Save the plot to an image
-    plt.savefig('img_file.png', format='png', dpi=300)
-
-    # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
-
-    with tab:
-        with expander:
-            st.image(pil_image)
-
 
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
@@ -1188,7 +1134,7 @@ def plot_kwic(data, key):
                 #plot_collocation(keyword, collocs,expander,tab3)
                 #plot_coll(keyword, collocs,expander,tab3)
                 plot_coll_2(keyword, collocs,expander,tab3)
-                plot_coll_7(keyword, collocs,expander,tab3)
+                #plot_coll_7(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
