@@ -900,11 +900,10 @@ def plot_coll_6(keyword, collocs, expander, tab):
         "collocations": top_collocs_df.to_dict(orient="records"),
     }
 
-    
     with tab:
         with expander:
-           d3_component = render_d3_collocations(collocations_data)
-           st.components.v1.html(d3_component, height=800, width=800)
+            st.components.v1.html(render_d3_collocations(collocations_data), height=800, width=800)
+
    
 	
 def plot_coll(keyword, collocs, expander, tab):
