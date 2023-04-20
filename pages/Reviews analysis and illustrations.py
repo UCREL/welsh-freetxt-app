@@ -903,7 +903,8 @@ def plot_coll_6(keyword, collocs, expander, tab):
     
     with tab:
         with expander:
-           render_d3_collocations(collocations_data)    
+           d3_component = render_d3_collocations(collocations_data)
+           st.write(d3_component)   
    
 	
 def plot_coll(keyword, collocs, expander, tab):
