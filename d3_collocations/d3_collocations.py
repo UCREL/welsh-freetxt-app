@@ -1,5 +1,6 @@
 import requests
 import json
+import streamlit.components.v1 as components
 
 def render_d3_collocations(collocations_data):
     # Download index.html from GitHub
