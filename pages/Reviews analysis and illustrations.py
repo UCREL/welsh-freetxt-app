@@ -949,6 +949,43 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image, use_column_width=True)
 
+import plotly.express as px
+import plotly.graph_objs as go
+
+def plot_coll_7(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+
+    nodes = []
+    edges = []
+    n = max(counts)
+
+    nodes.append(dict(type='scatter3d', x=[0], y=[0], z=[0], mode='markers', marker=dict(size=10, color='red', line=dict(color='black', width=1)), text=keyword))
+    
+    for word, freq in zip(words, counts):
+        if word != keyword:
+            # Calculate the distance from the keyword
+            dist = 1 - (freq / n)
+            angle = 2 * math.pi * random.random()
+            x, y = dist * math.cos(angle), dist * math.sin(angle)
+            
+            # Adjust the position of the most frequent word if it overlaps with the keyword
+            if dist == 0 and freq == max(counts):
+                most_frequent_word = word
+                
+                x, y = dist * math.cos(angle + math.pi), dist * math.sin(angle + math.pi)
+            
+            nodes.append(dict(type='scatter3d', x=[x], y=[y], z=[0], mode='markers', marker=dict(size=10, color='blue', line=dict(color='black', width=1)), text=word))
+            edges.append(dict(type='scatter3d', x=[0, x], y=[0, y], z=[0, 0], mode='lines', line=dict(color='black', width=1)))
+    
+    fig = go.Figure(data=nodes+edges)
+    fig.update_layout(scene=dict(xaxis_title='X', yaxis_title='Y', zaxis_title='Z'))
+
+    with tab:
+        with expander:
+            st.plotly_chart(fig)
 
 
 
