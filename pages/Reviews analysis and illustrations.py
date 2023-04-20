@@ -1233,7 +1233,7 @@ def plot_kwic(data, key):
                
                 plot_coll_2(keyword, collocs,expander,tab3)
                 plot_coll_7(keyword, collocs,expander,tab3)
-                plot_coll_8(keyword, collocs,expander,tab3)
+                plot_coll_6(keyword, collocs,expander,tab3)
      
                 
     except ValueError as err:
