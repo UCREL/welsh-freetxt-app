@@ -951,7 +951,7 @@ def plot_coll(keyword, collocs, expander, tab):
 
 from pyvis.network import Network
 
-def plot_coll_3(keyword, collocs, expander, tab):
+def plot_coll_7(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
     top_collocs_df.insert(1, 'source', keyword)
