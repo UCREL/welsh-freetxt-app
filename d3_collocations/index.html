@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- collocations_data_placeholder -->
 <html>
 <head>
     <meta charset="utf-8">
@@ -19,15 +18,11 @@
 </head>
 <body>
     <div id="graph"></div>
-    
-    
 
     <script>
-            // Extract and parse input data from Streamlit
-    const placeholder = document.querySelector("<!-- collocations_data_placeholder -->");
-    const inputData = JSON.parse(placeholder.textContent);
-    const keyword = inputData.keyword;
-    const collocations = inputData.collocations;
+        const inputData = collocationsData;
+        const keyword = inputData.keyword;
+        const collocations = inputData.collocations;
         const width = 800;
         const height = 800;
 
@@ -36,71 +31,67 @@
             .attr("width", width)
             .attr("height", height);
 
-        //  D3.js code here to create the visualization using `collocations`
-        const simulation = d3.forceSimulation(collocations)
-             .force("link", d3.forceLink().id(d => d.word).distance(100))
-             .force("charge", d3.forceManyBody().strength(-100))
-             .force("center", d3.forceCenter(width / 2, height / 2));
+        // D3.js code here to create the visualization using `collocations`
+        const simulation = d3.forceSimulation(collocations.nodes)
+            .force("link", d3.forceLink(collocations.links).id(d => d.word).distance(100))
+            .force("charge", d3.forceManyBody().strength(-100))
+            .force("center", d3.forceCenter(width / 2, height / 2));
 
-       const link = svg.append("g")
-             .attr("stroke", "#999")
-             .attr("stroke-opacity", 0.6)
-             .selectAll("line")
-             .data(collocations)
+        const link = svg.append("g")
+            .attr("stroke", "#999")
+            .attr("stroke-opacity", 0.6)
+            .selectAll("line")
+            .data(collocations.links)
             .join("line");
 
-      const node = svg.append("g")
-         .attr("stroke", "#fff")
-         .attr("stroke-width", 1.5)
-          .selectAll("circle")
-          .data(collocations)
-          .join("circle")
-         .attr("r", d => Math.sqrt(d.freq) * 5)
-          .attr("fill", d => d.source === keyword ? "green" : "gray")
-          .call(drag(simulation));
+        const node = svg.append("g")
+            .attr("stroke", "#fff")
+            .attr("stroke-width", 1.5)
+            .selectAll("circle")
+            .data(collocations.nodes)
+            .join("circle")
+            .attr("r", d => Math.sqrt(d.freq) * 5)
+            .attr("fill", d => d.word === keyword ? "green" : "gray")
+            .call(drag(simulation));
 
-      node.append("title")
-               .text(d => d.word);
+        node.append("title")
+            .text(d => d.word);
 
         simulation.on("tick", () => {
-        link
-        .attr("x1", d => d.source.x)
-        .attr("y1", d => d.source.y)
-        .attr("x2", d => d.target.x)
-        .attr("y2", d => d.target.y);
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
 
-    node
-        .attr("cx", d => d.x)
-        .attr("cy", d => d.y);
+            node
+                .attr("cx", d => d.x)
+                .attr("cy", d => d.y);
         });
 
         function drag(simulation) {
             function dragstarted(event) {
-               if (!event.active) simulation.alphaTarget(0.3).restart();
-              event.subject.fx = event.subject.x;
-           event.subject.fy = event.subject.y;
-       }
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
 
-    function dragged(event) {
-        event.subject.fx = event.x;
-        event.subject.fy = event.y;
-    }
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
 
-    function dragended(event) {
-        if (!event.active) simulation.alphaTarget(0);
-        event.subject.fx = null;
-        event.subject.fy = null;
-    }
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
 
-    return d3.drag()
-        .on("start", dragstarted)
-        .on("drag", dragged)
-        .on("end", dragended);
-}
-
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        }
     </script>
-
-
-
 </body>
 </html>
