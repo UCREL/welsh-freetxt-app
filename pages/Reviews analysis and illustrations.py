@@ -949,101 +949,43 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image, use_column_width=True)
 
-
-import networkx as nx
-import matplotlib.pyplot as plt
+from pyvis.network import Network
 import pandas as pd
 import numpy as np
-from PIL import Image
-import streamlit as st
-import random
-import math
 
 def plot_coll_7(keyword, collocs, expander, tab):
-    words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    top_collocs_df.insert(1, 'source', keyword)
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
+    # Create the graph
+    G = Network(notebook=True, width="100%", height="800px", bgcolor="#222222", font_color="white")
 
-    # Calculate node positions based on edge frequencies
-    pos = {keyword: (0, 0)}
-    scaling_factor = 1.2
-    for word, freq in zip(words, counts):
-        if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle = 2 * math.pi * random.random()
-            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
-            
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-                
-                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-            
-            pos[word] = (x, y)
-    
-    # Draw the network
-    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
-    node_sizes = [2000 * count / n for count in counts]
-    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
-    edge_colors = top_collocs_df['freq']
+    # Extract node labels and frequencies from the collocations
+    nodes = [keyword]
+    node_freqs = [1]
+    for colloc in collocs:
+        if colloc[0] != keyword:
+            nodes.append(colloc[0])
+            node_freqs.append(colloc[1])
 
-    # Set up figure and axis
-    fig, ax = plt.subplots(figsize=(8, 8))
-    ax.set_aspect('equal')
-    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
-    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
+    # Add nodes and edges to the graph
+    for node, freq in zip(nodes, node_freqs):
+        G.add_node(node, label=node, value=freq, color=plt.cm.Blues(freq/np.max(node_freqs)))
 
-    # Draw initial state of network
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
-    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
-    plt.box(False)
-    plt.axis('off')
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
-    sm._A = []
-    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
+    for colloc in collocs:
+        if colloc[0] != keyword:
+            G.add_edge(keyword, colloc[0], value=colloc[1], color=plt.cm.Blues(colloc[1]/np.max(node_freqs)))
 
-    # Save the plot to an image
-    plt.savefig('img_file.png', format='png', dpi=300)
-    plt.close()
+    # Set the positions of the nodes
+    G.barnes_hut(gravitational_strength=-1000, spring_length=500, spring_strength=0.001)
 
-    # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
+    # Create a 3D network visualization
+    camera = dict(eye=dict(x=-1.5, y=-1.5, z=1.5))
+    G.show("graph.html", notebook_display=False, template="none", layout="sphere", physics_enabled=True, camera=camera)
 
-    # Display the PIL Image object in Streamlit
-    st.image(pil_image, use_column_width=True)
+    with tab:
+        with expander:
+            # Display the 3D network visualization
+            with open("graph.html", "r") as f:
+                components.html(f.read(), width=1000, height=1000)
 
-# Animate the network by updating the edge and node colors at each frame
-    for i in range(10):
-         node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n * (i+1) / 10) for node, count in zip(G.nodes(), counts)]
-         edge_colors = [freq * (i+1) / 10 for freq in top_collocs_df['freq']]
-    
-         fig = plt.figure(figsize=(9, 9))
-         ax = fig.add_subplot(111)
-         ax.set_aspect('equal')
-         ax.set_xlim(-1.2, 1.2)
-         ax.set_ylim(-1.2, 1.2)
-
-         nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
-         plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
-         plt.box(False)
-         plt.axis('off')
-         sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
-         sm._A = []
-         plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
-
-    # Convert the plot to an image
-         buf = io.BytesIO()
-         plt.savefig(buf, format='png', dpi=300, bbox_inches='tight', pad_inches=0)
-         buf.seek(0)
-    
-    # Display the image using Streamlit
-         img = Image.open(buf)
-         st.image(img, caption=f"Frame {i+1}", use_column_width=True)
-         time.sleep(0.5)
 
        
 
