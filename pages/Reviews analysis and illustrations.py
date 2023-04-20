@@ -904,7 +904,7 @@ def plot_coll_11(keyword, collocs, expander, tab):
         with expander:
             st.components.v1.html(render_d3_collocations(collocations_data), height=800, width=800)
 
- from d3_collocations.d3_collocations import render_d3_collocations
+from d3_collocations.d3_collocations import render_d3_collocations
 
 def plot_coll_6(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
