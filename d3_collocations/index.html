@@ -18,11 +18,7 @@
 </head>
 <body>
     <div id="graph"></div>
-
     <script>
-        const inputData = collocationsData;
-        const keyword = inputData.keyword;
-        const collocations = inputData.collocations;
         const width = 800;
         const height = 800;
 
@@ -31,9 +27,11 @@
             .attr("width", width)
             .attr("height", height);
 
-        // D3.js code here to create the visualization using `collocations`
-        const simulation = d3.forceSimulation(collocations.nodes)
-            .force("link", d3.forceLink(collocations.links).id(d => d.word).distance(100))
+        const links = collocationsData.collocations.map(d => Object.create(d));
+        const nodes = Array.from(new Set(links.flatMap(l => [l.source, l.word])), word => Object.create({word}));
+
+        const simulation = d3.forceSimulation(nodes)
+            .force("link", d3.forceLink(links).id(d => d.word).distance(100))
             .force("charge", d3.forceManyBody().strength(-100))
             .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -41,17 +39,17 @@
             .attr("stroke", "#999")
             .attr("stroke-opacity", 0.6)
             .selectAll("line")
-            .data(collocations.links)
+            .data(links)
             .join("line");
 
         const node = svg.append("g")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5)
             .selectAll("circle")
-            .data(collocations.nodes)
+            .data(nodes)
             .join("circle")
             .attr("r", d => Math.sqrt(d.freq) * 5)
-            .attr("fill", d => d.word === keyword ? "green" : "gray")
+            .attr("fill", d => d.word === collocationsData.keyword ? "green" : "gray")
             .call(drag(simulation));
 
         node.append("title")
