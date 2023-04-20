@@ -19,10 +19,10 @@ def render_d3_collocations(collocations_data):
     
     
     # Insert collocationsData variable into index_html_content
-    #index_html_content = index_html_content.replace(
-  #      "<div id=\"graph\"></div>",
-  #      f"<div id=\"graph\"></div><script>const collocationsData = {collocations_data_json};</script>"
- #   )
+    #ndex_html_content = index_html_content.replace(
+       "<div id=\"graph\"></div>",
+       f"<div id=\"graph\"></div><script>const collocationsData = {collocations_data_json};</script>"
+   )
 
     return index_html_content
 
