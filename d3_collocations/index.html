@@ -32,7 +32,8 @@
             target: d.word,
             freq: d.freq
         }));
-
+        const collocationsData = <!--collocations_data_placeholder-->;
+        const data = collocationsData.collocations;
         const nodes = Array.from(new Set(links.flatMap(l => [l.source, l.target])), word => ({word}));
 
         const simulation = d3.forceSimulation(nodes)
