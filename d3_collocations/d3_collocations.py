@@ -1,4 +1,3 @@
-import streamlit.components.v1 as components
 import requests
 import json
 
@@ -16,8 +15,4 @@ def render_d3_collocations(collocations_data):
         f"<div id=\"graph\"></div><script>const collocationsData = {collocations_data_json};</script>"
     )
 
-    return components.html(
-        index_html_content,
-        height=800,
-        width=800
-    )
+    return index_html_content
