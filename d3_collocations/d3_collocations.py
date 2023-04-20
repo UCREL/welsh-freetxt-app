@@ -15,14 +15,14 @@ def render_d3_collocations(collocations_data):
     index_html_content = index_html_content.replace("<!--collocations_data_placeholder-->", json.dumps(collocations_data))
 
     # Return the HTML component
-    #return components.html(index_html_content, height=800, width=800)
+    return components.html(index_html_content, height=800, width=800)
     
     
     # Insert collocationsData variable into index_html_content
     #ndex_html_content = index_html_content.replace(
-       "<div id=\"graph\"></div>",
-       f"<div id=\"graph\"></div><script>const collocationsData = {collocations_data_json};</script>"
-   )
+      # "<div id=\"graph\"></div>",
+      # f"<div id=\"graph\"></div><script>const collocationsData = {collocations_data_json};</script>"
+  # )
 
-    return index_html_content
+    #return index_html_content
 
