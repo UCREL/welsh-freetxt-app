@@ -1195,7 +1195,7 @@ def plot_coll_13(keyword, collocs, expander, tab):
         hoverinfo='text',
         marker=dict(
             color=['green' if node == most_frequent_word else 'gray' if node == keyword else 'blue' for node in G.nodes()],
-            size=[1000 * count / n for count in counts],
+            size=[500 * count / n for count in counts],
             sizemode='diameter',
             line_width=2
         ),
