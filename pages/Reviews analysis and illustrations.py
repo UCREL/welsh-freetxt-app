@@ -826,66 +826,6 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
-import plotly.graph_objs as go
-import pandas as pd
-import math
-import random
-
-def plot_coll_5(keyword, collocs, expander, tab):
-    words, counts = zip(*collocs)
-    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
-    top_collocs_df.insert(1, 'source', keyword)
-    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
-    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
-    n = max(counts)
-
-    # Calculate node positions based on edge frequencies
-    pos = {keyword: (0, 0)}
-    scaling_factor = 1.2
-    for word, freq in zip(words, counts):
-        if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle = 2 * math.pi * random.random()
-            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
-            
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-                
-                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
-            
-            pos[word] = (x, y)
-    
-    # Draw the network
-    node_colors = ['green' if node == most_frequent_word else 'gray' if node == keyword else plt.cm.Blues(count / n) for node, count in zip(G.nodes(), counts)]
-    node_sizes = [1000 * count / n for count in counts]  # adjust node size by dividing all sizes by a constant factor
-    edge_widths = [2/ freq for freq in top_collocs_df['freq']]
-    edge_colors = top_collocs_df['freq']
-
-    fig = plt.figure(figsize=(9, 9)) # adjust figure size as needed
-    ax = fig.add_subplot(111)
-    ax.set_aspect('equal')
-    ax.set_xlim(-1.2, 1.2) # adjust x-axis limits as needed
-    ax.set_ylim(-1.2, 1.2) # adjust y-axis limits as needed
-
-    nx.draw(G, pos=pos, with_labels=True, node_color=node_colors, node_size=node_sizes, width=edge_widths, edge_color=edge_colors, edge_cmap=plt.cm.Blues, ax=ax)
-    plt.title('Collocations for "{}"'.format(keyword), fontsize=16, fontweight='bold', pad=10)
-    plt.box(False)
-    plt.axis('off')
-    sm = plt.cm.ScalarMappable(cmap='Blues', norm=plt.Normalize(vmin=min(counts), vmax=max(counts)))
-    sm._A = []
-    plt.colorbar(sm, orientation='horizontal', pad=0.02, fraction=0.03, aspect=30)
-
-    # Save the plot to an image
-    plt.savefig('img_file.png', format='png', dpi=300)
-
-    # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
-
-    with tab:
-        with expander:
-            st.image(pil_image)
 
 from d3_collocations.d3_collocations import render_d3_collocations
 
@@ -1012,56 +952,6 @@ def plot_coll_7(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.plotly_chart(fig)
-
-import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
-import random
-import math
-
-def plot_coll_8(keyword, collocs, expander, tab):
-    # Only show the 10 main collocates
-    collocs = collocs[:10]
-    words, counts = zip(*collocs)
-    n = max(counts)
-
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    ax.scatter([0], [0], [0], c='red', s=100, label=keyword)
-    
-    for word, freq in zip(words, counts):
-        if word != keyword:
-            # Calculate the distance from the keyword
-            dist = 1 - (freq / n)
-            angle = 2 * math.pi * random.random()
-            x, y = dist * math.cos(angle), dist * math.sin(angle)
-            z = 0
-            
-            # Adjust the position of the most frequent word if it overlaps with the keyword
-            if dist == 0 and freq == max(counts):
-                most_frequent_word = word
-                
-                x, y = dist * 2 * math.cos(angle + math.pi), dist * 2 * math.sin(angle + math.pi)
-            
-            if word == most_frequent_word:
-                color = 'orange'
-            else:
-                color = 'blue'
-            
-            ax.scatter(x, y, z, c=color, s=100, label=word)
-    
-    ax.set_xlabel('X')
-    ax.set_ylabel('Y')
-    ax.set_zlabel('Z')
-    ax.legend()
-
-    with tab:
-        with expander:
-            st.pyplot()
-
-
-
-
-
 
 
 
