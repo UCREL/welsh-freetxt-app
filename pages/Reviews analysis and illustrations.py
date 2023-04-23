@@ -830,6 +830,9 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 	
 from pyvis.network import Network
+from IPython.display import IFrame
+
+
 def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -1473,7 +1476,11 @@ def plot_kwic(data, key):
                 plot_coll_7(keyword, collocs,expander,tab3)
                 plot_coll_12(keyword, collocs,expander,tab3)
                 plot_coll_13(keyword, collocs,expander,tab3)
-                plot_coll_14(keyword, collocs,expander,tab3)
+                
+		# Call the plot_coll_2 function with a specific output file name
+                plot_coll_14(keyword, collocs, expander, tab3, output_file='network_output.html')
+
+                IFrame(src='network_output.html', width='100%', height='750px')
                 plot_coll_11(keyword, collocs,expander,tab3)
      
                 
