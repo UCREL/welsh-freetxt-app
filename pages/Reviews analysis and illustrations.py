@@ -1079,6 +1079,8 @@ def plot_coll_7(keyword, collocs, expander, tab):
 
 import plotly.graph_objs as go
 
+import plotly.graph_objs as go
+
 def plot_coll_12(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
@@ -1096,11 +1098,12 @@ def plot_coll_12(keyword, collocs, expander, tab):
         dist = 1
     else:
         dist = min(dists)
+    dist_mfw = dist / 2
     for word, freq in zip(words, counts):
         if word != keyword:
             # Calculate the distance from the keyword
             if word == most_frequent_word:
-                dist = dist / 2
+                dist = dist_mfw
             angle = 2 * math.pi * random.random()
             x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
 
