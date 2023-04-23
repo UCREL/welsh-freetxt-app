@@ -1237,19 +1237,18 @@ def plot_coll_13(keyword, collocs, expander, tab):
 
 
     # Set up the layout
-    layout = go.Layout(
-       title=dict(text=f'<b>Collocations for "{keyword}"</b>', font=dict(size=16)),
-       showlegend=False,
-      hovermode='closest',
-       margin=dict(b=20, l=5, r=5, t=40),
-       xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-      yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-      updatemenus=[dict(type='buttons', showactive=False, buttons=[dict(label='Play',
+       layout = go.Layout(
+            title=dict(text=f'<b>Collocations for "{keyword}"</b>', font=dict(size=16)),
+            showlegend=False,
+            hovermode='closest',
+            margin=dict(b=20, l=5, r=5, t=40),
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+           updatemenus=[dict(type='buttons', showactive=False, buttons=[dict(label='Play',
                                                                         method='animate',
                                                                         args=[None, dict(frame=dict(duration=100, redraw=True),
-                                                                                         fromcurrent=True, mode='immediate')])])],
-      frames=frames
-       )
+                                                                                         fromcurrent=True, mode='immediate')])])]
+            )
 
 # Create the figure
     fig = go.Figure(data=[edge_trace, node_trace], layout=layout, frames=frames)
