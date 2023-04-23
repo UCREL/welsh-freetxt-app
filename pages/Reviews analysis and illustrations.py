@@ -826,6 +826,31 @@ def plot_coll_2(keyword, collocs, expander, tab):
     with tab:
         with expander:
             st.pyplot()
+from pyvis.network import Network
+
+def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword]  # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Create a network plot
+    net = Network(notebook=True, height='750px', width='100%')
+    net.force_atlas_2based()
+
+    # Add nodes and edges
+    for node, count in zip(G.nodes(), counts):
+        node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
+        node_size = 1000 * count / n
+        net.add_node(node, label=node, color=node_color, size=node_size)
+
+    for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
+        net.add_edge(source, target, value=freq)
+
+    # Save the visualization to an HTML file
+    net.save_graph(output_file)
 
 from d3_collocations.d3_collocations import render_d3_collocations
 
@@ -983,10 +1008,6 @@ def plot_coll(keyword, collocs, expander, tab):
         with expander:
             st.image(pil_image, use_column_width=True)
 
-import plotly.express as px
-import plotly.graph_objs as go
-import random
-import math
 
 def plot_coll_17(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
@@ -1446,6 +1467,7 @@ def plot_kwic(data, key):
                 plot_coll_7(keyword, collocs,expander,tab3)
                 plot_coll_12(keyword, collocs,expander,tab3)
                 plot_coll_13(keyword, collocs,expander,tab3)
+		plot_coll_14(keyword, collocs,expander,tab3)
                 plot_coll_11(keyword, collocs,expander,tab3)
      
                 
