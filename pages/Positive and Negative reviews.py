@@ -208,9 +208,10 @@ def detect_language(df):
     for col in df.columns:
         # Loop through all rows in the column
         for text in df[col].fillna(''):
-            # Use langdetect's detect_langs to detect the language of the text
+            
             try:
                 lang_probs = detect_langs(text)
+                print(f"Language probabilities: {lang_probs}")  # Print language probabilities for debugging
                 most_probable_lang = max(lang_probs, key=lambda x: x.prob)
                 detected_languages.append(most_probable_lang.lang)
             except Exception as e:
@@ -219,14 +220,9 @@ def detect_language(df):
     # Count the number of occurrences of each language
     lang_counts = pd.Series(detected_languages).value_counts()
 
-    # Check if any languages were detected
-    if not lang_counts.empty:
-        # Determine the most common language in the DataFrame
-        most_common_lang = lang_counts.index[0]
-    else:
-        most_common_lang = None
-        print("No languages detected in the DataFrame.")
-
+    # Determine the most common language in the DataFrame
+    most_common_lang = lang_counts.index[0]
+    
     return most_common_lang
 
 
