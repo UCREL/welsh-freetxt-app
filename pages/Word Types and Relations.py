@@ -191,28 +191,36 @@ lang_detected = detect(text)
 st.write(f"Language detected: '{lang_detected}'")
 
    
-if lang_detected == 'cy':
-	###curl -F type=rest -F style=tab -F lang=cy -F text=@d.txt http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl
-	files = {
-   	 'type': (None, 'rest'),
-    	'style': (None, 'tab'),
-    	'lang': (None, 'cy'),
-    	'text': text,
-		}
+import requests
+from requests.exceptions import ConnectionError
 
-	response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
-	data = response.text
-	#st.text(data)
-	with open('cy_tagged.txt','w') as f:
-    		f.write(response.text)
-	
-	cy_tagged =pd.read_csv('cy_tagged.txt',sep='\t')
-	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('[,/]').str[0].str.replace('[\[\]"\']', '', regex=True)
-	cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
-	merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
-	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
-	merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-	st.dataframe(merged_df, use_container_width=True)
+
+if lang_detected == 'cy':
+    files = {
+        'type': (None, 'rest'),
+        'style': (None, 'tab'),
+        'lang': (None, 'cy'),
+        'text': (None, text),
+    }
+
+    try:
+        response = requests.post('http://ucrel-api-01.lancaster.ac.uk/cgi-bin/pymusas.pl', files=files)
+        data = response.text
+
+        with open('cy_tagged.txt', 'w') as f:
+            f.write(response.text)
+
+        cy_tagged = pd.read_csv('cy_tagged.txt', sep='\t')
+        cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('[,/]').str[0].str.replace('[\[\]"\']', '', regex=True)
+        cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
+        merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
+        merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
+        merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+        st.dataframe(merged_df, use_container_width=True)
+
+    except ConnectionError as e:
+        st.error(f'Connection Error: {e}')
+
 	
 		
 
