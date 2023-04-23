@@ -1477,8 +1477,6 @@ def plot_kwic(data, key):
                 plot_coll_7(keyword, collocs,expander,tab3)
                 plot_coll_12(keyword, collocs,expander,tab3)
                 plot_coll_13(keyword, collocs,expander,tab3)
-                
-		
                 plot_coll_14(keyword, collocs, expander, tab3,output_file='network_output.html')
 	
 
