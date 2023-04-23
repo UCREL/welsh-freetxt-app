@@ -1,3 +1,0 @@
-libicu-dev
-pkg-config
-gcc
