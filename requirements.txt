@@ -29,7 +29,6 @@ canvas
 fpdf2
 polyglot
 wheel>=0.23.0
-pycld2>=0.3
 six>=1.7.3
 futures>=2.1.6
 morfessor>=2.0.2a1
