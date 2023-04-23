@@ -843,19 +843,20 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Create a network plot
     net = Network(notebook=True, height='750px', width='100%')
-    net.force_atlas_2based()
+    net.force_atlas_2based(gravity=-50, scaling_ratio=2.0)
 
     # Add nodes and edges
     for node, count in zip(G.nodes(), counts):
         node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
         node_size = 1000 * count / n
-        net.add_node(node, label=node, color=node_color, size=node_size)
+        net.add_node(node, label=node, color=node_color, size=node_size, font={'size': 20, 'face': 'Arial'})
 
     for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
         net.add_edge(source, target, value=freq)
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
+
     
 
 from d3_collocations.d3_collocations import render_d3_collocations
