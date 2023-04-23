@@ -508,7 +508,8 @@ if status:
                             plot_sentiment(analysis)
                        
                         elif language == 'cy':
-                            sentiments = analyze_sentiment_welsh(input_text)
+                            #sentiments = analyze_sentiment_welsh(input_text)
+                            sentiments = analyze_sentiment(input_text)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
