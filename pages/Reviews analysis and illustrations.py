@@ -1077,6 +1077,85 @@ def plot_coll_7(keyword, collocs, expander, tab):
         with expander:
             st.plotly_chart(fig)
 
+import plotly.graph_objs as go
+
+def plot_coll_12(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Calculate node positions based on edge frequencies
+    pos = {keyword: (0, 0)}
+    scaling_factor = 1.2
+    most_frequent_word = max(collocs, key=lambda x: x[1])[0]
+    dists = [1 - (freq / n) for freq in counts if freq != max(counts)]
+    if len(dists) == 0:
+        dist = 1
+    else:
+        dist = min(dists)
+    for word, freq in zip(words, counts):
+        if word != keyword:
+            # Calculate the distance from the keyword
+            if word == most_frequent_word:
+                dist = dist / 2
+            angle = 2 * math.pi * random.random()
+            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+
+            pos[word] = (x, y)
+
+    edge_trace = go.Scatter(
+        x=[],
+        y=[],
+        line=dict(width=0.5, color='#888'),
+        hoverinfo='none',
+        mode='lines')
+
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_trace['x'] += tuple([x0, x1, None])
+        edge_trace['y'] += tuple([y0, y1, None])
+
+    node_trace = go.Scatter(
+        x=[],
+        y=[],
+        text=[],
+        mode='markers',
+        hoverinfo='text',
+        marker=dict(
+            showscale=True,
+            colorscale='Viridis',
+            reversescale=True,
+            color=[],
+            size=10,
+            line=dict(width=2)))
+
+    for node in G.nodes():
+        x, y = pos[node]
+        node_trace['x'] += tuple([x])
+        node_trace['y'] += tuple([y])
+
+    for node, count in zip(G.nodes(), counts):
+        node_info = f"{node} - {count}"
+        node_trace['text'] += tuple([node_info])
+        node_trace['marker']['color'] += tuple([count])
+
+    fig = go.Figure(data=[edge_trace, node_trace],
+                    layout=go.Layout(
+                        title=f'Collocations for "{keyword}"',
+                        titlefont=dict(size=16, color='#7f7f7f'),
+                        showlegend=False,
+                        hovermode='closest',
+                        margin=dict(b=20, l=5, r=5, t=40),
+                        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+                        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)))
+
+    with tab:
+        with expander:
+            st.plotly_chart(fig)
 
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
@@ -1262,7 +1341,7 @@ def plot_kwic(data, key):
                
                 plot_coll_2(keyword, collocs,expander,tab3)
                 plot_coll_7(keyword, collocs,expander,tab3)
-                plot_coll_10(keyword, collocs,expander,tab3)
+                plot_coll_12(keyword, collocs,expander,tab3)
      
                 plot_coll_11(keyword, collocs,expander,tab3)
      
