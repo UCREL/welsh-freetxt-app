@@ -850,7 +850,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     # Add nodes and edges
     for node, count in zip(G.nodes(), counts):
         node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
-        node_size = 200 * count / n
+        node_size = 100 * count / n
         net.add_node(node, label=node, color=node_color, size=node_size, font={'size': 20, 'face': 'Arial'})
 
     for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
