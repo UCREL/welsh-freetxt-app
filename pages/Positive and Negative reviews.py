@@ -501,13 +501,13 @@ if status:
                         language = detect_language(df)
                       
                         st.write(language)
-                        if language == 'English':
+                        if language == 'en':
                             sentiments = analyze_sentiment(input_text)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
                        
-                        elif language == 'Welsh':
+                        elif language == 'cy':
                             sentiments = analyze_sentiment_welsh(input_text)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
