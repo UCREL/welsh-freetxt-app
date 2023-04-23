@@ -202,8 +202,7 @@ def select_columns(data, key):
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 def detect_language(df):
-    # Initialize a dictionary to store the detected languages for each column
-    detected_languages = {col: [] for col in df.columns}
+    detected_languages = []
 
     # Loop through all columns in the DataFrame
     for col in df.columns:
@@ -212,20 +211,23 @@ def detect_language(df):
             # Use langdetect's detect_langs to detect the language of the text
             try:
                 lang_probs = detect_langs(text)
-                st.write(lang_probs)
                 most_probable_lang = max(lang_probs, key=lambda x: x.prob)
-                detected_languages[col].append(most_probable_lang.lang)
-                st.write(most_probable_lang)
+                detected_languages.append(most_probable_lang.lang)
             except Exception as e:
                 print(f"Error detecting language: {e}")
 
-    # Count the number of occurrences of each language for each column
-    lang_counts = {col: pd.Series(langs).value_counts() for col, langs in detected_languages.items()}
+    # Count the number of occurrences of each language
+    lang_counts = pd.Series(detected_languages).value_counts()
 
-    # Determine the most common language for each column
-    most_common_langs = {col: langs.index[0] if not langs.empty else None for col, langs in lang_counts.items()}
+    # Determine the most common language in the DataFrame
+    if not lang_counts.empty:
+        most_common_lang = lang_counts.index[0]
+    else:
+        most_common_lang = None
+        print("No languages detected in the DataFrame.")
 
-    return most_common_langs
+    return most_common_lang
+
 
 
 # --------------------Sentiments----------------------
