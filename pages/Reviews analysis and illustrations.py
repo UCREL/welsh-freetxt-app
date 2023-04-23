@@ -830,9 +830,6 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 	
 from pyvis.network import Network
-from IPython.display import IFrame
-
-
 def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -859,7 +856,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
-
+    
 
 from d3_collocations.d3_collocations import render_d3_collocations
 
@@ -1477,10 +1474,15 @@ def plot_kwic(data, key):
                 plot_coll_12(keyword, collocs,expander,tab3)
                 plot_coll_13(keyword, collocs,expander,tab3)
                 
-		# Call the plot_coll_2 function with a specific output file name
-                plot_coll_14(keyword, collocs, expander, tab3, output_file='network_output.html')
+		
+                plot_coll_14(keyword, collocs, expander, tab3,output_file='network_output.html')
+	
 
-                IFrame(src='network_output.html', width='100%', height='750px')
+# Display the generated HTML file in the Streamlit app
+                with open('network_output.html', 'r', encoding='utf-8') as f:
+                         html_string = f.read()
+
+                components.html(html_string, width=900, height=750, scrolling=True)
                 plot_coll_11(keyword, collocs,expander,tab3)
      
                 
