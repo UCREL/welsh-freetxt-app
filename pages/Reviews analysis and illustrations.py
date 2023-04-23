@@ -1252,7 +1252,7 @@ def plot_coll_13(keyword, collocs, expander, tab):
        )
 
 # Create the figure
-    fig = go.Figure(data=[edge_trace, node_trace], layout=layout)
+    fig = go.Figure(data=[edge_trace, node_trace], layout=layout, frames=frames)
 
 # Show the plot
     with tab:
