@@ -1158,6 +1158,108 @@ def plot_coll_12(keyword, collocs, expander, tab):
             st.plotly_chart(fig)
 
 
+
+def plot_coll_13(keyword, collocs, expander, tab):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word','freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword] # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Calculate node positions based on edge frequencies
+    pos = {keyword: (0, 0)}
+    scaling_factor = 1.2
+    for word, freq in zip(words, counts):
+        if word != keyword:
+            # Calculate the distance from the keyword
+            dist = 1 - (freq / n)
+            angle = 2 * math.pi * random.random()
+            x, y = dist * scaling_factor * math.cos(angle), dist * scaling_factor * math.sin(angle)
+            
+            # Adjust the position of the most frequent word if it overlaps with the keyword
+            if dist == 0 and freq == max(counts):
+                most_frequent_word = word
+                
+                x, y = scaling_factor* math.cos(angle + math.pi), scaling_factor * math.sin(angle + math.pi)
+            
+            pos[word] = (x, y)
+
+    # Create node trace
+    node_trace = go.Scatter(
+        x=[pos[node][0] for node in G.nodes()],
+        y=[pos[node][1] for node in G.nodes()],
+        text=[node for node in G.nodes()],
+        mode='markers+text',
+        textposition="bottom center",
+        hoverinfo='text',
+        marker=dict(
+            color=['green' if node == most_frequent_word else 'gray' if node == keyword else 'blue' for node in G.nodes()],
+            size=[2000 * count / n for count in counts],
+            sizemode='diameter',
+            line_width=2
+        ),
+        textfont=dict(color='black', size=12)
+    )
+
+    # Create edge trace
+    edge_trace = go.Scatter(
+        x=[],
+        y=[],
+        line=dict(width=1, color='gray'),
+        hoverinfo='none',
+        mode='lines'
+    )
+
+    for edge in G.edges():
+        x0, y0 = pos[edge[0]]
+        x1, y1 = pos[edge[1]]
+        edge_trace['x'] += tuple([x0, x1, None])
+        edge_trace['y'] += tuple([y0, y1, None])
+
+    # Create frames for animation
+    frames = []
+    for t in range(0, 360, 10):
+        rotated_pos = {}
+        for node, (x, y) in pos.items():
+            angle = math.radians(t)
+            rotated_pos[node] = (x * math.cos(angle) - y * math.sin(angle), x * math.sin(angle) + y * math.cos(angle))
+            frame = go.Frame(
+        		data=[go.Scatter(
+            x=[rotated_pos[node][0] for node in G.nodes()],
+            y=[rotated_pos[node][1] for node in G.nodes()],
+            mode='markers',
+            marker=node_trace.marker
+        		)],
+              name=str(t)
+              )
+            frames.append(frame)
+
+# Set up the layout
+    layout = go.Layout(
+       title=dict(text=f'Collocations for "{keyword}"', font=dict(size=16, weight='bold')),
+       showlegend=False,
+      hovermode='closest',
+       margin=dict(b=20, l=5, r=5, t=40),
+       xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+      yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+       updatemenus=[dict(type='buttons', showactive=False, buttons=[dict(label='Play',
+                                                                           method='animate',
+                                                                        args=[None, dict(frame=dict(duration=100, redraw=True),
+                                                                                         fromcurrent=True, mode='immediate')])])],
+          frames=frames
+      )
+
+# Create the figure
+    fig = go.Figure(data=[edge_trace, node_trace], layout=layout)
+
+# Show the plot
+    with tab:
+        with expander:
+            st.plotly_chart(fig)
+
+       
+
 # Create the PDF file
     pdf = PDF(orientation="P", unit="mm", format="A4")
 	
@@ -1343,7 +1445,7 @@ def plot_kwic(data, key):
                 plot_coll_2(keyword, collocs,expander,tab3)
                 plot_coll_7(keyword, collocs,expander,tab3)
                 plot_coll_12(keyword, collocs,expander,tab3)
-     
+                plot_coll_13(keyword, collocs,expander,tab3)
                 plot_coll_11(keyword, collocs,expander,tab3)
      
                 
