@@ -41,7 +41,7 @@ import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
 #from pyvis.network import Network
 import streamlit.components.v1 as components
-
+from langdetect import detect_langs
 
 import scattertext as tt
 import spacy
@@ -210,7 +210,7 @@ def detect_language(df):
         for text in df[col].fillna(''):
             # Use langdetect's detect_langs to detect the language of the text
             try:
-                lang_probs =  detect(text)
+                lang_probs =  detect_langs(text)
                 most_probable_lang = max(lang_probs, key=lambda x: x.prob)
                 detected_languages.append(most_probable_lang.lang)
             except Exception as e:
