@@ -838,6 +838,9 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
     n = max(counts)
 
+    # Find the most frequent word
+    most_frequent_word = max(collocs, key=lambda x: x[1])[0]
+
     # Create a network plot
     net = Network(notebook=True, height='750px', width='100%')
     net.force_atlas_2based()
@@ -853,6 +856,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
+
 
 from d3_collocations.d3_collocations import render_d3_collocations
 
