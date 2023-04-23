@@ -1014,7 +1014,7 @@ def plot_coll_7(keyword, collocs, expander, tab):
             st.plotly_chart(fig)
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+#from mpl_toolkits.mplot3d import Axes3D
 import random
 import math
 
