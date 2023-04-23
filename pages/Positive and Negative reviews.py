@@ -219,10 +219,16 @@ def detect_language(df):
     # Count the number of occurrences of each language
     lang_counts = pd.Series(detected_languages).value_counts()
 
-    # Determine the most common language in the DataFrame
-    most_common_lang = lang_counts.index[0]
+    # Check if any languages were detected
+    if not lang_counts.empty:
+        # Determine the most common language in the DataFrame
+        most_common_lang = lang_counts.index[0]
+    else:
+        most_common_lang = None
+        print("No languages detected in the DataFrame.")
 
     return most_common_lang
+
 
 
 
