@@ -1195,7 +1195,7 @@ def plot_coll_13(keyword, collocs, expander, tab):
         hoverinfo='text',
         marker=dict(
             color=['green' if node == most_frequent_word else 'gray' if node == keyword else 'blue' for node in G.nodes()],
-            size=[300 * count / n for count in counts],
+            size=[200 * count / n for count in counts],
             sizemode='diameter',
             line_width=2
         ),
@@ -1251,18 +1251,8 @@ def plot_coll_13(keyword, collocs, expander, tab):
             )
 
 # Create the figure
-    #fig = go.Figure(data=[edge_trace, node_trace], layout=layout, frames=frames)
-       layout = go.Layout(
-         title=dict(text=f'<b>Collocations for "{keyword}"</b>', font=dict(size=16)),
-    showlegend=False,
-         hovermode='closest',
-    margin=dict(b=20, l=5, r=5, t=40),
-    xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-    yaxis=dict(showgrid=False, zeroline=False, showticklabels=False)
-       )
+    fig = go.Figure(data=[edge_trace, node_trace], layout=layout, frames=frames)
 
-# Create the figure without frames
-    fig = go.Figure(data=[edge_trace, node_trace], layout=layout)
 # Show the plot
     with tab:
         with expander:
