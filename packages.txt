@@ -1,3 +1,4 @@
+--security=false 
 libicu-dev
 pkg-config
 gcc
