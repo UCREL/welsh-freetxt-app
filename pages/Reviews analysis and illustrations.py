@@ -1235,23 +1235,7 @@ def plot_coll_13(keyword, collocs, expander, tab):
             )
        frames.append(frame)
 
-    # Create frames for animation
-    frames = []
-    for t in range(0, 360, 10):
-        rotated_pos = {}
-        for node, (x, y) in pos.items():
-            angle = math.radians(t)
-            rotated_pos[node] = (x * math.cos(angle) - y * math.sin(angle), x * math.sin(angle) + y * math.cos(angle))
-            frame = go.Frame(
-        		data=[go.Scatter(
-            x=[rotated_pos[node][0] for node in G.nodes()],
-            y=[rotated_pos[node][1] for node in G.nodes()],
-            mode='markers',
-            marker=node_trace.marker
-        		)],
-              name=str(t)
-              )
-            frames.append(frame)
+
 
 # Set up the layout
     layout = go.Layout(
