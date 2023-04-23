@@ -845,7 +845,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Create a network plot
     net = Network(notebook=True, height='750px', width='100%')
-    net.barnes_hut(gravity=-50, scaling_ratio=2.0)
+    net.barnes_hut(gravity=-300)  # Adjust gravity to control the spread
 
     # Add nodes and edges
     for node, count in zip(G.nodes(), counts):
