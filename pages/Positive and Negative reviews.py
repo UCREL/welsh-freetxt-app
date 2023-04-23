@@ -230,62 +230,10 @@ def detect_language(df):
 ###########Ployglot Welsh
 
 
-import polyglot
-from polyglot.text import Text
-text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
-from polyglot.downloader import downloader
-downloader.download("TASK:sentiment2")
-#st.write("{:<16}{}".format("Word", "Polarity")+"\n"+"-"*30)
-#for w in text.words:
-  #  st.write("{:<16}{:>2}".format(w, w.polarity))
+#import polyglot
 #from polyglot.text import Text
 
-text = Text("efydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol.")
-sentiment_polarity_per_word = []
 
-for word in text.words:
-    word_sentiment_polarity = word.polarity
-    sentiment_polarity_per_word.append(word_sentiment_polarity)
-
-overall_sentiment_polarity = sum(sentiment_polarity_per_word)
-
-# Classify sentiment based on a threshold
-if overall_sentiment_polarity > 0.2:
-    sentiment = "Positive"
-elif overall_sentiment_polarity < -0.2:
-    sentiment = "Negative"
-else:
-    sentiment = "Neutral"
-
-#st.write("Sentiment polarity per word: ", sentiment_polarity_per_word)
-#st.write("Overall sentiment polarity: ", overall_sentiment_polarity)
-#st.write("Sentiment: ", sentiment)
- 
-
-
-# Create a Polyglot Text object
-text = Text("Mae'r tywydd yn braf heddiw. Mae'r glaw yn glaer.")
-
-# Set the language of the text to Welsh
-text.language = "cy"
-
-# Get the sentiment polarity of the text
-sentiment_polarity = text.polarity
-
-# Convert the sentiment polarity to a sentiment label
-if sentiment_polarity > 0.2:
-    sentiment_label = "positive"
-elif sentiment_polarity < -0.2:
-    sentiment_label = "negative"
-else:
-    sentiment_label = "neutral"
-
-# Print the sentiment label
-#st.write("Sentiment label:", sentiment_label)
-
-#st.write("Sentiment polarity:", sentiment_polarity)
-
-# define function to preprocess text
 def preprocess_text(text):
     # remove URLs, mentions, and hashtags
     text = re.sub(r"http\S+|@\S+|#\S+", "", text)
@@ -300,7 +248,7 @@ def preprocess_text(text):
 
 # define function to analyze sentiment using Polyglot for Welsh language
 @st.cache(allow_output_mutation=True)
-def analyze_sentiment_welsh(input_text):
+def analyze_sentiment_welsh_polyglot(input_text):
     # preprocess input text and split into reviews
     reviews = input_text.split("\n")
 
@@ -331,6 +279,34 @@ def analyze_sentiment_welsh(input_text):
 
     return text_sentiment
 
+from textblob import TextBlob
+# define function to analyze sentiment using TextBlob for Welsh language
+@st.cache(allow_output_mutation=True)
+def analyze_sentiment_welsh(input_text):
+    # preprocess input text and split into reviews
+    reviews = input_text.split("\n")
+
+    text_sentiment = []
+    for review in reviews:
+        review = preprocess_text(review)
+        if review:
+            # analyze sentiment using TextBlob
+            text_blob = TextBlob(review)
+
+            # calculate overall sentiment polarity
+            overall_sentiment_polarity = text_blob.sentiment.polarity
+
+            # classify sentiment based on a threshold
+            if overall_sentiment_polarity > 0.2:
+                sentiment = "positive"
+            elif overall_sentiment_polarity < -0.2:
+                sentiment = "negative"
+            else:
+                sentiment = "neutral"
+
+            text_sentiment.append((review, sentiment, overall_sentiment_polarity))
+
+    return text_sentiment
 
 
 # --------------------Sentiments----------------------
