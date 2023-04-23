@@ -830,6 +830,8 @@ def plot_coll_2(keyword, collocs, expander, tab):
             st.pyplot()
 	
 from pyvis.network import Network
+
+
 def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -843,7 +845,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Create a network plot
     net = Network(notebook=True, height='750px', width='100%')
-    net.force_atlas_2based(gravity=-50, scaling_ratio=2.0)
+    net.barnes_hut(gravity=-50, scaling_ratio=2.0)
 
     # Add nodes and edges
     for node, count in zip(G.nodes(), counts):
@@ -856,6 +858,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
+
 
     
 
