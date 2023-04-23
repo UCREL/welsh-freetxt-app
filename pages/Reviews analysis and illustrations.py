@@ -860,7 +860,7 @@ def plot_coll_6(keyword, collocs, expander, tab):
     with tab:
         with expander:
             components.html(render_d3_collocations(collocations_data), height=800, width=800)
-import plotly.graph_objs as go
+
 
 def plot_coll_10(keyword, collocs, expander, tab):
     words, counts = zip(*collocs)
@@ -1031,10 +1031,8 @@ def plot_coll_17(keyword, collocs, expander, tab):
         with expander:
             st.plotly_chart(fig)
 
-import plotly.express as px
-import plotly.graph_objs as go
+
 import random
-import math
 
 def plot_coll_7(keyword, collocs, expander, tab):
     # Only show the 10 main collocates
