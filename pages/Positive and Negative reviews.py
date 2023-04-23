@@ -215,6 +215,7 @@ def detect_language(df):
                 st.write(lang_probs)
                 most_probable_lang = max(lang_probs, key=lambda x: x.prob)
                 detected_languages[col].append(most_probable_lang.lang)
+                st.write(most_probable_lang)
             except Exception as e:
                 print(f"Error detecting language: {e}")
 
