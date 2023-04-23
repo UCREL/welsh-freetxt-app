@@ -201,7 +201,6 @@ def select_columns(data, key):
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
-from polyglot.detect import Detector
 # Define a function to detect the language of all columns in a DataFrame
 def detect_language(df):
     # Loop through all columns in the DataFrame
@@ -209,10 +208,11 @@ def detect_language(df):
     for col in df.columns:
         # Loop through all rows in the column
         for text in df[col].fillna(''):
-            # Use Polyglot's Detector to detect the language of the text
+            # Use langdetect's detect_langs to detect the language of the text
             try:
-                lang = Detector(text).language.name
-                detected_languages.append(lang)
+                lang_probs = detect_langs(text)
+                most_probable_lang = max(lang_probs, key=lambda x: x.prob)
+                detected_languages.append(most_probable_lang.lang)
             except Exception as e:
                 print(f"Error detecting language: {e}")
 
@@ -221,8 +221,9 @@ def detect_language(df):
 
     # Determine the most common language in the DataFrame
     most_common_lang = lang_counts.index[0]
-    
+
     return most_common_lang
+
 
 
 # --------------------Sentiments----------------------
