@@ -212,6 +212,7 @@ def detect_language(df):
             # Use langdetect's detect_langs to detect the language of the text
             try:
                 lang_probs = detect_langs(text)
+                st.write(lang_probs)
                 most_probable_lang = max(lang_probs, key=lambda x: x.prob)
                 detected_languages[col].append(most_probable_lang.lang)
             except Exception as e:
