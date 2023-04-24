@@ -263,6 +263,8 @@ from reportlab.lib.styles import ParagraphStyle
 
 # Configure OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
+# Add a state variable to store the generated PDF data
+generated_pdf_data = None
 
 def generate_description(prompt):
     response = openai.Completion.create(
@@ -287,22 +289,33 @@ if checkbox:
         # Generate description for the table
         description = generate_description("Please write a paragraph to describe the following table and write a statistical summary for the column USAS tags: " + df.to_markdown())
 
-        # Create the PDF
-        buffer = BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
+         # Create the PDF
+         buffer = BytesIO()
+         doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
 
-        elements = []
-	# Add logo
-        logo_path = "img/FreeTxt_logo.png"  # Replace with the path to your logo file
-        logo = PilImage.open(logo_path)
-        logo_width, logo_height = logo.size
-        aspect_ratio = float(logo_height) / float(logo_width)
-        logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-        elements.append(logo)
+         elements = []
 
-    # Add a spacer between logo and input text
+    # Add logo and title in a table
+         logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
+         logo = PilImage.open(logo_path)
+         logo_width, logo_height = logo.size
+         aspect_ratio = float(logo_height) / float(logo_width)
+         logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+         title_text = "Types and Relations Report"
+         title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_LEFT)
+         title = Paragraph(title_text, title_style)
+         header_data = [[logo, title]]
+         header_table = Table(header_data)
+         header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 20),
+               ]))
+         elements.append(header_table)
+
+    # Add a spacer between header and input text
         elements.append(Spacer(1, 20))
-
         # Add input text
         input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
         elements.append(Paragraph(input_text, input_text_style))
@@ -332,7 +345,8 @@ if checkbox:
         # Build PDF
         doc.build(elements)
         buffer.seek(0)
-        pdf_data = buffer.read()
+        generated_pdf_data = buffer.read()
 
-        # Download the PDF
-        st.download_button("Download PDF", pdf_data, "report.pdf", "application/pdf")
+   # Display the download button only after generating the report
+if generated_pdf_data:
+    st.download_button("Download PDF", generated_pdf_data, "report.pdf", "application/pdf")
