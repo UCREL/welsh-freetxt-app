@@ -41,4 +41,5 @@ streamlit-plotly-events
 graphviz
 pyvis
 pygsp
+python-dotenv
 openai
