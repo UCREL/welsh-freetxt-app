@@ -858,7 +858,7 @@ def plot_coll_20(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
-def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
+def plot_coll_21(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -889,6 +889,38 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     # Save the visualization to an HTML file
     net.save_graph(output_file)
 
+def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
+    words, counts = zip(*collocs)
+    top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
+    top_collocs_df.insert(1, 'source', keyword)
+    top_collocs_df = top_collocs_df[top_collocs_df['word'] != keyword]  # remove row where keyword == word
+    G = nx.from_pandas_edgelist(top_collocs_df, source='source', target='word', edge_attr='freq')
+    n = max(counts)
+
+    # Find the most frequent word
+    most_frequent_word = max(collocs, key=lambda x: x[1])[0]
+
+    # Create a network plot
+    net = Network(notebook=True, height='750px', width='100%')
+
+    # Adjust gravity based on frequency
+    gravity = -200 * n / sum(counts)
+
+    net.barnes_hut(gravity=gravity)  # Adjust gravity to control the spread
+
+    # Add nodes
+    for node, count in zip(G.nodes(), counts):
+        node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
+        node_size = 100 * count / n
+        net.add_node(node, label=node, color=node_color, size=node_size, font={'size': 20, 'face': 'Arial'})
+
+    # Add edges
+    for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
+        if source in net.get_nodes() and target in net.get_nodes():
+            net.add_edge(source, target, value=freq)
+
+    # Save the visualization to an HTML file
+    net.save_graph(output_file)
 
     
 
