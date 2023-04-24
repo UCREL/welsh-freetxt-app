@@ -269,7 +269,7 @@ def generate_description(prompt):
     response = openai.Completion.create(
         engine="text-davinci-002",
         prompt=prompt,
-        max_tokens=100,
+        max_tokens=500,
         n=1,
         stop=None,
         temperature=0.5,
@@ -340,7 +340,7 @@ if checkbox:
         elements.append(table)
         elements.append(Spacer(1, 20))
         # Add generated description
-        description_style = ParagraphStyle("Description", alignment=TA_LEFT)
+        description_style = ParagraphStyle("Description",  fontSize=16,,alignment=TA_LEFT)
         elements.append(Paragraph(description, description_style))
 
         # Build PDF
