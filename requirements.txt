@@ -43,3 +43,4 @@ pyvis
 pygsp
 python-dotenv
 openai
+weasyprint
