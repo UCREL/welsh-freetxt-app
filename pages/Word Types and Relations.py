@@ -256,7 +256,7 @@ from weasyprint import HTML
 from pdfdocument.document import PDFDocument
 
 # Configure OpenAI API key
-openai.api_key = "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"
+openai.api_key = "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"
 
 def generate_description(prompt):
     response = openai.Completion.create(
