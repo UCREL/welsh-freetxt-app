@@ -295,7 +295,7 @@ def header(canvas, doc):
         ('LEFTPADDING', (1, 0), (1, 0), 20),
     ]))
     w, h = header_table.wrap(doc.width, doc.topMargin)
-    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20))
 
 
 
