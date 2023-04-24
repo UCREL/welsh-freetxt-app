@@ -527,6 +527,14 @@ def generate_scattertext_visualization(analysis):
        # metadata=df["Sentiment Label"],
    # )
 
+    html = tt.produce_parallel_coordinates(
+        corpus,
+     minimum_term_frequency=5,
+     pmi_threshold_coefficient=5,
+      width_in_pixels=1000,
+      metadata=df["Sentiment"],
+            )
+
     # Save the visualization as an HTML file
     with open("scattertext_visualization.html", "w") as f:
         f.write(html)
