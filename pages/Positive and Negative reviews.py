@@ -514,42 +514,7 @@ def generate_scattertext_visualization(analysis):
     width_in_pixels=1000,
     metadata=df["Sentiment Label"],
     term_scorer=term_scorer
-       )
-
-    # Produce the Scattertext visualization
-    #html = tt.produce_scattertext_explorer(
-     #   corpus,
-      #  category="Positive",
-       # not_categories=["Negative", "Neutral", "Very negative"],
-       # minimum_term_frequency=5,
-       # pmi_threshold_coefficient=5,
-       # width_in_pixels=1000,
-       # metadata=df["Sentiment Label"],
-   # )
-
-    
-
-# Download pre-trained word embeddings
-    embeddings = Embeddings(
-    "glove.6B.300d",
-    tt.CorpusFromParsedDocuments(
-        df,
-        category_col="Sentiment Label",
-        parsed_col="ParsedReview"
-    ).build()
-            )
-
-    html = produce_projection_explorer(
-    corpus,
-    category="Positive",
-    not_categories=["Negative", "Neutral", "Very positive", "Very negative"],
-    minimum_term_frequency=5,
-    pmi_threshold_coefficient=5,
-    width_in_pixels=1000,
-    metadata=df["Sentiment Label"],
-    embeddings=embeddings
-            )
-
+       ) 
 
     # Save the visualization as an HTML file
     with open("scattertext_visualization.html", "w") as f:
