@@ -485,18 +485,22 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
+    
+nlp = spacy.load('en_core_web_sm-3.2.0')  
+nlp.max_length = 9000000
 ######generate the scatter text 
 
 def generate_scattertext_visualization(analysis):
     # Get the DataFrame with sentiment analysis results
     df = analysis
-    nlp = spacy.load('en_core_web_sm-3.2.0')  
-    nlp.max_length = 9000000
+    
+    # Parse the text using spaCy
+    df['ParsedReview'] = df['Review'].apply(nlp)
     # Create a Scattertext Corpus
     corpus = tt.CorpusFromParsedDocuments(
         df,
         category_col="Sentiment label",
-        parsed_col="Review",
+        parsed_col="ParsedReview",
         nlp=nlp,
     ).build()
 
