@@ -252,7 +252,6 @@ elif lang_detected == 'en':
 	
 #########Download report
 
-import openai
 from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
@@ -260,8 +259,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
-# Configure OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
 
@@ -296,9 +294,6 @@ checkbox = st.checkbox("Generate PDF report")
 
 
 if checkbox:
-
-        # Generate description for the table
-        description = generate_description("Please write a paragraph to describe the following table and write a statistical summary for the column USAS tags: " + df.to_markdown())
 
         
     # Create the PDF
