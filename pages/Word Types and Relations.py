@@ -284,7 +284,7 @@ def header(canvas, doc):
     aspect_ratio = float(logo_height) / float(logo_width)
     logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
     title_text = "Types and Relations Report"
-    title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_CENTER)
+    title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
     header_table = Table(header_data)
@@ -313,7 +313,7 @@ if checkbox:
         
     # Create the PDF
         buffer = BytesIO()
-        doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+        doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=2 * inch, showBoundary=0)
 
     # Create the frame for the content
         frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
