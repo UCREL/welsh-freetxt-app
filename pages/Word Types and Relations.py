@@ -193,7 +193,7 @@ st.write(f"Language detected: '{lang_detected}'")
    
 import requests
 from requests.exceptions import ConnectionError
-
+tagged_tokens_df= pd.DataFrame()
 
 if lang_detected == 'cy':
     files = {
@@ -215,8 +215,8 @@ if lang_detected == 'cy':
         cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
         merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
-        merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
-        st.dataframe(merged_df, use_container_width=True)
+        tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
+        st.dataframe(tagged_tokens_df, use_container_width=True)
 
     except ConnectionError as e:
         st.error(f'Connection Error: {e}')
