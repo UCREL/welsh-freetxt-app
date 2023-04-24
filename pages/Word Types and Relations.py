@@ -338,9 +338,9 @@ if checkbox:
             ('GRID', (0, 0), (-1, -1), 1, colors.black)
         ]))
         elements.append(table)
-
+        elements.append(Spacer(1, 20))
         # Add generated description
-        description_style = ParagraphStyle("Description", alignment=TA_CENTER)
+        description_style = ParagraphStyle("Description", alignment=TA_LEFT)
         elements.append(Paragraph(description, description_style))
 
         # Build PDF
