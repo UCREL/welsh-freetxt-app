@@ -862,7 +862,7 @@ def plot_coll_21(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
-def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
+def plot_coll_(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
     top_collocs_df.insert(1, 'source', keyword)
@@ -897,7 +897,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     net.save_graph(output_file)
 
 
-def plot_coll_20(keyword, collocs, expander, tab, output_file='network.html'):
+def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
     top_collocs_df.insert(1, 'source', keyword)
