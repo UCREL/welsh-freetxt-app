@@ -301,7 +301,7 @@ if checkbox:
         aspect_ratio = float(logo_height) / float(logo_width)
         logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
         title_text = "Types and Relations Report"
-        title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_LEFT)
+        title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_CENTER)
         title = Paragraph(title_text, title_style)
         header_data = [[logo, title]]
         header_table = Table(header_data)
@@ -312,13 +312,15 @@ if checkbox:
         ('LEFTPADDING', (1, 0), (1, 0), 20),
                ]))
         elements.append(header_table)
+        
 
     # Add a spacer between header and input text
         elements.append(Spacer(1, 20))
         # Add input text
         input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
         elements.append(Paragraph(input_text, input_text_style))
-
+        # Add a spacer between input text and the table
+        elements.append(Spacer(1, 20))
         # Add DataFrame as a table
         table_data = [df.columns.to_list()] + df.values.tolist()
         table = Table(table_data)
