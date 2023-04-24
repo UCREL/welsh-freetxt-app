@@ -530,7 +530,7 @@ def get_wordcloud (data, key):
             df = calculate_measures(df,'KENESS')
             
             # Generate the wordcloud
-            wordcloud_1 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
+            #wordcloud_1 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
 
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
