@@ -256,10 +256,10 @@ import openai
 from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.styles import ParagraphStyle
-
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
+from reportlab.lib.units import inch
 # Configure OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 # Add a state variable to store the generated PDF data
@@ -276,12 +276,34 @@ def generate_description(prompt):
     )
     return response.choices[0].text.strip()
 
+def header(canvas, doc):
+    # Add logo and title in a table
+    logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
+    logo = PilImage.open(logo_path)
+    logo_width, logo_height = logo.size
+    aspect_ratio = float(logo_height) / float(logo_width)
+    logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+    title_text = "Types and Relations Report"
+    title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_CENTER)
+    title = Paragraph(title_text, title_style)
+    header_data = [[logo, title]]
+    header_table = Table(header_data)
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 20),
+    ]))
+    w, h = header_table.wrap(doc.width, doc.topMargin)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h)
+
 
 
 # User input
 input_text = text
 df = tagged_tokens_df
 checkbox = st.checkbox("Generate PDF report")
+
 
 if checkbox:
 
@@ -290,28 +312,20 @@ if checkbox:
 
          # Create the PDF
         buffer = BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=landscape(A4))
+        doc = SimpleDocTemplate(buffer, pagesize=landscape(A4),showBoundary=0)
+    # Create the frame for the content
+        frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+    
+    # Create a PageTemplate with the header
+        template = PageTemplate(id='header_template', frames=frame, onPage=header)
+        doc.addPageTemplates([template])
+
+   
 
         elements = []
 
-    # Add logo and title in a table
-        logo_path = "img/FreeTxt_logo.png"  
-        logo = PilImage.open(logo_path)
-        logo_width, logo_height = logo.size
-        aspect_ratio = float(logo_height) / float(logo_width)
-        logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-        title_text = "Types and Relations Report"
-        title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_CENTER)
-        title = Paragraph(title_text, title_style)
-        header_data = [[logo, title]]
-        header_table = Table(header_data)
-        header_table.setStyle(TableStyle([
-        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
-        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
-        ('VALIGN', (0, 0), (1, 0), 'TOP'),
-        ('LEFTPADDING', (1, 0), (1, 0), 20),
-               ]))
-        elements.append(header_table)
+    
+       
         
 
     # Add a spacer between header and input text
@@ -344,6 +358,7 @@ if checkbox:
         elements.append(Paragraph(description, description_style))
 
         # Build PDF
+	
         doc.build(elements)
         buffer.seek(0)
         generated_pdf_data = buffer.read()
