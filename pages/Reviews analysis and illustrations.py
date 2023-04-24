@@ -538,10 +538,10 @@ def get_wordcloud (data, key):
             #plt.axis('off')
             #tab2.pyplot()
             # Calculate the selected measure for each word
-            df = calculate_measures(df,'Log-Likelihood')
+            #df = calculate_measures(df,'Log-Likelihood')
             
             # Generate the wordcloud
-            wordcloud_2 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['Log-Likelihood'])
+            wordcloud_2 = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(df.set_index('word')['KENESS'])
 
             # Display the wordcloud
             plt.figure(figsize=(12, 8))
