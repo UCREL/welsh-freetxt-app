@@ -283,7 +283,7 @@ df = tagged_tokens_df
 
 if st.button("Download Report"):
     # Generate description for the table
-    description = generate_description("Please provide a summary for the column USAS Tags in the following table: " + df.to_markdown())
+    description = generate_description("Please provide a summary for each semantic tag in the column USAS Tags in the following table: " + df.to_markdown())
 
     # Create the PDF
     buffer = BytesIO()
