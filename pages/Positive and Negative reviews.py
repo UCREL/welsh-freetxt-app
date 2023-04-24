@@ -177,7 +177,7 @@ def get_data(file_source='example'):
         elif file_source=='uploaded': # Todo: Consider a maximum number of files for memory management. 
             uploaded_files = st.sidebar.file_uploader("Upload your data file(s)", accept_multiple_files=True, type=['txt','tsv','xlsx', 'xls'])
             if uploaded_files:
-                return True, {uploaded_file.name:read_file(uploaded_file, file_source,errors='ignore') for uploaded_file in uploaded_files}
+                return True, {uploaded_file.name:read_file(uploaded_file, file_source) for uploaded_file in uploaded_files}
             else:
                 return False, st.info('''**NoFileUploaded:** Please upload files with the upload button or by dragging the file into the upload area. Acceptable file formats include `.txt`, `.xlsx`, `.xls`, `.tsv`.''', icon="ℹ️")
         else:
