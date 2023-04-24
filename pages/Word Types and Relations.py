@@ -293,12 +293,12 @@ if checkbox:
 
         elements = []
 	# Add logo
-	logo_path = "img/FreeTxt_logo.png"  # Replace with the path to your logo file
-    	logo = Image.open(logo_path)
-    	logo_width, logo_height = logo.size
-    	aspect_ratio = float(logo_height) / float(logo_width)
-    	logo = Image(logo_path, width=100, height=int(100 * aspect_ratio))
-    	elements.append(logo)
+        logo_path = "img/FreeTxt_logo.png"  # Replace with the path to your logo file
+        logo = Image.open(logo_path)
+        logo_width, logo_height = logo.size
+        aspect_ratio = float(logo_height) / float(logo_width)
+        logo = Image(logo_path, width=100, height=int(100 * aspect_ratio))
+        elements.append(logo)
 
     # Add a spacer between logo and input text
     elements.append(Spacer(1, 20))
