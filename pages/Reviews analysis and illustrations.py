@@ -572,7 +572,7 @@ def get_wordcloud (data, key):
         plt.figure(figsize=(12, 8))
         plt.imshow(wordcloud_2, interpolation='bilinear')
         plt.axis('off')
-        tab2.pyplot(
+        tab2.pyplot()
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
