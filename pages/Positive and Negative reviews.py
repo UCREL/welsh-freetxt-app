@@ -506,7 +506,7 @@ def generate_scattertext_visualization(analysis):
     # Produce the Scattertext visualization
     html = tt.produce_scattertext_explorer(
         corpus,
-        category=["Positive", "Very positive"],
+        category="Positive",
         not_categories=["Negative", "Neutral", "Very negative"],
         minimum_term_frequency=5,
         pmi_threshold_coefficient=5,
