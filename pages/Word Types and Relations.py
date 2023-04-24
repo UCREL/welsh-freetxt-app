@@ -280,10 +280,9 @@ st.title("Download Report")
 # User input
 input_text = text
 df = tagged_tokens_df
-
 if st.button("Download Report"):
     # Generate description for the table
-    description = generate_description("Please provide a summary for each semantic tag in the column USAS Tags in the following table: " + df.to_markdown())
+    description = generate_description("Please write a paragraph to describe the following table: " + df.to_markdown())
 
     # Create the PDF
     buffer = BytesIO()
@@ -324,5 +323,6 @@ if st.button("Download Report"):
 
     # Download the PDF
     st.download_button("Download PDF", pdf_data, "report.pdf", "application/pdf")
+
 
 
