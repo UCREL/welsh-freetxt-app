@@ -489,7 +489,7 @@ def plot_sentiment_pie(df):
 nlp = spacy.load('en_core_web_sm-3.2.0')  
 nlp.max_length = 9000000
 ######generate the scatter text 
-from scattertext import Embeddings, produce_projection_explorer
+
 def generate_scattertext_visualization(analysis):
     # Get the DataFrame with sentiment analysis results
     df = analysis
