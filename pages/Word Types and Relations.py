@@ -313,7 +313,7 @@ if checkbox:
         
     # Create the PDF
         buffer = BytesIO()
-        doc = BaseDocTemplate(buffer, pagesize=landscape(A4),topMargin=1.5 * inch, showBoundary=0)
+        doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
 
     # Create the frame for the content
         frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
