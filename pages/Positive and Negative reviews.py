@@ -512,7 +512,7 @@ def generate_scattertext_visualization(analysis):
     minimum_term_frequency=5,
     pmi_threshold_coefficient=5,
     width_in_pixels=1000,
-    metadata=df["Sentiment"],
+    metadata=df["Sentiment Label"],
     term_scorer=term_scorer
        )
 
