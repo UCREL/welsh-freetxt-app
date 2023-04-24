@@ -317,7 +317,7 @@ if checkbox:
     # Add a spacer between header and input text
         elements.append(Spacer(1, 20))
         # Add input text
-        input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
+        input_text_style = ParagraphStyle("InputText", alignment=TA_LEFT)
         elements.append(Paragraph(input_text, input_text_style))
         # Add a spacer between input text and the table
         elements.append(Spacer(1, 20))
