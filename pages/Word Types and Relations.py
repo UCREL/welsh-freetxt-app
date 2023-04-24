@@ -256,7 +256,8 @@ import openai
 from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape
 from reportlab.lib import colors
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer
+
 from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.styles import ParagraphStyle
 
@@ -296,7 +297,7 @@ if checkbox:
         logo = PilImage.open(logo_path)
         logo_width, logo_height = logo.size
         aspect_ratio = float(logo_height) / float(logo_width)
-        logo = Image(logo_path, width=100, height=int(100 * aspect_ratio))
+        logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
         elements.append(logo)
 
     # Add a spacer between logo and input text
