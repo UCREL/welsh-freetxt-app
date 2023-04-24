@@ -497,14 +497,14 @@ def generate_scattertext_visualization(analysis):
     # Parse the text using spaCy
     df['ParsedReview'] = df['Review'].apply(nlp)
        # Create a Scattertext Corpus
-    corpus = st.CorpusFromParsedDocuments(
+    corpus = tt.CorpusFromParsedDocuments(
         df,
         category_col="Sentiment",
         parsed_col="ParsedReview"
     ).build()
 
     # Produce the Scattertext visualization
-    html = st.produce_scattertext_explorer(
+    html = tt.produce_scattertext_explorer(
         corpus,
         category="Positive",
         not_category_name="Negative",
