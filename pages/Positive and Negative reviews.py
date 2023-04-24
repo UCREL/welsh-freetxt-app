@@ -318,7 +318,7 @@ def analyze_sentiment_welsh(input_text):
 
 ###########Bert English
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
-
+import torch
 def preprocess_text(text):
     # remove URLs, mentions, and hashtags
     text = re.sub(r"http\S+|@\S+|#\S+", "", text)
@@ -330,8 +330,11 @@ def preprocess_text(text):
     text = " ".join(word for word in text.split() if word not in STOPWORDS)
 
     return text
+
+
+
 @st.cache(allow_output_mutation=True)
-def analyze_sentiment(input_text, num_classes=3):
+def analyze_sentiment(input_text, num_classes=3, max_seq_len=512):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
@@ -344,21 +347,37 @@ def analyze_sentiment(input_text, num_classes=3):
     for review in reviews:
         review = preprocess_text(review)
         if review:
-            inputs = tokenizer.encode_plus(
-                review,
-                add_special_tokens=True,
-                return_attention_mask=True,
-                return_tensors="pt"
-            )
-            outputs = model(**inputs)
-            scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+            # Tokenize the review
+            tokens = tokenizer.encode(review, add_special_tokens=True, truncation=True)
+
+            # If the token length exceeds the maximum, split into smaller chunks
+            token_chunks = []
+            if len(tokens) > max_seq_len:
+                token_chunks = [tokens[i:i + max_seq_len] for i in range(0, len(tokens), max_seq_len)]
+            else:
+                token_chunks.append(tokens)
+
+            # Process each chunk
+            sentiment_scores = []
+            for token_chunk in token_chunks:
+                input_ids = torch.tensor([token_chunk])
+                attention_mask = torch.tensor([[1] * len(token_chunk)])
+
+                # Run the model
+                outputs = model(input_ids=input_ids, attention_mask=attention_mask)
+                scores = outputs.logits.softmax(dim=1).detach().numpy()[0]
+                sentiment_scores.append(scores)
+
+            # Aggregate the scores
+            avg_scores = np.mean(sentiment_scores, axis=0)
             sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
-            sentiment_index = scores.argmax()
+            sentiment_index = avg_scores.argmax()
             sentiment_label = sentiment_labels[sentiment_index]
-            sentiment_score = scores[sentiment_index]
+            sentiment_score = avg_scores[sentiment_index]
             sentiments.append((review, sentiment_label, sentiment_score))
 
     return sentiments
+
 
 
 #####
