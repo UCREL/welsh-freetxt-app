@@ -254,7 +254,7 @@ elif lang_detected == 'en':
 
 import openai
 from io import BytesIO
-from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
@@ -290,7 +290,7 @@ if checkbox:
 
          # Create the PDF
         buffer = BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
+        doc = SimpleDocTemplate(buffer, pagesize=landscape(A4))
 
         elements = []
 
