@@ -301,7 +301,7 @@ if checkbox:
         elements.append(logo)
 
     # Add a spacer between logo and input text
-    elements.append(Spacer(1, 20))
+        elements.append(Spacer(1, 20))
 
         # Add input text
         input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
