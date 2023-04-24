@@ -159,7 +159,7 @@ def read_file(fname, file_source):
         data = pd.read_excel(pd.ExcelFile(fname)) if file_source=='example' else pd.read_excel(fname)
 
     elif file_name.endswith('.tsv'):
-        data = pd.read_csv(fname, sep='\t', encoding='utf-8') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
+        data = pd.read_csv(fname, sep='\t', encoding='cp1252') if file_source=='example' else pd.read_csv(fname, sep='\t', encoding='cp1252')
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     return True, data
