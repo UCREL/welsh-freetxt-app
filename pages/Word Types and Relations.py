@@ -290,29 +290,29 @@ if checkbox:
         description = generate_description("Please write a paragraph to describe the following table and write a statistical summary for the column USAS tags: " + df.to_markdown())
 
          # Create the PDF
-         buffer = BytesIO()
-         doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
 
-         elements = []
+        elements = []
 
     # Add logo and title in a table
-         logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
-         logo = PilImage.open(logo_path)
-         logo_width, logo_height = logo.size
-         aspect_ratio = float(logo_height) / float(logo_width)
-         logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-         title_text = "Types and Relations Report"
-         title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_LEFT)
-         title = Paragraph(title_text, title_style)
-         header_data = [[logo, title]]
-         header_table = Table(header_data)
-         header_table.setStyle(TableStyle([
+        logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
+        logo = PilImage.open(logo_path)
+        logo_width, logo_height = logo.size
+        aspect_ratio = float(logo_height) / float(logo_width)
+        logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+        title_text = "Types and Relations Report"
+	title_style = ParagraphStyle("Title", fontSize=24, alignment=TA_LEFT)
+        title = Paragraph(title_text, title_style)
+        header_data = [[logo, title]]
+        header_table = Table(header_data)
+        header_table.setStyle(TableStyle([
         ('ALIGN', (0, 0), (0, 0), 'LEFT'),
         ('ALIGN', (1, 0), (1, 0), 'LEFT'),
         ('VALIGN', (0, 0), (1, 0), 'TOP'),
         ('LEFTPADDING', (1, 0), (1, 0), 20),
                ]))
-         elements.append(header_table)
+        elements.append(header_table)
 
     # Add a spacer between header and input text
         elements.append(Spacer(1, 20))
