@@ -858,7 +858,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     # Add edges with curved lines
     for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
         if source in net.get_nodes() and target in net.get_nodes():
-            net.add_edge(source, target, value=freq, curve=-0.5)
+            net.add_edge(source, target, value=freq, curve=-1)
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
