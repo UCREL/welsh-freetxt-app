@@ -310,11 +310,14 @@ if checkbox:
         # Generate description for the table
         description = generate_description("Please write a paragraph to describe the following table and write a statistical summary for the column USAS tags: " + df.to_markdown())
 
-         # Create the PDF
+        
+    # Create the PDF
         buffer = BytesIO()
-        doc = SimpleDocTemplate(buffer, pagesize=landscape(A4),showBoundary=0)
+        doc = BaseDocTemplate(buffer, pagesize=landscape(A4), showBoundary=0)
+
     # Create the frame for the content
         frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
     
     # Create a PageTemplate with the header
         template = PageTemplate(id='header_template', frames=frame, onPage=header)
