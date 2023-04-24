@@ -881,11 +881,11 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     net.barnes_hut(gravity=gravity)  # Adjust gravity to control the spread
 
-    # Add nodes with labels inside the nodes
+    # Add nodes with labels inside the nodes, sized based on frequency
     for node, count in zip(G.nodes(), counts):
         node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
         node_size = 100 * count / n
-        net.add_node(node, label=node, color=node_color, size=node_size, shape="circle", font={'size': 20, 'face': 'Arial', 'color': 'white'})
+        net.add_node(node, label=node, color=node_color, size=node_size, shape="circle", font={'size': node_size / 2, 'face': 'Arial', 'color': 'white'})
 
     # Add edges with curved lines
     for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
