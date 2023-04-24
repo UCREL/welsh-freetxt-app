@@ -280,49 +280,49 @@ st.title("Download Report")
 # User input
 input_text = text
 df = tagged_tokens_df
-if st.button("Download Report"):
-    # Generate description for the table
-    description = generate_description("Please write a paragraph to describe the following table: " + df.to_markdown())
+checkbox = st.checkbox("Generate PDF report")
 
-    # Create the PDF
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
+if checkbox:
+    if st.button("Download Report"):
+        # Generate description for the table
+        description = generate_description("Please write a paragraph to describe the following table: " + df.to_markdown())
 
-    elements = []
+        # Create the PDF
+        buffer = BytesIO()
+        doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
 
-    # Add input text
-    input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
-    elements.append(Paragraph(input_text, input_text_style))
+        elements = []
 
-    # Add DataFrame as a table
-    table_data = [df.columns.to_list()] + df.values.tolist()
-    table = Table(table_data)
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        # Add input text
+        input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
+        elements.append(Paragraph(input_text, input_text_style))
 
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        # Add DataFrame as a table
+        table_data = [df.columns.to_list()] + df.values.tolist()
+        table = Table(table_data)
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
 
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 14),
+            ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
 
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)
-    ]))
-    elements.append(table)
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 14),
 
-    # Add generated description
-    description_style = ParagraphStyle("Description", alignment=TA_CENTER)
-    elements.append(Paragraph(description, description_style))
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+            ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+            ('GRID', (0, 0), (-1, -1), 1, colors.black)
+        ]))
+        elements.append(table)
 
-    # Build PDF
-    doc.build(elements)
-    buffer.seek(0)
-    pdf_data = buffer.read()
+        # Add generated description
+        description_style = ParagraphStyle("Description", alignment=TA_CENTER)
+        elements.append(Paragraph(description, description_style))
 
-    # Download the PDF
-    st.download_button("Download PDF", pdf_data, "report.pdf", "application/pdf")
+        # Build PDF
+        doc.build(elements)
+        buffer.seek(0)
+        pdf_data = buffer.read()
 
-
-
+        # Download the PDF
+        st.download_button("Download PDF", pdf_data, "report.pdf", "application/pdf")
