@@ -490,13 +490,14 @@ nlp = spacy.load('en_core_web_sm-3.2.0')
 nlp.max_length = 9000000
 ######generate the scatter text 
 
-def generate_scattertext_visualization(analysis):
+def generate_scattertext_visualization(input_text):
     # Get the DataFrame with sentiment analysis results
-    df = analysis
-    
+    df = analyze_sentiment_df(input_text)
+
     # Parse the text using spaCy
     df['ParsedReview'] = df['Review'].apply(nlp)
-       # Create a Scattertext Corpus
+
+    # Create a Scattertext Corpus
     corpus = tt.CorpusFromParsedDocuments(
         df,
         category_col="Sentiment Label",
@@ -507,7 +508,7 @@ def generate_scattertext_visualization(analysis):
     html = tt.produce_scattertext_explorer(
         corpus,
         category="Positive",
-        not_category_name="Negative",
+        not_categories=["Negative", "Neutral", "Very positive", "Very negative"],
         minimum_term_frequency=5,
         pmi_threshold_coefficient=5,
         width_in_pixels=1000,
@@ -517,6 +518,7 @@ def generate_scattertext_visualization(analysis):
     # Save the visualization as an HTML file
     with open("scattertext_visualization.html", "w") as f:
         f.write(html)
+
 
 
 
