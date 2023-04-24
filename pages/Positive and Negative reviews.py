@@ -152,7 +152,7 @@ EXAMPLES_DIR = 'example_texts_pub'
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
     if file_name.endswith('.txt'):
-        data = open(fname, 'r', errors='ignore').read().split('\n') if file_source=='example' else fname.read().decode('utf8').split('\n')
+        data = open(fname, 'r', errors='ignore').read().split('\n') if file_source=='example' else fname.read().decode('utf8', errors='ignore').split('\n')
         data = pd.DataFrame.from_dict({i+1: data[i] for i in range(len(data))}, orient='index', columns = ['Reviews'])
         
     elif file_name.endswith(('.xls','.xlsx')):
