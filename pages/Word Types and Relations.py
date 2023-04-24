@@ -251,13 +251,19 @@ elif lang_detected == 'en':
 	
 	
 #########Download report
+import streamlit as st
+import pandas as pd
 import openai
-from weasyprint import HTML
-from pdfdocument.document import PDFDocument
+from io import BytesIO
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
+from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.styles import ParagraphStyle
 
 # Configure OpenAI API key
-import os
 openai.api_key = os.getenv("OPENAI_API_KEY")
+
 def generate_description(prompt):
     response = openai.Completion.create(
         engine="text-davinci-002",
@@ -269,32 +275,54 @@ def generate_description(prompt):
     )
     return response.choices[0].text.strip()
 
-
+st.title("Download Report")
 
 # User input
 input_text = text
 df = tagged_tokens_df
+
 if st.button("Download Report"):
     # Generate description for the table
     description = generate_description("Please provide a description for the following table: " + df.to_markdown())
 
     # Create the PDF
-    pdf = PDFDocument()
-    pdf.init_report()
-    pdf.h2("Report")
-    pdf.p(input_text)
-    pdf.h2("Table")
-    pdf.write_html(df.to_html(index=False))
-    pdf.h2("Description")
-    pdf.p(description)
-    pdf.generate()
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=landscape(letter))
 
-    # Create an HTML file to convert to PDF
-    html = HTML(string=pdf.getvalue())
-    pdf_file = html.write_pdf()
+    elements = []
+
+    # Add input text
+    input_text_style = ParagraphStyle("InputText", alignment=TA_CENTER)
+    elements.append(Paragraph(input_text, input_text_style))
+
+    # Add DataFrame as a table
+    table_data = [df.columns.to_list()] + df.values.tolist()
+    table = Table(table_data)
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, 0), 14),
+
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+        ('GRID', (0, 0), (-1, -1), 1, colors.black)
+    ]))
+    elements.append(table)
+
+    # Add generated description
+    description_style = ParagraphStyle("Description", alignment=TA_CENTER)
+    elements.append(Paragraph(description, description_style))
+
+    # Build PDF
+    doc.build(elements)
+    buffer.seek(0)
+    pdf_data = buffer.read()
 
     # Download the PDF
-    with open("report.pdf", "wb") as f:
-        f.write(pdf_file)
-    st.download_button("Download PDF", "report.pdf", "report.pdf")
+    st.download_button("Download PDF", pdf_data, "report.pdf", "application/pdf")
+
 
