@@ -248,3 +248,53 @@ elif lang_detected == 'en':
         # # create DataFrame using data
 	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
 	st.dataframe(tagged_tokens_df,use_container_width=True)
+	
+	
+#########Download report
+import openai
+from weasyprint import HTML
+from pdfdocument.document import PDFDocument
+
+# Configure OpenAI API key
+openai.api_key = "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"
+
+def generate_description(prompt):
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=100,
+        n=1,
+        stop=None,
+        temperature=0.5,
+    )
+    return response.choices[0].text.strip()
+
+
+
+# User input
+input_text = text
+df = tagged_tokens_df
+if st.button("Download Report"):
+    # Generate description for the table
+    description = generate_description("Please provide a description for the following table: " + df.to_markdown())
+
+    # Create the PDF
+    pdf = PDFDocument()
+    pdf.init_report()
+    pdf.h2("Report")
+    pdf.p(input_text)
+    pdf.h2("Table")
+    pdf.write_html(df.to_html(index=False))
+    pdf.h2("Description")
+    pdf.p(description)
+    pdf.generate()
+
+    # Create an HTML file to convert to PDF
+    html = HTML(string=pdf.getvalue())
+    pdf_file = html.write_pdf()
+
+    # Download the PDF
+    with open("report.pdf", "wb") as f:
+        f.write(pdf_file)
+    st.download_button("Download PDF", "report.pdf", "report.pdf")
+
