@@ -485,7 +485,35 @@ def plot_sentiment_pie(df):
         file_name='Sentiment_analysis_pie.html',
         mime='text/html'
     )
+######generate the scatter text 
+nlp = spacy.load('en_core_web_sm-3.2.0')  
+nlp.max_length = 9000000
+def generate_scattertext_visualization(analysis):
+    # Get the DataFrame with sentiment analysis results
+    df = analysis
 
+    # Create a Scattertext Corpus
+    corpus = tt.CorpusFromParsedDocuments(
+        df,
+        category_col="Sentiment label",
+        parsed_col="Review",
+        nlp=nlp,
+    ).build()
+
+    # Produce the Scattertext visualization
+    html = tt.produce_scattertext_explorer(
+        corpus,
+        category="Positive",
+        not_category_name="Negative",
+        minimum_term_frequency=5,
+        pmi_threshold_coefficient=5,
+        width_in_pixels=1000,
+        metadata=df["Sentiment label"],
+    )
+
+    # Save the visualization as an HTML file
+    with open("scattertext_visualization.html", "w") as f:
+        f.write(html)
 
 
     
@@ -570,37 +598,14 @@ if status:
                          selected = grid_response['selected_rows'] 
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
                         
-                         #AgGrid(df.head(num_examples),use_container_width=True)
-                         HtmlFile = open("Visualization.html", 'r', encoding='utf-8')
+                         generate_scattertext_visualization(analysis)
+                         HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 800)
                             
                             
-                         #convention_df = tt.SampleCorpora.ConventionData2012.get_data()  
-                         #convention_df.iloc[0]
-                         nlp = spacy.load('en_core_web_sm-3.2.0')  
-                         nlp.max_length = 9000000
-                         #corpus = tt.CorpusFromPandas(convention_df, 
-                          #   category_col='party', 
-                           #  text_col='text',
-                            # nlp=nlp).build()
-                         #st.write(corpus)
-                         #term_freq_df = corpus.get_term_freq_df()
-                         #term_freq_df['positive Score'] = corpus.get_scaled_f_scores('democrat')
-                         #term_freq_df['negative Score'] = corpus.get_scaled_f_scores('republican')
-
-                         #html = tt.produce_scattertext_explorer(corpus,
-                          # category='democrat',
-                           # category_name='positivity',
-                            #not_category_name='negativity',
-                             #       width_in_pixels=1000,
-                              #  metadata=convention_df['speaker'])
-                        # open("Convention-Visualization.html", 'wb').write(html.encode('utf-8'))
                          
-                        
-                         #HtmlFile = open("temp/Convention-Visualization.html", 'r', encoding='utf-8')
-                         #source_code = HtmlFile.read() 
-                         #print(source_code)
-                         #components.html(source_code,height = 800)
+
+                      
                         
