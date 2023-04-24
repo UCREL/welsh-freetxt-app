@@ -527,16 +527,16 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate(input_data)
             
             # Calculate the selected measure for each word
-            df = calculate_measures(df,'KENESS')
+           # df = calculate_measures(df,'KENESS')
             
             # Generate the wordcloud
-            wordcloud_2 = wc.generate_from_frequencies(df.set_index('word')['KENESS'])
+          #  wordcloud_2 = wc.generate_from_frequencies(df.set_index('word')['KENESS'])
 
             # Display the wordcloud
-            plt.figure(figsize=(12, 8))
-            plt.imshow(wordcloud_2, interpolation='bilinear')
-            plt.axis('off')
-            tab2.pyplot()
+          #  plt.figure(figsize=(12, 8))
+         #   plt.imshow(wordcloud_2, interpolation='bilinear')
+          #  plt.axis('off')
+         #   tab2.pyplot()
 
         elif cloud_type == 'Bigrams':
             wordcloud = wc.generate_from_frequencies(Counter(input_bigrams))        
