@@ -277,7 +277,7 @@ def generate_description(prompt):
     )
     return response.choices[0].text.strip()
 
-st.title("-------------------------------------------------------------------------------------")
+
 
 # User input
 input_text = text
@@ -296,7 +296,7 @@ if checkbox:
         elements = []
 
     # Add logo and title in a table
-        logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
+        logo_path = "img/FreeTxt_logo.png"  
         logo = PilImage.open(logo_path)
         logo_width, logo_height = logo.size
         aspect_ratio = float(logo_height) / float(logo_width)
