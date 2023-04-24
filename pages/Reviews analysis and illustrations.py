@@ -527,10 +527,10 @@ def get_wordcloud (data, key):
             wordcloud = wc.generate(input_data)
             
             # Calculate the selected measure for each word
-           # df = calculate_measures(df,'KENESS')
+            df = calculate_measures(df,'KENESS')
             
             # Generate the wordcloud
-          #  wordcloud_2 = wc.generate_from_frequencies(df.set_index('word')['KENESS'])
+            wordcloud_2 = wc.generate_from_frequencies(df.set_index('word')['KENESS'])
 
             # Display the wordcloud
           #  plt.figure(figsize=(12, 8))
@@ -569,6 +569,10 @@ def get_wordcloud (data, key):
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
+	plt.figure(figsize=(12, 8))
+        plt.imshow(wordcloud_2, interpolation='bilinear')
+        plt.axis('off')
+        tab2.pyplot(
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
