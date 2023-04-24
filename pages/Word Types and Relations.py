@@ -283,7 +283,7 @@ df = tagged_tokens_df
 checkbox = st.checkbox("Generate PDF report")
 
 if checkbox:
-    if st.button("Download Report"):
+
         # Generate description for the table
         description = generate_description("Please write a paragraph to describe the following table: " + df.to_markdown())
 
