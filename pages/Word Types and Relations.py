@@ -278,7 +278,7 @@ def generate_description(prompt):
 
 def header(canvas, doc):
     # Add logo and title in a table
-    logo_path = "path/to/your/logo.png"  # Replace with the path to your logo file
+    logo_path = "img/FreeTxt_logo.png" 
     logo = PilImage.open(logo_path)
     logo_width, logo_height = logo.size
     aspect_ratio = float(logo_height) / float(logo_width)
