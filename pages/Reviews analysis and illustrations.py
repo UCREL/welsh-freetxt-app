@@ -569,10 +569,11 @@ def get_wordcloud (data, key):
         plt.figure(figsize=[20,15])
         plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
         plt.axis("off")
-        plt.figure(figsize=(12, 8))
-        plt.imshow(wordcloud_2, interpolation='bilinear')
-        plt.axis('off')
-        tab2.pyplot()
+	tab2.pyplot()
+        plt2.figure(figsize=(12, 8))
+        plt2.imshow(wordcloud_2, interpolation='bilinear')
+        plt2.axis('off')
+        
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
