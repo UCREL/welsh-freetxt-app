@@ -265,16 +265,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
 
-def generate_description(prompt):
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=prompt,
-        max_tokens=300,
-        n=1,
-        stop=None,
-        temperature=0.5,
-    )
-    return response.choices[0].text.strip()
 
 def header(canvas, doc):
     # Add logo and title in a table
@@ -356,10 +346,8 @@ if checkbox:
         ]))
         elements.append(table)
         elements.append(Spacer(1, 20))
-        # Add generated description
-        description_style = ParagraphStyle("Description",  fontSize=12,alignment=TA_LEFT)
-        elements.append(Paragraph(description, description_style))
-
+        
+        
         # Build PDF
 	
         doc.build(elements)
