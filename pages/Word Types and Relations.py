@@ -1,6 +1,6 @@
 import streamlit as st
 import base64
-from PIL import Image
+from PIL import Image as PilImage
 from labels import MESSAGES
 
 import os
@@ -19,7 +19,7 @@ import nltk
 import matplotlib.pyplot as plt
 import seaborn as sns
 import networkx as nx
-from PIL import Image
+
 from textblob import TextBlob
 from nltk import word_tokenize, sent_tokenize, ngrams
 from wordcloud import WordCloud, ImageColorGenerator
@@ -251,8 +251,7 @@ elif lang_detected == 'en':
 	
 	
 #########Download report
-import streamlit as st
-import pandas as pd
+
 import openai
 from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape
@@ -285,7 +284,7 @@ checkbox = st.checkbox("Generate PDF report")
 if checkbox:
 
         # Generate description for the table
-        description = generate_description("Please write a paragraph to describe the following table: " + df.to_markdown())
+        description = generate_description("Please write a paragraph to describe the following table and write a statistical summary for the column USAS tags: " + df.to_markdown())
 
         # Create the PDF
         buffer = BytesIO()
@@ -294,7 +293,7 @@ if checkbox:
         elements = []
 	# Add logo
         logo_path = "img/FreeTxt_logo.png"  # Replace with the path to your logo file
-        logo = Image.open(logo_path)
+        logo = PilImage.open(logo_path)
         logo_width, logo_height = logo.size
         aspect_ratio = float(logo_height) / float(logo_width)
         logo = Image(logo_path, width=100, height=int(100 * aspect_ratio))
