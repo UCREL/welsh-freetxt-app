@@ -499,7 +499,7 @@ def generate_scattertext_visualization(analysis):
        # Create a Scattertext Corpus
     corpus = tt.CorpusFromParsedDocuments(
         df,
-        category_col="Sentiment",
+        category_col="Sentiment Label",
         parsed_col="ParsedReview"
     ).build()
 
@@ -511,7 +511,7 @@ def generate_scattertext_visualization(analysis):
         minimum_term_frequency=5,
         pmi_threshold_coefficient=5,
         width_in_pixels=1000,
-        metadata=df["Sentiment"],
+        metadata=df["Sentiment Label"],
     )
 
     # Save the visualization as an HTML file
