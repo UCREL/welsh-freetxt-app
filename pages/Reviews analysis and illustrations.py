@@ -848,15 +848,6 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     net.save_graph(output_file)
 
 
-
-    # Add edges
-    for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
-        if source in net.get_nodes() and target in net.get_nodes():
-            net.add_edge(source, target, value=freq)
-
-    # Save the visualization to an HTML file
-    net.save_graph(output_file)
-
 def plot_coll_21(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
