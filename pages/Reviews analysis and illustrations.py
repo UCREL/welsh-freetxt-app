@@ -812,8 +812,6 @@ def plot_coll_2(keyword, collocs, expander, tab):
         with expander:
             st.pyplot()
 	
-from pyvis.network import Network
-
 def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     words, counts = zip(*collocs)
     top_collocs_df = pd.DataFrame(collocs, columns=['word', 'freq'])
@@ -831,14 +829,15 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     # Adjust gravity based on frequency
     gravity = -200 * n / sum(counts)
 
-    net.barnes_hut(central_gravity=gravity * 2, spring_length=200)  # Adjust gravity to control the spread and increase repulsion force
+    net.barnes_hut(central_gravity=gravity * 2, spring_length=100)  # Adjust gravity to control the spread and increase repulsion force
+  
 
     # Add nodes
     for node, count in zip(G.nodes(), counts):
         node_color = 'green' if node == most_frequent_word else 'gray' if node == keyword else 'blue'
         node_size = 100 * count / n
         font_size = max(6, int(node_size / 2))  # Adjust font size based on node size, minimum size is 6
-        net.add_node(node, label=node, color=node_color, size=node_size, font={'size': font_size, 'face': 'Arial'}, physics=True)
+        net.add_node(node, label=node, color=node_color, size=node_size, font={'size': font_size, 'face': 'Arial'})
 
     # Add edges
     for source, target, freq in top_collocs_df[['source', 'word', 'freq']].values:
@@ -847,6 +846,8 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
     # Save the visualization to an HTML file
     net.save_graph(output_file)
+
+
 
 
 
