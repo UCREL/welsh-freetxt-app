@@ -829,7 +829,7 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     # Adjust gravity based on frequency
     gravity = -200 * n / sum(counts)
 
-    net.barnes_hut(central_gravity=gravity )  # Adjust gravity to control the spread and increase repulsion force
+    net.barnes_hut(central_gravity=gravity, gravity=gravity )  # Adjust gravity to control the spread and increase repulsion force
   
 
     # Add nodes
