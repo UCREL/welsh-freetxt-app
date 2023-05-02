@@ -225,7 +225,7 @@ if lang_detected == 'cy':
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
         tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
         Cy_postlist = Cy_postlist.set_index('POS')['Equivalent Tag'].to_dict()
-        tagged_tokens_df['POS'] = tagged_tokens_df['POS'].map(Cy_postlist)
+        #tagged_tokens_df['POS'] = tagged_tokens_df['POS'].map(Cy_postlist)
         st.dataframe(tagged_tokens_df, use_container_width=True)
 
     except ConnectionError as e:
