@@ -44,9 +44,17 @@ import sys
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
-#from pyvis.network import Network
-import streamlit.components.v1 as components
 
+import streamlit.components.v1 as components
+#########Download report
+
+from io import BytesIO
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
+from reportlab.lib.units import inch
 
 
 
@@ -183,7 +191,7 @@ st.write('''This feature uses the PyMUSAS pipeline on Spacy to generate and disp
 text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfer cwsmeriaid, ac yn rhoi benthyg ac yn benthyg arian. Yn rhai gwledydd, megis yr Almaen a Siapan, mae banciau'n brif berchenogion corfforaethau diwydiannol, tra mewn gwledydd eraill, megis yr Unol Daleithiau, mae banciau'n cael eu gwahardd rhag bod yn berchen ar gwmniau sydd ddim yn rhai cyllidol. Adran Iechyd Cymru."
 ###read the PYmusas list
 pymusaslist = pd.read_csv('data/Pymusas-list.txt', names= ['USAS Tags','Equivalent Tag'])
-
+Cy_pymusaslist = pd.read_csv('data/Welsh_pymusas_list.csv', names= ['USAS Tags','Equivalent Tag'])
 
 
 text = st.text_area("Paste text to tag", value=text)
@@ -213,7 +221,7 @@ if lang_detected == 'cy':
         cy_tagged = pd.read_csv('cy_tagged.txt', sep='\t')
         cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('[,/]').str[0].str.replace('[\[\]"\']', '', regex=True)
         cy_tagged['USAS Tags'] = cy_tagged['USAS Tags'].str.split('+').str[0]
-        merged_df = pd.merge(cy_tagged, pymusaslist, on='USAS Tags', how='left')
+        merged_df = pd.merge(cy_tagged, Cy_pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
         tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
         st.dataframe(tagged_tokens_df, use_container_width=True)
@@ -250,15 +258,7 @@ elif lang_detected == 'en':
 	st.dataframe(tagged_tokens_df,use_container_width=True)
 	
 	
-#########Download report
 
-from io import BytesIO
-from reportlab.lib.pagesizes import letter, landscape, A4
-from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
-from reportlab.lib.units import inch
 
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
