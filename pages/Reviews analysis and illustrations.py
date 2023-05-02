@@ -436,7 +436,7 @@ def Pymsas_tags(text):
         nlp = spacy.load('en_core_web_sm-3.2.0')	
         english_tagger_pipeline = spacy.load('en_dual_none_contextual')
         nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
-        output_doc = nlp(text)		
+        output_doc = nlp(text)
         cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
         tagged_tokens = []
         for token in output_doc:
