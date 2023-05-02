@@ -192,7 +192,7 @@ text = "Sefydliad cyllidol yw bancwr neu fanc sy'n actio fel asiant talu ar gyfe
 ###read the PYmusas list
 pymusaslist = pd.read_csv('data/Pymusas-list.txt', names= ['USAS Tags','Equivalent Tag'])
 Cy_pymusaslist = pd.read_csv('data/Welsh_pymusas_list.csv', names= ['USAS Tags','Equivalent Tag'])
-
+Cy_postlist = pd.read_csv('data/Welsh_postag.csv', names= ['POS','Equivalent Tag'])
 
 text = st.text_area("Paste text to tag", value=text)
 lang_detected = detect(text)
@@ -224,6 +224,8 @@ if lang_detected == 'cy':
         merged_df = pd.merge(cy_tagged, Cy_pymusaslist, on='USAS Tags', how='left')
         merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag']
         tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
+        Cy_postlist = Cy_postlist.set_index('POS')['Equivalent Tag'].to_dict()
+        tagged_tokens_df['POS'] = tagged_tokens_df['POS'].map(Cy_postlist)
         st.dataframe(tagged_tokens_df, use_container_width=True)
 
     except ConnectionError as e:
