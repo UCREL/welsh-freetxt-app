@@ -244,20 +244,19 @@ elif lang_detected == 'en':
 	english_tagger_pipeline = spacy.load('en_dual_none_contextual')
 # Adds the English PyMUSAS rule-based tagger to the main spaCy pipeline
 	nlp.add_pipe('pymusas_rule_based_tagger', source=english_tagger_pipeline)
-	output_doc = nlp(text)
-			
-	cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
-	tagged_tokens = []
-	for token in output_doc:
-		tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags))
-        
-     
-	pymusaslist = pymusaslist.set_index('USAS Tags')['Equivalent Tag'].to_dict()
-	tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
-	st.dataframe(tagged_tokens_df,use_container_width=True)
-	
-	
-
+	output_doc = nlp(text)	
+        cols = ['Text', 'Lemma', 'POS', 'USAS Tags']
+        tagged_tokens = []
+        for token in output_doc:
+             tagged_tokens.append((token.text, token.lemma_, token.tag_, token._.pymusas_tags[0]))
+        tagged_tokens_df = pd.DataFrame(tagged_tokens, columns = cols)
+        tagged_tokens_df['USAS Tags'] = tagged_tokens_df['USAS Tags'].str.split('[/mf]').str[0].str.replace('[\[\]"\']|-{2,}|\+{2,}', '', regex=True)
+        merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
+        merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
+        merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+        tags_to_remove = ['Unmatched', 'Grammatical bin', 'Pronouns', 'Period']
+        tagged_tokens_df = merged_df[~merged_df['USAS Tags'].str.contains('|'.join(tags_to_remove))]
+	st.dataframe(tagged_tokens_df, use_container_width=True)
 
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
