@@ -253,7 +253,7 @@ elif lang_detected == 'en':
 	tagged_tokens_df['USAS Tags'] = tagged_tokens_df['USAS Tags'].str.split('[/mf]').str[0].str.replace('[\[\]"\']|-{2,}|\+{2,}', '', regex=True)
 	merged_df = pd.merge(tagged_tokens_df, pymusaslist, on='USAS Tags', how='left')
 	merged_df.loc[merged_df['Equivalent Tag'].notnull(), 'USAS Tags'] = merged_df['Equivalent Tag'] 
-	merged_df = merged_df.drop(['Equivalent Tag'], axis=1)
+	tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
 
 	st.dataframe(tagged_tokens_df, use_container_width=True)
 
