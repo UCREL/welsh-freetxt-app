@@ -451,7 +451,7 @@ def plot_sentiment_pie(df):
         title='Sentiment Analysis Results',
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
-        margin=dict(l=50, r=50, t=80, b=50)
+        margin=dict(l=50, r=50, t=80, b=50),
         annotations=[
         go.layout.Annotation(
             x=0.5,
