@@ -331,7 +331,7 @@ def preprocess_text(text):
 
 
 @st.cache(allow_output_mutation=True)
-def analyze_sentiment(input_text, num_classes=num_classes, max_seq_len=512):
+def analyze_sentiment(input_text, num_classes, max_seq_len=512):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
