@@ -235,9 +235,6 @@ def detect_language(df):
 ###########Ployglot Welsh
 
 
-#import polyglot
-#from polyglot.text import Text
-
 
 def preprocess_text(text):
     # remove URLs, mentions, and hashtags
@@ -413,6 +410,7 @@ def plot_sentiment(df):
     fig = go.Figure(data=data, layout=layout)
 
     # show the plot
+    st.write('The folowwing figure diplays the setiment analysis of the data, you can press on any part of the graph to diaplay the data ')
     st.plotly_chart(fig)
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -538,10 +536,9 @@ if status:
         num_classes = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
         # With tabbed multiselect
         filenames = list(data.keys())
-        #tab_titles= [f"File-{i+1}" for i in range(len(filenames))]
-        #tabs = st.tabs(tab_titles)
+       
         for i in range(len(filenames)):
-            #with tabs[i]:
+          
                 _, df = data[filenames[i]]
                 df = select_columns(df, key=i).astype(str)
                 if df.empty:
@@ -568,20 +565,7 @@ if status:
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
-                        # Detect the language of all columns in the DataFrame
-                        
-                            
-                        #st.dataframe(analysis, use_container_width= True)
-                        
-                       # text = get_text_sentiments(input_text)
-                        #if option == '3 Class Sentiments  (Positive, Neutral, Negative)':
-                         #  plot_sentiments(text[1], fine_grained=False)
-                        #else:
-                         #  plot_sentiments(text[1])
-                       # num_examples = st.slider('Number of example [5 to 20%]',  min_value=5, max_value=20, step=5, key=i)
-                       # df = pd.DataFrame(text[0], columns =['Review','Polarity', 'Sentiment', 'Subjectivity', 'Category'])
-                       # df = df[['Review','Polarity', 'Sentiment']]
-                       # df.index = np.arange(1, len(df) + 1)
+                       
                     with tab2:
                           #### interactive dataframe
                          gb = GridOptionsBuilder.from_dataframe(analysis)
