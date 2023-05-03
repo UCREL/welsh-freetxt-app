@@ -410,7 +410,6 @@ def plot_sentiment(df):
     fig = go.Figure(data=data, layout=layout)
 
     # show the plot
-    st.write('The folowwing figure diplays the setiment analysis of the data, you can press on any part of the graph to diaplay the data ')
     st.plotly_chart(fig)
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -456,6 +455,8 @@ def plot_sentiment_pie(df):
     )
 
     # create the figure
+    st.write('The folowwing figure diplays the setiment analysis of the data, you can press on any part of the graph to diaplay the data ')
+
     fig = go.Figure(data=data, layout=layout)
     selected_points = plotly_events(fig, select_event=True)
     
@@ -464,6 +465,7 @@ def plot_sentiment_pie(df):
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
+        st.write(f'The data of {sentiment_label}')
         st.dataframe(df,use_container_width = True)
     
     # update the counts and proportions based on the filtered dataframe
