@@ -331,7 +331,7 @@ def preprocess_text(text):
 
 
 @st.cache(allow_output_mutation=True)
-def analyze_sentiment(input_text, num_classes=3, max_seq_len=512):
+def analyze_sentiment(input_text, num_classes=num_classes, max_seq_len=512):
     # load tokenizer and model
     tokenizer = AutoTokenizer.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
     model = AutoModelForSequenceClassification.from_pretrained("nlptown/bert-base-multilingual-uncased-sentiment")
@@ -581,14 +581,14 @@ if status:
                       
                         
                         if language == 'en':
-                            sentiments = analyze_sentiment(input_text)
+                            sentiments = analyze_sentiment(input_text,num_classes)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
                        
                         elif language == 'cy':
                             #sentiments = analyze_sentiment_welsh(input_text)
-                            sentiments = analyze_sentiment(input_text)
+                            sentiments = analyze_sentiment(input_text,num_classes)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
