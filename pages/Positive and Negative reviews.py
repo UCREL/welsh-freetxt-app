@@ -369,11 +369,22 @@ def analyze_sentiment(input_text, num_classes=3, max_seq_len=512):
             avg_scores = np.mean(sentiment_scores, axis=0)
             sentiment_labels = ['Very negative', 'Negative', 'Neutral', 'Positive', 'Very positive']
             sentiment_index = avg_scores.argmax()
+
+            if num_classes == 3:
+                if sentiment_index < 2:
+                    sentiment_index = 0  # Negative
+                elif sentiment_index > 2:
+                    sentiment_index = 1  # Positive
+                else:
+                    sentiment_index = 2  # Neutral
+                sentiment_labels = ['Negative', 'Positive', 'Neutral']
+
             sentiment_label = sentiment_labels[sentiment_index]
             sentiment_score = avg_scores[sentiment_index]
             sentiments.append((review, sentiment_label, sentiment_score))
 
     return sentiments
+
 
 
 
@@ -546,6 +557,7 @@ status, data = input_data
     
 if status:
         num_classes = st.radio('How do you want to categorize the sentiments?', ('3 Class Sentiments (Positive, Neutral, Negative)', '5 Class Sentiments (Very Positive, Positive, Neutral, Negative, Very Negative)'))
+        num_classes = 3 if num_classes.startswith("3") else 5
         # With tabbed multiselect
         filenames = list(data.keys())
        
