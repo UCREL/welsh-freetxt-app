@@ -371,19 +371,22 @@ def analyze_sentiment(input_text, num_classes=3, max_seq_len=512):
             sentiment_index = avg_scores.argmax()
 
             if num_classes == 3:
+                sentiment_labels_3 = ['Negative', 'Neutral', 'Positive']
                 if sentiment_index < 2:
                     sentiment_index = 0  # Negative
                 elif sentiment_index > 2:
-                    sentiment_index = 1  # Positive
+                    sentiment_index = 2  # Positive
                 else:
-                    sentiment_index = 2  # Neutral
-                sentiment_labels = ['Negative', 'Positive', 'Neutral']
+                    sentiment_index = 1  # Neutral
+                sentiment_label = sentiment_labels_3[sentiment_index]
+            else:
+                sentiment_label = sentiment_labels[sentiment_index]
 
-            sentiment_label = sentiment_labels[sentiment_index]
             sentiment_score = avg_scores[sentiment_index]
             sentiments.append((review, sentiment_label, sentiment_score))
 
     return sentiments
+
 
 
 
