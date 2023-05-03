@@ -594,14 +594,7 @@ if status:
                             plot_sentiment(analysis)
                        
                     with tab2:
-                        ###scattertext 
-                         st.write('For better reprentation we recommend selecting 3 sentiment classes')
-                         generate_scattertext_visualization(analysis)
-                         HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
-                         source_code = HtmlFile.read() 
-                         print(source_code)
-                         components.html(source_code,height = 1000)
-                          #### interactive dataframe
+                         #### interactive dataframe
                          gb = GridOptionsBuilder.from_dataframe(analysis)
                          gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
                          gb.configure_side_bar() #Add a sidebar
@@ -623,6 +616,14 @@ if status:
                          data = grid_response['data']
                          selected = grid_response['selected_rows'] 
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
+                        ###scattertext 
+                         st.write('For better reprentation we recommend selecting 3 sentiment classes')
+                         generate_scattertext_visualization(analysis)
+                         HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
+                         source_code = HtmlFile.read() 
+                         print(source_code)
+                         components.html(source_code,height = 800)
+
                         
                          
                             
