@@ -465,7 +465,7 @@ def plot_sentiment_pie(df):
         point_number = selected_points[0]['pointNumber']
         sentiment_label = proportions.index[point_number]
         df = df[df['Sentiment Label'] == sentiment_label]
-        st.write(f'The data of {sentiment_label}')
+        st.write(f'The proportion of " {sentiment_label} "')
         st.dataframe(df,use_container_width = True)
     
     # update the counts and proportions based on the filtered dataframe
@@ -554,7 +554,7 @@ if status:
                         
                         language = detect_language(df)
                       
-                        st.write(language)
+                        
                         if language == 'en':
                             sentiments = analyze_sentiment(input_text)
                             analysis = pd.DataFrame(sentiments, columns=['Review', 'Sentiment Label', 'Sentiment Score'])
