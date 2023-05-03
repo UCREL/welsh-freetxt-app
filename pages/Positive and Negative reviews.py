@@ -514,7 +514,6 @@ nlp = spacy.load('en_core_web_sm-3.2.0')
 nlp.max_length = 9000000
 ######generate the scatter text 
 
-@st.cache(allow_output_mutation=True)
 def generate_scattertext_visualization(analysis):
     # Get the DataFrame with sentiment analysis results
     df = analysis
@@ -601,7 +600,7 @@ if status:
                          HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
-                         components.html(source_code,height = 800)
+                         components.html(source_code,height = 1000)
                           #### interactive dataframe
                          gb = GridOptionsBuilder.from_dataframe(analysis)
                          gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
