@@ -659,6 +659,10 @@ if status:
                          print(source_code)
                          components.html(source_code,height = 1500)
                     with tab3:
+			data_list_checkbox = st.checkbox("Include Data List as a Table")
+			sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
+			sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
+			scatter_text_checkbox = st.checkbox("Include Scatter Text")
                         checkbox = st.checkbox("Generate PDF report")
 
 
