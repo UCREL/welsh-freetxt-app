@@ -479,24 +479,13 @@ def plot_sentiment_pie(df):
         plot_bgcolor='white',
         font=dict(family='Arial, sans-serif', size=14, color='black'),
         margin=dict(l=50, r=50, t=80, b=50),
-        annotations=[
-        go.layout.Annotation(
-            x=0.5,
-            y=1.1,
-            xref='paper',
-            yref='paper',
-            showarrow=False,
-            font=dict(size=14),
-            text="The following figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data",
-            align='center'
-        )
-    ]
+
     )
 
     
     fig = go.Figure(data=data, layout=layout)
     selected_points = plotly_events(fig, select_event=True)
-    
+    st.write('The following figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data')
     if selected_points:
         # filter the dataframe based on the selected point
         point_number = selected_points[0]['pointNumber']
