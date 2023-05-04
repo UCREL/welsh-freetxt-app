@@ -1749,7 +1749,7 @@ if st.button('Analysis') or st.session_state.load_state:
             with tab6:
                 plot_kwic_txt(df)
             with tab10:
-                 checkbox = st.checkbox("Generate PDF report")
+                        checkbox = st.checkbox("Generate PDF report")
                         if checkbox:
 
                         # Create the PDF
