@@ -694,7 +694,8 @@ if status:
                         if data_list_checkbox:
   	                # Add the data list as a table
                                 # Add DataFrame as a table
-                             table_data = analysis[['Review','Sentiment Label','Sentiment Score']].values.tolist()
+                             column_names = ['Review', 'Sentiment Label', 'Sentiment Score']
+                             table_data = [column_names] + analysis[column_names].values.tolist()
                              table = Table(table_data)
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
