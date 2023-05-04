@@ -1767,7 +1767,7 @@ else: pass
 status, data = input_data
 if status:
     if 'feature_list' not in st.session_state.keys():
-           feature_list = ['Data View', 'Keyword Cloud', 'Keyword in Context & Collocation', "Word Tree"]
+           feature_list = ['Data View', 'Keyword Cloud', 'Keyword in Context & Collocation', "Word Tree",'Generate pdf report']
            st.session_state['feature_list'] = feature_list
     else:
      feature_list = st.session_state['feature_list']
@@ -1803,7 +1803,7 @@ if status:
                     
                     
                  
-                    tab1, tab2, tab3,tab9= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', " 🌳 Word Tree", '📥 Generate pdf report'])
+                    tab1, tab2, tab3,tab8, tab9= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', " 🌳 Word Tree", '📥 Generate pdf report'])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
