@@ -47,3 +47,4 @@ tabulate
 imgkit
 kaleido
 selenium
+pyppeteer
