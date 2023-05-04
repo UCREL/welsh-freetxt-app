@@ -1753,6 +1753,43 @@ if st.button('Analysis') or st.session_state.load_state:
         
             with tab6:
                 plot_kwic_txt(df)
+	    with tab10:
+		checkbox = st.checkbox("Generate PDF report")
+
+
+                        if checkbox:
+
+        
+                        # Create the PDF
+                            buffer = BytesIO()
+                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+
+    # Create the frame for the content
+                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+    # Create a PageTemplate with the header
+                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                            doc.addPageTemplates([template])
+                            elements = []
+
+    
+       
+        
+
+    # Add a spacer between header and input text
+                            elements.append(Spacer(1, 20))
+        # Build PDF
+	
+                            doc.build(elements)
+                            buffer.seek(0)
+                            generated_pdf_data = buffer.read()
+
+   # Display the download button only after generating the report
+                        if generated_pdf_data:
+                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+
+    
 	
 
 st.markdown("""---""")
@@ -1811,3 +1848,40 @@ if status:
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
+		    with tab9:
+			checkbox = st.checkbox("Generate PDF report")
+
+
+                        if checkbox:
+
+        
+                        # Create the PDF
+                            buffer = BytesIO()
+                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+
+    # Create the frame for the content
+                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+    # Create a PageTemplate with the header
+                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                            doc.addPageTemplates([template])
+                            elements = []
+
+    
+       
+        
+
+    # Add a spacer between header and input text
+                            elements.append(Spacer(1, 20))
+        # Build PDF
+	
+                            doc.build(elements)
+                            buffer.seek(0)
+                            generated_pdf_data = buffer.read()
+
+   # Display the download button only after generating the report
+                        if generated_pdf_data:
+                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+
+    
