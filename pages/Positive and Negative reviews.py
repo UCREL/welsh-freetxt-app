@@ -716,7 +716,7 @@ if status:
                         # Add the sentiment pie graph
                         
                               pie_graph_path = "Pie_fig.png"
-                              pie_graph = ReportLabImage(pie_graph_path, width= 325, height =300)
+                              pie_graph = ReportLabImage(pie_graph_path, width= 325, height =250)
                               elements.append(pie_graph)
                               elements.append(Spacer(1, 20))
 
@@ -724,7 +724,7 @@ if status:
                          # Add the sentiment bar graph
                        
                                bar_graph_path = "Bar_fig.png"
-                               bar_graph = ReportLabImage(bar_graph_path, width= 325, height =300)
+                               bar_graph = ReportLabImage(bar_graph_path, width= 325, height =250)
                                elements.append(bar_graph)
                                elements.append(Spacer(1, 20))
 
