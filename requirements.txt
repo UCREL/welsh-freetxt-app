@@ -45,5 +45,5 @@ python-dotenv
 openai
 tabulate
 kaleido
-selenium
 pyppeteer
+nest_asyncio
