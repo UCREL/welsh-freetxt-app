@@ -589,7 +589,30 @@ def header(canvas, doc):
     header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
 
 #---------------------------------------------------------------------------------------
+### from html to image
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
+def html_to_image(html_file_path, output_image_path):
+    # Set up headless Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+
+    # Create the Chrome WebDriver
+    driver = webdriver.Chrome(options=chrome_options)
+
+    # Open the HTML file
+    driver.get(f"file://{html_file_path}")
+
+    # Save a screenshot of the Scattertext visualization
+    driver.save_screenshot(output_image_path)
+
+    # Close the WebDriver
+    driver.quit()
+#-------------------------------------------------------------------
     
 st.markdown('''🎲 Sentiment Analyzer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2]))
@@ -734,7 +757,7 @@ if status:
                                 scattertext_html_path = "scattertext_visualization.html"
                                 scattertext_image_path = "scattertext_visualization.png"
 
-                                imgkit.from_file(scattertext_html_path, scattertext_image_path)
+                                html_to_image(scattertext_html_path, scattertext_image_path)
                                 
                                 scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
                                 elements.append(scatter_text)
