@@ -571,8 +571,8 @@ def header(canvas, doc):
     logo_width, logo_height = logo.size
     aspect_ratio = float(logo_height) / float(logo_width)
     logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-    title_text = "Sentiemnet analysis Report"
-    title_style = ParagraphStyle("Title", fontSize=18, alignment=TA_CENTER)
+    title_text = "Sentiment Analysis Report"
+    title_style = ParagraphStyle("Title", fontSize=18, alignment=TA_LEFT)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
     header_table = Table(header_data)
@@ -584,6 +584,7 @@ def header(canvas, doc):
     ]))
     w, h = header_table.wrap(doc.width, doc.topMargin)
     header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
+
 
 #---------------------------------------------------------------------------------------
 ### from html to image
