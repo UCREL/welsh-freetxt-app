@@ -92,6 +92,7 @@ def build_markup_for_logo(
     )
 
 
+
 def add_logo(png_file):
     logo_markup = build_markup_for_logo(png_file)
     st.markdown(
