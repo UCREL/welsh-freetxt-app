@@ -544,7 +544,30 @@ def generate_scattertext_visualization(analysis):
     with open("scattertext_visualization.html", "w") as f:
         f.write(html)
 
+# Add a state variable to store the generated PDF data
+generated_pdf_data = None
 
+
+def header(canvas, doc):
+    # Add logo and title in a table
+    logo_path = "img/FreeTxt_logo.png" 
+    logo = PilImage.open(logo_path)
+    logo_width, logo_height = logo.size
+    aspect_ratio = float(logo_height) / float(logo_width)
+    logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+    title_text = "Sentiemnet analysis Report"
+    title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
+    title = Paragraph(title_text, title_style)
+    header_data = [[logo, title]]
+    header_table = Table(header_data)
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 20),
+    ]))
+    w, h = header_table.wrap(doc.width, doc.topMargin)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
 
 
 
