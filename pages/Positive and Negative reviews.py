@@ -622,7 +622,7 @@ if status:
                          HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
-                         components.html(source_code,height = 800)
+                         components.html(source_code,height = 1000)
 
                         
                          
