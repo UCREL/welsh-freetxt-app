@@ -714,8 +714,7 @@ if status:
                              wrapped_cells = []
 
                              styles = getSampleStyleSheet()
-                             cell_style = cell_style_header if len(wrapped_cells) == 0 else cell_style_normal
-
+                             cell_style = ParagraphStyle(name='cell_style', parent=styles['Normal'], alignment=1)
                              
 
 
