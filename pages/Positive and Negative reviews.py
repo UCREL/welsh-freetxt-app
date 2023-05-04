@@ -100,7 +100,6 @@ def add_logo(png_file):
     )
 
 
-
 # ----------------
 st.set_page_config(
      page_title='Welsh Free Text Tool',
