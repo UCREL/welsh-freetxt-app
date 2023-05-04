@@ -1520,7 +1520,7 @@ def plot_kwic(data, key):
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
- #----------------------------------------------------------   
+ #----------------------Generate Pdf--------------------------   
  # Add a state variable to store the generated PDF data
 generated_pdf_data = None
 
@@ -1532,7 +1532,7 @@ def header(canvas, doc):
     logo_width, logo_height = logo.size
     aspect_ratio = float(logo_height) / float(logo_width)
     logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-    title_text = "Summarisation Report"
+    title_text = "Text Analysis Report"
     title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
@@ -1780,7 +1780,7 @@ if st.button('Analysis') or st.session_state.load_state:
 
    # Display the download button only after generating the report
                         if generated_pdf_data:
-                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+                              st.download_button("Download PDF", generated_pdf_data, "report_TextAnalysis.pdf", "application/pdf")
 
     
 	
@@ -1875,6 +1875,6 @@ if status:
 
    # Display the download button only after generating the report
                         if generated_pdf_data:
-                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+                              st.download_button("Download PDF", generated_pdf_data, "report_TextAnalysis.pdf", "application/pdf")
 
     
