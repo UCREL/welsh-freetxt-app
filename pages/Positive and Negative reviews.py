@@ -53,9 +53,10 @@ from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle,getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
+
 import shutil
 
 @st.cache(allow_output_mutation=True)
@@ -706,10 +707,25 @@ if status:
                         if data_list_checkbox:
   	                # Add the data list as a table
                                 # Add DataFrame as a table
+			
                              column_names = ['Review', 'Sentiment Label', 'Sentiment Score']
                              table_data = [column_names] + analysis[column_names].values.tolist()
                              col_widths = [200, 100, 100]  # Adjust these values according to your needs
+
+
+                             styles = getSampleStyleSheet()
+                             cell_style = ParagraphStyle(name='cell_style', parent=styles['Normal'], alignment=1)
+                             wrapped_table_data = []
+
+                             for row in table_data:
+                                        wrapped_row = []
+                                        for cell in row:
+                                              wrapped_cell = Paragraph(cell, style=cell_style)
+                                              wrapped_row.append(wrapped_cell)
+                                        wrapped_table_data.append(wrapped_row)
+
                              table = Table(table_data, colWidths=col_widths)
+			
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -724,7 +740,7 @@ if status:
             ('GRID', (0, 0), (-1, -1), 1, colors.black),
 				    
               ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                ('WORDWRAP', (0, 0), (-1, -1)),
+               
                       ]))
                              elements.append(table)
                              elements.append(Spacer(1, 20))
