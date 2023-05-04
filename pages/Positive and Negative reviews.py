@@ -715,16 +715,17 @@ if status:
 
                              styles = getSampleStyleSheet()
                              cell_style = ParagraphStyle(name='cell_style', parent=styles['Normal'], alignment=1)
-                             wrapped_table_data = []
+                             
+
+
 
                              for row in table_data:
-                                    wrapped_row = []
-                                    for idx, cell in enumerate(row):
-                                           wrapped_cell = Paragraph(str(cell), style=cell_style, spaceBefore=0, spaceAfter=0)
-                                           wrapped_cell.wrap(col_widths[idx], 900)  # Set the width for the cell content
-                                           wrapped_row.append(wrapped_cell)
-                                    wrapped_table_data.append(wrapped_row)
-
+                                    wrapped_cells = []
+                                    for i, cell in enumerate(row):
+                                          cell_style = cell_style_normal if wrapped_cells else cell_style_header
+                                          wrapped_cell = Paragraph(str(cell), style=cell_style)
+                                          wrapped_cells.append(wrapped_cell)
+                                    wrapped_data.append(wrapped_cells)
                              table = Table(wrapped_table_data, colWidths=col_widths)
 			
                              table.setStyle(TableStyle([
