@@ -1841,7 +1841,7 @@ if status:
                     analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
-		    with tab9:
+                    with tab9:
 			checkbox = st.checkbox("Generate PDF report")
 
 
