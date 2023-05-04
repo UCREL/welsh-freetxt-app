@@ -33,7 +33,6 @@ regex
 streamlit-plotly-events
 graphviz
 pyvis
-pygsp
 python-dotenv
 tabulate
 kaleido
