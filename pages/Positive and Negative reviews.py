@@ -691,8 +691,8 @@ if status:
        
         
 
-    # Add a spacer between header and input text
-                            elements.append(Spacer(1, 20))
+                        # Add a spacer between header and input text
+                        elements.append(Spacer(1, 20))
 
 
 			# Add content based on selected checkboxes
