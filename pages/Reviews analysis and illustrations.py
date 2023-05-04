@@ -1842,7 +1842,7 @@ if status:
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
-			checkbox = st.checkbox("Generate PDF report")
+                        checkbox = st.checkbox("Generate PDF report")
 
 
                         if checkbox:
