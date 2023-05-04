@@ -580,7 +580,7 @@ def header(canvas, doc):
         ('ALIGN', (0, 0), (0, 0), 'LEFT'),
         ('ALIGN', (1, 0), (1, 0), 'LEFT'),
         ('VALIGN', (0, 0), (1, 0), 'TOP'),
-        ('LEFTPADDING', (1, 0), (1, 0), 6),
+        ('LEFTPADDING', (1, 0), (1, 0), 1),
     ]))
     w, h = header_table.wrap(doc.width, doc.topMargin)
     header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
