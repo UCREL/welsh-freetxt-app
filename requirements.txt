@@ -46,3 +46,4 @@ openai
 tabulate
 imgkit
 kaleido
+selenium
