@@ -694,7 +694,7 @@ if status:
                         if data_list_checkbox:
   	                # Add the data list as a table
                                 # Add DataFrame as a table
-                             table_data = [df.columns.to_list()] + df.values.tolist()
+                             table_data = [analysis.columns.to_list()] + analysis.values.tolist()
                              table = Table(table_data)
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
