@@ -572,7 +572,7 @@ def header(canvas, doc):
     aspect_ratio = float(logo_height) / float(logo_width)
     logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
     title_text = "Sentiemnet analysis Report"
-    title_style = ParagraphStyle("Title", fontSize=18, alignment=TA_LEFT)
+    title_style = ParagraphStyle("Title", fontSize=18, alignment=TA_CENTER)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
     header_table = Table(header_data)
