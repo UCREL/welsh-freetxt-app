@@ -1504,12 +1504,7 @@ def plot_kwic(data, key):
                 else: 
                       pass
 		
-                #plot_collocation(keyword, collocs,expander,tab3)
-               
-                #plot_coll_2(keyword, collocs,expander,tab3)
-                #plot_coll_7(keyword, collocs,expander,tab3)
-                #plot_coll_12(keyword, collocs,expander,tab3)
-                #plot_coll_13(keyword, collocs,expander,tab3)
+             
                 plot_coll_14(keyword, collocs, expander, tab3,output_file='network_output.html')
 	
 
@@ -1753,13 +1748,11 @@ if st.button('Analysis') or st.session_state.load_state:
         
             with tab6:
                 plot_kwic_txt(df)
-	    with tab10:
+            with tab10:
 		checkbox = st.checkbox("Generate PDF report")
-
 
                         if checkbox:
 
-        
                         # Create the PDF
                             buffer = BytesIO()
                             doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
