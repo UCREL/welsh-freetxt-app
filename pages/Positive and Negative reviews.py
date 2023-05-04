@@ -648,12 +648,12 @@ if status:
         
 
     # Add a spacer between header and input text
-                           elements.append(Spacer(1, 20))
+                            elements.append(Spacer(1, 20))
         # Build PDF
 	
-                           doc.build(elements)
-                           buffer.seek(0)
-                           generated_pdf_data = buffer.read()
+                            doc.build(elements)
+                            buffer.seek(0)
+                            generated_pdf_data = buffer.read()
 
    # Display the download button only after generating the report
                         if generated_pdf_data:
