@@ -43,7 +43,7 @@ import plotly.io as pio
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 from langdetect import detect_langs
-
+import subprocess
 import scattertext as tt
 import spacy
 from pprint import pprint
@@ -587,8 +587,12 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-import nest_asyncio
+import asyncio
+import sys
 from pyppeteer import launch
+import nest_asyncio
+
+nest_asyncio.apply()
 
 async def html_to_image(html_file_path, output_image_path):
     browser = await launch()
@@ -597,11 +601,11 @@ async def html_to_image(html_file_path, output_image_path):
     await page.screenshot({'path': output_image_path})
     await browser.close()
 
-scattertext_html_path = "scattertext_visualization.html"
-scattertext_image_path = "scattertext_visualization.png"
+scattertext_html_path = sys.argv[1]
+scattertext_image_path = sys.argv[2]
 
-# Since the html_to_image function is async, we need to run it inside an event loop
 asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
+
 
 #-------------------------------------------------------------------
     
@@ -748,12 +752,12 @@ if status:
                                 scattertext_html_path = "scattertext_visualization.html"
                                 scattertext_image_path = "scattertext_visualization.png"
 
-                               # Apply the nest_asyncio patch
-                                nest_asyncio.apply()
+                              
 
-                                # Run the event loop for the html_to_image function
-                                asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
-                                asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
+
+                                subprocess.run(["python", "generate_scattertext_image.py", scattertext_html_path, scattertext_image_path])
+
+                                
                                 
                                 scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
                                 elements.append(scatter_text)
