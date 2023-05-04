@@ -464,7 +464,7 @@ def Pymsas_tags(text):
     
 ###to upload image
 def load_image(image_file):
-	img = Image.open(image_file)
+	img = PilImage.open(image_file)
 	return img
 
 def get_wordcloud (data, key):
@@ -508,7 +508,7 @@ def get_wordcloud (data, key):
     maskfile_2 = image_mask_2[tab2.selectbox('Select Cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
     colors =['grey','yellow','white','black','green','blue','red']
     outlines = tab2.selectbox('Select cloud outline color ', colors, help='Select outline color word cloud')
-    mask = np.array(Image.open(maskfile_2)) if maskfile_2 else maskfile_2
+    mask = np.array(PilImage.open(maskfile_2)) if maskfile_2 else maskfile_2
    
     nlp = spacy.load('en_core_web_sm-3.2.0')
     doc = nlp(input_data)
@@ -712,7 +712,7 @@ def plot_coll_3(keyword, collocs, expander, tab):
     plt.savefig('img_file.png', format='png', dpi=300)
 
     # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
+    pil_image = PilImage.open('img_file.png')
 
     with tab:
         with expander:
@@ -759,7 +759,7 @@ def plot_coll_4(keyword, collocs, expander, tab):
     plt.savefig('img_file.png', format='png', dpi=300)
 
      # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
+    pil_image = PilImage.open('img_file.png')
 
     with tab:
         with expander:
@@ -1045,7 +1045,7 @@ def plot_coll(keyword, collocs, expander, tab):
     plt.savefig('img_file.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
 
     # Convert the image file to a PIL Image object
-    pil_image = Image.open('img_file.png')
+    pil_image = PilImage.open('img_file.png')
 
     with tab:
         with expander:
@@ -1692,7 +1692,7 @@ if st.button('Analysis') or st.session_state.load_state:
        
               
         #else:   
-            mask = np.array(Image.open(maskfile)) if maskfile else maskfile
+            mask = np.array(PilImage.open(maskfile)) if maskfile else maskfile
  
             nlp = spacy.load('en_core_web_sm-3.2.0')
             doc = nlp(input_data)
