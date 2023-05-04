@@ -1773,6 +1773,7 @@ if st.button('Analysis') or st.session_state.load_state:
                             elements.append(Spacer(1, 20))
         # Build PDF
 	
+	
                             doc.build(elements)
                             buffer.seek(0)
                             generated_pdf_data = buffer.read()
