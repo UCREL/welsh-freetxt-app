@@ -708,7 +708,8 @@ if status:
                                 # Add DataFrame as a table
                              column_names = ['Review', 'Sentiment Label', 'Sentiment Score']
                              table_data = [column_names] + analysis[column_names].values.tolist()
-                             table = Table(table_data)
+                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
+                             table = Table(table_data, colWidths=col_widths)
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
             ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
@@ -720,8 +721,11 @@ if status:
 
             ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
             ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-            ('GRID', (0, 0), (-1, -1), 1, colors.black)
-        ]))
+            ('GRID', (0, 0), (-1, -1), 1, colors.black),
+				    
+              ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                ('WORDWRAP', (0, 0), (-1, -1)),
+                      ]))
                              elements.append(table)
                              elements.append(Spacer(1, 20))
 
