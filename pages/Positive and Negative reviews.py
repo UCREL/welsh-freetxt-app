@@ -672,8 +672,8 @@ if status:
                         sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
                         scatter_text_checkbox = st.checkbox("Include Scatter Text")
                         generate_pdf_checkbox = st.checkbox("Generate PDF report")
-                        # Add a spacer between header and input text
-                        elements.append(Spacer(1, 20))
+			
+                        
 
 			# Add content based on selected checkboxes
                         if data_list_checkbox:
