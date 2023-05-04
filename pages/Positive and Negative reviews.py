@@ -57,9 +57,6 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
 
-###from html to image
-import imgkit
-
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
