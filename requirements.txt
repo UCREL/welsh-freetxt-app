@@ -45,3 +45,4 @@ python-dotenv
 openai
 tabulate
 imgkit
+kaleido
