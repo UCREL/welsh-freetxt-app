@@ -308,7 +308,7 @@ if status:
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
-                    tab1, tab2 = st.tabs(["📝 Summarisation','📥 Download pdf'])
+                    tab1, tab2 = st.tabs(['📝 Summarisation','📥 Download pdf'])
                     with tab1:
                           input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
                           run_summarizer(input_text[:2000],i)
