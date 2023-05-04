@@ -711,7 +711,7 @@ if status:
             ('GRID', (0, 0), (-1, -1), 1, colors.black)
         ]))
                              elements.append(table)
-			     elements.append(Spacer(1, 20))
+                             elements.append(Spacer(1, 20))
 
                         if sentiment_pie_checkbox:
                         # Add the sentiment pie graph
