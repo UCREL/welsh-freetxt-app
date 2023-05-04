@@ -46,4 +46,5 @@ openai
 tabulate
 kaleido
 pyppeteer
-nest_asyncio
+imgkit
+PyQt5
