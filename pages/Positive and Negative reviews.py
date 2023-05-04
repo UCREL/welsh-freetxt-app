@@ -652,6 +652,7 @@ if status:
                          st.header('Scatter Text')
                                                   # Copy the scattertext_visualization.html to a temporary file
                          st.write('For better reprentation we recommend selecting 3 sentiment classes')
+			 generate_scattertext_visualization(analysis)
                          scattertext_html_path='scattertext_visualization.html'
                          tmp_scattertext_path = "tmp_scattertext_visualization.html"
                          shutil.copyfile(scattertext_html_path, tmp_scattertext_path)
@@ -667,7 +668,7 @@ if status:
                             mime="text/html",
                                 )
                          
-                         generate_scattertext_visualization(analysis)
+                         
                          HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
