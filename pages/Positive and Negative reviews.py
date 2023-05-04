@@ -711,7 +711,7 @@ if status:
                              column_names = ['Review', 'Sentiment Label', 'Sentiment Score']
                              table_data = [column_names] + analysis[column_names].values.tolist()
                              col_widths = [200, 100, 100]  # Adjust these values according to your needs
-
+                             wrapped_cells = []
 
                              styles = getSampleStyleSheet()
                              cell_style = cell_style_header if len(wrapped_cells) == 0 else cell_style_normal
@@ -721,7 +721,7 @@ if status:
 
 
                              for row in table_data:
-                                    wrapped_cells = []
+                                   
                                     for i, cell in enumerate(row):
                                           cell_style = cell_style_normal if wrapped_cells else cell_style_header
                                           wrapped_cell = Paragraph(str(cell), style=cell_style)
