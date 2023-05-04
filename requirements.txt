@@ -44,3 +44,4 @@ pygsp
 python-dotenv
 openai
 tabulate
+imgkit
