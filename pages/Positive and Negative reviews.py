@@ -587,13 +587,7 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-from weasyprint import HTML
 
-def html_to_image_weasyprint(html_file_path, output_image_path):
-    html = HTML(filename=html_file_path)
-    png_bytes = html.write_png()
-    with open(output_image_path, 'wb') as f:
-        f.write(png_bytes)
 
 #-------------------------------------------------------------------
     
