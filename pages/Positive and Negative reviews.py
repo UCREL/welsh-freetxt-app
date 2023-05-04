@@ -37,7 +37,7 @@ import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
 
-import circlify ###### pip install circlify
+
 import plotly.express as px #### pip install plotly.express
 import plotly.io as pio
 #from pyvis.network import Network
