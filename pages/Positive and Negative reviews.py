@@ -703,7 +703,7 @@ if status:
                                ###convert the html to image
 
                                 scattertext_html_path = "scattertext_visualization.html"
-				scattertext_image_path = "scattertext_visualization.png"
+                                scattertext_image_path = "scattertext_visualization.png"
 
 				imgkit.from_file(scattertext_html_path, scattertext_image_path)
                                 
