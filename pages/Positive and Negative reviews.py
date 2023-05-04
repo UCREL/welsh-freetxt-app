@@ -43,7 +43,7 @@ import plotly.io as pio
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 from langdetect import detect_langs
-import subprocess
+
 import scattertext as tt
 import spacy
 from pprint import pprint
@@ -587,24 +587,35 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-import asyncio
+import imgkit
+from PyQt5.QtCore import QUrl
+from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView
+from PyQt5.QtWidgets import QApplication
 import sys
-from pyppeteer import launch
-import nest_asyncio
 
-nest_asyncio.apply()
+def html_to_image_qt(html_file_path, output_image_path):
+    app = QApplication(sys.argv)
 
-async def html_to_image(html_file_path, output_image_path):
-    browser = await launch()
-    page = await browser.newPage()
-    await page.goto(f"file://{html_file_path}")
-    await page.screenshot({'path': output_image_path})
-    await browser.close()
+    view = QWebEngineView()
+    page = QWebEnginePage()
+    view.setPage(page)
 
-scattertext_html_path = sys.argv[1]
-scattertext_image_path = sys.argv[2]
+    def onLoadFinished(ok):
+        if ok:
+            page.setViewportSize(page.contentsSize())
+            img = QImage(page.viewportSize(), QImage.Format_ARGB32)
+            img.fill(Qt.transparent)
+            painter = QPainter(img)
+            page.render(painter)
+            painter.end()
+            img.save(output_image_path)
+            app.quit()
 
-asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
+    page.loadFinished.connect(onLoadFinished)
+    page.load(QUrl.fromLocalFile(html_file_path))
+    sys.exit(app.exec())
+
+
 
 
 #-------------------------------------------------------------------
@@ -752,11 +763,11 @@ if status:
                                 scattertext_html_path = "scattertext_visualization.html"
                                 scattertext_image_path = "scattertext_visualization.png"
 
-                              
+
+                                html_to_image_qt(scattertext_html_path, scattertext_image_path)
 
 
-                                subprocess.run(["python", "generate_scattertext_image.py", scattertext_html_path, scattertext_image_path])
-
+                               
                                 
                                 
                                 scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
