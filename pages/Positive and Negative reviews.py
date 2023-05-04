@@ -1,6 +1,6 @@
 import streamlit as st
 import base64
-from PIL import Image
+from PIL import Image as PilImage
 from labels import MESSAGES
 import os
 import string
