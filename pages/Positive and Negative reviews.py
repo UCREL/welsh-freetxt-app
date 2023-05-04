@@ -725,7 +725,7 @@ if status:
                                            wrapped_row.append(wrapped_cell)
                                     wrapped_table_data.append(wrapped_row)
 
-                             table = Table(table_data, colWidths=col_widths)
+                             table = Table(wrapped_table_data, colWidths=col_widths)
 			
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
