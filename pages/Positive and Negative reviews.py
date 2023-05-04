@@ -676,7 +676,7 @@ if status:
                         data_list_checkbox = st.checkbox("Include Data List as a Table")
                         sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
                         sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
-                        scatter_text_checkbox = st.checkbox("Include Scatter Text")
+                       # scatter_text_checkbox = st.checkbox("Include Scatter Text")
                         generate_pdf_checkbox = st.checkbox("Generate PDF report")
 			
                         # Create the PDF
@@ -733,23 +733,23 @@ if status:
                                elements.append(bar_graph)
                                elements.append(Spacer(1, 20))
 
-                        if scatter_text_checkbox:
+                        #if scatter_text_checkbox:
                          # Add the scatter text
                                ###convert the html to image
 
-                                scattertext_html_path = "scattertext_visualization.html"
-                                scattertext_image_path = "scattertext_visualization.png"
+                           #     scattertext_html_path = "scattertext_visualization.html"
+                            #    scattertext_image_path = "scattertext_visualization.png"
 
 
-                                html_to_image_weasyprint(scattertext_html_path, scattertext_image_path)
+                           #     html_to_image_weasyprint(scattertext_html_path, scattertext_image_path)
 
 
                                
                                 
                                 
-                                scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
-                                elements.append(scatter_text)
-                                elements.append(Spacer(1, 20))
+                            #    scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
+                             #   elements.append(scatter_text)
+                             #   elements.append(Spacer(1, 20))
 
 
                         if generate_pdf_checkbox:
