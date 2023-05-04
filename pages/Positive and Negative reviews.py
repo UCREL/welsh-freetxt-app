@@ -39,6 +39,7 @@ import base64
 
 import circlify ###### pip install circlify
 import plotly.express as px #### pip install plotly.express
+import plotly.io as pio
 #from pyvis.network import Network
 import streamlit.components.v1 as components
 from langdetect import detect_langs
@@ -436,8 +437,8 @@ def plot_sentiment(df):
     # create the figure
     fig = go.Figure(data=data, layout=layout)
     #Save the plot to an image
-    fig.savefig('Bar_fig.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
-
+    
+    pio.write_image(fig, 'Bar_fig.png', format='png', width=800, height=600, scale=2)
     # show the plot
     st.plotly_chart(fig)
     buffer = io.StringIO()
@@ -514,8 +515,8 @@ def plot_sentiment_pie(df):
     # update the pie chart data
     #fig.update_traces(labels=proportions.index, values=proportions.values)
     #Save the plot to an image
-    fig.savefig('Pie_fig.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
-
+    pio.write_image(fig, 'Pie_fig.png', format='png', width=800, height=600, scale=2)
+	
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
     html_bytes = buffer.getvalue().encode()
