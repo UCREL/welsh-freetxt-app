@@ -720,7 +720,7 @@ if status:
                              for row in table_data:
                                         wrapped_row = []
                                         for cell in row:
-                                              wrapped_cell = Paragraph(cell, style=cell_style)
+                                              wrapped_cell = Paragraph(str(cell), style=cell_style)
                                               wrapped_row.append(wrapped_cell)
                                         wrapped_table_data.append(wrapped_row)
 
