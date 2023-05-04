@@ -42,10 +42,6 @@ graphviz
 pyvis
 pygsp
 python-dotenv
-openai
 tabulate
 kaleido
-pyppeteer
-imgkit
-PyQt5
-weasyprint
+
