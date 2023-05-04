@@ -1,6 +1,6 @@
 import streamlit as st
 import base64
-from PIL import Image
+from PIL import Image as PilImage
 from labels import MESSAGES
 from streamlit_lottie import st_lottie
 
@@ -38,6 +38,17 @@ from typing import List
 import networkx as nx
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import base64
+#########Download report
+
+from io import BytesIO
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
+from reportlab.lib.units import inch
+
+
 
 ##Multilinguial 
 import gettext
@@ -239,6 +250,32 @@ def select_columns(data, key):
             return data.loc[data[filter_column] == filter_key].drop_duplicates()
     else:
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
+ #----------------------------------------------------------   
+ # Add a state variable to store the generated PDF data
+generated_pdf_data = None
+
+
+def header(canvas, doc):
+    # Add logo and title in a table
+    logo_path = "img/FreeTxt_logo.png" 
+    logo = PilImage.open(logo_path)
+    logo_width, logo_height = logo.size
+    aspect_ratio = float(logo_height) / float(logo_width)
+    logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+    title_text = "Summarisation Report"
+    title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
+    title = Paragraph(title_text, title_style)
+    header_data = [[logo, title]]
+    header_table = Table(header_data)
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 20),
+    ]))
+    w, h = header_table.wrap(doc.width, doc.topMargin)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
+   #--------------------------------------------------------------------------------
 
 st.subheader('''📃 Text Summarizer''')
 
@@ -271,6 +308,47 @@ if status:
                 if df.empty:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
-                    input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
-                    run_summarizer(input_text[:2000],i)
+                    tab1, tab2 = st.tabs(["📝 Summarisation','📥 Download pdf'])
+                    with tab1:
+                          input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
+                          run_summarizer(input_text[:2000],i)
+                    with tab2:
+                        checkbox = st.checkbox("Generate PDF report")
+
+
+                        if checkbox:
+
+        
+                        # Create the PDF
+                            buffer = BytesIO()
+                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+
+    # Create the frame for the content
+                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+    # Create a PageTemplate with the header
+                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                            doc.addPageTemplates([template])
+                            elements = []
+
+    
+       
+        
+
+    # Add a spacer between header and input text
+                            elements.append(Spacer(1, 20))
+        # Build PDF
+	
+                            doc.build(elements)
+                            buffer.seek(0)
+                            generated_pdf_data = buffer.read()
+
+   # Display the download button only after generating the report
+                        if generated_pdf_data:
+                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+
+                        
+
+                    
                 
