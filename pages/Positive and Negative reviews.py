@@ -586,7 +586,7 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-import asyncio
+import nest_asyncio
 from pyppeteer import launch
 
 async def html_to_image(html_file_path, output_image_path):
@@ -747,7 +747,11 @@ if status:
                                 scattertext_html_path = "scattertext_visualization.html"
                                 scattertext_image_path = "scattertext_visualization.png"
 
-                               
+                               # Apply the nest_asyncio patch
+                                nest_asyncio.apply()
+
+                                # Run the event loop for the html_to_image function
+                                asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
                                 asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
                                 
                                 scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
