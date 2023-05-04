@@ -648,13 +648,29 @@ if status:
                          data = grid_response['data']
                          selected = grid_response['selected_rows'] 
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-                        ###scattertext 
+                        ###scattertext
+                         st.header('Scatter Text')
+                                                  # Copy the scattertext_visualization.html to a temporary file
+                         scattertext_html_path='scattertext_visualization.html'
+                         tmp_scattertext_path = "tmp_scattertext_visualization.html"
+                         shutil.copyfile(scattertext_html_path, tmp_scattertext_path)
+
+                         # Add a download button for the Scattertext HTML file
+                         with open(tmp_scattertext_path, "rb") as file:
+                                    scattertext_html_data = file.read()
+
+                         st.download_button(
+                             label="Download Scattertext Visualization HTML",
+                             data=scattertext_html_data,
+                          file_name="scattertext_visualization.html",
+                            mime="text/html",
+                                )
                          st.write('For better reprentation we recommend selecting 3 sentiment classes')
                          generate_scattertext_visualization(analysis)
                          HtmlFile = open("scattertext_visualization.html", 'r', encoding='utf-8')
                          source_code = HtmlFile.read() 
                          print(source_code)
-                         components.html(source_code,height = 1500)
+                         components.html(source_code,height = 1500,width = 800)
 			 
 
                          # Copy the scattertext_visualization.html to a temporary file
