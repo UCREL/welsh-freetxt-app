@@ -587,36 +587,13 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-import imgkit
-from PyQt5.QtCore import QUrl
-from PyQt5.QtWebEngineWidgets import QWebEnginePage, QWebEngineView
-from PyQt5.QtWidgets import QApplication
-import sys
+from weasyprint import HTML
 
-def html_to_image_qt(html_file_path, output_image_path):
-    app = QApplication(sys.argv)
-
-    view = QWebEngineView()
-    page = QWebEnginePage()
-    view.setPage(page)
-
-    def onLoadFinished(ok):
-        if ok:
-            page.setViewportSize(page.contentsSize())
-            img = QImage(page.viewportSize(), QImage.Format_ARGB32)
-            img.fill(Qt.transparent)
-            painter = QPainter(img)
-            page.render(painter)
-            painter.end()
-            img.save(output_image_path)
-            app.quit()
-
-    page.loadFinished.connect(onLoadFinished)
-    page.load(QUrl.fromLocalFile(html_file_path))
-    sys.exit(app.exec())
-
-
-
+def html_to_image_weasyprint(html_file_path, output_image_path):
+    html = HTML(filename=html_file_path)
+    png_bytes = html.write_png()
+    with open(output_image_path, 'wb') as f:
+        f.write(png_bytes)
 
 #-------------------------------------------------------------------
     
@@ -764,7 +741,7 @@ if status:
                                 scattertext_image_path = "scattertext_visualization.png"
 
 
-                                html_to_image_qt(scattertext_html_path, scattertext_image_path)
+                                html_to_image_weasyprint(scattertext_html_path, scattertext_image_path)
 
 
                                
