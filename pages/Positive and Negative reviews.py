@@ -673,7 +673,27 @@ if status:
                         scatter_text_checkbox = st.checkbox("Include Scatter Text")
                         generate_pdf_checkbox = st.checkbox("Generate PDF report")
 			
-                        
+                        # Create the PDF
+                            
+		        buffer = BytesIO()
+                        doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+
+                        # Create the frame for the content
+                        frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+                        # Create a PageTemplate with the header
+                        template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                        doc.addPageTemplates([template])
+                        elements = []
+
+    
+       
+        
+
+    # Add a spacer between header and input text
+                            elements.append(Spacer(1, 20))
+
 
 			# Add content based on selected checkboxes
                         if data_list_checkbox:
@@ -717,26 +737,7 @@ if status:
                         if generate_pdf_checkbox:
 
         
-                        # Create the PDF
-                            buffer = BytesIO()
-                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
-
-    # Create the frame for the content
-                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
-
-    
-    # Create a PageTemplate with the header
-                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
-                            doc.addPageTemplates([template])
-                            elements = []
-
-    
-       
-        
-
-    # Add a spacer between header and input text
-                            elements.append(Spacer(1, 20))
-        # Build PDF
+                                # Build PDF
 	
                             doc.build(elements)
                             buffer.seek(0)
