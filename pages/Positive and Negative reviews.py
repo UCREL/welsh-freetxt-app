@@ -434,6 +434,8 @@ def plot_sentiment(df):
 
     # create the figure
     fig = go.Figure(data=data, layout=layout)
+    #Save the plot to an image
+    fig.savefig('Bar_fig.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
 
     # show the plot
     st.plotly_chart(fig)
@@ -510,6 +512,8 @@ def plot_sentiment_pie(df):
 
     # update the pie chart data
     #fig.update_traces(labels=proportions.index, values=proportions.values)
+    #Save the plot to an image
+    fig.savefig('Pie_fig.png', format='png', dpi=300, bbox_inches='tight', pad_inches=0.1)
 
     buffer = io.StringIO()
     fig.write_html(buffer, include_plotlyjs='cdn')
@@ -659,14 +663,56 @@ if status:
                          print(source_code)
                          components.html(source_code,height = 1500)
                     with tab3:
+			#####pdf_generator
                         data_list_checkbox = st.checkbox("Include Data List as a Table")
                         sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
                         sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
                         scatter_text_checkbox = st.checkbox("Include Scatter Text")
-                        checkbox = st.checkbox("Generate PDF report")
+                        generate_pdf_checkbox = st.checkbox("Generate PDF report")
+                        # Add a spacer between header and input text
+                        elements.append(Spacer(1, 20))
+
+			# Add content based on selected checkboxes
+                        if data_list_checkbox:
+  	                # Add the data list as a table
+                        
+                                 data = df
+                                 table = Table(data)
+                                 elements.append(table)
+                                 elements.append(Spacer(1, 20))
+
+                        if sentiment_pie_checkbox:
+                        # Add the sentiment pie graph
+                        
+                              pie_graph_path = "path/to/Pie_fig.png"
+                              pie_graph = ReportLabImage(pie_graph_path, width=200, height=200)
+                              elements.append(pie_graph)
+                              elements.append(Spacer(1, 20))
+
+                        if sentiment_bar_checkbox:
+                         # Add the sentiment bar graph
+                       
+                               bar_graph_path = "path/to/Bar_fig.png"
+                               bar_graph = ReportLabImage(bar_graph_path, width=200, height=200)
+                               elements.append(bar_graph)
+                               elements.append(Spacer(1, 20))
+
+                        if scatter_text_checkbox:
+                         # Add the scatter text
+                               ###convert the html to image 
+			       import imgkit
+
+				scattertext_html_path = "scattertext_visualization.html"
+				scattertext_image_path = "scattertext_visualization.png"
+
+				imgkit.from_file(scattertext_html_path, scattertext_image_path)
+                                
+                                scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
+                                elements.append(scatter_text)
+                                elements.append(Spacer(1, 20))
 
 
-                        if checkbox:
+                        if generate_pdf_checkbox:
 
         
                         # Create the PDF
