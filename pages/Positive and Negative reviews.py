@@ -655,6 +655,24 @@ if status:
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 1500)
+			 import shutil
+
+                         # Copy the scattertext_visualization.html to a temporary file
+			 scattertext_html_path='scattertext_visualization.html'
+                         tmp_scattertext_path = "tmp_scattertext_visualization.html"
+                         shutil.copyfile(scattertext_html_path, tmp_scattertext_path)
+
+                         # Add a download button for the Scattertext HTML file
+                         with open(tmp_scattertext_path, "rb") as file:
+                                    scattertext_html_data = file.read()
+
+                         st.download_button(
+                             label="Download Scattertext Visualization HTML",
+                             data=scattertext_html_data,
+                          file_name="scattertext_visualization.html",
+                            mime="text/html",
+                                )
+
                     with tab3:
 			#####pdf_generator
                         data_list_checkbox = st.checkbox("Include Data List as a Table")
