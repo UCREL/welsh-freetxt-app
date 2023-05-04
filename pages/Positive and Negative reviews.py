@@ -566,6 +566,7 @@ def generate_scattertext_visualization(analysis):
 generated_pdf_data = None
 
 
+#---------------------------------------------------------------------------------------
 def header(canvas, doc):
     # Add logo and title in a table
     logo_path = "img/FreeTxt_logo.png" 
@@ -587,7 +588,7 @@ def header(canvas, doc):
     w, h = header_table.wrap(doc.width, doc.topMargin)
     header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
 
-
+#---------------------------------------------------------------------------------------
 
     
 st.markdown('''🎲 Sentiment Analyzer''')
