@@ -486,7 +486,7 @@ def plot_sentiment_pie(df):
     
     fig = go.Figure(data=data, layout=layout)
     selected_points = plotly_events(fig, select_event=True)
-    st.write('The following figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data')
+    st.write('The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data')
     if selected_points:
         # filter the dataframe based on the selected point
         point_number = selected_points[0]['pointNumber']
@@ -718,11 +718,12 @@ if status:
                              wrapped_table_data = []
 
                              for row in table_data:
-                                        wrapped_row = []
-                                        for cell in row:
-                                              wrapped_cell = Paragraph(str(cell), style=cell_style)
-                                              wrapped_row.append(wrapped_cell)
-                                        wrapped_table_data.append(wrapped_row)
+                                    wrapped_row = []
+                                    for idx, cell in enumerate(row):
+                                           wrapped_cell = Paragraph(str(cell), style=cell_style, spaceBefore=0, spaceAfter=0)
+                                           wrapped_cell.wrap(col_widths[idx], 900)  # Set the width for the cell content
+                                           wrapped_row.append(wrapped_cell)
+                                    wrapped_table_data.append(wrapped_row)
 
                              table = Table(table_data, colWidths=col_widths)
 			
