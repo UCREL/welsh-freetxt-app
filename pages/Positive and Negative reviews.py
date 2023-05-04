@@ -623,7 +623,7 @@ if status:
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 1500)
-                      with tab3:
+                    with tab3:
                         checkbox = st.checkbox("Generate PDF report")
 
 
@@ -656,7 +656,7 @@ if status:
                            generated_pdf_data = buffer.read()
 
    # Display the download button only after generating the report
-                       if generated_pdf_data:
+                        if generated_pdf_data:
                               st.download_button("Download PDF", generated_pdf_data, "report_positiveandnegative.pdf", "application/pdf")
 
                         
