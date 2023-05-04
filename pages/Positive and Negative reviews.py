@@ -56,7 +56,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
-
+import shutil
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -655,7 +655,7 @@ if status:
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 1500)
-			 import shutil
+			 
 
                          # Copy the scattertext_visualization.html to a temporary file
 			 scattertext_html_path='scattertext_visualization.html'
