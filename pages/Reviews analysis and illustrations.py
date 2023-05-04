@@ -1842,10 +1842,7 @@ if status:
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
-			data_list_checkbox = st.checkbox("Include Data List as a Table")
-			sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
-			sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
-			scatter_text_checkbox = st.checkbox("Include Scatter Text")
+
 
                         checkbox = st.checkbox("Generate PDF report")
 
