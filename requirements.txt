@@ -44,7 +44,6 @@ pygsp
 python-dotenv
 openai
 tabulate
-imgkit
 kaleido
 selenium
 pyppeteer
