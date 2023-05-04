@@ -572,7 +572,7 @@ if status:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
                     
-                    tab1, tab2 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter'])
+                    tab1, tab2,tab3 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter','Download pdf'])
                     with tab1:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
@@ -623,6 +623,43 @@ if status:
                          source_code = HtmlFile.read() 
                          print(source_code)
                          components.html(source_code,height = 1500)
+                      with tab3:
+                        checkbox = st.checkbox("Generate PDF report")
+
+
+                        if checkbox:
+
+        
+                        # Create the PDF
+                            buffer = BytesIO()
+                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+
+    # Create the frame for the content
+                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+    # Create a PageTemplate with the header
+                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                            doc.addPageTemplates([template])
+                            elements = []
+
+    
+       
+        
+
+    # Add a spacer between header and input text
+                           elements.append(Spacer(1, 20))
+        # Build PDF
+	
+                           doc.build(elements)
+                           buffer.seek(0)
+                           generated_pdf_data = buffer.read()
+
+   # Display the download button only after generating the report
+                       if generated_pdf_data:
+                              st.download_button("Download PDF", generated_pdf_data, "report_positiveandnegative.pdf", "application/pdf")
+
+                        
 
                         
                          
