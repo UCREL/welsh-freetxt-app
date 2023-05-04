@@ -56,7 +56,8 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
 
-
+###from html to image
+import imgkit
 
 
 @st.cache(allow_output_mutation=True)
@@ -699,8 +700,7 @@ if status:
 
                         if scatter_text_checkbox:
                          # Add the scatter text
-                               ###convert the html to image 
-			       import imgkit
+                               ###convert the html to image
 
 				scattertext_html_path = "scattertext_visualization.html"
 				scattertext_image_path = "scattertext_visualization.png"
