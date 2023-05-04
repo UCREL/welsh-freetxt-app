@@ -587,28 +587,22 @@ def header(canvas, doc):
 
 #---------------------------------------------------------------------------------------
 ### from html to image
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+import asyncio
+from pyppeteer import launch
 
-def html_to_image(html_file_path, output_image_path):
-    # Set up headless Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument("--no-sandbox")
-    chrome_options.add_argument("--disable-dev-shm-usage")
+async def html_to_image(html_file_path, output_image_path):
+    browser = await launch()
+    page = await browser.newPage()
+    await page.goto(f"file://{html_file_path}")
+    await page.screenshot({'path': output_image_path})
+    await browser.close()
 
-    # Create the Chrome WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
+scattertext_html_path = "scattertext_visualization.html"
+scattertext_image_path = "scattertext_visualization.png"
 
-    # Open the HTML file
-    driver.get(f"file://{html_file_path}")
+# Since the html_to_image function is async, we need to run it inside an event loop
+asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
 
-    # Save a screenshot of the Scattertext visualization
-    driver.save_screenshot(output_image_path)
-
-    # Close the WebDriver
-    driver.quit()
 #-------------------------------------------------------------------
     
 st.markdown('''🎲 Sentiment Analyzer''')
@@ -754,7 +748,8 @@ if status:
                                 scattertext_html_path = "scattertext_visualization.html"
                                 scattertext_image_path = "scattertext_visualization.png"
 
-                                html_to_image(scattertext_html_path, scattertext_image_path)
+                               
+                                asyncio.get_event_loop().run_until_complete(html_to_image(scattertext_html_path, scattertext_image_path))
                                 
                                 scatter_text = ReportLabImage(scattertext_image_path, width=800, height=800)
                                 elements.append(scatter_text)
