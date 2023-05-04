@@ -13,7 +13,7 @@ import io
 import matplotlib.pyplot as plt
 import seaborn as sns
 import networkx as nx
-from PIL import Image
+from PIL import Image as PilImage
 from textblob import TextBlob
 from nltk import word_tokenize, sent_tokenize, ngrams
 from wordcloud import WordCloud, ImageColorGenerator
@@ -50,9 +50,18 @@ import random
 
 import streamlit as st
 import base64
-from PIL import Image
 from labels import MESSAGES
 import frequency_lists_log_likelihood as Keness
+
+#########Download report
+
+from io import BytesIO
+from reportlab.lib.pagesizes import letter, landscape, A4
+from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
+from reportlab.lib.units import inch
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -1516,7 +1525,32 @@ def plot_kwic(data, key):
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
 
+ #----------------------------------------------------------   
+ # Add a state variable to store the generated PDF data
+generated_pdf_data = None
 
+
+def header(canvas, doc):
+    # Add logo and title in a table
+    logo_path = "img/FreeTxt_logo.png" 
+    logo = PilImage.open(logo_path)
+    logo_width, logo_height = logo.size
+    aspect_ratio = float(logo_height) / float(logo_width)
+    logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
+    title_text = "Summarisation Report"
+    title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
+    title = Paragraph(title_text, title_style)
+    header_data = [[logo, title]]
+    header_table = Table(header_data)
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 20),
+    ]))
+    w, h = header_table.wrap(doc.width, doc.topMargin)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
+   #--------------------------------------------------------------------------------
                 
 def plot_kwic_txt(df):
     tab6.markdown('''💬 Word location in text''')
@@ -1605,7 +1639,7 @@ if st.button('Analysis') or st.session_state.load_state:
     
         else:
        
-            tab4, tab5, tab6, tab7 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "🌳 Word Tree"])
+            tab4, tab5, tab6, tab7, tab10 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "🌳 Word Tree", '📥 Generate pdf report'])
                     ###font tabs
    
             font_css = """
@@ -1769,7 +1803,7 @@ if status:
                     
                     
                  
-                    tab1, tab2, tab3,tab8= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', " 🌳 Word Tree"])
+                    tab1, tab2, tab3,tab9= st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', " 🌳 Word Tree", '📥 Generate pdf report'])
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
