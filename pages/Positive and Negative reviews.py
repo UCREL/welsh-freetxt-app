@@ -675,7 +675,7 @@ if status:
 			
                         # Create the PDF
                             
-		        buffer = BytesIO()
+                        buffer = BytesIO()
                         doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
 
                         # Create the frame for the content
