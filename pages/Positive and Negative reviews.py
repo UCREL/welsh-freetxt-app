@@ -694,7 +694,7 @@ if status:
                         if data_list_checkbox:
   	                # Add the data list as a table
                                 # Add DataFrame as a table
-                             table_data = [analysis.columns.to_list()] + analysis.values.tolist()
+                             table_data = [analysis[['Review','Sentiment Label','Sentiment Score']].to_list()] + analysis.values.tolist()
                              table = Table(table_data)
                              table.setStyle(TableStyle([
             ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
@@ -723,7 +723,7 @@ if status:
                          # Add the sentiment bar graph
                        
                                bar_graph_path = "Bar_fig.png"
-                               bar_graph = ReportLabImage(bar_graph_path, width= 350, height =300)
+                               bar_graph = ReportLabImage(bar_graph_path, width= 300, height =300)
                                elements.append(bar_graph)
                                elements.append(Spacer(1, 20))
 
