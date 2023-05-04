@@ -1842,6 +1842,11 @@ if status:
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
+			data_list_checkbox = st.checkbox("Include Data List as a Table")
+			sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
+			sentiment_bar_checkbox = st.checkbox("Include Sentiment Bar Graph")
+			scatter_text_checkbox = st.checkbox("Include Scatter Text")
+
                         checkbox = st.checkbox("Generate PDF report")
 
 
@@ -1852,11 +1857,11 @@ if status:
                             buffer = BytesIO()
                             doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
 
-    # Create the frame for the content
+	    		# Create the frame for the content
                             frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
 
     
-    # Create a PageTemplate with the header
+   			 # Create a PageTemplate with the header
                             template = PageTemplate(id='header_template', frames=frame, onPage=header)
                             doc.addPageTemplates([template])
                             elements = []
@@ -1865,15 +1870,15 @@ if status:
        
         
 
-    # Add a spacer between header and input text
+    			# Add a spacer between header and input text
                             elements.append(Spacer(1, 20))
-        # Build PDF
+     			   # Build PDF
 	
                             doc.build(elements)
                             buffer.seek(0)
                             generated_pdf_data = buffer.read()
 
-   # Display the download button only after generating the report
+  			 # Display the download button only after generating the report
                         if generated_pdf_data:
                               st.download_button("Download PDF", generated_pdf_data, "report_TextAnalysis.pdf", "application/pdf")
 
