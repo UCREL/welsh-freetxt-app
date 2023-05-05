@@ -453,7 +453,10 @@ def plot_sentiment(df):
 
 
 from streamlit_plotly_events import plotly_events
+import plotly.express as px
+
 def plot_sentiment_pie(df):
+
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
