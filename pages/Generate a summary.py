@@ -348,7 +348,7 @@ if status:
 
                                    if download_summary:
                                    # Add the summarized text
-                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{run_summarizer(input_text[:2000])}", styles['SummarizedText'])
+                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{run_summarizer(input_text[:2000],2)}", styles['SummarizedText'])
                                            elements.append(summarized_text_paragraph)
 
             
