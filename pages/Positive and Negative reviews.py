@@ -639,7 +639,9 @@ tabs_html = """
 </div>
 
 <div id="tab1" style="display: block;">
-    <!-- Your content for the Meaning analysis tab -->
+    <!-- 
+                      
+                        -->
 </div>
 
 <div id="tab2" style="display: none;">
@@ -874,7 +876,15 @@ if status:
 
                         
 
-                        
+css = '''
+<style>
+    .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    font-size:2rem;
+    }
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)                        
                          
                             
                             
