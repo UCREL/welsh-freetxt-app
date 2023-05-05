@@ -170,7 +170,7 @@ if "load_state" not in st.session_state:
      st.session_state.load_state = False
 
 # reading example and uploaded files
-@st.cache(suppress_st_warning=True)
+@st.cache(allow_output_mutation=True)
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
     if file_name.endswith('.txt'):
