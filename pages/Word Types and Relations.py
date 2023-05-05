@@ -256,16 +256,18 @@ elif lang_detected == 'en':
 	tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
 
 	st.dataframe(tagged_tokens_df, use_container_width=True)
-	
-	
+
 import scattertext as stx
+import spacy
+
+nlp = spacy.load('en_core_web_sm')
 
 # Create a corpus from an example text
-
+text = "This is an example text to analyze for USAS tags. It contains both English and Welsh words."
 corpus = stx.CorpusFromPandas(
     pd.DataFrame({'text': [text]}),
     text_col='text',
-    nlp=stx.whitespace_nlp_with_sentences(),
+    nlp=nlp,
     feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
     metadata_col='text'
 ).build()
@@ -287,6 +289,7 @@ html = stx.produce_scattertext_explorer(
 
 # Display the scatterplot in the Streamlit app
 st.write(html, unsafe_allow_html=True)
+
 
 
 # Add a state variable to store the generated PDF data
