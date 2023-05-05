@@ -262,7 +262,7 @@ import scattertext as stx
 
 # create a Scattertext Corpus from the data
 corpus = stx.CorpusFromPandas(
-    df,
+    tagged_tokens_df,
     category_col='your_category_column_name',
     text_col='Text',
     nlp=stx.whitespace_nlp_with_sentences,
