@@ -134,12 +134,12 @@ with st.container():
     with left_column:
         st.subheader(_("[Reviews analysis and illustrations](http://ucrel-freetxt-1.lancs.ac.uk:8501/Reviews_analysis_and_illustrations)"))
         st.write(_('''This tool has three components: 
-1. Data View: to select, view and filter columns from a data file  
-2. Word Cloud: creates a word cloud from content in the selected columns of a file 
-3. Context and Collocation: extracts the most frequent words that appear in the selected columns of your file, illustrating how they appear in sentences. It also shows the words which most often co-occur with these most frequent words. 
+                1. Data View: to select, view and filter columns from a data file  
+               2. Word Cloud: creates a word cloud from content in the selected columns of a file 
+            3. Context and Collocation: extracts the most frequent words that appear in the selected columns of your file, illustrating how they appear in sentences. It also shows the words which most often co-occur with these most frequent words. 
         
         
-        ''')
+                    ''')
        
     with right_column:
         data_url = read_gif("img/visualization.gif")
