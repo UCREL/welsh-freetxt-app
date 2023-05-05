@@ -199,7 +199,7 @@ def get_data(file_source='example'):
 
 
 
-summ=''
+summary=''
 # text_rank
 def text_rank_summarize(article, ratio):
   return summa_summarizer(article, ratio=ratio)
@@ -230,6 +230,7 @@ def run_summarizertxt(input_text, lang='en'):
         if input_text and input_text!='<Rhowch eich testun (Please enter your text...)>' and len(input_text) > 10:
             summ = text_rank_summarize(input_text, ratio=chosen_ratio)
             if summ:
+                summary = text_rank_summarize(input_text, ratio=chosen_ratio)
                 st.write(text_rank_summarize(input_text, ratio=chosen_ratio))
             else:
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
@@ -348,7 +349,7 @@ if status:
 
                                    if download_summary:
                                    # Add the summarized text
-                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{run_summarizer(input_text[:2000],2)}", styles['SummarizedText'])
+                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summary}", styles['SummarizedText'])
                                            elements.append(summarized_text_paragraph)
 
             
