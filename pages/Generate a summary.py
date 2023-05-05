@@ -260,7 +260,9 @@ def select_columns(data, key):
 generated_pdf_data = None
 
 
-def header(canvas, doc):
+def header(canvas, doc, input_text, summarized_text):
+    canvas.saveState()
+    styles = getSampleStyleSheet()
     # Add logo and title in a table
     logo_path = "img/FreeTxt_logo.png" 
     logo = PilImage.open(logo_path)
@@ -271,15 +273,19 @@ def header(canvas, doc):
     title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
-    header_table = Table(header_data)
-    header_table.setStyle(TableStyle([
-        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
-        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
-        ('VALIGN', (0, 0), (1, 0), 'TOP'),
-        ('LEFTPADDING', (1, 0), (1, 0), 20),
-    ]))
-    w, h = header_table.wrap(doc.width, doc.topMargin)
-    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
+
+
+    # Input text header
+    header_input = Paragraph(f"Input Text: {input_text}", styles['Heading2'])
+    w, h = header_input.wrap(doc.width, doc.topMargin)
+    header_input.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h)
+
+    # Summarized text header
+    header_summary = Paragraph(f"Summarized Text: {summarized_text}", styles['Heading2'])
+    w, h = header_summary.wrap(doc.width, doc.topMargin)
+    header_summary.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 1.5 * h)
+
+    canvas.restoreState()
    #--------------------------------------------------------------------------------
 
 st.subheader('''📃 Text Summarizer''')
