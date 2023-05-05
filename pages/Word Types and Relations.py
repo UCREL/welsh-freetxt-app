@@ -42,7 +42,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import subprocess
 import sys
 
-import circlify ###### pip install circlify
+
 import plotly.express as px #### pip install plotly.express
 
 import streamlit.components.v1 as components
