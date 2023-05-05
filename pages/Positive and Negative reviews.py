@@ -605,8 +605,8 @@ if status:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
                     
-                    tab1, tab2,tab3 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter','📥 Download pdf'])
-                    with tab1:
+                   tab1, tab2,tab3 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter','📥 Download pdf'])
+                   with tab1:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
                         
@@ -626,7 +626,7 @@ if status:
                             plot_sentiment_pie(analysis)
                             plot_sentiment(analysis)
                        
-                    with tab2:
+                   with tab2:
                          #### interactive dataframe
                          gb = GridOptionsBuilder.from_dataframe(analysis)
                          gb.configure_pagination(paginationAutoPageSize=True) #Add pagination
@@ -679,7 +679,7 @@ if status:
 
                          
 
-                    with tab3:
+                   with tab3:
 		     try:
                      # Check if the DataFrame exists
                        if analysis is not None:
