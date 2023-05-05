@@ -402,10 +402,6 @@ def analyze_sentiment(input_text,num_classes, max_seq_len=512):
 
     return sentiments
 
-
-
-
-
 #####
 import plotly.graph_objs as go
 import plotly.io as pio
@@ -459,8 +455,6 @@ def plot_sentiment(df):
 
 from streamlit_plotly_events import plotly_events
 
-def plot_sentiment_pie(df):
-
     # count the number of reviews in each sentiment label
     counts = df['Sentiment Label'].value_counts()
 
@@ -473,7 +467,7 @@ def plot_sentiment_pie(df):
             labels=proportions.index,
             values=proportions.values,
             hole=0.4,
-            marker=dict(colors=['rgb(63, 81, 181)', 'rgb(33, 150, 243)', 'rgb(255, 87, 34)'])
+            marker=dict(colors=px.colors.qualitative.Plotly)
         )
     ]
 
@@ -486,7 +480,6 @@ def plot_sentiment_pie(df):
 
     )
 
-    
     fig = go.Figure(data=data, layout=layout)
     selected_points = plotly_events(fig, select_event=True)
     st.write('The figure displays the sentiment analysis of the data, you can press on any part of the graph to display the data')
