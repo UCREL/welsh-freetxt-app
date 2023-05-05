@@ -133,10 +133,13 @@ with st.container():
     left_column, right_column = st.columns([1, 1])
     with left_column:
         st.subheader(_("[Reviews analysis and illustrations](http://ucrel-freetxt-1.lancs.ac.uk:8501/Reviews_analysis_and_illustrations)"))
-        st.write(_('''This is one of the key features of the tool and has three core components: a. Data View: This allows the user to display and visualize the selected columns from the data file they wish to look at.
-                   b. Word Cloud: This creates a word cloud from the content of the selected columns. It also allows the user to select the column(s) to build the word cloud from as well as the word cloud type. 
-c. Key word in Context and Collocation: This extracts the keywords in the review text from the selected columns as well as the contexts within which they appeared in the text'''))
-
+        st.write(_('''This tool has three components: 
+1. Data View: to select, view and filter columns from a data file  
+2. Word Cloud: creates a word cloud from content in the selected columns of a file 
+3. Context and Collocation: extracts the most frequent words that appear in the selected columns of your file, illustrating how they appear in sentences. It also shows the words which most often co-occur with these most frequent words. 
+        
+        
+        ''')
        
     with right_column:
         data_url = read_gif("img/visualization.gif")
