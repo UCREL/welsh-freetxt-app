@@ -313,13 +313,12 @@ if status:
                           input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
                           run_summarizer(input_text[:2000],i)
                     with tab2:
-                        download_text = st.checkbox("Download Text")
-                        download_summary = st.checkbox("Download Summarized Text")
+                        download_text = st.checkbox("Include original text")
+                        download_summary = st.checkbox("Include summarized text")
                         checkbox = st.checkbox("Generate PDF report")
 
                         if checkbox:
-                           download_text = st.checkbox("Include original text")
-                           download_summary = st.checkbox("Include summarized text")
+
 
                            if download_text or download_summary:
                                 try:
