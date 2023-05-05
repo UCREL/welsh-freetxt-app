@@ -58,6 +58,16 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, 
 from reportlab.lib.units import inch
 
 import shutil
+style = """
+<style>
+    .tabs .tab {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+</style>
+"""
+
+st.markdown(style, unsafe_allow_html=True)
 
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(png_file):
@@ -605,7 +615,7 @@ if status:
                     st.info('''**NoColumnSelected 🤨**: Please select one or more columns to analyse.''', icon="ℹ️")
                 else:
                     
-                  tab1, tab2,tab3 = st.tabs(["📈 Meaning analysis",'💬 Keyword scatter','📥 Download pdf'])
+                  tab1, tab2,tab3 = st.experimental_ui.tabs(["📈 Meaning analysis",'💬 Keyword scatter','📥 Download pdf'])
                   with tab1:
                         
                         input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in STOPWORDS and str(t) not in PUNCS]) for col in df])
