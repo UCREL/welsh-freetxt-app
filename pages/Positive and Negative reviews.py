@@ -177,7 +177,7 @@ def read_file(fname, file_source):
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     return True, data
-@st.cache(suppress_st_warning=True)
+@st.cache(allow_output_mutation=True)
 def get_data(file_source='example'):
     try:
         if file_source=='example':
