@@ -273,8 +273,8 @@ def header(canvas, doc):
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
 
-    w, h = header_summary.wrap(doc.width, doc.topMargin)
-    header_summary.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 1.5 * h)
+    w, h = header_data.wrap(doc.width, doc.topMargin)
+    header_data.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 1.5 * h)
 
 
    #--------------------------------------------------------------------------------
