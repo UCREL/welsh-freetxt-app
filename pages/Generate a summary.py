@@ -313,40 +313,57 @@ if status:
                           input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
                           run_summarizer(input_text[:2000],i)
                     with tab2:
+                        download_text = st.checkbox("Download Text")
+                        download_summary = st.checkbox("Download Summarized Text")
                         checkbox = st.checkbox("Generate PDF report")
 
-
                         if checkbox:
+                           download_text = st.checkbox("Include original text")
+                           download_summary = st.checkbox("Include summarized text")
 
-        
-                        # Create the PDF
-                            buffer = BytesIO()
-                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
+                           if download_text or download_summary:
+                                try:
+           
+                                   buffer = BytesIO()
+                                   doc = BaseDocTemplate(buffer, pagesize=A4, topMargin=1.5 * inch, showBoundary=0)
 
-    # Create the frame for the content
-                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+                                # Create the frame for the content
+                                   frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
 
-    
-    # Create a PageTemplate with the header
-                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
-                            doc.addPageTemplates([template])
-                            elements = []
+                               # Create a PageTemplate with the header
+                                   template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                                   doc.addPageTemplates([template])
+                                   elements = []
 
-    
-       
-        
+                                 # Define the styles
+                                   styles = getSampleStyleSheet()
+                                   styles.add(ParagraphStyle(name='InputText', fontSize=12, textColor=colors.black))
+                                   styles.add(ParagraphStyle(name='SummarizedText', fontSize=12, textColor=colors.black))
 
-    # Add a spacer between header and input text
-                            elements.append(Spacer(1, 20))
-        # Build PDF
-	
-                            doc.build(elements)
-                            buffer.seek(0)
-                            generated_pdf_data = buffer.read()
+                                   if download_text:
+                                 # Add the input text
+                                        input_text_paragraph = Paragraph(f"Input Text:\n{input_text}", styles['InputText'])
+                                        elements.append(input_text_paragraph)
 
-   # Display the download button only after generating the report
-                        if generated_pdf_data:
-                              st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+                                        elements.append(Spacer(1, 20))
+
+                                   if download_summary:
+                                   # Add the summarized text
+                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summarized_text}", styles['SummarizedText'])
+                                           elements.append(summarized_text_paragraph)
+
+            
+                                   doc.build(elements)
+                                   buffer.seek(0)
+                                   generated_pdf_data = buffer.read()
+
+                                    # Display the download button only after generating the report
+                                   if generated_pdf_data:
+                                        st.download_button("Download PDF", generated_pdf_data, "report_summarise.pdf", "application/pdf")
+
+                                except Exception as e:
+                                    st.error(f"An error occurred while generating the PDF: {str(e)}")
+
 
                         
 
