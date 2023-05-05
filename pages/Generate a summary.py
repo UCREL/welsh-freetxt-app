@@ -236,7 +236,8 @@ def run_summarizertxt(input_text, lang='en'):
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
         else:
             st.write("Rhowch eich testun...(Please enter your text in the above textbox)"
-    return summary
+    
+            return summary
 
 def select_columns(data, key):
     layout = st.columns([7, 0.2, 2, 0.2, 2, 0.2, 3, 0.2, 3])
