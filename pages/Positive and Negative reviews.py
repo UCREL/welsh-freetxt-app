@@ -680,6 +680,9 @@ if status:
                          
 
                     with tab3:
+		     try:
+                     # Check if the DataFrame exists
+                       if analysis is not None:
 			#####pdf_generator
                         data_list_checkbox = st.checkbox("Include Data List as a Table")
                         sentiment_pie_checkbox = st.checkbox("Include Sentiment Pie Graph")
@@ -750,18 +753,24 @@ if status:
                         if sentiment_pie_checkbox:
                         # Add the sentiment pie graph
                         
-                              pie_graph_path = "Pie_fig.png"
+                           pie_graph_path = "Pie_fig.png"
+                           if os.path.exists(pie_graph_path):                
                               pie_graph = ReportLabImage(pie_graph_path, width= 325, height =250)
                               elements.append(pie_graph)
                               elements.append(Spacer(1, 20))
+			   else:
+                             st.error("Sentiment Pie Graph image not found")
 
                         if sentiment_bar_checkbox:
                          # Add the sentiment bar graph
-                       
-                               bar_graph_path = "Bar_fig.png"
+                           
+                           bar_graph_path = "Bar_fig.png"
+                           if os.path.exists(bar_graph_path):
                                bar_graph = ReportLabImage(bar_graph_path, width= 325, height =250)
                                elements.append(bar_graph)
                                elements.append(Spacer(1, 20))
+                           else:
+                              st.error("Sentiment Bar Graph image not found")
 
                         #if scatter_text_checkbox:
                          # Add the scatter text
@@ -781,8 +790,12 @@ if status:
                              #   elements.append(scatter_text)
                              #   elements.append(Spacer(1, 20))
 
+                       else:
+                           st.error("DataFrame not found")
 
-                        if generate_pdf_checkbox:
+                     except Exception as e:
+                            st.error(f"An error occurred: {str(e)}")
+                     if generate_pdf_checkbox:
 
         
                                 # Build PDF
@@ -792,7 +805,7 @@ if status:
                             generated_pdf_data = buffer.read()
 
    # Display the download button only after generating the report
-                        if generated_pdf_data:
+                     if generated_pdf_data:
                               st.download_button("Download PDF", generated_pdf_data, "report_positiveandnegative.pdf", "application/pdf")
 
                         
