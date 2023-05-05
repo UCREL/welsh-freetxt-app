@@ -233,10 +233,11 @@ def run_summarizertxt(input_text, lang='en'):
                 summary = text_rank_summarize(input_text, ratio=chosen_ratio)
                 st.write(summary)
             else:
-                st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
+                summary = sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0]
+                st.write(summary)
         else:
             st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
-        return str(summary)
+        
     
     
 
@@ -352,7 +353,9 @@ if status:
 
                                    if download_summary:
                                    # Add the summarized text
-                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summary}", styles['SummarizedText'])
+                                           # Call the run_summarizertxt function and store the result in a variable
+                                           summarized_text = run_summarizertxt(input_text)
+                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summarized_text}", styles['SummarizedText'])
                                            elements.append(summarized_text_paragraph)
 
             
