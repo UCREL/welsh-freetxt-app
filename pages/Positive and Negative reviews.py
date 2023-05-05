@@ -746,8 +746,8 @@ if status:
                                  ('VALIGN', (0, 0), (-1, -1), 'TOP'),
 
                                          ]))
-                        elements.append(table)
-                        elements.append(Spacer(1, 20))
+                            elements.append(table)
+                            elements.append(Spacer(1, 20))
 
 
                         if sentiment_pie_checkbox:
