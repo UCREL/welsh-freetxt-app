@@ -263,6 +263,14 @@ import spacy
 nlp = spacy.blank('en')
 nlp.add_pipe('sentencizer')
 
+# Count the frequency of each USAS tag
+usas_tag_freq = tagged_tokens_df['USAS Tags'].value_counts().reset_index()
+usas_tag_freq.columns = ['USAS Tags', 'USAS Tags freq']
+
+# Merge the frequency information back to the original DataFrame
+tagged_tokens_df = pd.merge(tagged_tokens_df, usas_tag_freq, on='USAS Tags', how='left')
+
+
 
 usas_offset_getter = stx.USASOffsetGetter(
     tier=1,
