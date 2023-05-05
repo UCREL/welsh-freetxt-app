@@ -262,29 +262,64 @@ import spacy
 
 nlp = spacy.load('en_core_web_sm-3.2.0') 
 
-# Create a corpus from an example text
-text = "This is an example text to analyze for USAS tags. It contains both English and Welsh words."
-corpus = stx.CorpusFromPandas(
-    pd.DataFrame({'text': [text]}),
-    text_col='text',
-    nlp=nlp,
-    feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
-    metadata_col='text'
-).build()
 
-# Generate the scatterplot HTML string
-html = stx.produce_scattertext_explorer(
+nlp = spacy.blank('en')
+nlp.add_pipe('sentencizer')
+
+
+usas_offset_getter = st.USASOffsetGetter(
+    tier=1,
+    nlp=spacy.load('en_core_web_sm', disable=['ner'])
+)
+
+corpus = stx.OffsetCorpusFactory(
+    tagged_tokens_df,
+    category_col='USAS Tags',
+    parsed_col='Text',
+    feat_and_offset_getter=usas_offset_getter
+).build(show_progress=True)
+
+score_df = stx.CohensD(
+    corpus
+).use_metadata().set_categories(
+    category_name='USAS Tags'
+).get_scosre_df(
+)
+
+plot_df = score_df.rename(
+  columns={'hedges_r': 'HedgesR', 'hedges_r_p': 'HedgesRPval'}
+).assign(
+    Frequency=lambda df: df.count1 + df.count2,
+    X=lambda df: df.Frequency,
+    Y=lambda df: df.HedgesR,
+    Xpos=lambda df: st.Scalers.dense_rank(df.X),
+    Ypos=lambda df: st.Scalers.scale_center_zero_abs(df.Y),
+    ColorScore=lambda df: df.Ypos,
+)
+
+html = stx.dataframe_scattertext(
     corpus,
-    category='text',
-    category_name='Example Text',
+    plot_df=plot_df,
+    category='USAS Tags',
+    category_name='USAS Tags',
+    not_category_name='Other',
     width_in_pixels=1000,
-    metadata=corpus.get_df()['metadata'],
+    suppress_text_column='Display',
+    metadata=lambda c: c.get_df()['speaker'],
     use_non_text_features=True,
-    use_full_doc=True,
-    max_docs_per_category=1000,
-    minimum_term_frequency=1,
-    pmi_threshold_coefficient=0,
-    transform=stx.Scalers.dense_rank,
+    ignore_categories=False,
+    use_offsets=True,
+    unified_context=False,
+    color_score_column='ColorScore',
+    left_list_column='ColorScore',
+    y_label='Hedges R',
+    x_label='Frequency Ranks',
+    y_axis_labels=[f'More USAS Tags: r={plot_df.HedgesR.max():.3f}', '0', f'More Other: r={-plot_df.HedgesR.max():.3f}'],
+    tooltip_columns=['Frequency', 'HedgesR'],
+    term_description_columns=['Frequency', 'HedgesR', 'HedgesRPval'],
+    header_names={'upper': 'Top USAS Tags', 'lower': 'Top Other'},
+    term_word_in_term_description='Semantic Tag',
+    horizontal_line_y_position=0
 )
 
 # Display the scatterplot in the Streamlit app
