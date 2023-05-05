@@ -136,10 +136,7 @@ with st.container():
         st.write(_('''This tool has three components: 
                 1. Data View: to select, view and filter columns from a data file  
                2. Word Cloud: creates a word cloud from content in the selected columns of a file 
-            3. Context and Collocation: extracts the most frequent words that appear in the selected columns of your file, illustrating how they appear in sentences. It also shows the words which most often co-occur with these most frequent words. 
-        
-        
-                    ''')
+            3. Context and Collocation: extracts the most frequent words that appear in the selected columns of your file, illustrating how they appear in sentences. It also shows the words which most often co-occur with these most frequent words''')
        
     with right_column:
         data_url = read_gif("img/visualization.gif")
