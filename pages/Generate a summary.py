@@ -218,7 +218,7 @@ def run_summarizer(input_text, num,lang='en'):
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
     #else:
      #       st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
-            
+    return summary      
             
             
 #-------------Summariser--------------
@@ -316,7 +316,9 @@ if status:
                     tab1, tab2 = st.tabs(['📝 Summarisation','📥 Download pdf'])
                     with tab1:
                           input_text = '\n'.join(['\n'.join([str(t) for t in list(df[col]) if str(t) not in PUNCS]) for col in df])
-                          run_summarizer(input_text[:2000],i)
+                          summarized_text =run_summarizer(input_text[:2000],i)
+                          
+                           
                     with tab2:
                         download_text = st.checkbox("Include original text")
                         download_summary = st.checkbox("Include summarized text")
@@ -353,8 +355,7 @@ if status:
 
                                    if download_summary:
                                    # Add the summarized text
-                                           # Call the run_summarizertxt function and store the result in a variable
-                                           summarized_text = run_summarizertxt(input_text)
+                                           
                                            summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summarized_text}", styles['SummarizedText'])
                                            elements.append(summarized_text_paragraph)
 
