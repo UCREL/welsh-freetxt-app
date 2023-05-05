@@ -260,9 +260,8 @@ def select_columns(data, key):
 generated_pdf_data = None
 
 
-def header(canvas, doc, input_text, summarized_text):
-    canvas.saveState()
-    styles = getSampleStyleSheet()
+def header(canvas, doc):
+
     # Add logo and title in a table
     logo_path = "img/FreeTxt_logo.png" 
     logo = PilImage.open(logo_path)
@@ -274,18 +273,10 @@ def header(canvas, doc, input_text, summarized_text):
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
 
-
-    # Input text header
-    header_input = Paragraph(f"Input Text: {input_text}", styles['Heading2'])
-    w, h = header_input.wrap(doc.width, doc.topMargin)
-    header_input.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h)
-
-    # Summarized text header
-    header_summary = Paragraph(f"Summarized Text: {summarized_text}", styles['Heading2'])
     w, h = header_summary.wrap(doc.width, doc.topMargin)
     header_summary.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 1.5 * h)
 
-    canvas.restoreState()
+
    #--------------------------------------------------------------------------------
 
 st.subheader('''📃 Text Summarizer''')
@@ -344,7 +335,7 @@ if status:
 
                                # Create a PageTemplate with the header
                                        # Create a PageTemplate with the header
-                                   template = PageTemplate(id='header_template', frames=frame, onPage=lambda canvas, doc: header(canvas, doc, input_text, summarized_text))
+                                   template = PageTemplate(id='header_template', frames=frame, onPage=lambda canvas, doc: header(canvas, doc))
     
                                    doc.addPageTemplates([template])
                                    elements = []
