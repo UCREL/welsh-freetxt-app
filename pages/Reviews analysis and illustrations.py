@@ -1592,7 +1592,7 @@ def plot_kwic_txt(df):
                    fit_columns_on_grid_load=False,
     
                    enable_enterprise_modules=True,
-		   key='select_grid',
+		   key='select_grid_2',
                    height=350, width= '100%',
                    columns_auto_size_mode=ColumnsAutoSizeMode.FIT_CONTENTS,
                      reload_data=True
