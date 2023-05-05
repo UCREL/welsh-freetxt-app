@@ -266,7 +266,7 @@ corpus = stx.CorpusFromPandas(
     category_col='USAS Tags',
     text_col='Text',
     nlp=stx.whitespace_nlp_with_sentences,
-    feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
+    
     use_non_text_features=True
 ).build()
 
