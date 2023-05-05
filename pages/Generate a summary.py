@@ -235,7 +235,8 @@ def run_summarizertxt(input_text, lang='en'):
             else:
                 st.write(sent_tokenize(text_rank_summarize(input_text, ratio=0.5))[0])
         else:
-            st.write("Rhowch eich testun...(Please enter your text in the above textbox)"
+            st.write("Rhowch eich testun...(Please enter your text in the above textbox)")
+    return summary
     
 
 
