@@ -260,7 +260,7 @@ elif lang_detected == 'en':
 import scattertext as stx
 import spacy
 
-nlp = spacy.load('en_core_web_sm')
+nlp = spacy.load('en_core_web_sm-3.2.0') 
 
 # Create a corpus from an example text
 text = "This is an example text to analyze for USAS tags. It contains both English and Welsh words."
