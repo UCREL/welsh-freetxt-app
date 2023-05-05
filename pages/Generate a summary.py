@@ -137,6 +137,16 @@ st.set_page_config(
        '''
      }
  )
+css = '''
+<style>
+    .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    font-size:2rem;
+    }
+</style>
+'''
+
+st.markdown(css, unsafe_allow_html=True)
+
 @st.cache(allow_output_mutation=True)
 def get_state():
     return {}
