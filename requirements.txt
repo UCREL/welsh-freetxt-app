@@ -36,4 +36,4 @@ pyvis
 python-dotenv
 tabulate
 kaleido
-
+empath
