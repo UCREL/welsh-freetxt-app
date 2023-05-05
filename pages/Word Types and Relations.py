@@ -260,34 +260,34 @@ elif lang_detected == 'en':
 	
 import scattertext as stx
 
-# create a Scattertext Corpus from the data
+# Create a corpus from an example text
+
 corpus = stx.CorpusFromPandas(
-    tagged_tokens_df,
-    category_col='USAS Tags',
-    text_col='Text',
-    nlp=stx.whitespace_nlp_with_sentences,
-    
-    
+    pd.DataFrame({'text': [text]}),
+    text_col='text',
+    nlp=stx.whitespace_nlp_with_sentences(),
+    feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
+    metadata_col='text'
 ).build()
 
-# generate the scatterplot HTML string
-html = stx.dataframe_scattertext(
+# Generate the scatterplot HTML string
+html = stx.produce_scattertext_explorer(
     corpus,
-    category='USAS Tags',
-    category_name='Category A',
-    not_category_name='Category B',
+    category='text',
+    category_name='Example Text',
     width_in_pixels=1000,
-    metadata=corpus.get_df()['metadata_column_name'],
+    metadata=corpus.get_df()['metadata'],
     use_non_text_features=True,
     use_full_doc=True,
     max_docs_per_category=1000,
-    minimum_term_frequency=5,
-    pmi_threshold_coefficient=4,
+    minimum_term_frequency=1,
+    pmi_threshold_coefficient=0,
     transform=stx.Scalers.dense_rank,
 )
 
-# display the scatterplot in the Streamlit app
+# Display the scatterplot in the Streamlit app
 st.write(html, unsafe_allow_html=True)
+
 
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
