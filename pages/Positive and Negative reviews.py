@@ -583,7 +583,15 @@ def header(canvas, doc):
 
 
 #-------------------------------------------------------------------
-    
+# Function to convert DataFrame to a CSV file and allow it to be downloaded
+def download_csv(df):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="Sentiment-analysis.csv">Download CSV File</a>'
+    return href
+
+
+
 st.markdown('''🎲 Sentiment Analyzer''')
 option = st.sidebar.radio(MESSAGES[lang][0], (MESSAGES[lang][1], MESSAGES[lang][2]))
 if option == MESSAGES[lang][1]: input_data = get_data()
@@ -651,7 +659,12 @@ if status:
                          data = grid_response['data']
                          selected = grid_response['selected_rows'] 
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
-                        ###scattertext
+                         # Add a button to download the DataFrame as a CSV file
+                         if st.button('Download CSV'):
+                                st.markdown(download_csv(analysis), unsafe_allow_html=True)
+			
+			
+			###scattertext
                          st.header('Scatter Text')
                                                   # Copy the scattertext_visualization.html to a temporary file
                          st.write('For better reprentation we recommend selecting 3 sentiment classes')
