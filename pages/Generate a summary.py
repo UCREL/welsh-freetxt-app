@@ -199,7 +199,7 @@ def get_data(file_source='example'):
 
 
 
-summary=''
+summ=''
 # text_rank
 def text_rank_summarize(article, ratio):
   return summa_summarizer(article, ratio=ratio)
@@ -348,7 +348,7 @@ if status:
 
                                    if download_summary:
                                    # Add the summarized text
-                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summary}", styles['SummarizedText'])
+                                           summarized_text_paragraph = Paragraph(f"Summarized Text:\n{summ}", styles['SummarizedText'])
                                            elements.append(summarized_text_paragraph)
 
             
