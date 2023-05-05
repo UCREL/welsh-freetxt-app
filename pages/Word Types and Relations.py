@@ -263,7 +263,7 @@ import scattertext as stx
 # create a Scattertext Corpus from the data
 corpus = stx.CorpusFromPandas(
     tagged_tokens_df,
-    category_col='your_category_column_name',
+    category_col='USAS Tags',
     text_col='Text',
     nlp=stx.whitespace_nlp_with_sentences,
     feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
@@ -273,7 +273,7 @@ corpus = stx.CorpusFromPandas(
 # generate the scatterplot HTML string
 html = stx.dataframe_scattertext(
     corpus,
-    category='USAS-Tags',
+    category='USAS Tags',
     category_name='Category A',
     not_category_name='Category B',
     width_in_pixels=1000,
