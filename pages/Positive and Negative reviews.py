@@ -585,9 +585,9 @@ def header(canvas, doc):
 #-------------------------------------------------------------------
 # Function to convert DataFrame to a CSV file and allow it to be downloaded
 def download_csv(df):
-    csv = df.to_csv("Sentiment-analysis.csv",index=False)
+    csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode()
-    href = f'<a href="data:file/csv;base64,{b64}" download="Sentiment-analysis.csv">Download CSV File</a>'
+    href = f'<a href="data:file/csv;base64,{b64}" download="dataframe.csv">Download CSV File</a>'
     return href
 
 
