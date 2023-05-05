@@ -795,7 +795,7 @@ if status:
 
                     except Exception as e:
                             st.error(f"An error occurred: {str(e)}")
-                     if generate_pdf_checkbox:
+                    if generate_pdf_checkbox:
 
         
                                 # Build PDF
@@ -805,7 +805,7 @@ if status:
                             generated_pdf_data = buffer.read()
 
    # Display the download button only after generating the report
-                     if generated_pdf_data:
+                    if generated_pdf_data:
                               st.download_button("Download PDF", generated_pdf_data, "report_positiveandnegative.pdf", "application/pdf")
 
                         
