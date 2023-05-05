@@ -267,7 +267,7 @@ corpus = stx.CorpusFromPandas(
     text_col='Text',
     nlp=stx.whitespace_nlp_with_sentences,
     
-    use_non_text_features=True
+    
 ).build()
 
 # generate the scatterplot HTML string
