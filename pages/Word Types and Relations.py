@@ -260,16 +260,13 @@ elif lang_detected == 'en':
 import scattertext as stx
 import spacy
 
-nlp = spacy.load('en_core_web_sm-3.2.0') 
-
-
 nlp = spacy.blank('en')
 nlp.add_pipe('sentencizer')
 
 
-usas_offset_getter = st.USASOffsetGetter(
+usas_offset_getter = stx.USASOffsetGetter(
     tier=1,
-    nlp=spacy.load('en_core_web_sm', disable=['ner'])
+    nlp=spacy.load('en_core_web_sm-3.2.0', disable=['ner'])
 )
 
 corpus = stx.OffsetCorpusFactory(
