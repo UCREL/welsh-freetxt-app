@@ -256,6 +256,38 @@ elif lang_detected == 'en':
 	tagged_tokens_df = merged_df.drop(['Equivalent Tag'], axis=1)
 
 	st.dataframe(tagged_tokens_df, use_container_width=True)
+	
+	
+import scattertext as stx
+
+# create a Scattertext Corpus from the data
+corpus = stx.CorpusFromPandas(
+    df,
+    category_col='your_category_column_name',
+    text_col='Text',
+    nlp=stx.whitespace_nlp_with_sentences,
+    feats_from_spacy_doc=stx.FeatsFromOnlyEmpath(),
+    use_non_text_features=True
+).build()
+
+# generate the scatterplot HTML string
+html = stx.dataframe_scattertext(
+    corpus,
+    category='your_category_label',
+    category_name='Category A',
+    not_category_name='Category B',
+    width_in_pixels=1000,
+    metadata=corpus.get_df()['metadata_column_name'],
+    use_non_text_features=True,
+    use_full_doc=True,
+    max_docs_per_category=1000,
+    minimum_term_frequency=5,
+    pmi_threshold_coefficient=4,
+    transform=stx.Scalers.dense_rank,
+)
+
+# display the scatterplot in the Streamlit app
+st.write(html, unsafe_allow_html=True)
 
 # Add a state variable to store the generated PDF data
 generated_pdf_data = None
