@@ -36,7 +36,7 @@ import base64
 
 from fpdf import FPDF
 
-import circlify ###### pip install circlify
+
 import plotly.express as px #### pip install plotly.express
 from dateutil import parser
 import streamlit.components.v1 as components
