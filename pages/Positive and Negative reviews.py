@@ -592,13 +592,67 @@ else: pass
 status, data = input_data
 style = """
 <style>
-    .tabs .tab {
+    .tab-buttons {
+        display: flex;
+        margin-bottom: 1em;
+    }
+    
+    .tab-button {
         font-weight: bold;
         font-size: 1.2em;
+        cursor: pointer;
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        margin-right: 2px;
+    }
+    
+    .tab-button:hover {
+        background-color: #ddd;
+    }
+    
+    .tab-button.active {
+        background-color: #fff;
+        border-bottom: 1px solid #fff;
     }
 </style>
+
+<script>
+    function openTab(tabName) {
+        var tabButtons = document.getElementsByClassName("tab-button");
+        for (var i = 0; i < tabButtons.length; i++) {
+            tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        event.currentTarget.className += " active";
+    }
+</script>
 """
+
 st.markdown(style, unsafe_allow_html=True)
+
+tabs_html = """
+<div class="tab-buttons">
+    <button class="tab-button active" onclick="openTab('tab1')">📈 Meaning analysis</button>
+    <button class="tab-button" onclick="openTab('tab2')">💬 Keyword scatter</button>
+    <button class="tab-button" onclick="openTab('tab3')">📥 Download pdf</button>
+</div>
+
+<div id="tab1" style="display: block;">
+    <!-- Your content for the Meaning analysis tab -->
+</div>
+
+<div id="tab2" style="display: none;">
+    <!-- Your content for the Keyword scatter tab -->
+</div>
+
+<div id="tab3" style="display: none;">
+    <!-- Your content for the Download pdf tab -->
+</div>
+"""
+
+st.markdown(tabs_html, unsafe_allow_html=True)
+
 
     
 if status:
