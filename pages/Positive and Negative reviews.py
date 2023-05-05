@@ -163,6 +163,7 @@ EXAMPLES_DIR = 'example_texts_pub'
 
 
 # reading example and uploaded files
+@st.cache(suppress_st_warning=True)
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
     if file_name.endswith('.txt'):
@@ -177,7 +178,7 @@ def read_file(fname, file_source):
     else:
         return False, st.error(f"""**FileFormatError:** Unrecognised file format. Please ensure your file name has the extension `.txt`, `.xlsx`, `.xls`, `.tsv`.""", icon="🚨")
     return True, data
-@st.cache(suppress_st_warning=True)
+
 def get_data(file_source='example'):
     try:
         if file_source=='example':
