@@ -58,14 +58,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, 
 from reportlab.lib.units import inch
 
 import shutil
-style = """
-<style>
-    .tabs .tab {
-        font-weight: bold;
-        font-size: 1.2em;
-    }
-</style>
-"""
+
 
 st.markdown(style, unsafe_allow_html=True)
 
@@ -598,7 +591,14 @@ if option == MESSAGES[lang][1]: input_data = get_data()
 elif option == MESSAGES[lang][2]: input_data = get_data(file_source='uploaded')
 else: pass
 status, data = input_data
-
+style = """
+<style>
+    .tabs .tab {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+</style>
+"""
 
     
 if status:
