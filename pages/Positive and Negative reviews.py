@@ -586,9 +586,9 @@ def header(canvas, doc):
 # Function to convert DataFrame to a CSV file and allow it to be downloaded
 def download_csv(df):
     csv = df.to_csv("Sentiment-analysis.csv",index=False)
-    #b64 = base64.b64encode(csv.encode()).decode()
-    #href = f'<a href="data:file/csv;base64,{b64}" download="Sentiment-analysis.csv">Download CSV File</a>'
-    return csv
+    b64 = base64.b64encode(csv.encode()).decode()
+    href = f'<a href="data:file/csv;base64,{b64}" download="Sentiment-analysis.csv">Download CSV File</a>'
+    return href
 
 
 
@@ -661,7 +661,7 @@ if status:
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
                          # Add a button to download the DataFrame as a CSV file
                          if st.button('Download CSV'):
-                                df.to_csv("Sentiment-analysis.csv",index=False)
+                                st.markdown(download_csv(analysis), unsafe_allow_html=True)
 			
 			
 			###scattertext
