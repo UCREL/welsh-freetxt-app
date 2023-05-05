@@ -1420,7 +1420,7 @@ def plot_kwic(data, key):
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
             keyword = st.selectbox('Select keyword:', topwords).split('(',1)[0].strip()
             window_size = st.slider('Select window size:', 1, 10, 5)
-            maxInsts = st.slider('Maximum number of instances:', 5, 50, 15, 5,  key="slider1_key"))
+            maxInsts = st.slider('Maximum number of instances:', 5, 50, 15, 5,  key="slider1_key")
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
             kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
         
@@ -1558,7 +1558,7 @@ def plot_kwic_txt(df):
             topwords = [f"{w} ({c})" for w, c in getTopNWords(input_data, removeStops=True)]
             keyword = st.selectbox('Select a keyword:', topwords).split('(',1)[0].strip()
             window_size = st.slider('Select the window size:', 1, 10, 5)
-            maxInsts = st.slider('Maximum number of instances :', 5, 50, 15, 5, key="slider2_key"))
+            maxInsts = st.slider('Maximum number of instances :', 5, 50, 15, 5, key="slider2_key")
         # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
             kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
         
