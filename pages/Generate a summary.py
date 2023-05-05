@@ -261,20 +261,25 @@ generated_pdf_data = None
 
 
 def header(canvas, doc):
-
     # Add logo and title in a table
     logo_path = "img/FreeTxt_logo.png" 
     logo = PilImage.open(logo_path)
     logo_width, logo_height = logo.size
     aspect_ratio = float(logo_height) / float(logo_width)
     logo = ReportLabImage(logo_path, width=100, height=int(100 * aspect_ratio))
-    title_text = "Summarisation Report"
-    title_style = ParagraphStyle("Title", fontSize=20, alignment=TA_LEFT)
+    title_text = "Sentiment Analysis Report"
+    title_style = ParagraphStyle("Title", fontSize=18, alignment=TA_LEFT)
     title = Paragraph(title_text, title_style)
     header_data = [[logo, title]]
-
-    w, h = header_data.wrap(doc.width, doc.topMargin)
-    header_data.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - 1.5 * h)
+    header_table = Table(header_data)
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'LEFT'),
+        ('VALIGN', (0, 0), (1, 0), 'TOP'),
+        ('LEFTPADDING', (1, 0), (1, 0), 1),
+    ]))
+    w, h = header_table.wrap(doc.width, doc.topMargin)
+    header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
 
 
    #--------------------------------------------------------------------------------
