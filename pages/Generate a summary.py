@@ -337,7 +337,9 @@ if status:
                                    frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
 
                                # Create a PageTemplate with the header
-                                   template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                                       # Create a PageTemplate with the header
+                                   template = PageTemplate(id='header_template', frames=frame, onPage=lambda canvas, doc: header(canvas, doc, input_text, summarized_text))
+    
                                    doc.addPageTemplates([template])
                                    elements = []
 
