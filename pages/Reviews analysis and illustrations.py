@@ -376,7 +376,7 @@ def read_file(fname, file_source):
 
 
     return True, data
-
+@st.cache(allow_output_mutation=True)
 def get_data(file_source='example'):
     try:
         if file_source=='example':
