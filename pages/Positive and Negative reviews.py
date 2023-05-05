@@ -661,7 +661,11 @@ if status:
                          df = pd.DataFrame(selected) #Pass the selected rows to a new dataframe df
                          # Add a button to download the DataFrame as a CSV file
                          if st.button('Download CSV'):
-                                st.markdown(download_csv(analysis), unsafe_allow_html=True)
+                                    csv = df.to_csv(index=False)
+                                    b64 = base64.b64encode(csv.encode()).decode()
+                                    href = f'<a href="data:file/csv;base64,{b64}" download="Sentiment-analysis.csv">Download CSV File</a>'
+   
+
 			
 			
 			###scattertext
