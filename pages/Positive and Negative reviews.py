@@ -758,7 +758,7 @@ if status:
                               pie_graph = ReportLabImage(pie_graph_path, width= 325, height =250)
                               elements.append(pie_graph)
                               elements.append(Spacer(1, 20))
-			   else:
+                           else:
                              st.error("Sentiment Pie Graph image not found")
 
                         if sentiment_bar_checkbox:
