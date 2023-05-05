@@ -273,7 +273,7 @@ corpus = stx.CorpusFromPandas(
 # generate the scatterplot HTML string
 html = stx.dataframe_scattertext(
     corpus,
-    category='your_category_label',
+    category='USAS-Tags',
     category_name='Category A',
     not_category_name='Category B',
     width_in_pixels=1000,
@@ -336,15 +336,7 @@ if checkbox:
     # Create a PageTemplate with the header
         template = PageTemplate(id='header_template', frames=frame, onPage=header)
         doc.addPageTemplates([template])
-
-   
-
         elements = []
-
-    
-       
-        
-
     # Add a spacer between header and input text
         elements.append(Spacer(1, 20))
         # Add input text
@@ -378,6 +370,6 @@ if checkbox:
         buffer.seek(0)
         generated_pdf_data = buffer.read()
 
-   # Display the download button only after generating the report
+   # Display the download button after generating the report
 if generated_pdf_data:
     st.download_button("Download PDF", generated_pdf_data, "report.pdf", "application/pdf")
