@@ -1426,7 +1426,7 @@ def plot_kwic(data, key):
         
         #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
-            with st.expander('Keyword in Context '):
+            with st.expander('Keyword in Context',key="text_input1_key"):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
                 #kwic_instances_df.style.hide_index()
@@ -1564,7 +1564,7 @@ def plot_kwic_txt(df):
         
         #keyword_analysis = tab6.radio('Analysis:', ('Keyword in context', 'Collocation'))
         #if keyword_analysis == 'Keyword in context':
-            with st.expander('Keyword in context'):
+            with st.expander('Keyword in Context',key="text_input2_key"):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                 columns =['Left context', 'Keyword', 'Right context'])
                 #kwic_instances_df.style.hide_index()
