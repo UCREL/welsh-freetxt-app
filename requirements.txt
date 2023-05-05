@@ -18,7 +18,7 @@ plotly.express
 streamlit-lottie
 streamlit-aggrid
 pandasgui
-scattertext
+scattertext>=0.0.2.92
 python-gettext
 ucrel_api
 python-dateutil
