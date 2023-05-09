@@ -597,13 +597,7 @@ def get_wordcloud (data, key):
             img.save(img_bytes, format='PNG')
             img_bytes = img_bytes.getvalue()
 
-    # Add a download button in Streamlit to download the temporary image file
-    st.download_button(
-        label="Download Word Cloud Image",
-        data=img_bytes,
-        file_name="word_cloud.png",
-        mime="image/png",
-    )
+  
 
             # Add a download button in Streamlit to download the temporary image file
             st.download_button(
