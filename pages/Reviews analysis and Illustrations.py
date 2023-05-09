@@ -460,7 +460,15 @@ def Pymsas_tags(text):
         merged_df = merged_df[~merged_df['USAS Tags'].str.contains('|'.join(tags_to_remove))]
 
     return(merged_df['USAS Tags'])
+css = '''
+<style>
+    .stTabs [data-baseweb="tab-list"] button [data-testid="stMarkdownContainer"] p {
+    font-size:1.5rem;
+    }
+</style>
+'''
 
+st.markdown(css, unsafe_allow_html=True)  
 
     
 ###to upload image
