@@ -1867,7 +1867,7 @@ if status:
         
 
     			# Add a spacer between header and input text
-                            elements.append(Spacer(1, 20))
+                             elements.append(Spacer(1, 20))
                             
                         
                          if full_data_table_checkbox:
