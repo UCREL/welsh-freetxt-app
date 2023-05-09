@@ -219,7 +219,7 @@ class Analysis:
     def show_wordcloud(self, fname):
         # st.info('Word cloud ran into a technical hitch and we are fixing it...Thanks for you patience', icon='😎')
         image_path=get_wordcloud(self.reviews, fname)
-	return image_path
+        return image_path
     
     def show_kwic(self, fname):
         plot_kwic(self.reviews, fname)
