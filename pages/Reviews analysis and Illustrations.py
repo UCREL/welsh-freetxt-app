@@ -59,9 +59,10 @@ from io import BytesIO
 from reportlab.lib.pagesizes import letter, landscape, A4
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
+
 
 @st.cache_data()
 def get_base64_of_bin_file(png_file):
