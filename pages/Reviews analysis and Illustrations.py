@@ -1935,7 +1935,7 @@ if status:
 	
                         
                       # Load the image with PIL for ReportLab
-                            img = Image.open(tmpfile.name)
+                            img = PilImage.open(tmpfile.name)
 
                           # Convert the PIL Image object to binary data (bytes)
                             img_bytes = BytesIO()
