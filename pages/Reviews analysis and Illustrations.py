@@ -591,12 +591,13 @@ def get_wordcloud (data, key):
             st.pyplot()
             with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
                   wordcloud_img.to_file(tmpfile.name)
+                  word_cloud_path = tmpfile.name
 
             img = PilImage.open(tmpfile.name)
             img_bytes = BytesIO()
             img.save(img_bytes, format='PNG')
             img_bytes = img_bytes.getvalue()
-
+            
   
 
             # Add a download button in Streamlit to download the temporary image file
@@ -609,7 +610,7 @@ def get_wordcloud (data, key):
     except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-    return tmpfile.name
+    return word_cloud_path
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
