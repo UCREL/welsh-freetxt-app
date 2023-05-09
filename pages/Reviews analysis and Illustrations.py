@@ -602,7 +602,7 @@ def get_wordcloud (data, key):
             # Add a download button in Streamlit to download the temporary image file
             st.download_button(
                 label="Download Word Cloud Image",
-                 data=img_bytes,,
+                 data=img_bytes,
                  file_name="word_cloud.png",
                    mime="image/png",
                    )
