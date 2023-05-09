@@ -1855,8 +1855,9 @@ if status:
           
                                     
 
-                            column_names = ['Review']
-                            table_data = [column_names] + analysis[column_names].values.tolist()
+                            #column_names = ['Review']
+			#[column_names] +
+                            table_data =  analysis[column_names].values.tolist()
                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
                             wrapped_cells = []
 
