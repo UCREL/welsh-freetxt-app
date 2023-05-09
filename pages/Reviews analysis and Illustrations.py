@@ -593,7 +593,7 @@ def get_wordcloud (data, key):
                   wordcloud_img.to_file(tmpfile.name)
 
             # Load the image with PIL for Streamlit download button
-            img = Image.open(tmpfile.name)
+            img = PilImage.open(tmpfile.name)
 
             # Add a download button in Streamlit to download the temporary image file
             st.download_button(
