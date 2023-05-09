@@ -63,7 +63,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Image as ReportLabImage, Spacer, BaseDocTemplate, Frame, PageTemplate
 from reportlab.lib.units import inch
 
-@st.cache(allow_output_mutation=True)
+@st.cache_data()
 def get_base64_of_bin_file(png_file):
     with open(png_file, "rb") as f:
         data = f.read()
@@ -356,7 +356,7 @@ def scatter(dataframe):
 
 
 # reading example and uploaded files
-@st.cache(allow_output_mutation=True)
+@st.cache_data()
 def read_file(fname, file_source):
     file_name = fname if file_source=='example' else fname.name
     if file_name.endswith('.txt'):
@@ -1669,25 +1669,14 @@ if st.button('Analysis') or st.session_state.load_state:
     
     
         
-        
-        
-        #tab5.subheader("upload mask Image")
-        #image_file_2 = tab5.file_uploader("Upload Image", type=["png","jpg","jpeg"])
             
             maskfile = image_mask_2[tab5.selectbox('Select cloud shape:', image_mask_2.keys(), help='Select the shape of the word cloud')]
             color =['grey','yellow','white','black','green','blue','red']
             outline = tab5.selectbox('Select cloud outline color:', color, help='Select outline color word cloud')
-        #if image_file_2 is not None:
-
-			  # To See details
-         #  file_details = {"filename":image_file_2.name, "filetype":image_file_2.type,"filesize":image_file_2.size}
-          # img = load_image(image_file_2)
-           #mask = mask = np.array(img)
-        #with open(os.path.join("img",image_file_2.name),"wb") as f:
-         #      f.write(image_file.getbuffer())
+    
        
               
-        #else:   
+       
             mask = np.array(PilImage.open(maskfile)) if maskfile else maskfile
  
             nlp = spacy.load('en_core_web_sm-3.2.0')
