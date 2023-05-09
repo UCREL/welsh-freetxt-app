@@ -1849,7 +1849,25 @@ if status:
                              keyword_context_table_checkbox = st.checkbox("Include Keyword in Context Table")
                              keyword_context_diagram_checkbox = st.checkbox("Include Keyword in Context Diagram")
                              generate_pdf_checkbox = st.checkbox("Generate PDF report")
+                             # Create the PDF
+                             buffer = BytesIO()
+                             doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
 
+	    		# Create the frame for the content
+                             frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
+
+    
+   			 # Create a PageTemplate with the header
+                             template = PageTemplate(id='header_template', frames=frame, onPage=header)
+                             doc.addPageTemplates([template])
+                             elements = []
+
+    
+       
+        
+
+    			# Add a spacer between header and input text
+                            elements.append(Spacer(1, 20))
                             
                         
                          if full_data_table_checkbox:
@@ -1912,25 +1930,7 @@ if status:
                          if generate_pdf_checkbox:
 
         
-                        # Create the PDF
-                            buffer = BytesIO()
-                            doc = BaseDocTemplate(buffer, pagesize=A4,topMargin=1.5 * inch, showBoundary=0)
-
-	    		# Create the frame for the content
-                            frame = Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id='normal')
-
-    
-   			 # Create a PageTemplate with the header
-                            template = PageTemplate(id='header_template', frames=frame, onPage=header)
-                            doc.addPageTemplates([template])
-                            elements = []
-
-    
-       
-        
-
-    			# Add a spacer between header and input text
-                            elements.append(Spacer(1, 20))
+                        
      			   # Build PDF
 	
                             doc.build(elements)
