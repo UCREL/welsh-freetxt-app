@@ -582,7 +582,7 @@ def get_wordcloud (data, key):
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
-	wordcloud_img = wordcloud.recolor(color_func=img_cols)
+        wordcloud_img = wordcloud.recolor(color_func=img_cols)
         plt.imshow(wordcloud_img, interpolation="bilinear")
         plt.axis("off")
 
