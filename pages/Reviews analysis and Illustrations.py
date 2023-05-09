@@ -69,7 +69,7 @@ def get_base64_of_bin_file(png_file):
         data = f.read()
     return base64.b64encode(data).decode()
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource()
 def get_state():
     return {}
 ### stopwords
