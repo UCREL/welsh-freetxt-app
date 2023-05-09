@@ -1927,7 +1927,8 @@ if status:
 	
                         
                       # Load the image with PIL for ReportLab
-                            img = PilImage.open(word_cloud_path.name)
+                            img = PilImage.open(word_cloud_path)
+                                # Load the image with PIL for ReportLab
 
                           # Convert the PIL Image object to binary data (bytes)
                             img_bytes = BytesIO()
