@@ -52,7 +52,7 @@ import streamlit as st
 import base64
 from labels import MESSAGES
 import frequency_lists_log_likelihood as Keness
-
+import tempfile
 #########Download report
 
 from io import BytesIO
@@ -582,12 +582,26 @@ def get_wordcloud (data, key):
         color = tab2.radio('Select image colour:', ('Color', 'Black'), key=f"{key}_cloud_radio")
         img_cols = ImageColorGenerator(mask) if color == 'Black' else None
         plt.figure(figsize=[20,15])
-        plt.imshow(wordcloud.recolor(color_func=img_cols), interpolation="bilinear")
+	wordcloud_img = wordcloud.recolor(color_func=img_cols)
+        plt.imshow(wordcloud_img, interpolation="bilinear")
         plt.axis("off")
 
         with tab2:
             st.set_option('deprecation.showPyplotGlobalUse', False)
             st.pyplot()
+            with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
+                  wordcloud_img.to_file(tmpfile.name)
+
+            # Load the image with PIL for Streamlit download button
+            img = Image.open(tmpfile.name)
+
+            # Add a download button in Streamlit to download the temporary image file
+            st.download_button(
+                label="Download Word Cloud Image",
+                 data=img,
+                 file_name="word_cloud.png",
+                   mime="image/png",
+                   )
     except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
@@ -1874,9 +1888,8 @@ if status:
           
                                     
 
-                            #column_names = ['Review']
-			#[column_names] + analysis[column_names].values.tolist()
-                            table_data =  df.values.tolist()
+                            column_names = ['Data']
+                            table_data = [column_names] + df.values.tolist()
                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
                             wrapped_cells = []
 
