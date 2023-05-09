@@ -609,6 +609,7 @@ def get_wordcloud (data, key):
     except ValueError as err:
         with tab2:
             st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
+    return tmpfile.name
    ####generate a wordcloud based on Keness
 #####English Keness
 ####load the Bnc Frequency list
@@ -1663,16 +1664,7 @@ if st.button('Analysis') or st.session_state.load_state:
         else:
        
             tab4, tab5, tab6, tab7, tab10 = st.tabs(["📈 Data View", "☁️ Keyword Cloud",'💬 Keyword in Context & Collocation', "🌳 Word Tree", '📥 Generate pdf report'])
-                    ###font tabs
-   
-            font_css = """
-                                         <style>
-                                              button[data-baseweb="tab"] {
-                                                 font-size: 26px;
-                                                                 }
-                                                          </style>
-                                                      """
-            st.write(font_css, unsafe_allow_html=True)           
+          
                 
         
         ##show review
@@ -1855,7 +1847,7 @@ if status:
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
                     analysis.show_reviews(filenames[i])
-                    analysis.show_wordcloud(filenames[i])
+                    word_cloud_path = analysis.show_wordcloud(filenames[i])
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
@@ -1935,7 +1927,7 @@ if status:
 	
                         
                       # Load the image with PIL for ReportLab
-                            img = PilImage.open(tmpfile.name)
+                            img = PilImage.open(word_cloud_path.name)
 
                           # Convert the PIL Image object to binary data (bytes)
                             img_bytes = BytesIO()
