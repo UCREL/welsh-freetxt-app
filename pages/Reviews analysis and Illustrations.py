@@ -592,7 +592,7 @@ def get_wordcloud (data, key):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
                   wordcloud_img.to_file(tmpfile.name)
 
-            img = Image.open(tmpfile.name)
+            img = PilImage.open(tmpfile.name)
             img_bytes = BytesIO()
             img.save(img_bytes, format='PNG')
             img_bytes = img_bytes.getvalue()
