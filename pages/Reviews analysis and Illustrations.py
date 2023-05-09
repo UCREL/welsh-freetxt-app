@@ -1832,12 +1832,36 @@ if status:
                     analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
+			   # Check if the DataFrame exists
+                         if analysis is not None:
+        #####pdf_generator
+                             full_data_table_checkbox = st.checkbox("Include Full Data Table")
+                             word_cloud_checkbox = st.checkbox("Include Word Cloud Image")
+                             keyword_context_table_checkbox = st.checkbox("Include Keyword in Context Table")
+                             keyword_context_diagram_checkbox = st.checkbox("Include Keyword in Context Diagram")
+                             generate_pdf_checkbox = st.checkbox("Generate PDF report")
 
+                            
+                        
+                         if full_data_table_checkbox:
+          
+                                    pass
 
-                        checkbox = st.checkbox("Generate PDF report")
+                         if word_cloud_checkbox:
+         
+	
+                               pass
 
+                         if keyword_context_table_checkbox:
+           
+                                 pass
 
-                        if checkbox:
+                         if keyword_context_diagram_checkbox:
+          
+                                  pass
+
+      
+                         if generate_pdf_checkbox:
 
         
                         # Create the PDF
