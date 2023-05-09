@@ -592,8 +592,18 @@ def get_wordcloud (data, key):
             with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmpfile:
                   wordcloud_img.to_file(tmpfile.name)
 
-            # Load the image with PIL for Streamlit download button
-            img = PilImage.open(tmpfile.name)
+            img = Image.open(tmpfile.name)
+            img_bytes = BytesIO()
+            img.save(img_bytes, format='PNG')
+            img_bytes = img_bytes.getvalue()
+
+    # Add a download button in Streamlit to download the temporary image file
+    st.download_button(
+        label="Download Word Cloud Image",
+        data=img_bytes,
+        file_name="word_cloud.png",
+        mime="image/png",
+    )
 
             # Add a download button in Streamlit to download the temporary image file
             st.download_button(
