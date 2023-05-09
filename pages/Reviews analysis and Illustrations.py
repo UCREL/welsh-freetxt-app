@@ -1933,7 +1933,20 @@ if status:
                          if word_cloud_checkbox:
          
 	
-                               pass
+                        
+                      # Load the image with PIL for ReportLab
+                            img = Image.open(tmpfile.name)
+
+                          # Convert the PIL Image object to binary data (bytes)
+                            img_bytes = BytesIO()
+                            img.save(img_bytes, format='PNG')
+                            img_bytes.seek(0)
+
+                               # Add the Word Cloud image to the PDF
+                            word_cloud_image = ReportLabImage(img_bytes, width=325, height=250)
+                            elements.append(word_cloud_image)
+                            elements.append(Spacer(1, 20))
+
 
                          if keyword_context_table_checkbox:
            
