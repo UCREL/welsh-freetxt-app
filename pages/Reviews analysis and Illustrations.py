@@ -1853,7 +1853,45 @@ if status:
                         
                          if full_data_table_checkbox:
           
-                                    pass
+                                    
+
+                            column_names = ['Review']
+                            table_data = [column_names] + analysis[column_names].values.tolist()
+                            col_widths = [200, 100, 100]  # Adjust these values according to your needs
+                            wrapped_cells = []
+
+                            styles = getSampleStyleSheet()
+                            cell_style_normal = ParagraphStyle(name='cell_style_normal', parent=styles['Normal'], alignment=1)
+                            cell_style_header = ParagraphStyle(name='cell_style_header', parent=styles['Normal'], alignment=1, textColor=colors.whitesmoke, backColor=colors.grey, fontName='Helvetica-Bold', fontSize=14, spaceAfter=12)
+
+                            wrapped_data = []
+                            for row in table_data:
+                                  wrapped_cells = []
+                                  for i, cell in enumerate(row):
+                                       cell_style = cell_style_header if len(wrapped_data) == 0 else cell_style_normal
+                                       wrapped_cell = Paragraph(str(cell), style=cell_style)
+                                       wrapped_cells.append(wrapped_cell)
+                                  wrapped_data.append(wrapped_cells)
+                            table = Table(wrapped_data, colWidths=col_widths)
+
+                            table.setStyle(TableStyle([
+                                  ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+
+                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+
+                                  ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                  ('FONTSIZE', (0, 0), (-1, 0), 14),
+
+                                   ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                           ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                  ('GRID', (0, 0), (-1, -1), 1, colors.black),
+       
+                                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+
+                                         ]))
+                            elements.append(table)
+                            elements.append(Spacer(1, 20))
 
                          if word_cloud_checkbox:
          
