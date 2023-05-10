@@ -421,6 +421,7 @@ def select_columns(data, key):
         return data[selected_columns][start_row:].dropna(how='all').drop_duplicates()
 
 
+
 #################Get the PyMusas tags ################
 ###read the PYmusas list
 pymusaslist = pd.read_csv('data/Pymusas-list.txt', names= ['USAS Tags','Equivalent Tag'])
@@ -598,7 +599,6 @@ def get_wordcloud (data, key):
             img_bytes = BytesIO()
             img.save(img_bytes, format='PNG')
             img_bytes = img_bytes.getvalue()
-            
   
 
             # Add a download button in Streamlit to download the temporary image file
@@ -877,7 +877,7 @@ def plot_kwic(data, key):
                 plot_coll_14(keyword, collocs, expander, tab3,output_file='network_output.html')
                 with open('network_output.html', 'r', encoding='utf-8') as f:
                          html_string = f.read()
-                components.html(html_string, width=900, height=750, scrolling=True)
+                components.html(html_string, width=800, height=750, scrolling=True)
                 with open('network_output.html', 'rb') as f:
                         html_bytes = f.read()
                 st.download_button(
