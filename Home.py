@@ -141,7 +141,7 @@ with st.container():
     with right_column:
         data_url = read_gif("img/visualization.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_Illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"> <a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_Illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
 st.write("---")
