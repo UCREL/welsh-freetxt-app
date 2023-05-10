@@ -132,7 +132,7 @@ with st.container():
     
     left_column, right_column = st.columns([1, 1])
     with left_column:
-        st.subheader(_("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_illustrations)"))
+        st.subheader(_("[Reviews analysis and illustrations](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_Illustrations)"))
         st.write(_('''This tool has three components: 
                 1. Data View: to select, view and filter columns from a data file  
                2. Word Cloud: creates a word cloud from content in the selected columns of a file 
@@ -141,7 +141,7 @@ with st.container():
     with right_column:
         data_url = read_gif("img/visualization.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Reviews_analysis_and_Illustrations"><img width="200" height="200" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                 )
 st.write("---")
@@ -151,12 +151,12 @@ with st.container():
     with left_column:
         data_url_2 = read_gif("img/reviews.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Positive_and_Negative_reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Positive_and_Negative_Reviews"><img width="200" height="200" src="data:image/gif;base64,{data_url_2} "></a></p>',
             unsafe_allow_html=True, 
                 )
         
     with right_column:
-        st.subheader(_("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Positive_and_Negative_reviews)"))
+        st.subheader(_("[Positive and Negative reviews](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Positive_and_Negative_Reviews)"))
         st.write(_("This feature performs sentiment classification on reviews from selected column(s) and displays a pie chart to visualize the output")) 
       
         
@@ -166,12 +166,12 @@ with st.container():
     
     left_column, right_column = st.columns([1, 1])
     with left_column:
-        st.subheader(_("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Generate_a_summary)"))
+        st.subheader(_("[Generate_a_summary](https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Generate_a_Summary)"))
         st.write(_('This tool, adapted from the Welsh Summarization project, produces a basic extractive summary of the review text from the selected columns.'))
     with right_column:
         data_url = read_gif("img/summary.gif")
         st.markdown(
-            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Generate_a_summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
+            f'<p style="text-align: center; color: grey;"><a href="https://ucrel-welsh-freetxt-app-home-rvqet7.streamlit.app/Generate_a_Summary"><img width="400" height="400" src="data:image/gif;base64,{data_url} "></a></p>',
             unsafe_allow_html=True,  
                )
 st.write("---")
