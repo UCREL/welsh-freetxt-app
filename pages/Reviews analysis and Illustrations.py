@@ -680,12 +680,12 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     return kwic_insts
 
 #---------- get collocation ------------------------
-def get_collocs(kwic_insts):
+def get_collocs(kwic_insts,topn=10):
     words=[]
     for l, t, r in kwic_insts:
         words += l.split() + r.split()
     all_words = [word for word in words if word not in STOPWORDS]
-    return Counter(all_words)
+    return Counter(all_words).most_common(topn)
 
 # topn=10
 #.most_common(topn)
@@ -728,17 +728,17 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
 
  #-------------------------- N-gram Generator ---------------------------
 #, topn=10
-def gen_ngram(text, _ngrams=2):
+def gen_ngram(text, _ngrams=2, topn=10):
     if _ngrams==1:
 	#, topn
-        return getTopNWords(text)
+        return getTopNWords(text, topn)
     ngram_list=[]
     for sent in sent_tokenize(text):
         for char in sent:
             if char in PUNCS: sent = sent.replace(char, "")
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
 	#.most_common(topn)
-    ngram_counts = Counter(ngram_list)
+    ngram_counts = Counter(ngram_list).most_common(topn)
     sum_ngram_counts = sum([c for _, c in ngram_counts])
     return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
             for ng, c in ngram_counts]
