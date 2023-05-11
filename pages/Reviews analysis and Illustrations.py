@@ -1284,9 +1284,8 @@ if status:
 
                          if keyword_context_table_checkbox:
            
-                            st.write(Keyword_context)  
-                            columns =['Left context', 'Keyword', 'Right context']
-                            table_data =columns + Keyword_context.values.tolist()
+                            columns = ['Left context', 'Keyword', 'Right context']
+                            table_data = [columns] + Keyword_context.values.tolist()
                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
                             wrapped_cells = []
 
@@ -1296,32 +1295,36 @@ if status:
 
                             wrapped_data = []
                             for row in table_data:
-                                  wrapped_cells = []
-                                  for i, cell in enumerate(row):
-                                       cell_style = cell_style_header if len(wrapped_data) == 0 else cell_style_normal
-                                       wrapped_cell = Paragraph(str(cell), style=cell_style)
-                                       wrapped_cells.append(wrapped_cell)
-                                  wrapped_data.append(wrapped_cells)
+                                     wrapped_cells = []
+                                     for i, cell in enumerate(row):
+                                           cell_style = cell_style_header if len(wrapped_data) == 0 else cell_style_normal
+                                           wrapped_cell = Paragraph(str(cell), style=cell_style)
+                                           wrapped_cells.append(wrapped_cell)
+                                     wrapped_data.append(wrapped_cells)
                             table = Table(wrapped_data, colWidths=col_widths)
 
                             table.setStyle(TableStyle([
-                                  ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+    ('TEXTCOLOR', (1, 1), (1, -1), colors.red),
 
-                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+    ('ALIGN', (0, 1), (0, -1), 'RIGHT'),
+    ('ALIGN', (1, 0), (1, -1), 'CENTER'),
+    ('ALIGN', (2, 1), (2, -1), 'LEFT'),
 
-                                  ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                                  ('FONTSIZE', (0, 0), (-1, 0), 14),
+    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+    ('FONTSIZE', (0, 0), (-1, 0), 14),
 
-                                   ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                                           ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                                  ('GRID', (0, 0), (-1, -1), 1, colors.black),
-       
-                                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+    ('GRID', (0, 0), (-1, -1), 1, colors.black),
 
-                                         ]))
+    ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+                                            ]))
+
                             elements.append(table)
                             elements.append(Spacer(1, 20))
+
 
 
                          #if keyword_context_diagram_checkbox:
