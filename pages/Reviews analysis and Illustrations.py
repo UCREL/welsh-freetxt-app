@@ -1198,7 +1198,7 @@ if status:
                              full_data_table_checkbox = st.checkbox("Include Full Data Table")
                              word_cloud_checkbox = st.checkbox("Include Word Cloud Image")
                              keyword_context_table_checkbox = st.checkbox("Include Keyword in Context Table")
-                             keyword_context_diagram_checkbox = st.checkbox("Include Keyword in Context Diagram")
+                             #keyword_context_diagram_checkbox = st.checkbox("Include Keyword in Context Diagram")
                              generate_pdf_checkbox = st.checkbox("Generate PDF report")
                              # Create the PDF
                              buffer = BytesIO()
@@ -1285,7 +1285,7 @@ if status:
                          if keyword_context_table_checkbox:
            
                                
-                            columns =['Left context', 'Keyword', 'Right context']
+                             columns =['Left context', 'Keyword', 'Right context']
                             table_data =columns + Keyword_context.values.tolist()
                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
                             wrapped_cells = []
@@ -1320,10 +1320,9 @@ if status:
                                  ('VALIGN', (0, 0), (-1, -1), 'TOP'),
 
                                          ]))
-
-
                             elements.append(table)
                             elements.append(Spacer(1, 20))
+
 
                          #if keyword_context_diagram_checkbox:
           
