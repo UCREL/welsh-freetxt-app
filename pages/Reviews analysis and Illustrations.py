@@ -1305,23 +1305,21 @@ if status:
                             table = Table(wrapped_data, colWidths=col_widths)
 
                             table.setStyle(TableStyle([
-    ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                                  ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
 
-    ('ALIGN', (0, 1), (0, -1), 'RIGHT'),
-    ('ALIGN', (1, 0), (1, -1), 'CENTER'),
-    ('TEXTCOLOR', (1, 1), (1, -1), colors.red),
-    ('ALIGN', (2, 1), (2, -1), 'LEFT'),
+                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
 
-    ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-    ('FONTSIZE', (0, 0), (-1, 0), 14),
+                                  ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                  ('FONTSIZE', (0, 0), (-1, 0), 14),
 
-    ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-    ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                                   ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                           ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                  ('GRID', (0, 0), (-1, -1), 1, colors.black),
+       
+                                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
 
-    ('VALIGN', (0, 0), (-1, -1), 'TOP'),
-                                               ]))
+                                         ]))
 
 
                             elements.append(table)
