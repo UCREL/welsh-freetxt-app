@@ -222,7 +222,7 @@ class Analysis:
         return image_path
     
     def show_kwic(self, fname):
-        kwic_instances_df = plot_kwic(self.reviews, fname)
+        plot_kwic(self.reviews, fname)
 	
     def concordance(self, fname):
         with tab8:
