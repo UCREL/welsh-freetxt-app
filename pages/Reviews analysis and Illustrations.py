@@ -1285,7 +1285,7 @@ if status:
                          if keyword_context_table_checkbox:
            
                                
-                            
+                            st.write(Keyword_context)
                             table_data =Keyword_context.values.tolist()
                             col_widths = [200, 100, 100]  # Adjust these values according to your needs
                             wrapped_cells = []
