@@ -656,12 +656,13 @@ def get_selected_checkboxes():
     st.session_state[i]]
 
 #--------------Get Top n most_common words plus counts---------------
-def getTopNWords(text, topn=10, removeStops=False):
+def getTopNWords(text, removeStops=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
     text = [word for word in text.lower().split()
                 if word not in STOPWORDS] if removeStops else text.lower().split()
-    return Counter(text).most_common(topn) 
-
+    return Counter(text)
+#
+#.most_common(topn) 
 #---------------------keyword in context ----------------------------
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
