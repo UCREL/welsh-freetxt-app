@@ -1321,7 +1321,10 @@ if status:
 
     ('VALIGN', (0, 0), (-1, -1), 'TOP'),
                                             ]))
-
+                            # Add heading 'Keyword in Context'
+                            heading_style = ParagraphStyle(name='heading_style', parent=styles['Normal'], fontSize=18, fontName='Helvetica-Bold', spaceAfter=12)
+                            heading = Paragraph('Keyword in Context', style=heading_style)
+                            elements.append(heading)
                             elements.append(table)
                             elements.append(Spacer(1, 20))
 
