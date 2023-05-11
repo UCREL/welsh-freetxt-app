@@ -222,7 +222,7 @@ class Analysis:
         return image_path
     
     def show_kwic(self, fname):
-        plot_kwic(self.reviews, fname)
+        kwic_instances_df = plot_kwic(self.reviews, fname)
 	
     def concordance(self, fname):
         with tab8:
@@ -790,11 +790,8 @@ def plot_kwic(data, key):
             keyword = st.selectbox('Select keyword:', topwords).split('(',1)[0].strip()
             window_size = st.slider('Select window size:', 1, 10, 5)
             maxInsts = st.slider('Maximum number of instances:', 5, 50, 15, 5,  key="slider1_key")
-        # col2_lcase = st.checkbox("Lowercase?", key='col2_checkbox')
-            kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
         
-        #keyword_analysis = tab3.radio('Analysis:', ('Keyword in context', 'Collocation'))
-        #if keyword_analysis == 'Keyword in context':
+            kwic_instances = get_kwic(input_data, keyword, window_size, maxInsts, True)
             with st.expander('Keyword_in_Context'):
                 kwic_instances_df = pd.DataFrame(kwic_instances,
                     columns =['Left context', 'Keyword', 'Right context'])
@@ -886,13 +883,13 @@ def plot_kwic(data, key):
                   file_name='network_output.html',
                    mime='text/html'
                        )
-
+    
      
                 
     except ValueError as err:
         with tab3:
                 st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-
+    return kwic_instances_df
  #----------------------Generate Pdf--------------------------   
  # Add a state variable to store the generated PDF data
 generated_pdf_data = None
@@ -984,7 +981,7 @@ def plot_kwic_txt(df):
     except ValueError as err:
         with tab6:
                 st.info(f'Please ensure that at least one free text column is chosen: {err}', icon="🤨")
-
+    return kwic_instances_df
 
 if st.button('Analysis') or st.session_state.load_state:
     st.session_state.load_state = True
@@ -1192,7 +1189,7 @@ if status:
                     
                     analysis.show_reviews(filenames[i])
                     word_cloud_path = analysis.show_wordcloud(filenames[i])
-                    analysis.show_kwic(filenames[i])
+                    Keyword_context = analysis.show_kwic(filenames[i])
                     analysis.concordance(filenames[i])
                     with tab9:
 			   # Check if the DataFrame exists
@@ -1287,7 +1284,44 @@ if status:
 
                          if keyword_context_table_checkbox:
            
-                                 pass
+                               
+                            
+                            table_data =Keyword_context.values.tolist()
+                            col_widths = [200, 100, 100]  # Adjust these values according to your needs
+                            wrapped_cells = []
+
+                            styles = getSampleStyleSheet()
+                            cell_style_normal = ParagraphStyle(name='cell_style_normal', parent=styles['Normal'], alignment=1)
+                            cell_style_header = ParagraphStyle(name='cell_style_header', parent=styles['Normal'], alignment=1, textColor=colors.whitesmoke, backColor=colors.grey, fontName='Helvetica-Bold', fontSize=14, spaceAfter=12)
+
+                            wrapped_data = []
+                            for row in table_data:
+                                  wrapped_cells = []
+                                  for i, cell in enumerate(row):
+                                       cell_style = cell_style_header if len(wrapped_data) == 0 else cell_style_normal
+                                       wrapped_cell = Paragraph(str(cell), style=cell_style)
+                                       wrapped_cells.append(wrapped_cell)
+                                  wrapped_data.append(wrapped_cells)
+                            table = Table(wrapped_data, colWidths=col_widths)
+
+                            table.setStyle(TableStyle([
+                                  ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+
+                             ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+
+                                  ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                                  ('FONTSIZE', (0, 0), (-1, 0), 14),
+
+                                   ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                                           ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
+                                  ('GRID', (0, 0), (-1, -1), 1, colors.black),
+       
+                                 ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+
+                                         ]))
+                            elements.append(table)
+                            elements.append(Spacer(1, 20))
 
                          if keyword_context_diagram_checkbox:
           
