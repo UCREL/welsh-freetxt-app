@@ -1309,6 +1309,7 @@ if status:
                               ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
 
                              ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+
                                   ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
                                   ('FONTSIZE', (0, 0), (-1, 0), 14),
 
@@ -1324,9 +1325,9 @@ if status:
                             elements.append(table)
                             elements.append(Spacer(1, 20))
 
-                         if keyword_context_diagram_checkbox:
+                         #if keyword_context_diagram_checkbox:
           
-                                  pass
+                          #        pass
 
       
                          if generate_pdf_checkbox:
