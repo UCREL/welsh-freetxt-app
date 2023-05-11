@@ -223,7 +223,7 @@ class Analysis:
     
     def show_kwic(self, fname):
         kwic_instances_df = plot_kwic(self.reviews, fname)
-	return kwic_instances_df
+        return kwic_instances_df
     def concordance(self, fname):
         with tab8:
        	    st.header('Search Word')
