@@ -727,15 +727,18 @@ def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
     net.save_graph(output_file)
 
  #-------------------------- N-gram Generator ---------------------------
-def gen_ngram(text, _ngrams=2, topn=10):
+#, topn=10
+def gen_ngram(text, _ngrams=2):
     if _ngrams==1:
-        return getTopNWords(text, topn)
+	#, topn
+        return getTopNWords(text)
     ngram_list=[]
     for sent in sent_tokenize(text):
         for char in sent:
             if char in PUNCS: sent = sent.replace(char, "")
         ngram_list += ngrams(word_tokenize(sent), _ngrams)
-    ngram_counts = Counter(ngram_list).most_common(topn)
+	#.most_common(topn)
+    ngram_counts = Counter(ngram_list)
     sum_ngram_counts = sum([c for _, c in ngram_counts])
     return [(f"{' '.join(ng):27s}", f"{c:10d}", f"{c/sum_ngram_counts:.2f}%")
             for ng, c in ngram_counts]
