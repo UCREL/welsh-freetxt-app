@@ -222,8 +222,8 @@ class Analysis:
         return image_path
     
     def show_kwic(self, fname):
-        plot_kwic(self.reviews, fname)
-        
+        context = plot_kwic(self.reviews, fname)
+        return context
     def concordance(self, fname):
         with tab8:
        	    st.header('Search Word')
@@ -656,13 +656,13 @@ def get_selected_checkboxes():
     st.session_state[i]]
 
 #--------------Get Top n most_common words plus counts---------------
-def getTopNWords(text, removeStops=False):
+def getTopNWords(text, removeStops=False, topn=10):
     text = text.translate(text.maketrans("", "", string.punctuation))
     text = [word for word in text.lower().split()
                 if word not in STOPWORDS] if removeStops else text.lower().split()
-    return Counter(text)
+    return Counter(text).most_common(topn) 
 #
-#.most_common(topn) 
+#
 #---------------------keyword in context ----------------------------
 def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     text = text.translate(text.maketrans("", "", string.punctuation))
