@@ -1278,6 +1278,10 @@ if status:
 
                                # Add the Word Cloud image to the PDF
                             word_cloud_image = ReportLabImage(img_bytes, width=325, height=250)
+                            heading_style = ParagraphStyle(name='heading_style', parent=styles['Normal'], fontSize=18, fontName='Helvetica-Bold', spaceAfter=12)
+                            heading = Paragraph('Word Cloud Image', style=heading_style)
+                            elements.append(heading)
+                            elements.append(Spacer(1, 20))
                             elements.append(word_cloud_image)
                             elements.append(Spacer(1, 20))
 
@@ -1325,6 +1329,7 @@ if status:
                             heading_style = ParagraphStyle(name='heading_style', parent=styles['Normal'], fontSize=18, fontName='Helvetica-Bold', spaceAfter=12)
                             heading = Paragraph('Keyword in Context', style=heading_style)
                             elements.append(heading)
+                            elements.append(Spacer(1, 20))
                             elements.append(table)
                             elements.append(Spacer(1, 20))
 
