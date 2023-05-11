@@ -679,15 +679,15 @@ def get_kwic(text, keyword, window_size=1, maxInstances=10, lower_case=False):
     return kwic_insts
 
 #---------- get collocation ------------------------
-def get_collocs(kwic_insts, topn=10):
+def get_collocs(kwic_insts):
     words=[]
     for l, t, r in kwic_insts:
         words += l.split() + r.split()
     all_words = [word for word in words if word not in STOPWORDS]
-    return Counter(all_words).most_common(topn)
+    return Counter(all_words)
 
-
-
+# topn=10
+#.most_common(topn)
 #----------- plot collocation ------------------------
 from pyvis.network import Network	
 def plot_coll_14(keyword, collocs, expander, tab, output_file='network.html'):
