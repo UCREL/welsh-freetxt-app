@@ -1176,10 +1176,10 @@ if status:
 
                 #if not feature_options: st.info('''**NoActionSelected☑️** Select one or more actions from the sidebar checkboxes.''', icon="ℹ️")
                     
-                    analysis.show_reviews(filenames[i])
-                    word_cloud_path = analysis.show_wordcloud(filenames[i])
-                    Keyword_context = analysis.show_kwic(filenames[i])
-                    analysis.concordance(filenames[i])
+                    Analysis.show_reviews(filenames[i])
+                    word_cloud_path = Analysis.show_wordcloud(filenames[i])
+                    Keyword_context = Analysis.show_kwic(filenames[i])
+                    Analysis.concordance(filenames[i])
                     with tab9:
 			   # Check if the DataFrame exists
                          if analysis is not None:
