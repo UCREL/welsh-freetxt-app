@@ -140,22 +140,7 @@ class html:
     
         ''')
         Func.close()
-
-
-########### Class to Genrate PDf formate report
 		
-class PDF(FPDF):
-    def header(self):
-        # Logo
-        self.image('img/FreeTxt_logo.png', 10, 8, 25)
-        # font
-        self.set_font('helvetica', 'B', 20)
-        # Padding
-        self.cell(80)
-        # Title
-        self.cell(30, 10, 'Collocation report', ln=1, align='C')
-        # Line break
-        self.ln(20)		
 		
 class Analysis:
     def __init__(self, reviews):
@@ -921,8 +906,8 @@ def header(canvas, doc):
     header_table.drawOn(canvas, doc.leftMargin, doc.height + doc.topMargin - h + 20)
    #--------------------------------------------------------------------------------
                 
-def plot_kwic_txt(df):
-    tab6.markdown('''💬 Word location in text''')
+def plot_kwic_txt(df,tab):
+    tab.markdown('''💬 Word location in text''')
     input_data = ' '.join([str(t) for t in df[0].split(' ') if t not in STOPWORDS])
     
     for c in PUNCS: input_data = input_data.lower().replace(c,'')
@@ -983,7 +968,7 @@ def plot_kwic_txt(df):
                 plot_collocation(keyword, collocs,expander,tab6)
                 plot_coll(keyword, collocs,expander,tab6)
     except ValueError as err:
-        with tab6:
+        with tab:
                 st.info(f'Please ensure that at least one free text column is chosen: {err}', icon="🤨")
     return kwic_instances_df
 
@@ -1101,7 +1086,7 @@ if st.button('Analysis') or st.session_state.load_state:
                   st.info(f'Oh oh.. Please ensure that at least one free text column is chosen: {err}', icon="🤨")
         
             with tab6:
-                plot_kwic_txt(df)
+                plot_kwic_txt(df,tab6)
             with tab10:
                         checkbox = st.checkbox("Generate PDF report")
                         if checkbox:
